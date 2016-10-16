@@ -156,7 +156,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         // Move the camera to Valencia
         LatLng valencia = new LatLng(39.469, -0.378);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-
+        //hola
         new GetStations().execute();
 
     }
