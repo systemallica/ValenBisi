@@ -1,13 +1,77 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.systemallica.valenbisi.Fragments.AboutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="About fragment" />
 
-</FrameLayout>
+    <TextView
+        android:text="Desarrollado por:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Desarrollado"
+        android:layout_marginTop="31dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif" />
+
+    <TextView
+        android:text="Systemallica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/Desarrollador"
+        android:layout_below="@+id/Desarrollado"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Agradecimientos:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Desarrollador"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:id="@+id/Agradecimientos"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="ArtemisSoul8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Agradecido1"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/Agradecimientos"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="StackOverFlow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Agradecido1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/Agradecido2" />
+
+    <TextView
+        android:text="Código fuente:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Agradecido2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:id="@+id/Code"
+        android:textStyle="normal|bold" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/github_64"
+        android:layout_below="@+id/Code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:id="@+id/github" />
+
+
+</RelativeLayout>
