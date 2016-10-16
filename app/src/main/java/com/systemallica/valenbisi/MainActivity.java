@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
             //Prompt an alert dialog to the user
             new AlertDialog.Builder(context)
                     .setTitle("No hay conexión de Internet")
-                    .setMessage("La aplicación no funciona sin Internet. Conéctate y reiníciala.")
+                    .setMessage("La aplicación no funcionará sin Internet. Conéctate y reiníciala.")
                     .setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             System.exit(0);
