@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
+import com.systemallica.valenbisi.Fragments.ShareFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -113,6 +114,9 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().getItem(1).setChecked(true);
 
         } else if (id == R.id.nav_share) {
+
+            mFragmentManager.beginTransaction().replace(R.id.containerView, new ShareFragment()).commit();
+            navigationView.getMenu().getItem(2).setChecked(true);
 
         } else if (id == R.id.nav_about) {
 
