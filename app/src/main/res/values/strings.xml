@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">ValenBisi</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_maps">ValenBisi</string>
+    <string name="geojson_url">http://www.systemallica.hostei.com/Valence.geojson</string>
+    <string name="no_location_permission">No location permission, location will not work.</string>
+    <string name="btn_carril">Carril bici</string>
+    <string name="btn_estaciones">Estaciones</string>
+    <string name="foot">Voy a pie</string>
+    <string name="bike">Voy en bici</string>
+    <string name="refresh">Refrescar</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_about">AboutActivity</string>
+</resources>
