@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -51,6 +52,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     boolean estacionesLayer = true;
     int onFoot=1;
     int counter = 0;
+    View view;
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
 
@@ -59,7 +61,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
         return view;
     }
     @Override
@@ -80,9 +82,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         //React to the check
         if(isConnected) {
             mapView.getMapAsync(this);
-        }
-        else{
-            //Do nothing
         }
     }
 
@@ -109,11 +108,21 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true);
         }
 
+        //Set map zoom controls
+        mapSettings = mMap.getUiSettings();
+        mapSettings.setZoomControlsEnabled(true);
 
+        //Set type of map and min zoom
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMinZoomPreference(12);
+
+        // Move the camera to Valencia
+        LatLng valencia = new LatLng(39.469, -0.378);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
 
         //Add GeoJSON layer of bike lanes and handle errors
 
-        /*try {
+        try {
             //lanes layer
 
             final Button btn_carril = (Button) view.findViewById(R.id.btnCarrilToggle);
@@ -143,20 +152,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         } catch (JSONException e) {
 
             Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
-        }*/
+        }
 
-        //Set map zoom controls
-        mapSettings = mMap.getUiSettings();
-        mapSettings.setZoomControlsEnabled(true);
 
-        //Set type of map and min zoom
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setMinZoomPreference(12);
-
-        // Move the camera to Valencia
-        LatLng valencia = new LatLng(39.469, -0.378);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-        //hola
         new GetStations().execute();
 
     }
@@ -180,9 +178,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-        //final Button btn_estaciones = (Button) findViewById(R.id.btnEstacionesToggle);
-        //final Button btnOnFootToggle = (Button) findViewById(R.id.btnOnFootToggle);
-        //final Button btnRefresh = (Button) findViewById(R.id.btnRefresh);
+        final Button btn_estaciones = (Button) view.findViewById(R.id.btnEstacionesToggle);
+        final Button btnOnFootToggle = (Button) view.findViewById(R.id.btnOnFootToggle);
+        final Button btnRefresh = (Button) view.findViewById(R.id.btnRefresh);
         final Drawable myDrawableBike = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_bike_black_24dp);
         final Drawable myDrawableWalk = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_walk_black_24dp);
         final Drawable myDrawableStationsOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_place_black_24dp);
@@ -260,7 +258,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             if (estacionesLayer) {
                 layer.addLayerToMap();
             }
-            /*
+
             //Toggle Stations
             btn_estaciones.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -284,12 +282,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     if (onFoot==1) {
                         onFoot=0;
                         btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
-                        new MainActivity.GetStations().execute();
+                        new GetStations().execute();
 
                     } else {
                         onFoot=1;
                         btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
-                        new MainActivity.GetStations().execute();
+                        new GetStations().execute();
                     }
 
                 }
@@ -299,9 +297,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             btnRefresh.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     layer.removeLayerFromMap();
-                    new MainActivity.GetStations().execute();
+                    new GetStations().execute();
                 }
-            });*/
+            });
         }
 
     }
