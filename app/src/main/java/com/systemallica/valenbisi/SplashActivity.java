@@ -1,9 +1,5 @@
 package com.systemallica.valenbisi;
 
-/**
- * Created by Andrés on 11/09/2016.
- */
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

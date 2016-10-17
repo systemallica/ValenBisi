@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,9 +30,8 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView;
     FragmentManager mFragmentManager;
-    View navHeaderView;
     TextView version2;
-
+    Fragment currentFragment = new MainFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +62,10 @@ public class MainActivity extends AppCompatActivity
 
         //Inflate main fragment
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
-        navigationView.getMenu().getItem(0).setChecked(true);
+        if (savedInstanceState == null) {
+            mFragmentManager.beginTransaction().replace(R.id.containerView, currentFragment).commit();
+            navigationView.getMenu().getItem(0).setChecked(true);
+        }
 
         //Check internet
         final ConnectivityManager cm =
@@ -116,26 +118,28 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_map) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
             navigationView.getMenu().getItem(0).setChecked(true);
+            currentFragment = new MainFragment();
 
         } else if (id == R.id.nav_settings) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new SettingsFragment()).commit();
             navigationView.getMenu().getItem(1).setChecked(true);
+            currentFragment = new SettingsFragment();
 
         } else if (id == R.id.nav_share) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new ShareFragment()).commit();
             navigationView.getMenu().getItem(2).setChecked(true);
+            currentFragment = new ShareFragment();
 
         } else if (id == R.id.nav_about) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new AboutFragment()).commit();
+
             navigationView.getMenu().getItem(3).setChecked(true);
+            currentFragment = new AboutFragment();
 
         }
 
+        mFragmentManager.beginTransaction().replace(R.id.containerView, currentFragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

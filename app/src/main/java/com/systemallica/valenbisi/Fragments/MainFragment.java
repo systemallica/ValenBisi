@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -46,7 +45,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap mMap;
     UiSettings mapSettings;
-    NavigationView navigationView;
     int MY_LOCATION_REQUEST_CODE = 1;
     int carrilLayer = 0;
     boolean estacionesLayer = true;
