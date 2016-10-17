@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.systemallica.valenbisi.BuildConfig;
 import com.systemallica.valenbisi.R;
 
 public class AboutFragment extends Fragment {
     ImageView github;
+    TextView version1;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -37,6 +40,9 @@ public class AboutFragment extends Fragment {
                 startActivity(browserIntent);
             }
         });
+
+        version1 = (TextView)view.findViewById(R.id.version1);
+        version1.setText(BuildConfig.VERSION_NAME);
         return view;
     }
 

@@ -15,6 +15,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView;
     FragmentManager mFragmentManager;
+    View navHeaderView;
+    TextView version2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +52,15 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //init navigation view, and set the first item as checked
+        //init navigation view
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerView = navigationView.getHeaderView(0);
+        version2 = (TextView) headerView.findViewById(R.id.version2);
+        version2.setText(BuildConfig.VERSION_NAME);
+
+        //Inflate main fragment
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
         navigationView.getMenu().getItem(0).setChecked(true);
@@ -86,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
 
     @Override
     public void onBackPressed() {

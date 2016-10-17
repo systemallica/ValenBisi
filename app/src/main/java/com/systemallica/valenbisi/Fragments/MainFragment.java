@@ -53,6 +53,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     int onFoot=1;
     int counter = 0;
     View view;
+
+
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
 
@@ -67,10 +69,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         Context context = getActivity().getApplicationContext();
+
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
-        //mapView.getMapAsync(this);
+
         //Check internet
         final ConnectivityManager cm =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);

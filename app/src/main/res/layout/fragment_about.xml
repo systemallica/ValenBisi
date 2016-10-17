@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Desarrollado"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="30dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textStyle="normal|bold"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/Desarrollador"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/Agradecimientos"
         android:textStyle="normal|bold" />
 
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Agradecido1"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/Agradecimientos"
         android:layout_centerHorizontal="true" />
 
@@ -55,23 +55,51 @@
         android:id="@+id/Agradecido2" />
 
     <TextView
-        android:text="Código fuente:"
+        android:text="version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/github"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/version1" />
+
+    <TextView
+        android:text="Contacto:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Agradecido2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:id="@+id/Code"
+        android:id="@+id/contacto"
         android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="soporte.valenbisi@gmail.com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/contacto"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Código fuente:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:id="@+id/Code"
+        android:textStyle="normal|bold"
+        android:layout_below="@+id/email"
+        android:layout_alignStart="@+id/Agradecido2" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/github_64"
+        android:layout_marginTop="10dp"
+        android:id="@+id/github"
         android:layout_below="@+id/Code"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
-        android:id="@+id/github" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
