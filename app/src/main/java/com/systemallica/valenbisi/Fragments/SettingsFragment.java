@@ -23,7 +23,7 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
-        //addPreferencesFromResource(R.xml.fragment_settings);
+        addPreferencesFromResource(R.xml.fragment_settings);
 
         final CheckBoxPreference navBarPref = (CheckBoxPreference) findPreference("navBar");
 
