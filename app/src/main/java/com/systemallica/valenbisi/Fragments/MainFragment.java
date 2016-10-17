@@ -68,7 +68,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-        Context context = getActivity().getApplicationContext();
 
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -76,7 +75,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         //Check internet
         final ConnectivityManager cm =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager)getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         final boolean isConnected = activeNetwork != null &&
@@ -202,6 +201,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             try {
                 if(!jsonStr.equals("")) {
                     JSONArray datos = new JSONArray(jsonStr);
+
                     final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
 
                     for (counter = 0; counter < datos.length(); counter++) {
@@ -311,8 +311,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 });
             }
             else{
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "No se han podido cargar los datos, prueba más tarde", Toast.LENGTH_LONG);
-                toast.show();
+                if(isAdded()) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "No se han podido cargar los datos, prueba más tarde", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         }
 

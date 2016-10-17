@@ -32,13 +32,20 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-                if (navBarPref.isChecked()) {
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorAccent));
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+                    if (!navBarPref.isChecked()) {
+
+                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorPrimary));
                     }
                     else{
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Los cambios se aplicarán al reiniciar", Toast.LENGTH_LONG);
+
+                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.black));
+                    }
+                }
+                else{
+                    if(isAdded()) {
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Tu versión de Android no es compatible con esto :(", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
