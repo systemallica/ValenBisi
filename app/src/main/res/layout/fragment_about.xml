@@ -1,16 +1,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.systemallica.valenbisi.Fragments.AboutFragment">
 
 
     <TextView
-        android:text="Desarrollado por:"
+        android:text="@string/developed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Desarrollado"
@@ -21,7 +21,7 @@
         android:fontFamily="sans-serif" />
 
     <TextView
-        android:text="Systemallica"
+        android:text="@string/developer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -30,7 +30,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Agradecimientos:"
+        android:text="@string/thanks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Desarrollador"
@@ -40,7 +40,7 @@
         android:textStyle="normal|bold" />
 
     <TextView
-        android:text="ArtemisSoul8"
+        android:text="@string/thank1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Agradecido1"
@@ -49,7 +49,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="StackOverFlow"
+        android:text="@string/thank2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Agradecido1"
@@ -58,7 +58,7 @@
         android:id="@+id/Agradecido2" />
 
     <TextView
-        android:text="version"
+        android:text="@string/version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/github"
@@ -67,7 +67,7 @@
         android:id="@+id/version1" />
 
     <TextView
-        android:text="Contacto:"
+        android:text="@string/contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Agradecido2"
@@ -77,7 +77,7 @@
         android:textStyle="normal|bold" />
 
     <TextView
-        android:text="soporte.valenbisi@gmail.com"
+        android:text="@string/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/email"
@@ -86,7 +86,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Código fuente:"
+        android:text="@string/source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -98,6 +98,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/desc"
         app:srcCompat="@drawable/github_64"
         android:layout_marginTop="10dp"
         android:id="@+id/github"

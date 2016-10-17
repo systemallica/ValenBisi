@@ -15,7 +15,19 @@
     <string name="bike">Voy en bici</string>
     <string name="refresh">Refrescar</string>
 
+    <string name="construction">En construcción</string>
+    <string name="developed">Desarollado por:</string>
+    <string name="developer">Systemallica</string>
+    <string name="email">soporte.valenbisi@gmail.com</string>
+    <string name="thanks">Agradecimientos:</string>
+    <string name="thank1">ArtemisSoul8</string>
+    <string name="thank2">StackOverflow</string>
+    <string name="source">Código fuente:</string>
+    <string name="contact">Contacto:</string>
+    <string name="version">Versión</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="desc">Opens GitHub</string>
+
+
     <string name="title_activity_about">AboutActivity</string>
 </resources>
