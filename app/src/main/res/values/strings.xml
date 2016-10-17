@@ -28,6 +28,16 @@
 
     <string name="desc">Opens GitHub</string>
 
+    <string name="updates">Buscar actualizaciones al inicio:</string>
+    <string name="pref_updates_summary_off">No se buscarán actualizaciones</string>
+    <string name="pref_updates_summary_on">Se buscarán actualizaciones</string>
 
-    <string name="title_activity_about">AboutActivity</string>
+    <string name="mapView">Vista de mapa satélite:</string>
+    <string name="pref_mapView_summary_off">El mapa será normal</string>
+    <string name="pref_mapView_summary_on">El mapa será vista satélite</string>
+
+    <string name="matchNavigationBar">Ajustar color de la barra de navegación:</string>
+    <string name="pref_matchNavigationBar_summary_off">El color no se ajustará</string>
+    <string name="pref_matchNavigationBar_summary_on">El color se ajustará</string>
+
 </resources>

@@ -3,7 +3,7 @@ package com.systemallica.valenbisi.Fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +41,10 @@ public class AboutFragment extends Fragment {
             }
         });
 
+        //Change toolbar title
+        getActivity().setTitle("Sobre la aplicación");
+
+        //Add version number to the textview
         version1 = (TextView)view.findViewById(R.id.version1);
         version1.setText(BuildConfig.VERSION_NAME);
         return view;

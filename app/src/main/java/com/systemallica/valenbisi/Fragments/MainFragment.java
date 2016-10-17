@@ -1,5 +1,6 @@
 package com.systemallica.valenbisi.Fragments;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -10,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
+
 
 
 public class MainFragment extends Fragment implements OnMapReadyCallback {
@@ -189,6 +191,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
+
+
             // Creating service handler class instance
             WebRequest webreq = new WebRequest();
 
@@ -196,55 +200,58 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
 
             try {
-                JSONArray datos = new JSONArray(jsonStr);
-                final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
+                if(!jsonStr.equals("")) {
+                    JSONArray datos = new JSONArray(jsonStr);
+                    final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
 
-                for(counter = 0; counter < datos.length(); counter++ ) {
+                    for (counter = 0; counter < datos.length(); counter++) {
 
-                    JSONObject object = datos.getJSONObject(counter);
+                        JSONObject object = datos.getJSONObject(counter);
 
 
-                    for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
-                        //Add each number and address to its correspondent marker
+                        for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
+                            //Add each number and address to its correspondent marker
 
-                        if(object.getString("number").equals(feature.getProperty("Number"))){
+                            if (object.getString("number").equals(feature.getProperty("Number"))) {
 
-                            GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                            pointStyle.setTitle(object.getString("address"));
-                            pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") +
-                                    " - Bicis: " + object.getInt("available_bikes"));
-                            //set markers colors
-                            if(onFoot==1) {
-                                if (object.getInt("available_bikes") == 0) {
-                                    pointStyle.setIcon(icon_red);
-                                } else if (object.getInt("available_bikes") < 5) {
-                                    pointStyle.setIcon(icon_orange);
-                                } else if (object.getInt("available_bikes") < 10) {
-                                    pointStyle.setIcon(icon_yellow);
+                                GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                                pointStyle.setTitle(object.getString("address"));
+                                pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") +
+                                        " - Bicis: " + object.getInt("available_bikes"));
+                                //set markers colors
+                                if (onFoot == 1) {
+                                    if (object.getInt("available_bikes") == 0) {
+                                        pointStyle.setIcon(icon_red);
+                                    } else if (object.getInt("available_bikes") < 5) {
+                                        pointStyle.setIcon(icon_orange);
+                                    } else if (object.getInt("available_bikes") < 10) {
+                                        pointStyle.setIcon(icon_yellow);
+                                    } else {
+                                        pointStyle.setIcon(icon_green);
+                                    }
                                 } else {
-                                    pointStyle.setIcon(icon_green);
+                                    if (object.getInt("available_bike_stands") == 0) {
+                                        pointStyle.setIcon(icon_red);
+                                    } else if (object.getInt("available_bike_stands") < 5) {
+                                        pointStyle.setIcon(icon_orange);
+                                    } else if (object.getInt("available_bike_stands") < 10) {
+                                        pointStyle.setIcon(icon_yellow);
+                                    } else {
+                                        pointStyle.setIcon(icon_green);
+                                    }
                                 }
-                            }
-                            else{
-                                if (object.getInt("available_bike_stands") == 0) {
-                                    pointStyle.setIcon(icon_red);
-                                } else if (object.getInt("available_bike_stands") < 5) {
-                                    pointStyle.setIcon(icon_orange);
-                                } else if (object.getInt("available_bike_stands") < 10) {
-                                    pointStyle.setIcon(icon_yellow);
-                                } else {
-                                    pointStyle.setIcon(icon_green);
-                                }
-                            }
-                            feature.setPointStyle(pointStyle);
+                                feature.setPointStyle(pointStyle);
 
+                            }
                         }
                     }
+                    return layer;
                 }
-                return layer;
             } catch (JSONException e) {
 
                 Log.e(mLogTag, "JSONArray could not be created");
+
+
             } catch (IOException e) {
 
                 Log.e(mLogTag, "GeoJSON file could not be read");
@@ -256,51 +263,57 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(final GeoJsonLayer layer) {
 
-            if (estacionesLayer) {
-                layer.addLayerToMap();
-            }
+            if (layer != null) {
+                if (estacionesLayer) {
+                    layer.addLayerToMap();
+                }
 
-            //Toggle Stations
-            btn_estaciones.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    if (estacionesLayer) {
+                //Toggle Stations
+                btn_estaciones.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        if (estacionesLayer) {
+                            layer.removeLayerFromMap();
+                            btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
+                            estacionesLayer = false;
+                        } else {
+                            layer.addLayerToMap();
+                            btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
+                            estacionesLayer = true;
+                        }
+
+                    }
+                });
+
+                //Toggle onFoot/onBike
+                btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
                         layer.removeLayerFromMap();
-                        btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
-                        estacionesLayer = false;
-                    } else {
-                        layer.addLayerToMap();
-                        btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
-                        estacionesLayer = true;
+                        if (onFoot == 1) {
+                            onFoot = 0;
+                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
+                            new GetStations().execute();
+
+                        } else {
+                            onFoot = 1;
+                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
+                            new GetStations().execute();
+                        }
+
                     }
+                });
 
-                }
-            });
-
-            //Toggle onFoot/onBike
-            btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    layer.removeLayerFromMap();
-                    if (onFoot==1) {
-                        onFoot=0;
-                        btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
-                        new GetStations().execute();
-
-                    } else {
-                        onFoot=1;
-                        btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
+                //Reload data
+                btnRefresh.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        layer.removeLayerFromMap();
                         new GetStations().execute();
                     }
-
-                }
-            });
-
-            //Reload data
-            btnRefresh.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    layer.removeLayerFromMap();
-                    new GetStations().execute();
-                }
-            });
+                });
+            }
+            else{
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "No se han podido cargar los datos, prueba más tarde", Toast.LENGTH_LONG);
+                toast.show();
+            }
         }
 
     }

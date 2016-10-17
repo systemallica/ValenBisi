@@ -1,14 +1,14 @@
 package com.systemallica.valenbisi;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
-import com.systemallica.valenbisi.Fragments.ShareFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     FragmentManager mFragmentManager;
     TextView version2;
-    Fragment currentFragment = new MainFragment();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +60,10 @@ public class MainActivity extends AppCompatActivity
         version2.setText(BuildConfig.VERSION_NAME);
 
         //Inflate main fragment
-        mFragmentManager = getSupportFragmentManager();
+        mFragmentManager = getFragmentManager();
+
         if (savedInstanceState == null) {
-            mFragmentManager.beginTransaction().replace(R.id.containerView, currentFragment).commit();
+            mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
             navigationView.getMenu().getItem(0).setChecked(true);
         }
 
@@ -118,28 +118,27 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_map) {
 
-            navigationView.getMenu().getItem(0).setChecked(true);
-            currentFragment = new MainFragment();
+            mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
 
         } else if (id == R.id.nav_settings) {
 
-            navigationView.getMenu().getItem(1).setChecked(true);
-            currentFragment = new SettingsFragment();
+            mFragmentManager.beginTransaction().replace(R.id.containerView, new SettingsFragment()).commit();
 
         } else if (id == R.id.nav_share) {
 
-            navigationView.getMenu().getItem(2).setChecked(true);
-            currentFragment = new ShareFragment();
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    "Descarga la mejor app de ValenBisi en: https://github.com/systemallica/ValenBisi/releases");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
 
         } else if (id == R.id.nav_about) {
 
-
-            navigationView.getMenu().getItem(3).setChecked(true);
-            currentFragment = new AboutFragment();
+            mFragmentManager.beginTransaction().replace(R.id.containerView, new AboutFragment()).commit();
 
         }
 
-        mFragmentManager.beginTransaction().replace(R.id.containerView, currentFragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

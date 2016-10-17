@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <CheckBoxPreference
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="update"
+            android:title="@string/updates"
+            android:summaryOff="@string/pref_updates_summary_off"
+            android:summaryOn="@string/pref_updates_summary_on"
+            android:defaultValue="true" />
+
+        <CheckBoxPreference
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="mapView"
+            android:title="@string/mapView"
+            android:summaryOff="@string/pref_mapView_summary_off"
+            android:summaryOn="@string/pref_mapView_summary_on"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:key="navBar"
+            android:title="@string/matchNavigationBar"
+            android:summaryOff="@string/pref_matchNavigationBar_summary_off"
+            android:summaryOn="@string/pref_matchNavigationBar_summary_on"
+            android:defaultValue="false" />
+
+</PreferenceScreen>
