@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity
     FragmentManager mFragmentManager;
     TextView version2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +55,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
-        version2 = (TextView) headerView.findViewById(R.id.version2);
-        version2.setText(BuildConfig.VERSION_NAME);
 
         //Inflate main fragment
         mFragmentManager = getFragmentManager();

@@ -18,21 +18,13 @@
         android:id="@+id/imageView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="35dp" />
-
-    <TextView
-        android:text="1.3.1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/version2"
-        android:layout_alignStart="@+id/name"
-        android:layout_marginStart="30dp"
-        android:layout_below="@+id/name" />
+        android:layout_marginBottom="35dp"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ValenBisi app"
+        android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:id="@+id/name"
         android:layout_centerVertical="true"
