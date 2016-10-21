@@ -2,6 +2,7 @@ package com.systemallica.valenbisi.Fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -53,11 +54,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     int onFoot=1;
     int counter = 0;
     View view;
-
-
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
-
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     @Nullable
     @Override
@@ -92,6 +91,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
+        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        boolean mapView = settings.getBoolean("mapView", false);
 
         //Check for sdk >= 23
 
@@ -115,7 +116,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mapSettings.setZoomControlsEnabled(true);
 
         //Set type of map and min zoom
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if(mapView){
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        }
+        else {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }
         mMap.setMinZoomPreference(12);
 
         // Move the camera to Valencia

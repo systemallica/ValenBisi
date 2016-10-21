@@ -25,7 +25,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:key="navBar"
+        android:key="availableStations"
         android:title="@string/showAvailable"
         android:summaryOff="@string/pref_showAvailable_summary_off"
         android:summaryOn="@string/pref_showAvailable_summary_on"
@@ -35,7 +35,7 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:key="navBar"
+        android:key="onlyFav"
         android:title="@string/showFavourites"
         android:summaryOff="@string/pref_showFavourites_summary_off"
         android:summaryOn="@string/pref_showFavourites_summary_on"

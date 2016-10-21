@@ -1,5 +1,6 @@
 package com.systemallica.valenbisi.Fragments;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -12,7 +13,7 @@ import com.systemallica.valenbisi.R;
 
 
 public class SettingsFragment extends PreferenceFragment {
-
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -22,9 +23,15 @@ public class SettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+
+        //Change toolbar title
+        getActivity().setTitle("Ajustes");
+
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.fragment_settings);
 
+        //NavBar stuff
         final CheckBoxPreference navBarPref = (CheckBoxPreference) findPreference("navBar");
 
         navBarPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -36,10 +43,15 @@ public class SettingsFragment extends PreferenceFragment {
 
                     if (!navBarPref.isChecked()) {
 
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("navBar", true);
+                        editor.apply();
                         getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorPrimary));
                     }
                     else{
-
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putBoolean("navBar", false);
+                        editor.apply();
                         getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.black));
                     }
                 }
@@ -53,9 +65,28 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
 
-        //Change toolbar title
-        getActivity().setTitle("Ajustes");
+        //Satellite stuff
+        final CheckBoxPreference satelliteViewPref = (CheckBoxPreference) findPreference("mapView");
 
+        satelliteViewPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!satelliteViewPref.isChecked()) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("mapView", true);
+                    editor.apply();
+                }
+                else{
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("mapView", false);
+                    editor.apply();
+                }
+
+                return true;
+            }
+
+        });
 
     }
 }
