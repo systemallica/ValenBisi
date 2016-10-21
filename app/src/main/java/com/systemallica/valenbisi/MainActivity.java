@@ -1,6 +1,7 @@
 package com.systemallica.valenbisi;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -63,9 +64,10 @@ public class MainActivity extends AppCompatActivity
 
         //Inflate main fragment
         mFragmentManager = getFragmentManager();
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
 
         if (savedInstanceState == null) {
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
+            ft.replace(R.id.containerView, new MainFragment(), "mainFragment").commit();
             navigationView.getMenu().getItem(0).setChecked(true);
         }
 
@@ -120,11 +122,27 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_map) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new MainFragment()).commit();
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.show(getFragmentManager().findFragmentByTag("mainFragment"));
+            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
+                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
+            }
+            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
+            }
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
 
         } else if (id == R.id.nav_settings) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new SettingsFragment()).commit();
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
+            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
+                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
+            }
+            ft.add(R.id.containerView, new SettingsFragment(), "settingsFragment");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
 
         } else if (id == R.id.nav_share) {
 
@@ -137,7 +155,14 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_about) {
 
-            mFragmentManager.beginTransaction().replace(R.id.containerView, new AboutFragment()).commit();
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
+            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
+            }
+            ft.add(R.id.containerView, new AboutFragment(), "aboutFragment");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
 
         }
 
