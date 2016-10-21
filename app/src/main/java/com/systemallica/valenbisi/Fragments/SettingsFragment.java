@@ -75,11 +75,13 @@ public class SettingsFragment extends PreferenceFragment {
                 if (!satelliteViewPref.isChecked()) {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("mapView", true);
+                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("mapView", false);
+                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
 

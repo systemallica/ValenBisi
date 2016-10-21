@@ -122,8 +122,19 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_map) {
 
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            boolean isChanged = settings.getBoolean("isChanged", false);
+
             FragmentTransaction ft = mFragmentManager.beginTransaction();
-            ft.show(getFragmentManager().findFragmentByTag("mainFragment"));
+            if(isChanged){
+                ft.add(R.id.containerView, new MainFragment(), "mainFragment");
+                editor.putBoolean("isChanged", false);
+                editor.apply();
+            }
+            else {
+                ft.show(getFragmentManager().findFragmentByTag("mainFragment"));
+            }
             if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
                 ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
             }
