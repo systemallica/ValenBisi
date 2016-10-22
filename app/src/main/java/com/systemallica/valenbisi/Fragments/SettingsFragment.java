@@ -26,7 +26,7 @@ public class SettingsFragment extends PreferenceFragment {
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
 
         //Change toolbar title
-        getActivity().setTitle("Ajustes");
+        getActivity().setTitle(R.string.nav_settings);
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.fragment_settings);

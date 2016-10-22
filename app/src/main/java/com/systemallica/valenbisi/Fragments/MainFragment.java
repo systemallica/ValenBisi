@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -57,6 +59,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
     public static final String PREFS_NAME = "MyPrefsFile";
+    public AdView mAdView;
 
     @Nullable
     @Override
@@ -68,9 +71,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        boolean removedAds = settings.getBoolean("removedAds", false);
+
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
+
+        //Change toolbar title
+        getActivity().setTitle(R.string.nav_map);
 
         //Check internet
         final ConnectivityManager cm =
@@ -84,6 +93,47 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         if(isConnected) {
             mapView.getMapAsync(this);
         }
+
+        //Ads management
+        mAdView = (AdView) view.findViewById(R.id.adView);
+        if(removedAds){
+            mAdView.destroy();
+            mAdView.setVisibility(View.GONE);
+        }
+        else {
+            //Ad request and load
+            mAdView.setVisibility(View.VISIBLE);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+
+        }
+
+        /*mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                Toast.makeText(getActivity().getApplicationContext(), "Ad is loaded!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                Toast.makeText(getActivity().getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Toast.makeText(getActivity().getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                Toast.makeText(getActivity().getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                Toast.makeText(getActivity().getApplicationContext(), "Ad is opened!", Toast.LENGTH_SHORT).show();
+            }
+        });*/
     }
 
 

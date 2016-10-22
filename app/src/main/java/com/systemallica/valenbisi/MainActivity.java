@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.systemallica.valenbisi.Fragments.AboutFragment;
+import com.systemallica.valenbisi.Fragments.DonateFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
@@ -35,12 +36,14 @@ public class MainActivity extends AppCompatActivity
     FragmentManager mFragmentManager;
     public static final String PREFS_NAME = "MyPrefsFile";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context context = this;
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean navBar = settings.getBoolean("navBar", true);
+
         int colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
 
         //Apply preferences navBar preference
@@ -135,6 +138,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_map) {
 
+            //Change toolbar title
+            this.setTitle("ValenBisi");
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             boolean isChanged = settings.getBoolean("isChanged", false);
@@ -154,6 +159,9 @@ public class MainActivity extends AppCompatActivity
             if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
                 ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
             }
+            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
+            }
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
 
@@ -164,7 +172,24 @@ public class MainActivity extends AppCompatActivity
             if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
                 ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
             }
+            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
+            }
             ft.add(R.id.containerView, new SettingsFragment(), "settingsFragment");
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+            ft.commit();
+
+        } else if (id == R.id.nav_donate) {
+
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
+            ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
+            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
+            }
+            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
+            }
+            ft.add(R.id.containerView, new DonateFragment(), "donateFragment");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
 
@@ -184,6 +209,9 @@ public class MainActivity extends AppCompatActivity
             if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
                 ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
             }
+            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
+            }
             ft.add(R.id.containerView, new AboutFragment(), "aboutFragment");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
@@ -194,5 +222,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 }

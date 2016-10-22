@@ -42,7 +42,7 @@ public class AboutFragment extends Fragment {
         });
 
         //Change toolbar title
-        getActivity().setTitle("Sobre la aplicación");
+        getActivity().setTitle(R.string.nav_about);
 
         //Add version number to the textview
         version1 = (TextView)view.findViewById(R.id.version1);

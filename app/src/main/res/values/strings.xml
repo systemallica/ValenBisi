@@ -4,10 +4,8 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-
-    <string name="title_activity_maps">ValenBisi</string>
-    <string name="geojson_url">http://www.systemallica.hostei.com/Valence.geojson</string>
+    <string name="title_activity_maps" translatable="false">ValenBisi</string>
+    <string name="geojson_url" translatable="false">http://www.systemallica.hostei.com/Valence.geojson</string>
     <string name="no_location_permission">No location permission, location will not work.</string>
     <string name="btn_carril">Carril bici</string>
     <string name="btn_estaciones">Estaciones</string>
@@ -15,13 +13,19 @@
     <string name="bike">Voy en bici</string>
     <string name="refresh">Refrescar</string>
 
+    <string name="nav_map">Mapa</string>
+    <string name="nav_settings">Ajustes</string>
+    <string name="nav_donate">Quitar anuncios</string>
+    <string name="nav_share">Comparte</string>
+    <string name="nav_about">Sobre la aplicación</string>
+
     <string name="construction">En construcción</string>
     <string name="developed">Desarollado por:</string>
     <string name="developer">Systemallica</string>
-    <string name="email">soporte.valenbisi@gmail.com</string>
+    <string name="email" translatable="false">soporte.valenbisi@gmail.com</string>
     <string name="thanks">Agradecimientos:</string>
-    <string name="thank1">ArtemisSoul8</string>
-    <string name="thank2">StackOverflow</string>
+    <string name="thank1" translatable="false">ArtemisSoul8</string>
+    <string name="thank2" translatable="false">StackOverflow</string>
     <string name="source">Código fuente:</string>
     <string name="contact">Contacto:</string>
     <string name="version">Versión</string>
@@ -43,5 +47,9 @@
     <string name="showFavourites">Mostrar sólo favoritos</string>
     <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
     <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
+
+    <string name="ad_banner" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
+    <string name="ad_remove">Quitar anuncios</string>
+
 
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ValenBisi</string>
+    <string name="ad_remove">Quitar anuncis</string>
+    <string name="bike">Vaig en bici</string>
+    <string name="btn_carril">Carril bici</string>
+    <string name="btn_estaciones">Estacions</string>
+    <string name="construction">En construcció</string>
+    <string name="contact">Contacte:</string>
+    <string name="desc">Obri GitHub:</string>
+    <string name="developed">Desenvolupat per:</string>
+    <string name="developer">Systemallica</string>
+    <string name="foot">Vaig a peu</string>
+    <string name="mapView">Vista de mapa satèl·lit</string>
+    <string name="matchNavigationBar">Adjustar color de la barra de navegació</string>
+    <string name="nav_about">Sobre l\'aplicació</string>
+    <string name="nav_donate">Quitar anuncis</string>
+    <string name="nav_map">Mapa</string>
+    <string name="nav_settings">Ajustos</string>
+    <string name="nav_share">Comparteix</string>
+    <string name="navigation_drawer_close">Tancar navigation drawer</string>
+    <string name="navigation_drawer_open">Obrir navigation drawer</string>
+    <string name="no_location_permission">No n\'hi ha permissos de localització, el GPS no funcionarà</string>
+    <string name="pref_mapView_summary_off">El mapa serà normal</string>
+    <string name="pref_mapView_summary_on">El mapa serà satèl·lit</string>
+    <string name="pref_matchNavigationBar_summary_off">El color no s\'adjustarà</string>
+    <string name="pref_matchNavigationBar_summary_on">El color s\'adjustarà</string>
+    <string name="pref_showAvailable_summary_off">Es mostraràn totes les estacions</string>
+    <string name="pref_showAvailable_summary_on">Es mostraràn només les estacions disponibles</string>
+    <string name="pref_showFavourites_summary_off">Es mostraràn totes les estacions</string>
+    <string name="pref_showFavourites_summary_on">Es mostraràn només les estacions favorites</string>
+    <string name="refresh">Refrescar</string>
+    <string name="showAvailable">Mostrar només estacions disponibles</string>
+    <string name="showFavourites">Mostrar només estacions favorites</string>
+    <string name="source">Codi font:</string>
+    <string name="thanks">Agraïments</string>
+    <string name="version">Versió</string>
+</resources>
