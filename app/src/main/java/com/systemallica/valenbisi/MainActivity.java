@@ -1,11 +1,14 @@
 package com.systemallica.valenbisi;
 
+import android.app.ActivityManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -38,10 +41,20 @@ public class MainActivity extends AppCompatActivity
         Context context = this;
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean navBar = settings.getBoolean("navBar", true);
+        int colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
 
         //Apply preferences navBar preference
         if(navBar && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+            getWindow().setNavigationBarColor(colorPrimary);
+        }
+
+        //Recents implementation
+        //String title = null;  // You can either set the title to whatever you want or just use null and it will default to your app/activity name
+        Bitmap recentsIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.splash_inverted);//Choose the icon
+
+        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityManager.TaskDescription description = new ActivityManager.TaskDescription(null, recentsIcon, colorPrimary);
+            this.setTaskDescription(description);
         }
 
         //set view to main
@@ -128,7 +141,7 @@ public class MainActivity extends AppCompatActivity
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             if(isChanged){
-                ft.add(R.id.containerView, new MainFragment(), "mainFragment");
+                ft.replace(R.id.containerView, new MainFragment(), "mainFragment");
                 editor.putBoolean("isChanged", false);
                 editor.apply();
             }
