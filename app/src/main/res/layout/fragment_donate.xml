@@ -12,4 +12,22 @@
         android:id="@+id/btn_buy"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/ad_remove_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="65dp"
+        android:id="@+id/textRemove"
+        android:layout_margin="20dp"
+        android:layout_above="@+id/btn_buy"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/ad_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_buy"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView2" />
 </RelativeLayout>

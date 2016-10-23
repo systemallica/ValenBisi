@@ -23,7 +23,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.DonateFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
@@ -115,6 +118,23 @@ public class MainActivity extends AppCompatActivity
 
                     .setIcon(R.drawable.ic_report_problem_black_24dp)
                     .show();
+        }
+
+        boolean removedAds = settings.getBoolean("removedAds", false);
+
+        //Ads management
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        if(removedAds){
+            mAdView.destroy();
+            mAdView.setVisibility(View.GONE);
+        }
+        else {
+        //Ad request and load
+        //mAdView.setVisibility(View.VISIBLE);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("6BB60830FFEC02110221CD0A1878D464")
+                .build();
+        mAdView.loadAd(adRequest);
         }
 
     }

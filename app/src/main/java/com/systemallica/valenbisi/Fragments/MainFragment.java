@@ -20,8 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -59,7 +57,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
     public static final String PREFS_NAME = "MyPrefsFile";
-    public AdView mAdView;
 
     @Nullable
     @Override
@@ -70,9 +67,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
-
-        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-        boolean removedAds = settings.getBoolean("removedAds", false);
 
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -94,19 +88,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             mapView.getMapAsync(this);
         }
 
-        //Ads management
-        mAdView = (AdView) view.findViewById(R.id.adView);
-        if(removedAds){
-            mAdView.destroy();
-            mAdView.setVisibility(View.GONE);
-        }
-        else {
-            //Ad request and load
-            mAdView.setVisibility(View.VISIBLE);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-
-        }
 
         /*mAdView.setAdListener(new AdListener() {
             @Override
@@ -163,7 +144,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         //Set map zoom controls
         mapSettings = mMap.getUiSettings();
-        mapSettings.setZoomControlsEnabled(true);
+        mapSettings.setZoomControlsEnabled(false);
 
         //Set type of map and min zoom
         if(mapView){

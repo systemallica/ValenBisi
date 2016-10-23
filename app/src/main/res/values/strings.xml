@@ -48,8 +48,12 @@
     <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
     <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
 
-    <string name="ad_banner" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
     <string name="ad_remove">Quitar anuncios</string>
+    <string name="ad_restore">Restaurar anuncios</string>
+    <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor deja activados los anuncios, me ayudan a seguir trabajando en ella.</string>
+    <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
+    <string name="ad_reminder">(Requiere reinicio)</string>
 
 
 </resources>

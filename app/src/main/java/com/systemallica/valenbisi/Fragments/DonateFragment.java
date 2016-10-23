@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.systemallica.valenbisi.R;
 
@@ -39,19 +40,34 @@ public class DonateFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(final View view, Bundle savedInstanceState){
         final Button btn_buy = (Button) view.findViewById(R.id.btn_buy);
+
 
         btn_buy.setOnClickListener(new View.OnClickListener() {
 
-
+            int i = 0;
+            TextView tv = (TextView)view.findViewById(R.id.textRemove);
             public void onClick(View v) {
 
-                SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putBoolean("removedAds", true);
-                editor.putBoolean("isChanged", true);
-                editor.apply();
+                if(i==0) {
+                    SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("removedAds", true);
+                    editor.apply();
+                    btn_buy.setText(R.string.ad_restore);
+                    tv.setText(R.string.ad_restore_hint);
+                    i = 1;
+                }
+                else{
+                    SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("removedAds", false);
+                    editor.apply();
+                    btn_buy.setText(R.string.ad_remove);
+                    tv.setText(R.string.ad_remove_hint);
+                    i = 0;
+                }
 
             }
         });
