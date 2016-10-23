@@ -36,6 +36,19 @@ public class DonateFragment extends Fragment {
         //Change toolbar title
         getActivity().setTitle(R.string.nav_donate);
 
+        TextView tv = (TextView)view.findViewById(R.id.textRemove);
+        final Button btn_buy = (Button) view.findViewById(R.id.btn_buy);
+        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        boolean removedAds = settings.getBoolean("removedAds", false);
+
+        if(!removedAds){
+            tv.setText(R.string.ad_remove_hint);
+            btn_buy.setText(R.string.ad_remove);
+        } else {
+            tv.setText(R.string.ad_restore_hint);
+            btn_buy.setText(R.string.ad_restore);
+        }
+
         return view;
     }
 
@@ -43,30 +56,30 @@ public class DonateFragment extends Fragment {
     public void onViewCreated(final View view, Bundle savedInstanceState){
         final Button btn_buy = (Button) view.findViewById(R.id.btn_buy);
 
-
         btn_buy.setOnClickListener(new View.OnClickListener() {
 
-            int i = 0;
             TextView tv = (TextView)view.findViewById(R.id.textRemove);
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            boolean removedAds = settings.getBoolean("removedAds", false);
             public void onClick(View v) {
 
-                if(i==0) {
-                    SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
+                if(!removedAds) {
+                    SharedPreferences settings1 = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings1.edit();
                     editor.putBoolean("removedAds", true);
                     editor.apply();
                     btn_buy.setText(R.string.ad_restore);
                     tv.setText(R.string.ad_restore_hint);
-                    i = 1;
+
                 }
                 else{
-                    SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
+                    SharedPreferences settings2 = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings2.edit();
                     editor.putBoolean("removedAds", false);
                     editor.apply();
                     btn_buy.setText(R.string.ad_remove);
                     tv.setText(R.string.ad_remove_hint);
-                    i = 0;
+
                 }
 
             }
