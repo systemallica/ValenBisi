@@ -35,4 +35,8 @@
     <string name="thanks">Agradecimientos:</string>
     <string name="version">Versión</string>
     <string name="developer">Systemallica</string>
+    <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
+    <string name="ad_restore">Restaurar anuncios</string>
+    <string name="ad_reminder">(Requiere reinicio)</string>
+    <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor deja activados los anuncios, me ayudan a seguir trabajando en ella.</string>
 </resources>

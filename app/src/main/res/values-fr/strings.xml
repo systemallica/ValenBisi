@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ValenBisi</string>
-    <string name="btn_carril"></string>
+    <string name="btn_carril">r</string>
+    <string name="ad_remove">r</string>
+    <string name="bike">r</string>
+    <string name="btn_estaciones">r</string>
+    <string name="construction">r</string>
+    <string name="contact">r</string>
+    <string name="desc">r</string>
+    <string name="developed">r</string>
+    <string name="developer">r</string>
+    <string name="foot">r</string>
+    <string name="mapView">r</string>
+    <string name="matchNavigationBar">r</string>
+    <string name="nav_about">r</string>
+    <string name="nav_donate">r</string>
+    <string name="nav_map">r</string>
+    <string name="nav_settings">r</string>
+    <string name="nav_share">r</string>
+    <string name="navigation_drawer_close">r</string>
+    <string name="navigation_drawer_open">r</string>
+    <string name="no_location_permission">r</string>
+    <string name="pref_mapView_summary_off">r</string>
+    <string name="pref_mapView_summary_on">r</string>
+    <string name="pref_matchNavigationBar_summary_off">r</string>
+    <string name="pref_matchNavigationBar_summary_on">r</string>
+    <string name="pref_showAvailable_summary_off">r</string>
+    <string name="pref_showAvailable_summary_on">r</string>
+    <string name="pref_showFavourites_summary_off">r</string>
+    <string name="pref_showFavourites_summary_on">r</string>
+    <string name="refresh">r</string>
+    <string name="showAvailable">r</string>
+    <string name="showFavourites">r</string>
+    <string name="source">r</string>
+    <string name="thanks">r</string>
+    <string name="version">r</string>
+    <string name="ad_restore">Restaurar anuncios</string>
+    <string name="ad_reminder">r</string>
+    <string name="ad_restore_hint">r</string>
+    <string name="ad_remove_hint">r</string>
 </resources>

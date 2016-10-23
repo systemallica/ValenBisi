@@ -35,4 +35,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="no_location_permission">No location permission, location will not work</string>
+    <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
+    <string name="ad_restore">Restore ads</string>
+    <string name="ad_reminder">(Requires reopening the app)</string>
+    <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor deja activados los anuncios, me ayudan a seguir trabajando en ella.</string>
 </resources>
