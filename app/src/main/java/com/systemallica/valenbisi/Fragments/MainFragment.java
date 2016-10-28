@@ -403,24 +403,31 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 //Toggle Stations
                 btn_estaciones.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        if (estacionesLayer) {
-                            for (GeoJsonFeature feature : layer.getFeatures()) {
-                                GeoJsonPointStyle pointStyle = feature.getPointStyle();
-                                pointStyle.setVisible(false);
+                        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                        boolean showFavorites = settings.getBoolean("showFavorites", false);
+
+                        for (GeoJsonFeature feature : layer.getFeatures()) {
+                            GeoJsonPointStyle pointStyle = feature.getPointStyle();
+                            boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
+                               if (estacionesLayer) {
+                                   pointStyle.setVisible(false);
+                                }else {
+                                   if(showFavorites && currentStationIsFav){
+                                      pointStyle.setVisible(true);
+                                   }else if(!showFavorites){
+                                      pointStyle.setVisible(true);
+                                   }
+                                }
                                 feature.setPointStyle(pointStyle);
-                            }
+                        }
+
+                        if (estacionesLayer) {
                             btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
                             estacionesLayer = false;
-                        } else {
-                            for (GeoJsonFeature feature : layer.getFeatures()) {
-                                GeoJsonPointStyle pointStyle = feature.getPointStyle();
-                                pointStyle.setVisible(true);
-                                feature.setPointStyle(pointStyle);
-                            }
+                        }else{
                             btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
                             estacionesLayer = true;
                         }
-
                     }
                 });
 
