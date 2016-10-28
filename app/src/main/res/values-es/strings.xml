@@ -39,4 +39,5 @@
     <string name="ad_restore">Restaurar anuncios</string>
     <string name="ad_reminder">(Requiere reinicio)</string>
     <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor deja activados los anuncios, me ayudan a seguir trabajando en ella.</string>
+    <string name="descStar">Icono estrella</string>
 </resources>

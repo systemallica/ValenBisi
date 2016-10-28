@@ -39,4 +39,5 @@
     <string name="ad_reminder">r</string>
     <string name="ad_restore_hint">r</string>
     <string name="ad_remove_hint">r</string>
+    <string name="descStar">r</string>
 </resources>
