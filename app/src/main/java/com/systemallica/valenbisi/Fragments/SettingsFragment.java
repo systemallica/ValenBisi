@@ -90,6 +90,27 @@ public class SettingsFragment extends PreferenceFragment {
 
         });
 
+        //Favorite stuff
+        final CheckBoxPreference showFavoritesPref = (CheckBoxPreference) findPreference("showFavorites");
+        showFavoritesPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!showFavoritesPref.isChecked()) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("showFavorites", true);
+                    editor.putBoolean("isChanged", true);
+                    editor.apply();
+                }
+                else{
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("showFavorites", false);
+                    editor.putBoolean("isChanged", true);
+                    editor.apply();
+                }
+                return true;
+            }
+        });
     }
 }
 

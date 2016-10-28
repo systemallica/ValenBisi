@@ -28,6 +28,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.geojson.GeoJsonFeature;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
@@ -213,10 +214,20 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     private class GetStations extends AsyncTask<Void, Void, GeoJsonLayer> {
 
+        //Load default marker icons
         BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+
+        BitmapDescriptor icon_fav_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+        BitmapDescriptor icon_fav_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+        BitmapDescriptor icon_fav_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+        BitmapDescriptor icon_fav_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
+
+        //Load custom marker icons for favorited markers
+        //BitmapDescriptor icon_reed = (BitmapDescriptorFactory.fromResource(R.drawable.splash_inverted));
+
         final Button btn_estaciones = (Button) view.findViewById(R.id.btnEstacionesToggle);
         final Button btnOnFootToggle = (Button) view.findViewById(R.id.btnOnFootToggle);
         final Button btnRefresh = (Button) view.findViewById(R.id.btnRefresh);
@@ -237,14 +248,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             try {
                 if(!jsonStr.equals("")) {
-                    JSONArray datos = new JSONArray(jsonStr);
+                    JSONArray array = new JSONArray(jsonStr);
 
                     final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
 
-                    for (counter = 0; counter < datos.length(); counter++) {
+                    for (counter = 0; counter < array.length(); counter++) {
 
-                        JSONObject object = datos.getJSONObject(counter);
-
+                        JSONObject object = array.getJSONObject(counter);
 
                         for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
                             //Add each number and address to its correspondent marker
@@ -253,8 +263,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                                 GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                                 pointStyle.setTitle(object.getString("address"));
-                                pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") +
-                                        " - Bicis: " + object.getInt("available_bikes"));
+                                pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") + " - Bicis: " + object.getInt("available_bikes"));
+                                pointStyle.setAlpha((float)0.5);
                                 //set markers colors
                                 if (onFoot == 1) {
                                     if (object.getInt("available_bikes") == 0) {
@@ -275,6 +285,21 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                         pointStyle.setIcon(icon_yellow);
                                     } else {
                                         pointStyle.setIcon(icon_green);
+                                    }
+                                }
+                                SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                                boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                boolean currentStationIsFav = settings.getBoolean(object.getString("address"), false);
+                                if(currentStationIsFav){
+                                    //pointStyle.setIcon(icon_fav_red);
+                                    pointStyle.setAlpha(1);
+                                }
+                                if(showFavorites){
+                                    if(currentStationIsFav){
+                                        //pointStyle.setIcon(icon_fav_red);
+                                    }
+                                    else{
+                                        pointStyle.setVisible(false);
                                     }
                                 }
                                 feature.setPointStyle(pointStyle);
@@ -305,15 +330,48 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     layer.addLayerToMap();
                 }
 
+                mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+                    @Override
+                     public void onInfoWindowLongClick(Marker marker) {
+
+                        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                        boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+
+                        if(currentStationIsFav){
+                            marker.setAlpha((float)0.5);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putBoolean(marker.getTitle(), false);
+                            editor.apply();
+                        }
+                        else {
+                            marker.setAlpha(1);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putBoolean(marker.getTitle(), true);
+                            editor.apply();
+                        }
+
+                        Log.e("map marker", "marker is  " + marker.getTitle());
+
+                    }
+                });
+
                 //Toggle Stations
                 btn_estaciones.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         if (estacionesLayer) {
-                            layer.removeLayerFromMap();
+                            for (GeoJsonFeature feature : layer.getFeatures()) {
+                                GeoJsonPointStyle pointStyle = feature.getPointStyle();
+                                pointStyle.setVisible(false);
+                                feature.setPointStyle(pointStyle);
+                            }
                             btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
                             estacionesLayer = false;
                         } else {
-                            layer.addLayerToMap();
+                            for (GeoJsonFeature feature : layer.getFeatures()) {
+                                GeoJsonPointStyle pointStyle = feature.getPointStyle();
+                                pointStyle.setVisible(true);
+                                feature.setPointStyle(pointStyle);
+                            }
                             btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
                             estacionesLayer = true;
                         }

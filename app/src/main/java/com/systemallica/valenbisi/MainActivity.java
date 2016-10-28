@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
         //Ad request and load
         //mAdView.setVisibility(View.VISIBLE);
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("6BB60830FFEC02110221CD0A1878D464")
+                //.addTestDevice("6BB60830FFEC02110221CD0A1878D464")
                 .build();
         mAdView.loadAd(adRequest);
         }

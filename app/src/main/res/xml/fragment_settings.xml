@@ -21,6 +21,16 @@
         android:summaryOn="@string/pref_matchNavigationBar_summary_on"
         android:defaultValue="true" />
 
+    <CheckBoxPreference
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:key="showFavorites"
+        android:title="@string/showFavourites"
+        android:summaryOff="@string/pref_showFavourites_summary_off"
+        android:summaryOn="@string/pref_showFavourites_summary_on"
+        android:defaultValue="false" />
+
 
 
 </PreferenceScreen>

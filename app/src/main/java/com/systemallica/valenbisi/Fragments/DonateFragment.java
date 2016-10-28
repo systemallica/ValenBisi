@@ -60,8 +60,10 @@ public class DonateFragment extends Fragment {
 
             TextView tv = (TextView)view.findViewById(R.id.textRemove);
             SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-            boolean removedAds = settings.getBoolean("removedAds", false);
+
             public void onClick(View v) {
+
+                boolean removedAds = settings.getBoolean("removedAds", false);
 
                 if(!removedAds) {
                     SharedPreferences settings1 = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
