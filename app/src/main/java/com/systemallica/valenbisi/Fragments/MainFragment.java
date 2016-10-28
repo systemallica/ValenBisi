@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -143,6 +145,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true);
         }
 
+
+        ///////here
+
+
         //Set map zoom controls
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(false);
@@ -220,12 +226,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
 
-        BitmapDescriptor icon_fav_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
-        BitmapDescriptor icon_fav_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
-        BitmapDescriptor icon_fav_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
-        BitmapDescriptor icon_fav_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA);
-
-        //Load custom marker icons for favorited markers
         //BitmapDescriptor icon_reed = (BitmapDescriptorFactory.fromResource(R.drawable.splash_inverted));
 
         final Button btn_estaciones = (Button) view.findViewById(R.id.btnEstacionesToggle);
@@ -291,14 +291,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 boolean showFavorites = settings.getBoolean("showFavorites", false);
                                 boolean currentStationIsFav = settings.getBoolean(object.getString("address"), false);
                                 if(currentStationIsFav){
-                                    //pointStyle.setIcon(icon_fav_red);
                                     pointStyle.setAlpha(1);
                                 }
                                 if(showFavorites){
-                                    if(currentStationIsFav){
-                                        //pointStyle.setIcon(icon_fav_red);
-                                    }
-                                    else{
+                                    if(!currentStationIsFav){
                                         pointStyle.setVisible(false);
                                     }
                                 }
@@ -330,28 +326,77 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     layer.addLayerToMap();
                 }
 
-                mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
-                    @Override
-                     public void onInfoWindowLongClick(Marker marker) {
 
+                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                    // Use default InfoWindow frame
+                    @Override
+                    public View getInfoWindow(Marker marker) {
+                        return null;
+                    }
+
+                    // Defines the contents of the InfoWindow
+                    @Override
+                    public View getInfoContents(Marker marker) {
+
+                        final Drawable myDrawableFavOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_black_24dp);
+                        final Drawable myDrawableFavOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_outline_black_24dp);
+
+                        // Getting view from the layout file info_window_layout
+                        final View v = getActivity().getLayoutInflater().inflate(R.layout.windowlayout, null);
+
+                        // Getting reference to the ImageView/title/snippet
+                        TextView title = (TextView) v.findViewById(R.id.title);
+                        TextView snippet = (TextView) v.findViewById(R.id.snippet);
+                        ImageView btn_star = (ImageView) v.findViewById(R.id.btn_star);
+
+                        title.setText(marker.getTitle());
+                        snippet.setText(marker.getSnippet());
+
+                        //Checking if current station is favorite
                         SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
                         boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
 
-                        if(currentStationIsFav){
-                            marker.setAlpha((float)0.5);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean(marker.getTitle(), false);
-                            editor.apply();
-                        }
-                        else {
-                            marker.setAlpha(1);
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putBoolean(marker.getTitle(), true);
-                            editor.apply();
+                        //Setting correspondent icon
+                        if(currentStationIsFav) {
+                            btn_star.setImageDrawable(myDrawableFavOn);
+                        }else {
+                            btn_star.setImageDrawable(myDrawableFavOff);
                         }
 
-                        Log.e("map marker", "marker is  " + marker.getTitle());
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
 
+                            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                            boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+                            boolean showFavorites = settings.getBoolean("showFavorites", false);
+
+
+                            if(currentStationIsFav){
+                                marker.setAlpha((float)0.5);
+                                if(showFavorites) {
+                                    marker.setVisible(false);
+                                }
+                                marker.showInfoWindow();
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putBoolean(marker.getTitle(), false);
+                                editor.apply();
+                            } else {
+                                marker.setAlpha(1);
+                                marker.showInfoWindow();
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putBoolean(marker.getTitle(), true);
+                                editor.apply();
+                            }
+                                marker.showInfoWindow();
+                                Log.e("map marker", "marker is  " + marker.getTitle());
+
+                            }
+                        });
+
+                        // Returning the view containing InfoWindow contents
+                        return v;
                     }
                 });
 
