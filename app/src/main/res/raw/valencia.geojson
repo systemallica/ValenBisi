@@ -2270,8 +2270,8 @@
             "type": "Feature",
             "properties": {
                 "Number": "212",
-                "Name": "212_CALLE_FRAY_JUANÍPERO_SERRA_ESQ_CALLE_TORRENTE",
-                "Address": "Fray Juanípero Serra - Torrente"
+                "Name": "212_CALLE_FRAY_JUNÍPERO_SERRA_ESQ_CALLE_TORRENTE",
+                "Address": "Fray Junípero Serra - Torrente"
             },
             "geometry": {
                 "type": "Point",

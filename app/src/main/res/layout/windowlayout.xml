@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="TextView"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:textStyle="normal|bold" />
     <TextView
-        android:text="TextView"
+        android:text=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/snippet"
@@ -21,6 +21,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/descStar"
         android:src="@drawable/ic_star_outline_black_24dp"
         android:id="@+id/btn_star"
         android:layout_centerVertical="true"
