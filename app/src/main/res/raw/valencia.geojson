@@ -2106,7 +2106,7 @@
             "properties": {
                 "Number": "219",
                 "Name": "219_CALLE_CASTAN_TOBEÑAS_ESQ_CALLE_VELAZQUEZ",
-                "Address": "Castán Tobeñas - Rincon de Ademuz"
+                "Address": "Castán Tobeñas - Rincón de Ademuz"
             },
             "geometry": {
                 "type": "Point",
@@ -2481,7 +2481,7 @@
             "properties": {
                 "Number": "236",
                 "Name": "236_RIO_SEGRE_RAFAEL_COMPANY",
-                "Address": "Rio Segre - Rafael Company"
+                "Address": "Río Segre - Rafael Company"
             },
             "geometry": {
                 "type": "Point",

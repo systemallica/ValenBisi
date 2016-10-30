@@ -262,7 +262,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             if (object.getString("number").equals(feature.getProperty("Number"))) {
 
                                 GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                                pointStyle.setTitle(object.getString("address"));
+                                pointStyle.setTitle(feature.getProperty("Address"));
                                 pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") + " - Bicis: " + object.getInt("available_bikes"));
                                 pointStyle.setAlpha((float)0.5);
                                 //set markers colors
@@ -289,7 +289,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 }
                                 SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
                                 boolean showFavorites = settings.getBoolean("showFavorites", false);
-                                boolean currentStationIsFav = settings.getBoolean(object.getString("address"), false);
+                                boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
                                 if(currentStationIsFav){
                                     pointStyle.setAlpha(1);
                                 }
