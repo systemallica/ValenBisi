@@ -6,13 +6,26 @@ It has been developed with material design in mind, and will always be open sour
 
 ## Features:
 
-*Colorful display of bike stations
-*Option to mark a station as favorite
-*Option to show only favorite stations
-*Option to show only available stations
-*Easy, simple and clean interface
-*Material design
-*Toggle bike lanes
-*Toggle stations
-*Refresh data
-*Option to choose between going on foot or on bike
+-Colorful display of bike stations
+
+-Option to mark a station as favorite
+
+-Option to show only favorite stations
+
+-Option to show only available stations
+
+-Easy, simple and clean interface
+
+-Material design
+
+-Toggle bike lanes
+
+-Toggle stations
+
+-Refresh data
+
+-Option to choose between going on foot or on bike
+
+###Contact:
+
+soporte.valenbisi@gmail.com
