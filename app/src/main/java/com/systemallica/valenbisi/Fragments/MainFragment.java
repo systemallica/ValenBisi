@@ -44,18 +44,15 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 
-
-
 public class MainFragment extends Fragment implements OnMapReadyCallback {
 
-    private MapView mapView;
+
     private GoogleMap mMap;
     UiSettings mapSettings;
     int MY_LOCATION_REQUEST_CODE = 1;
-    int carrilLayer = 0;
+    boolean carrilLayer = false;
     boolean estacionesLayer = true;
-    int onFoot=1;
-    int counter = 0;
+    boolean onFoot = true;
     View view;
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
@@ -71,6 +68,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
+        MapView mapView;
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
@@ -178,14 +176,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             btn_carril.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    if (carrilLayer == 0) {
+                    if (!carrilLayer) {
                         btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
                         carril.addLayerToMap();
-                        carrilLayer = 1;
+                        carrilLayer = true;
                     } else {
                         btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
                         carril.removeLayerFromMap();
-                        carrilLayer = 0;
+                        carrilLayer = false;
                     }
 
                 }
@@ -252,7 +250,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                     final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
 
-                    for (counter = 0; counter < array.length(); counter++) {
+                    for (int counter = 0; counter < array.length(); counter++) {
 
                         JSONObject object = array.getJSONObject(counter);
 
@@ -270,7 +268,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 pointStyle.setAlpha((float)0.5);
 
                                 //set markers colors depending on available bikes/stands
-                                if (onFoot == 1) {
+                                if (onFoot) {
                                     if (object.getInt("available_bikes") == 0) {
                                         pointStyle.setIcon(icon_red);
                                         if(showAvailable){
@@ -449,13 +447,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         layer.removeLayerFromMap();
-                        if (onFoot == 1) {
-                            onFoot = 0;
+                        if (onFoot) {
+                            onFoot = false;
                             btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
                             new GetStations().execute();
 
                         } else {
-                            onFoot = 1;
+                            onFoot = true;
                             btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
                             new GetStations().execute();
                         }
