@@ -31,6 +31,15 @@
         android:summaryOn="@string/pref_showFavourites_summary_on"
         android:defaultValue="false" />
 
+    <CheckBoxPreference
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:key="showAvailable"
+        android:title="@string/showAvailable"
+        android:summaryOff="@string/pref_showAvailable_summary_off"
+        android:summaryOn="@string/pref_showAvailable_summary_on"
+        android:defaultValue="false" />
 
 
 </PreferenceScreen>

@@ -41,9 +41,9 @@
     <string name="pref_matchNavigationBar_summary_off">El color no se ajustará</string>
     <string name="pref_matchNavigationBar_summary_on">El color se ajustará</string>
 
-    <string name="showAvailable">Mostrar sólo estaciones disponibles</string>
+    <string name="pref_showAvailable_summary_on">Se mostrarán sólo las estaciones disponibles</string>
     <string name="pref_showAvailable_summary_off">Se mostrarán todas las estaciones</string>
-    <string name="pref_showAvailable_summary_on">Se mostrarán solo las estaciones disponibles</string>
+    <string name="showAvailable">Mostrar sólo estaciones disponibles</string>
 
     <string name="showFavourites">Mostrar sólo favoritos</string>
     <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
@@ -55,6 +55,7 @@
     <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor dejalos activados, me ayudan a seguir trabajando en ella.</string>
     <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
     <string name="ad_reminder">(Requiere reinicio)</string>
+
 
 
 </resources>

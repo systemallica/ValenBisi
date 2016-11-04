@@ -111,6 +111,28 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        //Available stuff
+        final CheckBoxPreference showAvailablesPref = (CheckBoxPreference) findPreference("showAvailable");
+        showAvailablesPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!showAvailablesPref.isChecked()) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("showAvailable", true);
+                    editor.putBoolean("isChanged", true);
+                    editor.apply();
+                }
+                else{
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("showAvailable", false);
+                    editor.putBoolean("isChanged", true);
+                    editor.apply();
+                }
+                return true;
+            }
+        });
     }
 }
 

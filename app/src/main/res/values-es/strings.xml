@@ -25,9 +25,9 @@
     <string name="pref_matchNavigationBar_summary_on">El color se ajustará</string>
     <string name="pref_matchNavigationBar_summary_off">El color no se ajustará</string>
     <string name="pref_showAvailable_summary_off">Se mostrarán todas las estaciones</string>
-    <string name="pref_showAvailable_summary_on">Se mostraran solo las estaciones disponibles</string>
-    <string name="pref_showFavourites_summary_off">Se mostraran todas las estaciones</string>
-    <string name="pref_showFavourites_summary_on">Se mostraran solo las estaciones favoritas</string>
+    <string name="pref_showAvailable_summary_on">Se mostrarán solo las estaciones disponibles</string>
+    <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
+    <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
     <string name="refresh">Refrescar</string>
     <string name="showAvailable">Mostrar solo estaciones disponibles</string>
     <string name="showFavourites">Mostrar solo favoritos</string>

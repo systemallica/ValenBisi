@@ -261,14 +261,21 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                             if (object.getString("number").equals(feature.getProperty("Number"))) {
 
+                                SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                                boolean showAvailable = settings.getBoolean("showAvailable", false);
+
                                 GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                                 pointStyle.setTitle(feature.getProperty("Address"));
                                 pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") + " - Bicis: " + object.getInt("available_bikes"));
                                 pointStyle.setAlpha((float)0.5);
-                                //set markers colors
+
+                                //set markers colors depending on available bikes/stands
                                 if (onFoot == 1) {
                                     if (object.getInt("available_bikes") == 0) {
                                         pointStyle.setIcon(icon_red);
+                                        if(showAvailable){
+                                            pointStyle.setVisible(false);
+                                        }
                                     } else if (object.getInt("available_bikes") < 5) {
                                         pointStyle.setIcon(icon_orange);
                                     } else if (object.getInt("available_bikes") < 10) {
@@ -279,6 +286,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 } else {
                                     if (object.getInt("available_bike_stands") == 0) {
                                         pointStyle.setIcon(icon_red);
+                                        if(showAvailable){
+                                            pointStyle.setVisible(false);
+                                        }
                                     } else if (object.getInt("available_bike_stands") < 5) {
                                         pointStyle.setIcon(icon_orange);
                                     } else if (object.getInt("available_bike_stands") < 10) {
@@ -287,12 +297,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                         pointStyle.setIcon(icon_green);
                                     }
                                 }
-                                SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+
                                 boolean showFavorites = settings.getBoolean("showFavorites", false);
                                 boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
+
+                                //Apply full opacity to fav stations
                                 if(currentStationIsFav){
                                     pointStyle.setAlpha(1);
                                 }
+
+                                //If favorites r selected, hide the rest
                                 if(showFavorites){
                                     if(!currentStationIsFav){
                                         pointStyle.setVisible(false);
