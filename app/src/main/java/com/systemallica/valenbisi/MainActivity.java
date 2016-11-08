@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity
 
         //Ads management
         AdView mAdView = (AdView) findViewById(R.id.adView);
+
         if(removedAds){
             mAdView.destroy();
             mAdView.setVisibility(View.GONE);
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity
                 //.addTestDevice("6BB60830FFEC02110221CD0A1878D464")
                 .build();
         mAdView.loadAd(adRequest);
+        mAdView.setVisibility(View.GONE);
         }
 
     }
@@ -155,8 +157,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        AdView mAdView = (AdView) findViewById(R.id.adView);
 
         if (id == R.id.nav_map) {
+
+            mAdView.setVisibility(View.GONE);
 
             //Change toolbar title
             this.setTitle("ValenBisi");
@@ -187,6 +192,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
 
+            mAdView.setVisibility(View.VISIBLE);
+
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
             if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
@@ -200,6 +207,8 @@ public class MainActivity extends AppCompatActivity
             ft.commit();
 
         } else if (id == R.id.nav_donate) {
+
+            mAdView.setVisibility(View.VISIBLE);
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
@@ -223,6 +232,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(sendIntent);
 
         } else if (id == R.id.nav_about) {
+
+            mAdView.setVisibility(View.VISIBLE);
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));

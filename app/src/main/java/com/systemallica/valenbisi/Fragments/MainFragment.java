@@ -149,7 +149,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         //Set map zoom controls
         mapSettings = mMap.getUiSettings();
-        mapSettings.setZoomControlsEnabled(false);
+        mapSettings.setZoomControlsEnabled(true);
 
         //Set type of map and min zoom
         if(mapView){
@@ -161,7 +161,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mMap.setMinZoomPreference(12);
 
         // Move the camera to Valencia
-        LatLng valencia = new LatLng(39.469, -0.378);
+        LatLng valencia = new LatLng(39.479, -0.372);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
 
         //Add GeoJSON layer of bike lanes and handle errors
