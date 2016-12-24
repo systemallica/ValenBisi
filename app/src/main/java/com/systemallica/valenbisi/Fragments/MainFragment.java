@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,13 +50,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     UiSettings mapSettings;
     int MY_LOCATION_REQUEST_CODE = 1;
-    boolean carrilLayer = false;
     boolean estacionesLayer = true;
     boolean onFoot = true;
+    GeoJsonLayer carril = null;
     View view;
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
     public static final String PREFS_NAME = "MyPrefsFile";
+
 
     @Nullable
     @Override
@@ -88,34 +89,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         if(isConnected) {
             mapView.getMapAsync(this);
         }
-
-
-        /*mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                Toast.makeText(getActivity().getApplicationContext(), "Ad is loaded!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdClosed() {
-                Toast.makeText(getActivity().getApplicationContext(), "Ad is closed!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                Toast.makeText(getActivity().getApplicationContext(), "Ad failed to load! error code: " + errorCode, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                Toast.makeText(getActivity().getApplicationContext(), "Ad left application!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdOpened() {
-                Toast.makeText(getActivity().getApplicationContext(), "Ad is opened!", Toast.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
 
@@ -125,6 +98,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         boolean mapView = settings.getBoolean("mapView", false);
+
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("firstTime", true).apply();
 
         //Check for sdk >= 23
 
@@ -143,10 +119,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true);
         }
 
-
-        ///////here
-
-
         //Set map zoom controls
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
@@ -164,42 +136,24 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         LatLng valencia = new LatLng(39.479, -0.372);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
 
-        //Add GeoJSON layer of bike lanes and handle errors
-
-        try {
-            //lanes layer
-
-            final Button btn_carril = (Button) view.findViewById(R.id.btnCarrilToggle);
-            final GeoJsonLayer carril = new GeoJsonLayer(mMap, R.raw.oficialcarril, getActivity().getApplicationContext());
-            final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
-            final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
-
-            btn_carril.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    if (!carrilLayer) {
-                        btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
-                        carril.addLayerToMap();
-                        carrilLayer = true;
-                    } else {
-                        btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
-                        carril.removeLayerFromMap();
-                        carrilLayer = false;
-                    }
-
-                }
-            });
-
-        } catch (IOException e) {
-
-            Log.e(mLogTag, "GeoJSON file could not be read");
-
-        } catch (JSONException e) {
-
-            Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
-        }
-
-
         new GetStations().execute();
+
+        final Button btn_carril = (Button) view.findViewById(R.id.btnCarrilToggle);
+        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
+        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
+
+        btn_carril.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!settings.getBoolean("carrilLayer", false)) {
+                    btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+                    new GetLanes().execute();
+                } else {
+                    btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
+                    new GetLanes().execute();
+                }
+
+            }
+        });
 
     }
     //React to permission dialog
@@ -210,9 +164,64 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
             } else {
-                Toast.makeText(getActivity().getApplicationContext(), R.string.no_location_permission, Toast.LENGTH_SHORT).show();
+
+                Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
 
             }
+        }
+    }
+
+
+    private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
+
+        protected void onPreExecute(){
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            if(!settings.getBoolean("carrilLayer", false)) {
+                Snackbar.make(view, "Cargando carriles...", Snackbar.LENGTH_SHORT).show();
+
+            }
+        }
+
+        @Override
+        protected GeoJsonLayer doInBackground(Void... params) {
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+
+            try {
+                //lanes layer
+                if(settings.getBoolean("firstTime", true)) {
+                    carril = new GeoJsonLayer(mMap, R.raw.oficialcarril, getActivity().getApplicationContext());
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("firstTime", false).apply();
+                }
+
+            } catch (IOException e) {
+
+                Log.e(mLogTag, "GeoJSON file could not be read");
+
+            } catch (JSONException e) {
+
+                Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
+            }
+
+            return carril;
+        }
+
+        protected void onPostExecute(GeoJsonLayer carril) {
+
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            if(!settings.getBoolean("carrilLayer", false)) {
+                carril.addLayerToMap();
+
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("carrilLayer", true).apply();
+            }else{
+                carril.removeLayerFromMap();
+
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("carrilLayer", false).apply();
+
+            }
+
         }
     }
 
@@ -234,9 +243,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final Drawable myDrawableStationsOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_place_black_24dp);
         final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
 
+
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
 
+            Snackbar.make(view, "Cargando estaciones...", Snackbar.LENGTH_SHORT).show();
 
             // Creating service handler class instance
             WebRequest webreq = new WebRequest();
@@ -468,11 +479,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         new GetStations().execute();
                     }
                 });
+
+
             }
             else{
                 if(isAdded()) {
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "No se han podido cargar los datos, prueba más tarde", Toast.LENGTH_LONG);
-                    toast.show();
+                    Snackbar.make(view, "No se han podido cargar los datos, prueba más tarde", Snackbar.LENGTH_SHORT).show();
                 }
             }
         }
