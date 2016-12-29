@@ -56,6 +56,8 @@
     <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
     <string name="ad_reminder">(Requiere reinicio)</string>
 
+    <string name="load_lanes">Cargando carriles&#8230;</string>
+    <string name="load_stations">Cargando estaciones&#8230;</string>
 
 
 </resources>

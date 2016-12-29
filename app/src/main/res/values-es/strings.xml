@@ -39,4 +39,6 @@
     <string name="ad_reminder">(Requiere reinicio)</string>
     <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor dejalos activados, me ayudan a seguir trabajando en ella.</string>
     <string name="descStar">Icono estrella</string>
+    <string name="load_lanes">Cargando carriles&#8230;</string>
+    <string name="load_stations">Cargando estaciones&#8230;</string>
 </resources>

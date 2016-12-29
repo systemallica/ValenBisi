@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
             mAdView.setVisibility(View.GONE);
 
             //Change toolbar title
-            this.setTitle("ValenBisi");
+            this.setTitle("Mapa");
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             boolean isChanged = settings.getBoolean("isChanged", false);
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    "Descarga la mejor app de ValenBisi en: https://github.com/systemallica/ValenBisi/releases");
+                    "Descarga la mejor app de ValenBisi en: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi");
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
 

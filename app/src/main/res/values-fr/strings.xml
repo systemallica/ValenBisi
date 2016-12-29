@@ -39,4 +39,6 @@
     <string name="ad_restore_hint">r</string>
     <string name="ad_remove_hint">r</string>
     <string name="descStar">r</string>
+    <string name="load_lanes">Cargando carriles&#8230;</string>
+    <string name="load_stations">Cargando estaciones&#8230;</string>
 </resources>

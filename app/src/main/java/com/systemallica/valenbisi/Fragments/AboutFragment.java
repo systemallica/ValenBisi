@@ -15,7 +15,7 @@ import com.systemallica.valenbisi.R;
 
 public class AboutFragment extends Fragment {
     ImageView github;
-    TextView version1;
+    TextView version1, rate;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -33,6 +33,8 @@ public class AboutFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about, container, false);
+
+        //Open GitHub
         github =(ImageView)view.findViewById(R.id.github);
         github.setOnClickListener(new View.OnClickListener()   {
             public void onClick(View v)  {
@@ -47,6 +49,16 @@ public class AboutFragment extends Fragment {
         //Add version number to the textview
         version1 = (TextView)view.findViewById(R.id.version1);
         version1.setText(BuildConfig.VERSION_NAME);
+
+        //Open playstore
+        rate = (TextView)view.findViewById(R.id.rate);
+        rate.setOnClickListener(new View.OnClickListener()   {
+            public void onClick(View v)  {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
+                startActivity(browserIntent);
+            }
+        });
+
         return view;
     }
 

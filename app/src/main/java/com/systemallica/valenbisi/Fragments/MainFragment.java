@@ -177,7 +177,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         protected void onPreExecute(){
             SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             if(!settings.getBoolean("carrilLayer", false)) {
-                Snackbar.make(view, "Cargando carriles...", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_SHORT).show();
 
             }
         }
@@ -219,6 +219,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("carrilLayer", false).apply();
+                editor.putBoolean("firstTime", true).apply();
 
             }
 
@@ -247,7 +248,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
 
-            Snackbar.make(view, "Cargando estaciones...", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_SHORT).show();
 
             // Creating service handler class instance
             WebRequest webreq = new WebRequest();
