@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +23,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -139,6 +142,7 @@ public class MainActivity extends AppCompatActivity
         mAdView.setVisibility(View.GONE);
         }
 
+        new CheckVersion().execute();
     }
 
 
@@ -254,5 +258,49 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private class CheckVersion extends AsyncTask<Void, Void, String> {
 
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            // Creating service handler class instance
+            WebRequest webreq = new WebRequest();
+            // Making a request to url and getting response
+            return webreq.makeWebServiceCall("https://systemallica.000webhostapp.com", WebRequest.GET);
+        }
+
+        protected void onPostExecute(final String latestVersion) {
+
+            //Check for updates
+            String versionName = BuildConfig.VERSION_NAME;
+
+            //Log.e("versionName", versionName);
+            //Log.e("latestVersion", latestVersion);
+
+            if (!versionName.equals(latestVersion)) {
+                new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
+                        .setTitle("Actualización disponible")
+                        .setMessage("¿Quieres actualizar la aplicación?")
+                        .setPositiveButton("Vale", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
+                                startActivity(browserIntent);
+                            }
+                        })
+
+                        .setNegativeButton("Ahora no", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Do nothing
+                            }
+                        })
+
+                        .setIcon(R.drawable.ic_system_update_black_24dp)
+                        .show();
+            }
+        }
+    }
 }

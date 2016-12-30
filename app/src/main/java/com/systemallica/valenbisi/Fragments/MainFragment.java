@@ -43,7 +43,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-
 public class MainFragment extends Fragment implements OnMapReadyCallback {
 
 
@@ -66,6 +65,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         view = inflater.inflate(R.layout.fragment_main, container, false);
         return view;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
@@ -104,18 +104,18 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         //Check for sdk >= 23
 
-        if (Build.VERSION.SDK_INT >= 23) {
+        if(Build.VERSION.SDK_INT >= 23) {
             //Check location permission
-            if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            if(getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
                 requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_LOCATION_REQUEST_CODE);
 
-            } else {
+            }else{
                 mMap.setMyLocationEnabled(true);
             }
-        } else {
+        }else{
             mMap.setMyLocationEnabled(true);
         }
 
@@ -126,8 +126,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         //Set type of map and min zoom
         if(mapView){
             mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        }
-        else {
+        }else{
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
         mMap.setMinZoomPreference(12);
@@ -151,12 +150,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
                     new GetLanes().execute();
                 }
-
             }
         });
-
     }
-    //React to permission dialog
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == MY_LOCATION_REQUEST_CODE) {
@@ -170,7 +167,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
 
     private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
 
@@ -255,6 +251,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             // Making a request to url and getting response
             String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
+
+
 
             try {
                 if(!jsonStr.equals("")) {
@@ -491,4 +489,5 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
     }
+
 }

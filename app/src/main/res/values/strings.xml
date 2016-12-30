@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">ValenBisi</string>
+    <string name="github" translatable="false">https://github.com/systemallica/ValenBisi</string>
+    <string name="playstore" translatable="false">https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
