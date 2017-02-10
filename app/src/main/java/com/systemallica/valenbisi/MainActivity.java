@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private class CheckVersion extends AsyncTask<Void, Void, String> {
+   private class CheckVersion extends AsyncTask<Void, Void, String> {
 
         protected void onPreExecute() {
             super.onPreExecute();
@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity
             // Creating service handler class instance
             WebRequest webreq = new WebRequest();
             // Making a request to url and getting response
-            return webreq.makeWebServiceCall("https://systemallica.000webhostapp.com", WebRequest.GET);
+            return webreq.makeWebServiceCall("https://systemallica.000webhostapp.com/version.html", WebRequest.GET);
         }
 
         protected void onPostExecute(final String latestVersion) {
