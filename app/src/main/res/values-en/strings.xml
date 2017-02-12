@@ -46,8 +46,8 @@
     <string name="initialZoom">Initial zoom</string>
     <string name="no_internet">There is no Internet connection</string>
     <string name="no_internet_message">The app won\'t work without Internet connection. Connect to the Internet and restart the app.</string>
-    <string name="pref_initialZoom_summary_off">The app won\'t zoom to the current position on startup.</string>
-    <string name="pref_initialZoom_summary_on">The app will zoom to the current position on startup.</string>
+    <string name="pref_initialZoom_summary_off">The app won\'t zoom to the current position on startup</string>
+    <string name="pref_initialZoom_summary_on">The app will zoom to the current position on startup</string>
     <string name="share">Download the best ValenBisi app at: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
     <string name="update_available">Update available</string>
     <string name="update_message">Do you want to update the app?</string>

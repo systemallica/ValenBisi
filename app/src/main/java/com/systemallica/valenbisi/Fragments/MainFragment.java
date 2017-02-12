@@ -134,14 +134,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }else{
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
-        mMap.setMinZoomPreference(12);
+        //mMap.setMinZoomPreference(12);
 
         gps = new TrackGPS(getActivity().getApplicationContext());
 
         if(gps.canGetLocation()){
 
             longitude = gps.getLongitude();
-            latitude = gps .getLatitude();
+            latitude = gps.getLatitude();
 
         }
 
@@ -154,16 +154,18 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         if(Build.VERSION.SDK_INT >= 23) {
             //Check location permission
             if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED && initialZoom) {
+                    == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                gps.stopUsingGPS();
             }else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
                 }
 
         }else{
-            if (initialZoom) {
+            if (initialZoom && gps.canGetLocation()) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                gps.stopUsingGPS();
             } else {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
             }

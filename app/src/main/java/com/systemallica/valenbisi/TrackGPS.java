@@ -9,16 +9,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * Created by ANQ on 8/8/2016.
@@ -67,7 +64,7 @@ public class TrackGPS extends Service implements LocationListener {
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!checkGPS && !checkNetwork) {
-                Toast.makeText(mContext, "No Service Provider Available", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext, "No Service Provider Available", Toast.LENGTH_SHORT).show();
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider
@@ -175,13 +172,9 @@ public class TrackGPS extends Service implements LocationListener {
 
     public void stopUsingGPS() {
         if (locationManager != null) {
-            if(Build.VERSION.SDK_INT >= 23) {
-                if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
 
-                    locationManager.removeUpdates(TrackGPS.this);
-                }
-            }
+            //locationManager.removeUpdates(TrackGPS.this);
+
         }
     }
 
