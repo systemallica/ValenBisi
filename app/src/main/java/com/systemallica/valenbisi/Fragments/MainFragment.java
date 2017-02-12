@@ -35,6 +35,7 @@ import com.google.maps.android.geojson.GeoJsonFeature;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
 import com.systemallica.valenbisi.R;
+import com.systemallica.valenbisi.TrackGPS;
 import com.systemallica.valenbisi.WebRequest;
 
 import org.json.JSONArray;
@@ -53,9 +54,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     boolean onFoot = true;
     GeoJsonLayer carril = null;
     View view;
+    private TrackGPS gps;
+    double longitude;
+    double latitude;
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
     public static final String PREFS_NAME = "MyPrefsFile";
+
 
 
     @Nullable
@@ -131,9 +136,38 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
         mMap.setMinZoomPreference(12);
 
-        // Move the camera to Valencia
+        gps = new TrackGPS(getActivity().getApplicationContext());
+
+        if(gps.canGetLocation()){
+
+            longitude = gps.getLongitude();
+            latitude = gps .getLatitude();
+
+        }
+
+        LatLng currentLocation = new LatLng(latitude,longitude);
         LatLng valencia = new LatLng(39.479, -0.372);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+
+        boolean initialZoom = settings.getBoolean("initialZoom", true);
+
+        // Move the camera
+        if(Build.VERSION.SDK_INT >= 23) {
+            //Check location permission
+            if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED && initialZoom) {
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+            }else {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                }
+
+        }else{
+            if (initialZoom) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+            } else {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+            }
+        }
 
         new GetStations().execute();
 
@@ -412,7 +446,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 editor.apply();
                             }
                                 marker.showInfoWindow();
-                                Log.e("map marker", "marker is  " + marker.getTitle());
+                                //Log.e("map marker", "marker is  " + marker.getTitle());
 
                             }
                         });

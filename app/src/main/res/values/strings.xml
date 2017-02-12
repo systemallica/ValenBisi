@@ -2,6 +2,9 @@
     <string name="app_name" translatable="false">ValenBisi</string>
     <string name="github" translatable="false">https://github.com/systemallica/ValenBisi</string>
     <string name="playstore" translatable="false">https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
+    <string name="version_web" translatable="false">https://systemallica.000webhostapp.com/version.html</string>
+
+    <string name="share">Descarga la mejor app de ValenBisi en: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -61,5 +64,19 @@
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
 
+    <string name="no_internet">No hay conexión de Internet</string>
+    <string name="no_internet_message">La aplicación no funcionará sin Internet. Conéctate y reiníciala.</string>
+    <string name="close">Cerrar</string>
+    <string name="continuer">Continuar de todas formas</string>
+
+    <string name="update_available">Actualización disponible</string>
+    <string name="update_message">¿Quieres actualizar la aplicación?</string>
+    <string name="update_ok">Vale</string>
+    <string name="update_not_now">Ahora no</string>
+    <string name="update_never">Nunca</string>
+
+    <string name="initialZoom">Zoom inicial</string>
+    <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
+    <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
 
 </resources>

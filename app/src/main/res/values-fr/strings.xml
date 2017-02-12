@@ -41,4 +41,17 @@
     <string name="descStar">r</string>
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
+    <string name="update_ok">Oui</string>
+    <string name="update_not_now">Pas maintenant</string>
+    <string name="update_never">Jamais</string>
+    <string name="close">Fermer</string>
+    <string name="continuer">f</string>
+    <string name="no_internet">f</string>
+    <string name="initialZoom">f</string>
+    <string name="pref_initialZoom_summary_off">f</string>
+    <string name="no_internet_message">f</string>
+    <string name="share">f</string>
+    <string name="pref_initialZoom_summary_on">f</string>
+    <string name="update_message">f</string>
+    <string name="update_available">f</string>
 </resources>

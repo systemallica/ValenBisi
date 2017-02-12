@@ -133,6 +133,26 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        //Zoom stuff
+        final CheckBoxPreference initialZoomPref = (CheckBoxPreference) findPreference("initialZoom");
+        initialZoomPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!initialZoomPref.isChecked()) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("initialZoom", true);
+                    editor.apply();
+                }
+                else{
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("initialZoom", false);
+                    editor.apply();
+                }
+                return true;
+            }
+        });
     }
 }
 

@@ -36,7 +36,7 @@ import com.systemallica.valenbisi.Fragments.MainFragment;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     NavigationView navigationView;
     FragmentManager mFragmentManager;
@@ -105,15 +105,15 @@ public class MainActivity extends AppCompatActivity
         if(!isConnected) {
             //Prompt an alert dialog to the user
             new AlertDialog.Builder(context)
-                    .setTitle("No hay conexión de Internet")
-                    .setMessage("La aplicación no funcionará sin Internet. Conéctate y reiníciala.")
-                    .setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.no_internet)
+                    .setMessage(R.string.no_internet_message)
+                    .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             System.exit(0);
                         }
                     })
 
-                    .setNegativeButton("Continuar de todas formas", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.continuer, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //Do nothing
                         }
@@ -142,7 +142,12 @@ public class MainActivity extends AppCompatActivity
         mAdView.setVisibility(View.GONE);
         }
 
-        new CheckVersion().execute();
+        boolean noUpdate = settings.getBoolean("noUpdate", false);
+
+        if(!noUpdate) {
+            new CheckVersion().execute();
+        }
+
     }
 
 
@@ -168,7 +173,7 @@ public class MainActivity extends AppCompatActivity
             mAdView.setVisibility(View.GONE);
 
             //Change toolbar title
-            this.setTitle("Mapa");
+            this.setTitle(R.string.nav_map);
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             boolean isChanged = settings.getBoolean("isChanged", false);
@@ -231,7 +236,7 @@ public class MainActivity extends AppCompatActivity
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    "Descarga la mejor app de ValenBisi en: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi");
+                    R.string.share);
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
 
@@ -271,7 +276,7 @@ public class MainActivity extends AppCompatActivity
             WebRequest webreq = new WebRequest();
             // Making a request to url and getting response
             return webreq.makeWebServiceCall("https://systemallica.000webhostapp.com/version.html", WebRequest.GET);
-        }
+   }
 
         protected void onPostExecute(final String latestVersion) {
 
@@ -283,18 +288,27 @@ public class MainActivity extends AppCompatActivity
 
             if (!versionName.equals(latestVersion)) {
                 new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
-                        .setTitle("Actualización disponible")
-                        .setMessage("¿Quieres actualizar la aplicación?")
-                        .setPositiveButton("Vale", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.update_available)
+                        .setMessage(R.string.update_message)
+                        .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
                                 startActivity(browserIntent);
                             }
                         })
 
-                        .setNegativeButton("Ahora no", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 //Do nothing
+                            }
+                        })
+
+                        .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putBoolean("noUpdate", true);
+                                editor.apply();
                             }
                         })
 

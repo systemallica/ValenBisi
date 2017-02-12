@@ -41,4 +41,17 @@
     <string name="descStar">Icon estrela</string>
     <string name="load_lanes">Carregant carrils&#8230;</string>
     <string name="load_stations">Carregant estacions&#8230;</string>
+    <string name="close">Tancar</string>
+    <string name="continuer">Continuar de totes maneres</string>
+    <string name="initialZoom">Zoom inicial</string>
+    <string name="update_ok">Sí</string>
+    <string name="update_not_now">Ara no</string>
+    <string name="update_never">Mai</string>
+    <string name="update_message">Vols actualitzar l\'app?</string>
+    <string name="update_available">Actualització disponible</string>
+    <string name="share">Descarrega la millor applicació de ValenBisi a: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
+    <string name="pref_initialZoom_summary_on">Es farà zoom a la posició actual al iniciar l\'app</string>
+    <string name="pref_initialZoom_summary_off">No es farà zoom a la posició actual al iniciar l\'app</string>
+    <string name="no_internet_message">L\'app no funcionarà sense connexió a Internet. Connecta\'t i reinicia l\'app.</string>
+    <string name="no_internet">No n\'hi ha connexió a Internet</string>
 </resources>
