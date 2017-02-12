@@ -491,8 +491,9 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.46726209778759,
-                    67
+                    -0.335255974679776,
+                    39.46726209778759
+
                 ]
             }
         },
@@ -501,13 +502,14 @@
             "properties": {
                 "Number": "268",
                 "Name": "268_PZA_LUIS_CANO_5",
-                "Address": "Plaza Luis Cano"
+                "Address": "Plaza Luis Cano, 5"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.50141318615774,
-                    5
+                    -0.418584242795808,
+                    39.50141318615774
+
                 ]
             }
         },
@@ -613,6 +615,7 @@
                 "coordinates": [
                     -0.366517061973888,
                     39.455440047796785
+
                 ]
             }
         },
@@ -966,13 +969,14 @@
             "properties": {
                 "Number": "25",
                 "Name": "025_CALLE_DEL_ALBERIC",
-                "Address": "Alberique"
+                "Address": "Alberique 18 (Abastos)"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.46769708197544,
-                    18
+                    -0.388701135103807,
+                    39.46769708197544
+
                 ]
             }
         },
@@ -1196,8 +1200,8 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.469358093050445,
-                    27
+                    -0.371753085175853,
+                    39.469358093050445
                 ]
             }
         },
@@ -1631,8 +1635,9 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.455361042514035,
-                    64
+                    -0.381996108347568,
+                    39.455361042514035
+
                 ]
             }
         },
@@ -1926,13 +1931,13 @@
             "properties": {
                 "Number": "16",
                 "Name": "016_COLON I",
-                "Address": "Colón"
+                "Address": "Colón, 60"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.47006009581504,
-                    60
+                    -0.370524081869223,
+                    39.47006009581504
                 ]
             }
         },
@@ -1961,8 +1966,9 @@
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.489661165707126,
-                    42
+                    -0.358709056987903,
+                    39.489661165707126
+
                 ]
             }
         },
@@ -2076,13 +2082,14 @@
             "properties": {
                 "Number": "214",
                 "Name": "214_CALLE_SANTA_CRUZ_DE_TENERIFE_ESQ_CALLE_LLOMBA",
-                "Address": "Santa Cruz de Tenerife"
+                "Address": "Santa Cruz de Tenerife, 21"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.46490006867376,
-                    21
+                    -0.400667169496185,
+                    39.46490006867376
+
                 ]
             }
         },
@@ -2091,13 +2098,14 @@
             "properties": {
                 "Number": "40",
                 "Name": "40_CALLE_BARCAS_FRENTE _TEATRO_PRINCIPAL",
-                "Address": "Barcas"
+                "Address": "Barcas, 11"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.470434095658966,
-                    11
+                    -0.374915095234885,
+                    39.470434095658966
+
                 ]
             }
         },
@@ -2241,13 +2249,13 @@
             "properties": {
                 "Number": "89",
                 "Name": "89_AVDA. BLASCO IBAÑEZ",
-                "Address": "Blasco Ibañez"
+                "Address": "Blasco Ibañez, 23 (F. Filosofía y Psicología)"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.47777012539991,
-                    23
+                    -0.359409052701581,
+                    39.47777012539991
                 ]
             }
         },
@@ -2571,13 +2579,13 @@
             "properties": {
                 "Number": "88",
                 "Name": "088_AVDA. BLASCO IBAÑEZ 3",
-                "Address": "Blasco Ibañez"
+                "Address": "Blasco IbaÃ±ez, 28 (F. Geografía e Historia)"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.47748012383395,
-                    28
+                    -0.361233058011854,
+                    39.47748012383395
                 ]
             }
         },
@@ -2826,13 +2834,14 @@
             "properties": {
                 "Number": "181",
                 "Name": "181_CALLE_DEL_SALINAR",
-                "Address": "Zapadores"
+                "Address": "Zapadores, 23"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.45796705574948,
-                    23
+                    -0.368282068629998,
+                    39.45796705574948
+
                 ]
             }
         },
@@ -3051,13 +3060,13 @@
             "properties": {
                 "Number": "269",
                 "Name": "269_CAMPAMENTO_81",
-                "Address": "Campamento"
+                "Address": "Campamento, 81"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.499875178486775,
-                    81
+                    -0.426354265293528,
+                    39.499875178486775
                 ]
             }
         },
@@ -3426,13 +3435,13 @@
             "properties": {
                 "Number": "90",
                 "Name": "90_AVDA. BLASCO IBAÑEZ",
-                "Address": "Blasco Ibañez"
+                "Address": "Blasco Ibañez, 32 (F. Filología)"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.47670212191253,
-                    32
+                    -0.35905805107551,
+                    39.47670212191253
                 ]
             }
         },
@@ -3741,13 +3750,14 @@
             "properties": {
                 "Number": "257",
                 "Name": "257_PLAZA_SALVADOR_SORIA_ESQ_PIO_X",
-                "Address": "Plaza Salvador Soria"
+                "Address": "Plaza Salvador Soria, 8"
             },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
-                    39.44521900594571,
-                    8
+                    -0.389195124464717,
+                    39.44521900594571
+
                 ]
             }
         },

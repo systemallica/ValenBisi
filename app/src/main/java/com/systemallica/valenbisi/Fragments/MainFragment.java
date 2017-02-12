@@ -134,7 +134,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }else{
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }
-        //mMap.setMinZoomPreference(12);
+        mMap.setMinZoomPreference(12);
 
         gps = new TrackGPS(getActivity().getApplicationContext());
 
