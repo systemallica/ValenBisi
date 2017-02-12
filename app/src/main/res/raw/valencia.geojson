@@ -1195,7 +1195,7 @@
             "properties": {
                 "Number": "70",
                 "Name": "70_CALLE_COLON_ESQ_ALMIRANTE_ROGER_DE_LAURIA",
-                "Address": "Colón"
+                "Address": "Colón, 27"
             },
             "geometry": {
                 "type": "Point",
