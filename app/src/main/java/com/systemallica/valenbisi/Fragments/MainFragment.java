@@ -1,12 +1,9 @@
 package com.systemallica.valenbisi.Fragments;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -82,18 +79,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         //Change toolbar title
         getActivity().setTitle(R.string.nav_map);
 
-        //Check internet
-        final ConnectivityManager cm =
-                (ConnectivityManager)getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        mapView.getMapAsync(this);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        final boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnected();
-
-        //React to the check
-        if(isConnected) {
-            mapView.getMapAsync(this);
-        }
     }
 
 
@@ -144,7 +131,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             latitude = gps.getLatitude();
 
         }
-
+        //39.420//39.515
+        //-0.272//-0.572
         LatLng currentLocation = new LatLng(latitude,longitude);
         LatLng valencia = new LatLng(39.479, -0.372);
 
@@ -155,9 +143,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             //Check location permission
             if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                gps.stopUsingGPS();
+                if(currentLocation.latitude>=39.515 || currentLocation.latitude<=39.420 || currentLocation.longitude>=-0.272 || currentLocation.longitude<=-0.572){
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                }else {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                    gps.stopUsingGPS();
+                }
             }else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
                 }
