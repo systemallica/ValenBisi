@@ -121,6 +121,12 @@ public class MainActivity extends AppCompatActivity
 
                     .setIcon(R.drawable.ic_report_problem_black_24dp)
                     .show();
+        }else{
+            boolean noUpdate = settings.getBoolean("noUpdate", false);
+
+            if(!noUpdate) {
+                new CheckVersion().execute();
+            }
         }
 
         boolean removedAds = settings.getBoolean("removedAds", false);
@@ -142,11 +148,7 @@ public class MainActivity extends AppCompatActivity
         mAdView.setVisibility(View.GONE);
         }
 
-        boolean noUpdate = settings.getBoolean("noUpdate", false);
 
-        if(!noUpdate) {
-            new CheckVersion().execute();
-        }
 
     }
 
