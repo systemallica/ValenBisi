@@ -50,6 +50,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     boolean estacionesLayer = true;
     boolean onFoot = true;
     GeoJsonLayer carril = null;
+    GeoJsonLayer parking = null;
     View view;
     private TrackGPS gps;
     double longitude;
@@ -93,6 +94,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("firstTime", true).apply();
+        editor.putBoolean("firstTimeParking", true).apply();
+        //editor.putBoolean("parkingLayer", false).apply();
 
         //Check for sdk >= 23
 
@@ -163,6 +166,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         new GetStations().execute();
+        if(settings.getBoolean("parkingLayer", false)){
+            editor.putBoolean("parkingLayer", false).apply();
+            new GetParking().execute();
+        }
 
         final Button btn_carril = (Button) view.findViewById(R.id.btnCarrilToggle);
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
@@ -176,6 +183,22 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 } else {
                     btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
                     new GetLanes().execute();
+                }
+            }
+        });
+
+        final Button btn_parking = (Button) view.findViewById(R.id.btnParkingToggle);
+        final Drawable myDrawableParkingOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_local_parking_black_24dp);
+        final Drawable myDrawableParkingOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
+
+        btn_parking.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!settings.getBoolean("parkingLayer", false)) {
+                    btn_parking.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
+                    new GetParking().execute();
+                } else {
+                    btn_parking.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
+                    new GetParking().execute();
                 }
             }
         });
@@ -249,6 +272,86 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    private class GetParking extends AsyncTask<Void, Void, GeoJsonLayer> {
+
+        protected void onPreExecute(){
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            if(!settings.getBoolean("parkingLayer", false)) {
+                Snackbar.make(view, R.string.load_parking, Snackbar.LENGTH_SHORT).show();
+
+            }
+        }
+
+        @Override
+        protected GeoJsonLayer doInBackground(Void... params) {
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            boolean showFavorites = settings.getBoolean("showFavorites", false);
+
+            BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+
+            try {
+                //parking layer
+                if(settings.getBoolean("firstTimeParking", true)) {
+                    parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, getActivity().getApplicationContext());
+                    for (GeoJsonFeature feature : parking.getFeatures()) {
+                        GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                        pointStyle.setTitle(getString(R.string.parking) + " " + feature.getProperty("id"));
+                        pointStyle.setSnippet(getString(R.string.plazas) + " " + feature.getProperty("plazas"));
+                        pointStyle.setAlpha((float)0.5);
+                        pointStyle.setIcon(icon_blue);
+
+                        boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
+
+                        //Apply full opacity to fav stations
+                        if(currentStationIsFav){
+                            pointStyle.setAlpha(1);
+                        }
+
+                        //If favorites r selected, hide the rest
+                        if(showFavorites){
+                            if(!currentStationIsFav){
+                                pointStyle.setVisible(false);
+                            }
+                        }
+                        feature.setPointStyle(pointStyle);
+
+                    }
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("firstTimeParking", false).apply();
+                }
+
+            } catch (IOException e) {
+
+                Log.e(mLogTag, "GeoJSON file could not be read");
+
+            } catch (JSONException e) {
+
+                Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
+            }
+
+            return parking;
+        }
+
+        protected void onPostExecute(GeoJsonLayer parking) {
+
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            if(!settings.getBoolean("parkingLayer", false)) {
+                parking.addLayerToMap();
+
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("parkingLayer", true).apply();
+            }else{
+                parking.removeLayerFromMap();
+
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("parkingLayer", false).apply();
+                editor.putBoolean("firstTimeParking", true).apply();
+
+            }
+
+        }
+    }
+
     private class GetStations extends AsyncTask<Void, Void, GeoJsonLayer> {
 
         //Load default marker icons
@@ -301,7 +404,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                                 GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                                 pointStyle.setTitle(feature.getProperty("Address"));
-                                pointStyle.setSnippet("Huecos: " + object.getInt("available_bike_stands") + " - Bicis: " + object.getInt("available_bikes"));
+                                pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
                                 pointStyle.setAlpha((float)0.5);
 
                                 //set markers colors depending on available bikes/stands
@@ -409,7 +512,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         //Setting correspondent icon
                         if(currentStationIsFav) {
                             btn_star.setImageDrawable(myDrawableFavOn);
-                        }else {
+                        }else{
                             btn_star.setImageDrawable(myDrawableFavOff);
                         }
 

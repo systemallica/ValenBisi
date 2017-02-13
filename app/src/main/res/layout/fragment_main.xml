@@ -20,11 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
     </FrameLayout>
 
     <Button
@@ -79,6 +74,26 @@
         android:layout_alignBaseline="@+id/btnOnFootToggle"
         android:layout_alignBottom="@+id/btnOnFootToggle"
         android:layout_toEndOf="@+id/btnOnFootToggle" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/btnParkingToggle"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/map_style_bg"
+        android:textColor="#666666"
+        android:drawableStart="@drawable/ic_local_parking_black_24dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_alignBaseline="@+id/btnRefresh"
+        android:layout_alignBottom="@+id/btnRefresh"
+        android:layout_toEndOf="@+id/btnRefresh" />
 
 </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

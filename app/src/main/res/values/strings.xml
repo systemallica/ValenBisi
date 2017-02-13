@@ -63,6 +63,7 @@
 
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
+    <string name="load_parking">Cargando parkings&#8230;</string>
 
     <string name="no_internet">No hay conexión de Internet</string>
     <string name="no_internet_message">La aplicación no funcionará sin Internet. Conéctate y reiníciala.</string>
@@ -78,5 +79,11 @@
     <string name="initialZoom">Zoom inicial</string>
     <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
     <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
+
+    <string name="spots">Huecos&#58;</string>
+    <string name="bikes">Bicis&#58;</string>
+
+    <string name="plazas">Plazas totales:</string>
+    <string name="parking">Parking bicis</string>
 
 </resources>
