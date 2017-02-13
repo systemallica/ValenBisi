@@ -54,4 +54,9 @@
     <string name="pref_initialZoom_summary_off">No es farà zoom a la posició actual al iniciar l\'app</string>
     <string name="no_internet_message">L\'app no funcionarà sense connexió a Internet. Connecta\'t i reinicia l\'app.</string>
     <string name="no_internet">No n\'hi ha connexió a Internet</string>
+    <string name="bikes">Bicis:</string>
+    <string name="load_parking">Carregant parkings&#8230;</string>
+    <string name="parking">Parking bicis</string>
+    <string name="plazas">Buits totals:</string>
+    <string name="spots">Buits:</string>
 </resources>

@@ -54,4 +54,9 @@
     <string name="update_never">Jamais</string>
     <string name="update_not_now">Pas maintenant</string>
     <string name="update_ok">D\'accord</string>
+    <string name="bikes">Vélos:</string>
+    <string name="parking">Parking vélos</string>
+    <string name="load_parking">Chargement des parkings&#8230;</string>
+    <string name="plazas">Places totales:</string>
+    <string name="spots">Places libres:</string>
 </resources>

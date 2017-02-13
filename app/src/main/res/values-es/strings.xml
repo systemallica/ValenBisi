@@ -54,4 +54,9 @@
     <string name="update_never">Nunca</string>
     <string name="update_not_now">Ahora no</string>
     <string name="update_ok">Vale</string>
+    <string name="bikes">Bicis:</string>
+    <string name="load_parking">Cargando parkings&#8230;</string>
+    <string name="parking">Parking bicis</string>
+    <string name="plazas">Plazas totales:</string>
+    <string name="spots">Huecos&#58;</string>
 </resources>

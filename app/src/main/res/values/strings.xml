@@ -81,7 +81,7 @@
     <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
 
     <string name="spots">Huecos&#58;</string>
-    <string name="bikes">Bicis&#58;</string>
+    <string name="bikes">Bicis:</string>
 
     <string name="plazas">Plazas totales:</string>
     <string name="parking">Parking bicis</string>
