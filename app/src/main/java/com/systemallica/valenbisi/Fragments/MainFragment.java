@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.geojson.GeoJsonFeature;
 import com.google.maps.android.geojson.GeoJsonLayer;
+import com.google.maps.android.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
 import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.TrackGPS;
@@ -223,7 +224,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         protected void onPreExecute(){
             SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             if(!settings.getBoolean("carrilLayer", false)) {
-                Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_LONG).show();
 
             }
         }
@@ -236,6 +237,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 //lanes layer
                 if(settings.getBoolean("firstTime", true)) {
                     carril = new GeoJsonLayer(mMap, R.raw.oficialcarril, getActivity().getApplicationContext());
+                    for (GeoJsonFeature feature : carril.getFeatures()) {
+                        GeoJsonLineStringStyle stringStyle = carril.getDefaultLineStringStyle();
+                        stringStyle.setWidth(5);
+                        feature.setLineStringStyle(stringStyle);
+                    }
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("firstTime", false).apply();
                 }
@@ -374,7 +380,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
 
-            Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
 
             // Creating service handler class instance
             WebRequest webreq = new WebRequest();
@@ -472,13 +478,23 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         protected void onPostExecute(final GeoJsonLayer layer) {
-            try {
-                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
-                voronoi.addLayerToMap();
-            }catch(JSONException e){
-                Log.e(mLogTag, "JSONArray could not be created");
-            }catch (IOException e) {
-                Log.e(mLogTag, "GeoJSON file could not be read");
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            boolean voronoiCell = settings.getBoolean("voronoiCell", false);
+            if(voronoiCell) {
+                try {
+                    final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
+                    for (GeoJsonFeature feature : voronoi.getFeatures()) {
+                        GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
+                        stringStyle.setColor(-16776961);
+                        stringStyle.setWidth(2);
+                        feature.setLineStringStyle(stringStyle);
+                    }
+                    voronoi.addLayerToMap();
+                } catch (JSONException e) {
+                    Log.e(mLogTag, "JSONArray could not be created");
+                } catch (IOException e) {
+                    Log.e(mLogTag, "GeoJSON file could not be read");
+                }
             }
             if (layer != null) {
                 if (estacionesLayer) {

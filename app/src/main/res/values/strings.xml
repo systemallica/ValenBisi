@@ -55,6 +55,10 @@
     <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
     <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
 
+    <string name="voronoi">Mostrar celdas de Voronoi</string>
+    <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
+    <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
+
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
     <string name="ad_remove">Quitar anuncios</string>
     <string name="ad_restore">Restaurar anuncios</string>

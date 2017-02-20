@@ -153,6 +153,28 @@ public class SettingsFragment extends PreferenceFragment {
                 return true;
             }
         });
+
+        //Voronoi stuff
+        final CheckBoxPreference voronoiPref = (CheckBoxPreference) findPreference("voronoiCell");
+        voronoiPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!voronoiPref.isChecked()) {
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("voronoiCell", true);
+                    editor.putBoolean("isChanged", true);
+                    editor.apply();
+                }
+                else{
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("voronoiCell", false);
+                    editor.putBoolean("isChanged", true);
+                    editor.apply();
+                }
+                return true;
+            }
+        });
     }
 }
 
