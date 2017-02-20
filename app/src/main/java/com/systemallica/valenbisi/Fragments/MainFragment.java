@@ -472,11 +472,20 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         protected void onPostExecute(final GeoJsonLayer layer) {
-
+            try {
+                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
+                voronoi.addLayerToMap();
+            }catch(JSONException e){
+                Log.e(mLogTag, "JSONArray could not be created");
+            }catch (IOException e) {
+                Log.e(mLogTag, "GeoJSON file could not be read");
+            }
             if (layer != null) {
                 if (estacionesLayer) {
                     layer.addLayerToMap();
                 }
+
+
 
 
                 mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {

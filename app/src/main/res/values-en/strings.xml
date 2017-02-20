@@ -59,4 +59,5 @@
     <string name="parking">Bike parking</string>
     <string name="plazas">Total spots:</string>
     <string name="spots">Spots:</string>
+    <string name="rate">Tap to rate the app!</string>
 </resources>

@@ -37,7 +37,7 @@
     <string name="ad_restore_hint">Oh&#8230; :( Si un jour tu changes d\'avis, il suffit de clicker sur le bouton à nouveau! </string>
     <string name="ad_restore">Rétablir les publicités</string>
     <string name="ad_reminder">(Il est nécessaire de redémarrer l\'application)</string>
-    <string name="ad_remove_hint">Ce bouton enlevera les publicités pour toujours, mais, si tu aimes mon application, laisse-lez activés s\'il te plaît, ils m\'aident à continuer à travailler sur elle.</string>
+    <string name="ad_remove_hint">Ce bouton enlevera les publicités pour toujours, mais, si tu aimes mon application, laisse-lez activées s\'il te plaît, ils m\'aident à continuer à travailler sur elle.</string>
     <string name="descStar">Icône étoile</string>
     <string name="load_lanes">Chargement des voies cyclables&#8230;</string>
     <string name="load_stations">Chargement des stations&#8230;</string>
@@ -59,4 +59,5 @@
     <string name="load_parking">Chargement des parkings&#8230;</string>
     <string name="plazas">Places totales:</string>
     <string name="spots">Places libres:</string>
+    <string name="rate">Clicke ici pour qualifier l\'appli!</string>
 </resources>

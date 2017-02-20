@@ -31,6 +31,7 @@
     <string name="thanks">Agradecimientos:</string>
     <string name="thank1" translatable="false">ArtemisSoul8</string>
     <string name="thank2" translatable="false">StackOverflow</string>
+    <string name="rate">Click aquí para calificar la app!</string>
     <string name="source">Código fuente:</string>
     <string name="contact">Contacto:</string>
     <string name="version">Versión</string>
