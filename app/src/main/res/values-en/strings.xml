@@ -60,4 +60,17 @@
     <string name="plazas">Total spots:</string>
     <string name="spots">Spots:</string>
     <string name="rate">Tap to rate the app!</string>
+    <string name="catalan">Catalan</string>
+    <string name="default_locale">System default</string>
+    <string name="language_summary">Change app language</string>
+    <string name="language">Language</string>
+    <string name="voronoi">Voronoi cells</string>
+    <string name="spanish">Spanish</string>
+    <string name="french">French</string>
+    <string name="others">Others</string>
+    <string name="english">English</string>
+    <string name="on_restart">Changes will be applied on app restart</string>
+    <string name="pref_voronoi_summary_off">Voronoi cells won\'t be displayed</string>
+    <string name="pref_voronoi_summary_on">Vorono cells will be displayed</string>
+    <string name="voronoi_info">Tap here to learn about Voronoi cells</string>
 </resources>

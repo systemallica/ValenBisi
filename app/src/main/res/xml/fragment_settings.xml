@@ -37,12 +37,16 @@
         android:defaultValue="true" />
 
     <CheckBoxPreference
-
         android:key="voronoiCell"
         android:title="@string/voronoi"
         android:summaryOff="@string/pref_voronoi_summary_off"
         android:summaryOn="@string/pref_voronoi_summary_on"
         android:defaultValue="false" />
+
+    <Preference
+        android:key="infoVoronoi"
+        android:summary="@string/voronoi_info"
+        android:icon="@drawable/ic_menu_about"/>
     </PreferenceCategory>
 
     <PreferenceCategory

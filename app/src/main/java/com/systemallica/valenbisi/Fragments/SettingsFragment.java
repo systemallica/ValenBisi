@@ -1,6 +1,8 @@
 package com.systemallica.valenbisi.Fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -173,6 +175,17 @@ public class SettingsFragment extends PreferenceFragment {
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
+                return true;
+            }
+        });
+
+        //Voronoi info
+        Preference infoVoronoi = findPreference("infoVoronoi");
+        infoVoronoi.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/Voronoi_diagram"));
+                startActivity(browserIntent);
                 return true;
             }
         });

@@ -60,4 +60,17 @@
     <string name="plazas">Places totales:</string>
     <string name="spots">Places libres:</string>
     <string name="rate">Clicke ici pour qualifier l\'appli!</string>
+    <string name="catalan">Catalan</string>
+    <string name="language">Langue</string>
+    <string name="spanish">Espagnol</string>
+    <string name="english">Anglais</string>
+    <string name="language_summary">Changer la langue de l\'appli (il est nécessaire de rédemarrer)</string>
+    <string name="french">Français</string>
+    <string name="pref_voronoi_summary_off">Les cellules de Voronoi ne se montreront pas</string>
+    <string name="others">Autres</string>
+    <string name="on_restart">Le changement s\'appliquera au redémarrage de l\'appli</string>
+    <string name="voronoi">Cellules de Voronoi</string>
+    <string name="default_locale">Par défaut</string>
+    <string name="pref_voronoi_summary_on">Les cellules de Voronoi seront montrées</string>
+    <string name="voronoi_info">Pour savoir que est-ce une cellule de Voronoi clickez ici</string>
 </resources>

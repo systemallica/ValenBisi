@@ -58,6 +58,7 @@
     <string name="voronoi">Celdas de Voronoi</string>
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
+    <string name="voronoi_info">Para saber qué es una celda de Voronoi haz click aquí</string>
 
     <string name="language">Idioma</string>
     <string name="language_summary">Cambiar el idioma de la app (requiere reinicio)</string>
