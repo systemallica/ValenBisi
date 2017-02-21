@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.v4.content.ContextCompat;
@@ -172,6 +173,19 @@ public class SettingsFragment extends PreferenceFragment {
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
+                return true;
+            }
+        });
+
+        //Language stuff
+        final ListPreference languagepref = (ListPreference) findPreference("language");
+        languagepref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String userSelectedValue = (String) newValue;
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("locale", userSelectedValue);
+                editor.apply();
                 return true;
             }
         });

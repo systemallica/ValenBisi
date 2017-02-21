@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>@string/default_locale</item>
+
+        <item>@string/spanish</item>
+
+        <item>@string/english</item>
+
+        <item>@string/french</item>
+
+        <item>@string/catalan</item>
+    </string-array>
+
+    <string-array name="languages_values">
+        <item>default_locale</item>
+
+        <item>es</item>
+
+        <item>en</item>
+
+        <item>fr</item>
+
+        <item>ca</item>
+    </string-array>
+</resources>

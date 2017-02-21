@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/nav_map"
+        android:key="pref_key_map">
 
     <CheckBoxPreference
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:key="mapView"
         android:title="@string/mapView"
         android:summaryOff="@string/pref_mapView_summary_off"
@@ -13,18 +14,6 @@
 
     <CheckBoxPreference
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:key="navBar"
-        android:title="@string/matchNavigationBar"
-        android:summaryOff="@string/pref_matchNavigationBar_summary_off"
-        android:summaryOn="@string/pref_matchNavigationBar_summary_on"
-        android:defaultValue="true" />
-
-    <CheckBoxPreference
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:key="showFavorites"
         android:title="@string/showFavourites"
         android:summaryOff="@string/pref_showFavourites_summary_off"
@@ -33,8 +22,6 @@
 
     <CheckBoxPreference
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:key="showAvailable"
         android:title="@string/showAvailable"
         android:summaryOff="@string/pref_showAvailable_summary_off"
@@ -43,8 +30,6 @@
 
     <CheckBoxPreference
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:key="initialZoom"
         android:title="@string/initialZoom"
         android:summaryOff="@string/pref_initialZoom_summary_off"
@@ -53,13 +38,42 @@
 
     <CheckBoxPreference
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:key="voronoiCell"
         android:title="@string/voronoi"
         android:summaryOff="@string/pref_voronoi_summary_off"
         android:summaryOn="@string/pref_voronoi_summary_on"
         android:defaultValue="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/others"
+        android:key="pref_key_others">
+
+    <CheckBoxPreference
+
+        android:key="navBar"
+        android:title="@string/matchNavigationBar"
+        android:summaryOff="@string/pref_matchNavigationBar_summary_off"
+        android:summaryOn="@string/pref_matchNavigationBar_summary_on"
+        android:defaultValue="true" />
+
+    <ListPreference
+
+        android:key="language"
+        android:title="@string/language"
+        android:summary="@string/language_summary"
+        android:entries="@array/languages"
+        android:entryValues="@array/languages_values"
+        android:defaultValue="default_locale"/>
+        <!--android:icon="@drawable/ic_palette_black_36dp"
+        android:dialogIcon="@drawable/ic_palette_red_36dp"
+        -->
+        <ListPreference
+
+            android:key="blank"
+            android:title=" "/>
+    </PreferenceCategory>
+
 
 
 </PreferenceScreen>

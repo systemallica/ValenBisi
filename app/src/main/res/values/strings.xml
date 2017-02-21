@@ -4,7 +4,7 @@
     <string name="playstore" translatable="false">https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
     <string name="version_web" translatable="false">https://systemallica.000webhostapp.com/version.html</string>
 
-    <string name="share">Descarga la mejor app de ValenBisi en: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
+    <string name="share">https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -55,9 +55,12 @@
     <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
     <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
 
-    <string name="voronoi">Mostrar celdas de Voronoi</string>
+    <string name="voronoi">Celdas de Voronoi</string>
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
+
+    <string name="language">Idioma</string>
+    <string name="language_summary">Cambiar el idioma de la app (requiere reinicio)</string>
 
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
     <string name="ad_remove">Quitar anuncios</string>
@@ -90,5 +93,15 @@
 
     <string name="plazas">Plazas totales:</string>
     <string name="parking">Parking bicis</string>
+
+    <string name="default_locale">Por defecto</string>
+    <string name="spanish">Español</string>
+    <string name="english">Inglés</string>
+    <string name="french">Francés</string>
+    <string name="catalan">Catalán</string>
+
+    <string name="others">Otros</string>
+
+    <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
 
 </resources>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -33,7 +34,13 @@ import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.DonateFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
+import com.systemallica.valenbisi.Fragments.MyContextWrapper;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
+
+import java.util.Locale;
+
+import static com.systemallica.valenbisi.Fragments.MyContextWrapper.getSystemLocale;
+import static com.systemallica.valenbisi.Fragments.MyContextWrapper.getSystemLocaleLegacy;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,10 +49,10 @@ public class MainActivity extends AppCompatActivity
     FragmentManager mFragmentManager;
     public static final String PREFS_NAME = "MyPrefsFile";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Context context = this;
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean navBar = settings.getBoolean("navBar", true);
@@ -147,9 +154,29 @@ public class MainActivity extends AppCompatActivity
         mAdView.loadAd(adRequest);
         mAdView.setVisibility(View.GONE);
         }
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        final SharedPreferences settings = newBase.getSharedPreferences(PREFS_NAME, 0);
+        String locale = settings.getString("locale", "default_locale");
 
+        //Get default system locale
+        Configuration config = newBase.getResources().getConfiguration();
+        Locale sysLocale = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            sysLocale = getSystemLocale(config);
+        } else {
+            sysLocale = getSystemLocaleLegacy(config);
+        }
 
+        //Apply it if user didn't specify a locale
+        if (locale.equals("default_locale")){
+            super.attachBaseContext(MyContextWrapper.wrap(newBase,sysLocale.getLanguage()));
+        //Else apply user choice
+        }else{
+            super.attachBaseContext(MyContextWrapper.wrap(newBase,locale));
+        }
     }
 
 
@@ -213,6 +240,9 @@ public class MainActivity extends AppCompatActivity
             if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
                 ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
             }
+            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
+            }
             ft.add(R.id.containerView, new SettingsFragment(), "settingsFragment");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
             ft.commit();
@@ -228,6 +258,9 @@ public class MainActivity extends AppCompatActivity
             }
             if(getFragmentManager().findFragmentByTag("aboutFragment")!=null){
                 ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
+            }
+            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
             }
             ft.add(R.id.containerView, new DonateFragment(), "donateFragment");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -253,6 +286,9 @@ public class MainActivity extends AppCompatActivity
             }
             if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
                 ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
+            }
+            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null){
+                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
             }
             ft.add(R.id.containerView, new AboutFragment(), "aboutFragment");
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
