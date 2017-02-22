@@ -25,3 +25,9 @@ It has been developed using the Material Design guidelines provided by Google, a
 If you have any problem with the app you can open an issue here on GitHub or email me at:
 
 soporte.valenbisi@gmail.com
+
+###Translations:
+
+We currently need some help translating the app to a few languages. If you are fluent in German, Italian, Portuguese, Polish, Greek or Danish please visit this page and help us:
+
+https://crowdin.com/project/map-for-valenbisi
