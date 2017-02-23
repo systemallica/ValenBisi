@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdView;
 import com.spark.submitbutton.SubmitButton;
 import com.systemallica.valenbisi.R;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class DonateFragment extends Fragment {
 
@@ -65,6 +69,7 @@ public class DonateFragment extends Fragment {
             public void onClick(View v) {
 
                 boolean removedAds = settings.getBoolean("removedAds", false);
+                AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
 
                 if(!removedAds) {
                     SharedPreferences settings1 = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
@@ -74,6 +79,9 @@ public class DonateFragment extends Fragment {
                     tv.setText(R.string.ad_restore_hint);
                     Snackbar.make(view, R.string.ads_removed, Snackbar.LENGTH_SHORT).show();
 
+                    mAdView.setVisibility(GONE);
+                    mAdView.destroy();
+
                 }
                 else{
                     SharedPreferences settings2 = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
@@ -82,6 +90,10 @@ public class DonateFragment extends Fragment {
                     editor.apply();
                     tv.setText(R.string.ad_remove_hint);
                     Snackbar.make(view, R.string.ads_restored, Snackbar.LENGTH_SHORT).show();
+
+                    if(mAdView!=null) {
+                        mAdView.setVisibility(VISIBLE);
+                    }
 
                 }
 
