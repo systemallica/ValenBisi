@@ -69,6 +69,8 @@
     <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor dejalos activados, me ayudan a seguir trabajando en ella.</string>
     <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
     <string name="ad_reminder">(Requiere reinicio)</string>
+    <string name="ads_removed">Anuncios eliminados :( reinicia la app</string>
+    <string name="ads_restored">Anuncios restaurados, gracias!</string>
 
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
@@ -100,6 +102,11 @@
     <string name="english">Inglés</string>
     <string name="french">Francés</string>
     <string name="catalan">Catalán</string>
+    <string name="default_locale_code" translatable="false">default_locale</string>
+    <string name="spanish_code" translatable="false">es</string>
+    <string name="english_code" translatable="false">en</string>
+    <string name="french_code" translatable="false">fr</string>
+    <string name="catalan_code" translatable="false">ca</string>
 
     <string name="others">Otros</string>
 

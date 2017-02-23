@@ -3,12 +3,13 @@ package com.systemallica.valenbisi.Fragments;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.spark.submitbutton.SubmitButton;
 import com.systemallica.valenbisi.R;
 
 public class DonateFragment extends Fragment {
@@ -37,7 +38,7 @@ public class DonateFragment extends Fragment {
         getActivity().setTitle(R.string.nav_donate);
 
         TextView tv = (TextView)view.findViewById(R.id.textRemove);
-        final Button btn_buy = (Button) view.findViewById(R.id.btn_buy);
+        final SubmitButton  btn_buy = (SubmitButton ) view.findViewById(R.id.btn_buy);
         SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         boolean removedAds = settings.getBoolean("removedAds", false);
 
@@ -54,7 +55,7 @@ public class DonateFragment extends Fragment {
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState){
-        final Button btn_buy = (Button) view.findViewById(R.id.btn_buy);
+        final SubmitButton btn_buy = (SubmitButton ) view.findViewById(R.id.btn_buy);
 
         btn_buy.setOnClickListener(new View.OnClickListener() {
 
@@ -70,8 +71,8 @@ public class DonateFragment extends Fragment {
                     SharedPreferences.Editor editor = settings1.edit();
                     editor.putBoolean("removedAds", true);
                     editor.apply();
-                    btn_buy.setText(R.string.ad_restore);
                     tv.setText(R.string.ad_restore_hint);
+                    Snackbar.make(view, R.string.ads_removed, Snackbar.LENGTH_SHORT).show();
 
                 }
                 else{
@@ -79,8 +80,8 @@ public class DonateFragment extends Fragment {
                     SharedPreferences.Editor editor = settings2.edit();
                     editor.putBoolean("removedAds", false);
                     editor.apply();
-                    btn_buy.setText(R.string.ad_remove);
                     tv.setText(R.string.ad_remove_hint);
+                    Snackbar.make(view, R.string.ads_restored, Snackbar.LENGTH_SHORT).show();
 
                 }
 

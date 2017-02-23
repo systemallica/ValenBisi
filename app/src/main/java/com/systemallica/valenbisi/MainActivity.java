@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity
             // Creating service handler class instance
             WebRequest webreq = new WebRequest();
             // Making a request to url and getting response
-            return webreq.makeWebServiceCall("https://systemallica.000webhostapp.com/version.html", WebRequest.GET);
+            return webreq.makeWebServiceCall("https://raw.githubusercontent.com/systemallica/ValenBisi/master/Version", WebRequest.GET);
    }
 
         protected void onPostExecute(final String latestVersion) {
