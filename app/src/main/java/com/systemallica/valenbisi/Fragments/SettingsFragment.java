@@ -199,6 +199,27 @@ public class SettingsFragment extends PreferenceFragment {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("locale", userSelectedValue);
                 editor.apply();
+
+                //String locale = settings.getString("locale", "default_locale");
+
+//                //Get default system locale
+//                Configuration config = getActivity().getApplicationContext().getResources().getConfiguration();
+//                Locale sysLocale = null;
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                    sysLocale = getSystemLocale(config);
+//                } else {
+//                    sysLocale = getSystemLocaleLegacy(config);
+//                }
+//
+//                //Apply it if user didn't specify a locale
+//                if (locale.equals("default_locale")){
+//                    MyContextWrapper.setSystemLocale(locale);
+//                    locale
+//                    //Else apply user choice
+//                }else{
+//                    MyContextWrapper.wrap(getActivity().getApplicationContext(),locale);
+//                }
+
                 return true;
             }
         });

@@ -158,6 +158,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void attachBaseContext(Context newBase) {
+
+        //Changing language
         final SharedPreferences settings = newBase.getSharedPreferences(PREFS_NAME, 0);
         String locale = settings.getString("locale", "default_locale");
 

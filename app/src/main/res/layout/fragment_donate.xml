@@ -28,6 +28,7 @@
         android:id="@+id/textRemove"
         android:layout_margin="20dp"
         android:layout_above="@+id/btn_buy"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
 
 </RelativeLayout>

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 6
         versionName "1.5.2"
@@ -33,12 +33,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
-    compile 'com.google.android.gms:play-services:10.2.0'
-    compile 'com.google.android.gms:play-services-ads:10.2.0'
-    compile 'com.google.firebase:firebase-core:9.2.0'
-    compile 'com.google.firebase:firebase-ads:9.2.0'
+    compile 'com.google.android.gms:play-services:10.0.1'
+    compile 'com.google.android.gms:play-services-ads:10.0.1'
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-ads:10.0.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
+
     compile 'me.spark:submitbutton:1.0.1'
 }
 

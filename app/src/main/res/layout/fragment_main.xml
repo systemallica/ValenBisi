@@ -14,13 +14,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.systemallica.valenbisi.Fragments.MainFragment" >
 
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnCarrilToggle"
@@ -74,13 +73,6 @@
         android:layout_alignBaseline="@+id/btnOnFootToggle"
         android:layout_alignBottom="@+id/btnOnFootToggle"
         android:layout_toEndOf="@+id/btnOnFootToggle" />
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnParkingToggle"

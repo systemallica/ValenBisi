@@ -159,8 +159,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         }else{
             if (initialZoom && gps.canGetLocation()) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                gps.stopUsingGPS();
+                if(currentLocation.latitude>=39.515 || currentLocation.latitude<=39.420 || currentLocation.longitude>=-0.272 || currentLocation.longitude<=-0.572){
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                }else {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                    gps.stopUsingGPS();
+                }
             } else {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
             }
