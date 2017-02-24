@@ -73,4 +73,6 @@
     <string name="pref_voronoi_summary_off">No es mostraràn les cel·les de Voronoi</string>
     <string name="pref_voronoi_summary_on">Es mostraràn les cel·les de Voronoi</string>
     <string name="voronoi_info">Per saver qué es una cel·la de Voronoi feu click ací</string>
+    <string name="ads_removed">Anuncis eliminats :(</string>
+    <string name="ads_restored">Anuncis restaurats, gracies!</string>
 </resources>
