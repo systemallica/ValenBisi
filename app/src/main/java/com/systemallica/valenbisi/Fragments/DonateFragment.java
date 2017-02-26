@@ -80,7 +80,6 @@ public class DonateFragment extends Fragment {
                     Snackbar.make(view, R.string.ads_removed, Snackbar.LENGTH_SHORT).show();
 
                     mAdView.setVisibility(GONE);
-                    mAdView.destroy();
 
                 }
                 else{
@@ -88,7 +87,7 @@ public class DonateFragment extends Fragment {
                     SharedPreferences.Editor editor = settings2.edit();
                     editor.putBoolean("removedAds", false);
                     editor.apply();
-                    tv.setText(R.string.ad_remove_hint);
+                    tv.setText(R.string.ads_restored);
                     Snackbar.make(view, R.string.ads_restored, Snackbar.LENGTH_SHORT).show();
 
                     if(mAdView!=null) {
