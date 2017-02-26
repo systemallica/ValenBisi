@@ -110,5 +110,6 @@
     <string name="others">Otros</string>
 
     <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
+    <string name="ad_reminder">(Requiere reinicio)</string>
 
 </resources>
