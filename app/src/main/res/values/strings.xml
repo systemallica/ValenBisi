@@ -112,4 +112,11 @@
     <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
     <string name="ad_reminder">(Requiere reinicio)</string>
 
+    <string name="purchase_failed">Vaya, algo ha salido mal en el proceso de compra! :(</string>
+    <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
+    <string name="donate">Si lo prefieres, puedes hacerme una pequeña donación que eliminará los anuncios y me dará ánimos para seguir</string>
+    <string name="donator">Ya has donado! :)</string>
+    <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
+    <string name="donar">Donar</string>
+
 </resources>

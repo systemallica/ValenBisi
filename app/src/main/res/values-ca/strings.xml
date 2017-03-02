@@ -75,4 +75,10 @@
     <string name="voronoi_info">Per saver qué es una cel·la de Voronoi feu click ací</string>
     <string name="ads_removed">Anuncis eliminats :(</string>
     <string name="ads_restored">Anuncis restaurats, gracies!</string>
+    <string name="donar">Donar</string>
+    <string name="donate">Si ho prefereixes, pots fer-me una xicoteta donació que eliminarà el anuncis y em donarà ànims per a seguir</string>
+    <string name="purchase_success">Moltíssimes gracies per la teua donació! :D</string>
+    <string name="purchase_failed">Oh, alguna cosa ha surtit malament durant el procés de compra! :(</string>
+    <string name="donator">Ja has donat!</string>
+    <string name="donator_thanks">Gracies per la teua donació. Gaudeix de l\'aplicació sense anuncis y sabent que m\'has ajudat!</string>
 </resources>

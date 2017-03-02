@@ -1,15 +1,25 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.systemallica.valenbisi.Fragments.AboutFragment">
 
-    <com.spark.submitbutton.SubmitButton
-        android:id="@+id/btn_buy"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+    <TextView
+        android:text="@string/ad_remove_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textRemove"
+        android:textAlignment="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="35dp" />
 
+    <com.spark.submitbutton.SubmitButton
+        android:id="@+id/btn_remove_ads"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/ad_remove"
@@ -18,17 +28,30 @@
         app:sub_btn_duration="1500"
         app:sub_btn_line_color="@color/colorPrimary"
         app:sub_btn_ripple_color="@color/colorPrimary"
-        app:sub_btn_tick_color="@color/white" />
-
-    <TextView
-        android:text="@string/ad_remove_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:id="@+id/textRemove"
-        android:layout_margin="20dp"
-        android:layout_above="@+id/btn_buy"
-        android:layout_centerHorizontal="true"
+        app:sub_btn_tick_color="@color/white"
         android:textAlignment="center" />
 
-</RelativeLayout>
+    <TextView
+        android:text="@string/donate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textDonate"
+        android:textAlignment="center"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <com.spark.submitbutton.SubmitButton
+        android:id="@+id/btn_buy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/donar"
+        android:textColor="@color/gray"
+        app:sub_btn_background="@color/white"
+        app:sub_btn_duration="1500"
+        app:sub_btn_line_color="@color/colorPrimary"
+        app:sub_btn_ripple_color="@color/colorPrimary"
+        app:sub_btn_tick_color="@color/white" />
+
+
+</LinearLayout>

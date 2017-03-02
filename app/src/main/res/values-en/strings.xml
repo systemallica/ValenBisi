@@ -75,4 +75,10 @@
     <string name="voronoi_info">Tap here to learn about Voronoi cells</string>
     <string name="ads_removed">Ads removed :(</string>
     <string name="ads_restored">Ads restored, thank you!</string>
+    <string name="donar">Donate</string>
+    <string name="donate">If you prefer, you can make a little donation, which will remove ads forever and it will inspire me to keep working on the app</string>
+    <string name="donator">You have already donated! :)</string>
+    <string name="donator_thanks">Thanks for your donation. Enjoy the app free of ads and knowing that you have helped me!</string>
+    <string name="purchase_failed">Oops, something went wrong during the process! :(</string>
+    <string name="purchase_success">Thank you deeply for your donation! :D</string>
 </resources>

@@ -29,32 +29,37 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.android.trivialdrivesample.util.IabException;
+import com.example.android.trivialdrivesample.util.IabHelper;
+import com.example.android.trivialdrivesample.util.IabResult;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.DonateFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
-import com.systemallica.valenbisi.Fragments.MyContextWrapper;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
 import java.util.Locale;
 
-import static com.systemallica.valenbisi.Fragments.MyContextWrapper.getSystemLocale;
-import static com.systemallica.valenbisi.Fragments.MyContextWrapper.getSystemLocaleLegacy;
+import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocale;
+import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocaleLegacy;
+import static com.systemallica.valenbisi.R.layout.activity_main;
+
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, IabHelper.OnIabSetupFinishedListener {
 
     NavigationView navigationView;
     FragmentManager mFragmentManager;
     public static final String PREFS_NAME = "MyPrefsFile";
+    private IabHelper billingHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Context context = this;
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
         boolean navBar = settings.getBoolean("navBar", true);
 
         int colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         //set view to main
-        setContentView(R.layout.activity_main);
+        setContentView(activity_main);
 
         //init toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -136,24 +141,57 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        boolean removedAds = settings.getBoolean("removedAds", false);
+        boolean donationPurchased = settings.getBoolean("donationPurchased", false);
 
         //Ads management
         AdView mAdView = (AdView) findViewById(R.id.adView);
-
-        if(removedAds){
-            mAdView.destroy();
+        if(!donationPurchased) {
+            //Ad request and load
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
             mAdView.setVisibility(View.GONE);
         }
-        else {
-        //Ad request and load
-        //mAdView.setVisibility(View.VISIBLE);
-        AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice("6BB60830FFEC02110221CD0A1878D464")
-                .build();
-        mAdView.loadAd(adRequest);
-        mAdView.setVisibility(View.GONE);
+
+        boolean firstLaunch = settings.getBoolean("firstLaunch", true);
+        //License management
+        if (firstLaunch) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("firstLaunch", false);
+            editor.apply();
+
+            String clave = Donation.clave;
+            billingHelper = new IabHelper(context, clave);
+            billingHelper.startSetup(this);
+         }
+    }
+
+    @Override
+    public void onIabSetupFinished(IabResult result) {
+        //Context context = this;
+        if (result.isSuccess()) {
+
+            try{
+                if(billingHelper.queryInventory(true, null).hasPurchase(Donation.donation)){
+                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putBoolean("donationPurchased", true);
+                    editor.apply();
+
+                    if (billingHelper != null) {
+                        billingHelper.dispose();
+                    }
+                    billingHelper = null;
+                }
+                //else{
+                    //Toast.makeText(context, "No tienes la donacion", Toast.LENGTH_LONG).show();
+                //}
+            } catch(IabException e){
+                e.printStackTrace();
+            }
         }
+        //else{
+            //Toast.makeText(context, "Error al iniciar el proceso", Toast.LENGTH_LONG).show();
+        //}
     }
 
     @Override

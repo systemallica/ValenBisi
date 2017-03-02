@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Fragments;
+package com.systemallica.valenbisi;
 
 /**
  * Created by Andrés on 21/02/2017.

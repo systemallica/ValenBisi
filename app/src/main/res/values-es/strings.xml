@@ -75,4 +75,10 @@
     <string name="voronoi_info">Para saber qué es una celda de Voronoi haz click aquí</string>
     <string name="ads_removed">Anuncios eliminados :(</string>
     <string name="ads_restored">Anuncios restaurados, gracias!</string>
+    <string name="donar">Donar</string>
+    <string name="donate">Si lo prefieres, puedes hacerme una pequeña donación que eliminará los anuncios y me dará ánimos para seguir</string>
+    <string name="donator">Ya has donado! :)</string>
+    <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
+    <string name="purchase_failed">Vaya, algo ha salido mal en el proceso de compra! :(</string>
+    <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
 </resources>
