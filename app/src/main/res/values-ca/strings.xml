@@ -81,4 +81,5 @@
     <string name="purchase_failed">Oh, alguna cosa ha surtit malament durant el procés de compra! :(</string>
     <string name="donator">Ja has donat!</string>
     <string name="donator_thanks">Gracies per la teua donació. Gaudeix de l\'aplicació sense anuncis y sabent que m\'has ajudat!</string>
+    <string name="license">Llicència correcta</string>
 </resources>

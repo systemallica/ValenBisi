@@ -2,11 +2,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/nav_map"
-        android:key="pref_key_map">
+        android:key="pref_key_map"
+        android:defaultValue="false">
 
     <CheckBoxPreference
 
-        android:key="mapView"
+        android:key="initialZoom"
+        android:title="@string/initialZoom"
+        android:summaryOff="@string/pref_initialZoom_summary_off"
+        android:summaryOn="@string/pref_initialZoom_summary_on"
+        android:defaultValue="true" />
+
+    <CheckBoxPreference
+
+        android:key="satellite"
         android:title="@string/mapView"
         android:summaryOff="@string/pref_mapView_summary_off"
         android:summaryOn="@string/pref_mapView_summary_on"
@@ -28,20 +37,14 @@
         android:summaryOn="@string/pref_showAvailable_summary_on"
         android:defaultValue="false" />
 
-    <CheckBoxPreference
 
-        android:key="initialZoom"
-        android:title="@string/initialZoom"
-        android:summaryOff="@string/pref_initialZoom_summary_off"
-        android:summaryOn="@string/pref_initialZoom_summary_on"
-        android:defaultValue="true" />
 
     <CheckBoxPreference
         android:key="voronoiCell"
         android:title="@string/voronoi"
         android:summaryOff="@string/pref_voronoi_summary_off"
         android:summaryOn="@string/pref_voronoi_summary_on"
-        android:defaultValue="false" />
+        android:defaultValue="false"/>
 
     <Preference
         android:key="infoVoronoi"
@@ -68,10 +71,7 @@
         android:summary="@string/language_summary"
         android:entries="@array/languages"
         android:entryValues="@array/languages_values"
-        android:defaultValue="default_locale"/>
-        <!--android:icon="@drawable/ic_palette_black_36dp"
-        android:dialogIcon="@drawable/ic_palette_red_36dp"
-        -->
+        android:defaultValue="@string/default_locale_code"/>
         <ListPreference
 
             android:key="blank"

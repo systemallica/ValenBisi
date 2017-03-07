@@ -69,7 +69,7 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
         //Satellite stuff
-        final CheckBoxPreference satelliteViewPref = (CheckBoxPreference) findPreference("mapView");
+        final CheckBoxPreference satelliteViewPref = (CheckBoxPreference) findPreference("satellite");
 
         satelliteViewPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
@@ -77,13 +77,13 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!satelliteViewPref.isChecked()) {
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("mapView", true);
+                    editor.putBoolean("satellite", true);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("mapView", false);
+                    editor.putBoolean("satellite", false);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
@@ -200,27 +200,7 @@ public class SettingsFragment extends PreferenceFragment {
                 editor.putString("locale", userSelectedValue);
                 editor.apply();
 
-                //String locale = settings.getString("locale", "default_locale");
-
-//                //Get default system locale
-//                Configuration config = getActivity().getApplicationContext().getResources().getConfiguration();
-//                Locale sysLocale = null;
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    sysLocale = getSystemLocale(config);
-//                } else {
-//                    sysLocale = getSystemLocaleLegacy(config);
-//                }
-//
-//                //Apply it if user didn't specify a locale
-//                if (locale.equals("default_locale")){
-//                    MyContextWrapper.setSystemLocale(locale);
-//                    locale
-//                    //Else apply user choice
-//                }else{
-//                    MyContextWrapper.wrap(getActivity().getApplicationContext(),locale);
-//                }
-
-                return true;
+               return true;
             }
         });
     }

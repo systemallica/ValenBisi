@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,6 +33,7 @@ import android.view.View;
 import com.example.android.trivialdrivesample.util.IabException;
 import com.example.android.trivialdrivesample.util.IabHelper;
 import com.example.android.trivialdrivesample.util.IabResult;
+import com.example.android.trivialdrivesample.util.Purchase;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
@@ -41,23 +43,25 @@ import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
 import java.util.Locale;
 
+import static android.view.View.GONE;
 import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocale;
 import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocaleLegacy;
 import static com.systemallica.valenbisi.R.layout.activity_main;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, IabHelper.OnIabSetupFinishedListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener, IabHelper.OnIabSetupFinishedListener, IabHelper.OnIabPurchaseFinishedListener {
+    //, IabHelper.OnIabSetupFinishedListener
     NavigationView navigationView;
     FragmentManager mFragmentManager;
     public static final String PREFS_NAME = "MyPrefsFile";
     private IabHelper billingHelper;
+    Context context = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Context context = this;
+        context = this;
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         boolean navBar = settings.getBoolean("navBar", true);
@@ -149,49 +153,136 @@ public class MainActivity extends AppCompatActivity
             //Ad request and load
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
-            mAdView.setVisibility(View.GONE);
+            mAdView.setVisibility(GONE);
         }
 
         boolean firstLaunch = settings.getBoolean("firstLaunch", true);
         //License management
         if (firstLaunch) {
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("firstLaunch", false);
-            editor.apply();
 
             String clave = Donation.clave;
             billingHelper = new IabHelper(context, clave);
             billingHelper.startSetup(this);
          }
+
     }
+
+    public void startBuyProcess(){
+        String clave = Donation.clave;
+        billingHelper = new IabHelper(context, clave);
+        billingHelper.startSetup(this);
+    }
+
+
 
     @Override
     public void onIabSetupFinished(IabResult result) {
-        //Context context = this;
         if (result.isSuccess()) {
 
             try{
-                if(billingHelper.queryInventory(true, null).hasPurchase(Donation.donation)){
-                    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                boolean firstLaunch = settings.getBoolean("firstLaunch", true);
+                if(firstLaunch){
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putBoolean("donationPurchased", true);
-                    editor.apply();
+                    if(billingHelper.queryInventory(true, null).hasPurchase(Donation.donation)) {
+                        //How-to consume purchase if already made
+                        //Inventory a = billingHelper.queryInventory(true, null);
+                        //Purchase item = a.getPurchase(Donation.donation);
+                        //billingHelper.consumeAsync(item, null);
 
+                        editor.putBoolean("donationPurchased", true);
+                        editor.apply();
+
+                        Snackbar.make(this.findViewById(android.R.id.content), R.string.license, Snackbar.LENGTH_LONG).show();
+                    }
+                    editor.putBoolean("firstLaunch", false);
+                    editor.apply();
                     if (billingHelper != null) {
                         billingHelper.dispose();
                     }
                     billingHelper = null;
+                }else {
+                    if (!billingHelper.queryInventory(true, null).hasPurchase(Donation.donation)) {
+                        compraElemento();
+                    }
                 }
-                //else{
-                    //Toast.makeText(context, "No tienes la donacion", Toast.LENGTH_LONG).show();
-                //}
+
             } catch(IabException e){
                 e.printStackTrace();
             }
+
+        } else {
+
+            errorAlIniciar();
         }
-        //else{
-            //Toast.makeText(context, "Error al iniciar el proceso", Toast.LENGTH_LONG).show();
-        //}
+
+    }
+
+
+    protected void errorAlIniciar() {
+        Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_failed, Snackbar.LENGTH_SHORT).show();
+    }
+
+
+    protected void compraElemento() {
+        purchaseItem(Donation.donation);
+    }
+
+
+    protected void purchaseItem(String sku) {
+        billingHelper.launchPurchaseFlow(this, sku, 123, this);
+    }
+
+
+    @Override
+    public void onIabPurchaseFinished(IabResult result, Purchase info) {
+        if (result.isFailure()) {
+            compraFallida();
+        } else {
+            compraCorrecta(result, info);
+        }
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // Pass on the activity result to the helper for handling
+        if (!billingHelper.handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    protected void compraCorrecta(IabResult result, Purchase info){
+
+        // Consumimos los elementos a fin de poder probar varias compras
+        //billingHelper.consumeAsync(info, null);
+        Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_success, Snackbar.LENGTH_SHORT).show();
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("donationPurchased", true);
+        editor.apply();
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        if(mAdView!=null) {
+            mAdView.setVisibility(GONE);
+            mAdView.destroy();
+        }
+        if (billingHelper != null) {
+            billingHelper.dispose();
+        }
+        billingHelper = null;
+    }
+
+    protected void compraFallida(){
+        Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_failed, Snackbar.LENGTH_SHORT).show();
+        if (billingHelper != null) {
+            billingHelper.dispose();
+        }
+        billingHelper = null;
     }
 
     @Override
@@ -203,7 +294,7 @@ public class MainActivity extends AppCompatActivity
 
         //Get default system locale
         Configuration config = newBase.getResources().getConfiguration();
-        Locale sysLocale = null;
+        Locale sysLocale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             sysLocale = getSystemLocale(config);
         } else {
@@ -237,13 +328,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         AdView mAdView = (AdView) findViewById(R.id.adView);
 
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        boolean removedAds = settings.getBoolean("donationPurchased", false);
+
         if (id == R.id.nav_map) {
 
-            mAdView.setVisibility(View.GONE);
+            mAdView.setVisibility(GONE);
 
             //Change toolbar title
             this.setTitle(R.string.nav_map);
-            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
             SharedPreferences.Editor editor = settings.edit();
             boolean isChanged = settings.getBoolean("isChanged", false);
 
@@ -270,7 +363,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
 
-            mAdView.setVisibility(View.VISIBLE);
+            if(!removedAds) {
+                mAdView.setVisibility(View.VISIBLE);
+            }
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
@@ -289,7 +384,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_donate) {
 
-            mAdView.setVisibility(View.VISIBLE);
+            if(!removedAds) {
+                mAdView.setVisibility(View.VISIBLE);
+            }
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
@@ -308,16 +405,21 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT,
-                    R.string.share);
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
+            try {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                String sAux = "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi";
+                i.putExtra(Intent.EXTRA_TEXT, sAux);
+                startActivity(i);
+            } catch(Exception e) {
+                //e.toString();
+            }
 
         } else if (id == R.id.nav_about) {
 
-            mAdView.setVisibility(View.VISIBLE);
+            if(!removedAds) {
+                mAdView.setVisibility(View.VISIBLE);
+            }
 
             FragmentTransaction ft = mFragmentManager.beginTransaction();
             ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
@@ -394,5 +496,18 @@ public class MainActivity extends AppCompatActivity
                         .show();
             }
         }
+    }
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+        disposeBillingHelper();
+    }
+
+    private void disposeBillingHelper() {
+        if (billingHelper != null) {
+            billingHelper.dispose();
+        }
+        billingHelper = null;
     }
 }

@@ -81,4 +81,5 @@
     <string name="donator_thanks">Merci pour ta donation. Profite de l\'appli sans pubs et en sachant que tu m\'as aidé!</string>
     <string name="purchase_failed">Oh, quelque chose n\'a pas marché pendant l\'achat! :(</string>
     <string name="purchase_success">Merci beaucoup pour ta donation! :D</string>
+    <string name="license">Licence ok</string>
 </resources>

@@ -91,7 +91,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         mMap = googleMap;
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-        boolean mapView = settings.getBoolean("mapView", false);
+        boolean satellite = settings.getBoolean("satellite", false);
 
         SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("firstTime", true).apply();
@@ -99,6 +99,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         //editor.putBoolean("parkingLayer", false).apply();
 
         //Check for sdk >= 23
+
 
         if(Build.VERSION.SDK_INT >= 23) {
             //Check location permission
@@ -120,10 +121,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mapSettings.setZoomControlsEnabled(true);
 
         //Set type of map and min zoom
-        if(mapView){
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        }else{
+        if(!satellite){
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        }else{
+            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         }
         mMap.setMinZoomPreference(12);
 

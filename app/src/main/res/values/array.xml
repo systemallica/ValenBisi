@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="languages">
-        <item>@string/default_locale</item>
+        <item name="default_locale">@string/default_locale</item>
 
         <item>@string/spanish</item>
 

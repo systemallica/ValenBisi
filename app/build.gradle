@@ -8,9 +8,8 @@ android {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 10
-        versionName "1.6.0-alfa3"
-        multiDexEnabled true
+        versionCode 25
+        versionName "1.6.0-RC7"
     }
     buildTypes {
         release {
@@ -34,10 +33,7 @@ dependencies {
     compile 'com.android.support:design:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.google.android.gms:play-services-maps:10.2.0'
-    compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.maps.android:android-maps-utils:0.4.4'
     compile 'me.spark:submitbutton:1.0.1'
     compile 'com.google.firebase:firebase-ads:10.2.0'
 }
-
-apply plugin: 'com.google.gms.google-services'
