@@ -15,7 +15,7 @@ import com.systemallica.valenbisi.R;
 
 public class AboutFragment extends Fragment {
     ImageView github;
-    TextView version1, rate;
+    TextView version1, rate, email;
 
     public AboutFragment() {
         // Required empty public constructor
@@ -40,6 +40,16 @@ public class AboutFragment extends Fragment {
             public void onClick(View v)  {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/systemallica/ValenBisi"));
                 startActivity(browserIntent);
+            }
+        });
+
+        //Open email app
+        email = (TextView)view.findViewById(R.id.email);
+        email.setOnClickListener(new View.OnClickListener()   {
+            public void onClick(View v)  {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:soporte.valenbisi@gmail.com"));
+                startActivity(emailIntent);
             }
         });
 
