@@ -847,21 +847,6 @@
         {
             "type": "Feature",
             "properties": {
-                "Number": "32",
-                "Name": "032_C/ CONDE DE ALTEA",
-                "Address": "Conde Altea - Almirante Cadarso"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -0.368338073115823,
-                    39.4659740827401
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
                 "Number": "79",
                 "Name": "079_AVDA. ARAGON II",
                 "Address": "Aragón - Ernesto Ferrer"
@@ -3532,21 +3517,6 @@
                 "coordinates": [
                     -0.402831173069948,
                     39.459474049657025
-                ]
-            }
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "Number": "35",
-                "Name": "35_C/ DUQUE DE CALABRIA",
-                "Address": "Regne de Valencia - Almirante Cadarso"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
-                    -0.367085068143159,
-                    39.46371707553277
                 ]
             }
         },
