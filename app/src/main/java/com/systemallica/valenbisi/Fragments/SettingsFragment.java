@@ -27,6 +27,7 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences.Editor editor = settings.edit();
 
         //Change toolbar title
         getActivity().setTitle(R.string.nav_settings);
@@ -45,14 +46,11 @@ public class SettingsFragment extends PreferenceFragment {
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                     if (!navBarPref.isChecked()) {
-
-                        SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("navBar", true);
                         editor.apply();
                         getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorPrimary));
                     }
                     else{
-                        SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("navBar", false);
                         editor.apply();
                         getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.black));
@@ -76,13 +74,11 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!satelliteViewPref.isChecked()) {
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("satellite", true);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("satellite", false);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
@@ -100,13 +96,11 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!showFavoritesPref.isChecked()) {
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("showFavorites", true);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("showFavorites", false);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
@@ -122,13 +116,11 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!showAvailablesPref.isChecked()) {
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("showAvailable", true);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("showAvailable", false);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
@@ -144,12 +136,10 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!initialZoomPref.isChecked()) {
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("initialZoom", true);
                     editor.apply();
                 }
                 else{
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("initialZoom", false);
                     editor.apply();
                 }
@@ -164,13 +154,11 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!voronoiPref.isChecked()) {
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("voronoiCell", true);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("voronoiCell", false);
                     editor.putBoolean("isChanged", true);
                     editor.apply();
@@ -196,7 +184,6 @@ public class SettingsFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String userSelectedValue = (String) newValue;
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putString("locale", userSelectedValue);
                 editor.apply();
 
