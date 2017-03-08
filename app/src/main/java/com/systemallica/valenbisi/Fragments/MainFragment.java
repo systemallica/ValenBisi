@@ -371,6 +371,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
 
         //BitmapDescriptor icon_reed = (BitmapDescriptorFactory.fromResource(R.drawable.splash_inverted));
 
@@ -394,77 +395,84 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             // Making a request to url and getting response
             String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
 
-
+            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+            boolean showAvailable = settings.getBoolean("showAvailable", false);
 
             try {
                 if(!jsonStr.equals("")) {
                     JSONArray array = new JSONArray(jsonStr);
+                    boolean alone;
 
                     final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
 
-                    for (int counter = 0; counter < array.length(); counter++) {
+                    for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
+                        alone = true;
+                            for (int counter = 0; counter < array.length(); counter++) {
+                                JSONObject object = array.getJSONObject(counter);
+                                //Add each number and address to its correspondent marker
 
-                        JSONObject object = array.getJSONObject(counter);
+                                if (object.getString("number").equals(feature.getProperty("Number"))) {
+                                    alone = false;
+                                    GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                                    pointStyle.setTitle(feature.getProperty("Address"));
+                                    pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
+                                    pointStyle.setAlpha((float)0.5);
 
-                        for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
-                            //Add each number and address to its correspondent marker
+                                    //set markers colors depending on available bikes/stands
+                                    if (onFoot) {
+                                        if (object.getInt("available_bikes") == 0) {
+                                            pointStyle.setIcon(icon_red);
+                                            if(showAvailable){
+                                                pointStyle.setVisible(false);
+                                            }
+                                        } else if (object.getInt("available_bikes") < 5) {
+                                            pointStyle.setIcon(icon_orange);
+                                        } else if (object.getInt("available_bikes") < 10) {
+                                            pointStyle.setIcon(icon_yellow);
+                                        } else {
+                                            pointStyle.setIcon(icon_green);
+                                        }
+                                    } else {
+                                        if (object.getInt("available_bike_stands") == 0) {
+                                            pointStyle.setIcon(icon_red);
+                                            if(showAvailable){
+                                                pointStyle.setVisible(false);
+                                            }
+                                        } else if (object.getInt("available_bike_stands") < 5) {
+                                            pointStyle.setIcon(icon_orange);
+                                        } else if (object.getInt("available_bike_stands") < 10) {
+                                            pointStyle.setIcon(icon_yellow);
+                                        } else {
+                                            pointStyle.setIcon(icon_green);
+                                        }
+                                    }
 
-                            if (object.getString("number").equals(feature.getProperty("Number"))) {
+                                    boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                    boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
 
-                                SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-                                boolean showAvailable = settings.getBoolean("showAvailable", false);
+                                    //Apply full opacity to fav stations
+                                    if(currentStationIsFav){
+                                        pointStyle.setAlpha(1);
+                                    }
 
-                                GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                                pointStyle.setTitle(feature.getProperty("Address"));
-                                pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
-                                pointStyle.setAlpha((float)0.5);
-
-                                //set markers colors depending on available bikes/stands
-                                if (onFoot) {
-                                    if (object.getInt("available_bikes") == 0) {
-                                        pointStyle.setIcon(icon_red);
-                                        if(showAvailable){
+                                    //If favorites r selected, hide the rest
+                                    if(showFavorites){
+                                        if(!currentStationIsFav){
                                             pointStyle.setVisible(false);
                                         }
-                                    } else if (object.getInt("available_bikes") < 5) {
-                                        pointStyle.setIcon(icon_orange);
-                                    } else if (object.getInt("available_bikes") < 10) {
-                                        pointStyle.setIcon(icon_yellow);
-                                    } else {
-                                        pointStyle.setIcon(icon_green);
                                     }
-                                } else {
-                                    if (object.getInt("available_bike_stands") == 0) {
-                                        pointStyle.setIcon(icon_red);
-                                        if(showAvailable){
-                                            pointStyle.setVisible(false);
-                                        }
-                                    } else if (object.getInt("available_bike_stands") < 5) {
-                                        pointStyle.setIcon(icon_orange);
-                                    } else if (object.getInt("available_bike_stands") < 10) {
-                                        pointStyle.setIcon(icon_yellow);
-                                    } else {
-                                        pointStyle.setIcon(icon_green);
-                                    }
+                                    feature.setPointStyle(pointStyle);
                                 }
-
-                                boolean showFavorites = settings.getBoolean("showFavorites", false);
-                                boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-
-                                //Apply full opacity to fav stations
-                                if(currentStationIsFav){
-                                    pointStyle.setAlpha(1);
-                                }
-
-                                //If favorites r selected, hide the rest
-                                if(showFavorites){
-                                    if(!currentStationIsFav){
-                                        pointStyle.setVisible(false);
-                                    }
-                                }
-                                feature.setPointStyle(pointStyle);
-
                             }
+                        if(alone) {
+                            GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                            pointStyle.setTitle("No data available :(");
+                            pointStyle.setSnippet("No data available :(");
+                            pointStyle.setIcon(icon_blue);
+                            if (showAvailable) {
+                                pointStyle.setVisible(false);
+                            }
+                            feature.setPointStyle(pointStyle);
                         }
                     }
                     return layer;
