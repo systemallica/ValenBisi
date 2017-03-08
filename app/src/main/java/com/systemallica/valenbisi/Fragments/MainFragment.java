@@ -53,14 +53,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     GeoJsonLayer carril = null;
     GeoJsonLayer parking = null;
     View view;
-    private TrackGPS gps;
+    TrackGPS gps;
     double longitude;
     double latitude;
     private final static String mLogTag = "GeoJsonDemo";
     private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
     public static final String PREFS_NAME = "MyPrefsFile";
-
-
 
     @Nullable
     @Override
@@ -72,15 +70,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+        //Change toolbar title
+        getActivity().setTitle(R.string.nav_map);
 
         MapView mapView;
         mapView = (MapView) view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
-
-        //Change toolbar title
-        getActivity().setTitle(R.string.nav_map);
-
         mapView.getMapAsync(this);
 
     }
@@ -89,18 +85,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        mMap = googleMap;
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-        boolean satellite = settings.getBoolean("satellite", false);
-
         SharedPreferences.Editor editor = settings.edit();
+
+        mMap = googleMap;
+        boolean satellite = settings.getBoolean("satellite", false);
         editor.putBoolean("firstTime", true).apply();
         editor.putBoolean("firstTimeParking", true).apply();
-        //editor.putBoolean("parkingLayer", false).apply();
 
         //Check for sdk >= 23
-
-
         if(Build.VERSION.SDK_INT >= 23) {
             //Check location permission
             if(getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -196,7 +189,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         final Button btn_parking = (Button) view.findViewById(R.id.btnParkingToggle);
         final Drawable myDrawableParkingOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_local_parking_black_24dp);
-        final Drawable myDrawableParkingOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
+        //final Drawable myDrawableParkingOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
 
         btn_parking.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -226,9 +219,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
+        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
 
         protected void onPreExecute(){
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             if(!settings.getBoolean("carrilLayer", false)) {
                 Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_LONG).show();
 
@@ -237,7 +231,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
 
             try {
                 //lanes layer
@@ -248,7 +241,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         stringStyle.setWidth(5);
                         feature.setLineStringStyle(stringStyle);
                     }
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("firstTime", false).apply();
                 }
 
@@ -266,16 +258,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer carril) {
 
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             if(!settings.getBoolean("carrilLayer", false)) {
                 carril.addLayerToMap();
-
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("carrilLayer", true).apply();
             }else{
                 carril.removeLayerFromMap();
-
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("carrilLayer", false).apply();
                 editor.putBoolean("firstTime", true).apply();
 
@@ -285,9 +272,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private class GetParking extends AsyncTask<Void, Void, GeoJsonLayer> {
+        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
 
         protected void onPreExecute(){
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             if(!settings.getBoolean("parkingLayer", false)) {
                 Snackbar.make(view, R.string.load_parking, Snackbar.LENGTH_SHORT).show();
 
@@ -296,7 +284,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             boolean showFavorites = settings.getBoolean("showFavorites", false);
 
             BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
@@ -328,7 +315,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         feature.setPointStyle(pointStyle);
 
                     }
-                    SharedPreferences.Editor editor = settings.edit();
                     editor.putBoolean("firstTimeParking", false).apply();
                 }
 
@@ -346,16 +332,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer parking) {
 
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             if(!settings.getBoolean("parkingLayer", false)) {
                 parking.addLayerToMap();
-
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("parkingLayer", true).apply();
             }else{
                 parking.removeLayerFromMap();
-
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("parkingLayer", false).apply();
                 editor.putBoolean("firstTimeParking", true).apply();
 
@@ -365,6 +346,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private class GetStations extends AsyncTask<Void, Void, GeoJsonLayer> {
+
+        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
 
         //Load default marker icons
         BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
@@ -395,7 +379,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             // Making a request to url and getting response
             String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
 
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             boolean showAvailable = settings.getBoolean("showAvailable", false);
 
             try {
@@ -493,7 +476,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         protected void onPostExecute(final GeoJsonLayer layer) {
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
             boolean voronoiCell = settings.getBoolean("voronoiCell", false);
             if(voronoiCell) {
                 try {
@@ -515,9 +497,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 if (estacionesLayer) {
                     layer.addLayerToMap();
                 }
-
-
-
 
                 mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -546,7 +525,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         snippet.setText(marker.getSnippet());
 
                         //Checking if current station is favorite
-                        SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
                         boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
 
                         //Setting correspondent icon
@@ -560,7 +538,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onInfoWindowClick(Marker marker) {
 
-                            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
                             boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
                             boolean showFavorites = settings.getBoolean("showFavorites", false);
 
@@ -571,13 +548,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     marker.setVisible(false);
                                 }
                                 marker.showInfoWindow();
-                                SharedPreferences.Editor editor = settings.edit();
                                 editor.putBoolean(marker.getTitle(), false);
                                 editor.apply();
                             } else {
                                 marker.setAlpha(1);
                                 marker.showInfoWindow();
-                                SharedPreferences.Editor editor = settings.edit();
                                 editor.putBoolean(marker.getTitle(), true);
                                 editor.apply();
                             }
@@ -595,7 +570,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 //Toggle Stations
                 btn_estaciones.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
                         boolean showFavorites = settings.getBoolean("showFavorites", false);
 
                         for (GeoJsonFeature feature : layer.getFeatures()) {
