@@ -124,7 +124,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         if(!satellite){
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         }else{
-            mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         }
         mMap.setMinZoomPreference(12);
 
