@@ -119,6 +119,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         //Set map zoom controls
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
+        mapSettings.setCompassEnabled(false);
 
         //Set type of map and min zoom
         if(!satellite){
