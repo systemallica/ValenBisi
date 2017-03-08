@@ -469,6 +469,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             pointStyle.setTitle("No data available :(");
                             pointStyle.setSnippet("No data available :(");
                             pointStyle.setIcon(icon_blue);
+                            pointStyle.setAlpha((float)0.5);
                             if (showAvailable) {
                                 pointStyle.setVisible(false);
                             }
