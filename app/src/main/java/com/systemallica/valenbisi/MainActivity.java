@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity
         AdView mAdView = (AdView) findViewById(R.id.adView);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        boolean removedAds = settings.getBoolean("donationPurchased", false);
+        boolean removedAds = settings.getBoolean("removedAds", false);
 
         if (id == R.id.nav_map) {
 

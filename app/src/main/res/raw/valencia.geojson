@@ -3717,6 +3717,36 @@
         },
         {
             "type": "Feature",
+                    "properties": {
+                        "Number": "35",
+                        "Name": "35_C/ DUQUE DE CALABRIA",
+                        "Address": "Regne de Valencia - Almirante Cadarso"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            -0.367085068,
+                            39.46371708
+                        ]
+                    }
+                },
+        {
+                    "type": "Feature",
+                    "properties": {
+                        "Number": "32",
+                        "Name": "032_C/ CONDE DE ALTEA",
+                        "Address": "Conde Altea - Almirante Cadarso"
+                    },
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                            -0.368338073,
+                            39.46597408
+                        ]
+                    }
+                },
+        {
+            "type": "Feature",
             "properties": {
                 "Number": "257",
                 "Name": "257_PLAZA_SALVADOR_SORIA_ESQ_PIO_X",

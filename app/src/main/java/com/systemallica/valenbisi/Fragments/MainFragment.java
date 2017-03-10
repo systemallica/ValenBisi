@@ -45,7 +45,9 @@ import java.io.IOException;
 public class MainFragment extends Fragment implements OnMapReadyCallback {
 
 
-    private GoogleMap mMap;
+    public static final String PREFS_NAME = "MyPrefsFile";
+    private final static String mLogTag = "GeoJsonDemo";
+    private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
     UiSettings mapSettings;
     int MY_LOCATION_REQUEST_CODE = 1;
     boolean estacionesLayer = true;
@@ -56,9 +58,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     TrackGPS gps;
     double longitude;
     double latitude;
-    private final static String mLogTag = "GeoJsonDemo";
-    private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
-    public static final String PREFS_NAME = "MyPrefsFile";
+    private GoogleMap mMap;
 
     @Nullable
     @Override
@@ -69,7 +69,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         //Change toolbar title
         getActivity().setTitle(R.string.nav_map);
 
@@ -94,18 +94,18 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         editor.putBoolean("firstTimeParking", true).apply();
 
         //Check for sdk >= 23
-        if(Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             //Check location permission
-            if(getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
                 requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_LOCATION_REQUEST_CODE);
 
-            }else{
+            } else {
                 mMap.setMyLocationEnabled(true);
             }
-        }else{
+        } else {
             mMap.setMyLocationEnabled(true);
         }
 
@@ -115,16 +115,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mapSettings.setCompassEnabled(false);
 
         //Set type of map and min zoom
-        if(!satellite){
+        if (!satellite) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        }else{
+        } else {
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         }
         mMap.setMinZoomPreference(12);
 
         gps = new TrackGPS(getActivity().getApplicationContext());
 
-        if(gps.canGetLocation()){
+        if (gps.canGetLocation()) {
 
             longitude = gps.getLongitude();
             latitude = gps.getLatitude();
@@ -132,31 +132,31 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
         //39.420//39.515
         //-0.272//-0.572
-        LatLng currentLocation = new LatLng(latitude,longitude);
+        LatLng currentLocation = new LatLng(latitude, longitude);
         LatLng valencia = new LatLng(39.479, -0.372);
 
         boolean initialZoom = settings.getBoolean("initialZoom", true);
 
         // Move the camera
-        if(Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             //Check location permission
             if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
-                if(currentLocation.latitude>=39.515 || currentLocation.latitude<=39.420 || currentLocation.longitude>=-0.272 || currentLocation.longitude<=-0.572){
+                if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-                }else {
+                } else {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
                     gps.stopUsingGPS();
                 }
-            }else {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-                }
+            } else {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+            }
 
-        }else{
+        } else {
             if (initialZoom && gps.canGetLocation()) {
-                if(currentLocation.latitude>=39.515 || currentLocation.latitude<=39.420 || currentLocation.longitude>=-0.272 || currentLocation.longitude<=-0.572){
+                if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-                }else {
+                } else {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
                     gps.stopUsingGPS();
                 }
@@ -166,7 +166,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         new GetStations().execute();
-        if(settings.getBoolean("parkingLayer", false)){
+        if (settings.getBoolean("parkingLayer", false)) {
             editor.putBoolean("parkingLayer", false).apply();
             new GetParking().execute();
         }
@@ -222,8 +222,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        protected void onPreExecute(){
-            if(!settings.getBoolean("carrilLayer", false)) {
+        protected void onPreExecute() {
+            if (!settings.getBoolean("carrilLayer", false)) {
                 Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_LONG).show();
 
             }
@@ -234,7 +234,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             try {
                 //lanes layer
-                if(settings.getBoolean("firstTime", true)) {
+                if (settings.getBoolean("firstTime", true)) {
                     carril = new GeoJsonLayer(mMap, R.raw.oficialcarril, getActivity().getApplicationContext());
                     for (GeoJsonFeature feature : carril.getFeatures()) {
                         GeoJsonLineStringStyle stringStyle = carril.getDefaultLineStringStyle();
@@ -258,10 +258,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer carril) {
 
-            if(!settings.getBoolean("carrilLayer", false)) {
+            if (!settings.getBoolean("carrilLayer", false)) {
                 carril.addLayerToMap();
                 editor.putBoolean("carrilLayer", true).apply();
-            }else{
+            } else {
                 carril.removeLayerFromMap();
                 editor.putBoolean("carrilLayer", false).apply();
                 editor.putBoolean("firstTime", true).apply();
@@ -275,8 +275,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        protected void onPreExecute(){
-            if(!settings.getBoolean("parkingLayer", false)) {
+        protected void onPreExecute() {
+            if (!settings.getBoolean("parkingLayer", false)) {
                 Snackbar.make(view, R.string.load_parking, Snackbar.LENGTH_SHORT).show();
 
             }
@@ -290,25 +290,25 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             try {
                 //parking layer
-                if(settings.getBoolean("firstTimeParking", true)) {
+                if (settings.getBoolean("firstTimeParking", true)) {
                     parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, getActivity().getApplicationContext());
                     for (GeoJsonFeature feature : parking.getFeatures()) {
                         GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                         pointStyle.setTitle(getString(R.string.parking) + " " + feature.getProperty("id"));
                         pointStyle.setSnippet(getString(R.string.plazas) + " " + feature.getProperty("plazas"));
-                        pointStyle.setAlpha((float)0.5);
+                        pointStyle.setAlpha((float) 0.5);
                         pointStyle.setIcon(icon_blue);
 
                         boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
 
                         //Apply full opacity to fav stations
-                        if(currentStationIsFav){
+                        if (currentStationIsFav) {
                             pointStyle.setAlpha(1);
                         }
 
-                        //If favorites r selected, hide the rest
-                        if(showFavorites){
-                            if(!currentStationIsFav){
+                        //If favorites are selected, hide the rest
+                        if (showFavorites) {
+                            if (!currentStationIsFav) {
                                 pointStyle.setVisible(false);
                             }
                         }
@@ -332,41 +332,36 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer parking) {
 
-            if(!settings.getBoolean("parkingLayer", false)) {
+            if (!settings.getBoolean("parkingLayer", false)) {
                 parking.addLayerToMap();
                 editor.putBoolean("parkingLayer", true).apply();
-            }else{
+            } else {
                 parking.removeLayerFromMap();
                 editor.putBoolean("parkingLayer", false).apply();
                 editor.putBoolean("firstTimeParking", true).apply();
-
             }
-
         }
     }
 
     private class GetStations extends AsyncTask<Void, Void, GeoJsonLayer> {
 
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-
-        //Load default marker icons
-        BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-        BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-        BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-        BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-        BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
-
-        //BitmapDescriptor icon_reed = (BitmapDescriptorFactory.fromResource(R.drawable.splash_inverted));
-
         final Button btn_estaciones = (Button) view.findViewById(R.id.btnEstacionesToggle);
         final Button btnOnFootToggle = (Button) view.findViewById(R.id.btnOnFootToggle);
         final Button btnRefresh = (Button) view.findViewById(R.id.btnRefresh);
         final Drawable myDrawableBike = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_bike_black_24dp);
         final Drawable myDrawableWalk = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_walk_black_24dp);
         final Drawable myDrawableStationsOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_place_black_24dp);
-        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
 
+        //BitmapDescriptor icon_reed = (BitmapDescriptorFactory.fromResource(R.drawable.splash_inverted));
+        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
+        SharedPreferences.Editor editor = settings.edit();
+        //Load default marker icons
+        BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+        BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+        BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
@@ -382,7 +377,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             boolean showAvailable = settings.getBoolean("showAvailable", false);
 
             try {
-                if(!jsonStr.equals("")) {
+                if (!jsonStr.equals("")) {
                     JSONArray array = new JSONArray(jsonStr);
                     boolean alone;
 
@@ -390,69 +385,69 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                     for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
                         alone = true;
-                            for (int counter = 0; counter < array.length(); counter++) {
-                                JSONObject object = array.getJSONObject(counter);
-                                //Add each number and address to its correspondent marker
+                        for (int counter = 0; counter < array.length(); counter++) {
+                            JSONObject object = array.getJSONObject(counter);
+                            //Add each number and address to its correspondent marker
 
-                                if (object.getString("number").equals(feature.getProperty("Number"))) {
-                                    alone = false;
-                                    GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                                    pointStyle.setTitle(feature.getProperty("Address"));
-                                    pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
-                                    pointStyle.setAlpha((float)0.5);
+                            if (object.getString("number").equals(feature.getProperty("Number"))) {
+                                alone = false;
+                                GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                                pointStyle.setTitle(feature.getProperty("Address"));
+                                pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
+                                pointStyle.setAlpha((float) 0.5);
 
-                                    //set markers colors depending on available bikes/stands
-                                    if (onFoot) {
-                                        if (object.getInt("available_bikes") == 0) {
-                                            pointStyle.setIcon(icon_red);
-                                            if(showAvailable){
-                                                pointStyle.setVisible(false);
-                                            }
-                                        } else if (object.getInt("available_bikes") < 5) {
-                                            pointStyle.setIcon(icon_orange);
-                                        } else if (object.getInt("available_bikes") < 10) {
-                                            pointStyle.setIcon(icon_yellow);
-                                        } else {
-                                            pointStyle.setIcon(icon_green);
-                                        }
-                                    } else {
-                                        if (object.getInt("available_bike_stands") == 0) {
-                                            pointStyle.setIcon(icon_red);
-                                            if(showAvailable){
-                                                pointStyle.setVisible(false);
-                                            }
-                                        } else if (object.getInt("available_bike_stands") < 5) {
-                                            pointStyle.setIcon(icon_orange);
-                                        } else if (object.getInt("available_bike_stands") < 10) {
-                                            pointStyle.setIcon(icon_yellow);
-                                        } else {
-                                            pointStyle.setIcon(icon_green);
-                                        }
-                                    }
-
-                                    boolean showFavorites = settings.getBoolean("showFavorites", false);
-                                    boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-
-                                    //Apply full opacity to fav stations
-                                    if(currentStationIsFav){
-                                        pointStyle.setAlpha(1);
-                                    }
-
-                                    //If favorites r selected, hide the rest
-                                    if(showFavorites){
-                                        if(!currentStationIsFav){
+                                //set markers colors depending on available bikes/stands
+                                if (onFoot) {
+                                    if (object.getInt("available_bikes") == 0) {
+                                        pointStyle.setIcon(icon_red);
+                                        if (showAvailable) {
                                             pointStyle.setVisible(false);
                                         }
+                                    } else if (object.getInt("available_bikes") < 5) {
+                                        pointStyle.setIcon(icon_orange);
+                                    } else if (object.getInt("available_bikes") < 10) {
+                                        pointStyle.setIcon(icon_yellow);
+                                    } else {
+                                        pointStyle.setIcon(icon_green);
                                     }
-                                    feature.setPointStyle(pointStyle);
+                                } else {
+                                    if (object.getInt("available_bike_stands") == 0) {
+                                        pointStyle.setIcon(icon_red);
+                                        if (showAvailable) {
+                                            pointStyle.setVisible(false);
+                                        }
+                                    } else if (object.getInt("available_bike_stands") < 5) {
+                                        pointStyle.setIcon(icon_orange);
+                                    } else if (object.getInt("available_bike_stands") < 10) {
+                                        pointStyle.setIcon(icon_yellow);
+                                    } else {
+                                        pointStyle.setIcon(icon_green);
+                                    }
                                 }
+
+                                boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
+
+                                //Apply full opacity to fav stations
+                                if (currentStationIsFav) {
+                                    pointStyle.setAlpha(1);
+                                }
+
+                                //If favorites r selected, hide the rest
+                                if (showFavorites) {
+                                    if (!currentStationIsFav) {
+                                        pointStyle.setVisible(false);
+                                    }
+                                }
+                                feature.setPointStyle(pointStyle);
                             }
-                        if(alone) {
+                        }
+                        if (alone) {
                             GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                             pointStyle.setTitle("No data available :(");
                             pointStyle.setSnippet("No data available :(");
                             pointStyle.setIcon(icon_blue);
-                            pointStyle.setAlpha((float)0.5);
+                            pointStyle.setAlpha((float) 0.5);
                             if (showAvailable) {
                                 pointStyle.setVisible(false);
                             }
@@ -477,7 +472,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(final GeoJsonLayer layer) {
             boolean voronoiCell = settings.getBoolean("voronoiCell", false);
-            if(voronoiCell) {
+            if (voronoiCell) {
                 try {
                     final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
                     for (GeoJsonFeature feature : voronoi.getFeatures()) {
@@ -528,9 +523,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
 
                         //Setting correspondent icon
-                        if(currentStationIsFav) {
+                        if (currentStationIsFav) {
                             btn_star.setImageDrawable(myDrawableFavOn);
-                        }else{
+                        } else {
                             btn_star.setImageDrawable(myDrawableFavOff);
                         }
 
@@ -538,24 +533,24 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onInfoWindowClick(Marker marker) {
 
-                            boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
-                            boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+                                boolean showFavorites = settings.getBoolean("showFavorites", false);
 
 
-                            if(currentStationIsFav){
-                                marker.setAlpha((float)0.5);
-                                if(showFavorites) {
-                                    marker.setVisible(false);
+                                if (currentStationIsFav) {
+                                    marker.setAlpha((float) 0.5);
+                                    if (showFavorites) {
+                                        marker.setVisible(false);
+                                    }
+                                    marker.showInfoWindow();
+                                    editor.putBoolean(marker.getTitle(), false);
+                                    editor.apply();
+                                } else {
+                                    marker.setAlpha(1);
+                                    marker.showInfoWindow();
+                                    editor.putBoolean(marker.getTitle(), true);
+                                    editor.apply();
                                 }
-                                marker.showInfoWindow();
-                                editor.putBoolean(marker.getTitle(), false);
-                                editor.apply();
-                            } else {
-                                marker.setAlpha(1);
-                                marker.showInfoWindow();
-                                editor.putBoolean(marker.getTitle(), true);
-                                editor.apply();
-                            }
                                 marker.showInfoWindow();
                                 //Log.e("map marker", "marker is  " + marker.getTitle());
 
@@ -575,22 +570,22 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         for (GeoJsonFeature feature : layer.getFeatures()) {
                             GeoJsonPointStyle pointStyle = feature.getPointStyle();
                             boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-                               if (estacionesLayer) {
-                                   pointStyle.setVisible(false);
-                                }else {
-                                   if(showFavorites && currentStationIsFav){
-                                      pointStyle.setVisible(true);
-                                   }else if(!showFavorites){
-                                      pointStyle.setVisible(true);
-                                   }
+                            if (estacionesLayer) {
+                                pointStyle.setVisible(false);
+                            } else {
+                                if (showFavorites && currentStationIsFav) {
+                                    pointStyle.setVisible(true);
+                                } else if (!showFavorites) {
+                                    pointStyle.setVisible(true);
                                 }
-                                feature.setPointStyle(pointStyle);
+                            }
+                            feature.setPointStyle(pointStyle);
                         }
 
                         if (estacionesLayer) {
                             btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
                             estacionesLayer = false;
-                        }else{
+                        } else {
                             btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
                             estacionesLayer = true;
                         }
@@ -624,9 +619,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 });
 
 
-            }
-            else{
-                if(isAdded()) {
+            } else {
+                if (isAdded()) {
                     Snackbar.make(view, "No se han podido cargar los datos, prueba más tarde", Snackbar.LENGTH_SHORT).show();
                 }
             }

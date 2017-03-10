@@ -81,11 +81,10 @@ public class DonateFragment extends Fragment{
 
         btn_remove_ads.setOnClickListener(new View.OnClickListener() {
 
-            SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-
             public void onClick(View v) {
 
+                SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
                 boolean removedAds = settings.getBoolean("removedAds", false);
                 AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
 
