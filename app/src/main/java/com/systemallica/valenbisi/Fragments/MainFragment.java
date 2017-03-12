@@ -19,6 +19,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -32,9 +38,9 @@ import com.google.maps.android.geojson.GeoJsonFeature;
 import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
+import com.systemallica.valenbisi.PrivateInfo;
 import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.TrackGPS;
-import com.systemallica.valenbisi.WebRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,12 +48,14 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class MainFragment extends Fragment implements OnMapReadyCallback {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private final static String mLogTag = "GeoJsonDemo";
-    private final static String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"; // api request of all valencia stations' data
+    String url = PrivateInfo.url;
     UiSettings mapSettings;
     int MY_LOCATION_REQUEST_CODE = 1;
     boolean estacionesLayer = true;
@@ -56,20 +64,27 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     GeoJsonLayer parking = null;
     View view;
     TrackGPS gps;
-    double longitude;
-    double latitude;
+    double longitude, latitude;
     private GoogleMap mMap;
+
+    @BindView(R.id.btnCarrilToggle) Button btnCarrilToggle;
+    @BindView(R.id.btnParkingToggle) Button btnParkingToggle;
+    @BindView(R.id.btnEstacionesToggle) Button btnEstacionesToggle;
+    @BindView(R.id.btnOnFootToggle) Button btnOnFootToggle;
+    @BindView(R.id.btnRefresh) Button btnRefresh;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_main, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
         //Change toolbar title
         getActivity().setTitle(R.string.nav_map);
 
@@ -84,6 +99,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        //Load icons
+        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
+        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
+        final Drawable myDrawableParkingOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_local_parking_black_24dp);
+        //final Drawable myDrawableParkingOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
 
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -165,39 +186,31 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
-        new GetStations().execute();
+        getStations();
         if (settings.getBoolean("parkingLayer", false)) {
             editor.putBoolean("parkingLayer", false).apply();
             new GetParking().execute();
         }
 
-        final Button btn_carril = (Button) view.findViewById(R.id.btnCarrilToggle);
-        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
-        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
-
-        btn_carril.setOnClickListener(new View.OnClickListener() {
+        btnCarrilToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!settings.getBoolean("carrilLayer", false)) {
-                    btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+                    btnCarrilToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
                     new GetLanes().execute();
                 } else {
-                    btn_carril.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
+                    btnCarrilToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
                     new GetLanes().execute();
                 }
             }
         });
 
-        final Button btn_parking = (Button) view.findViewById(R.id.btnParkingToggle);
-        final Drawable myDrawableParkingOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_local_parking_black_24dp);
-        //final Drawable myDrawableParkingOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
-
-        btn_parking.setOnClickListener(new View.OnClickListener() {
+        btnParkingToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!settings.getBoolean("parkingLayer", false)) {
-                    btn_parking.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
+                    btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
                     new GetParking().execute();
                 } else {
-                    btn_parking.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
+                    btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
                     new GetParking().execute();
                 }
             }
@@ -216,6 +229,279 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             }
         }
+    }
+
+    public void getStations() {
+        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences.Editor editor = settings.edit();
+
+        //Load default marker icons
+        final BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        final BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+        final BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+        final BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        final BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+
+        //Load icons
+        final Drawable myDrawableBike = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_bike_black_24dp);
+        final Drawable myDrawableWalk = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_walk_black_24dp);
+        final Drawable myDrawableStationsOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_place_black_24dp);
+        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
+        final Drawable myDrawableFavOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_black_24dp);
+        final Drawable myDrawableFavOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_outline_black_24dp);
+
+        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String jsonStr) {
+
+                        //Log.e("respuesta http", jsonStr);
+                        boolean showAvailable = settings.getBoolean("showAvailable", false);
+                        boolean showFavorites = settings.getBoolean("showFavorites", false);
+                        boolean voronoiCell = settings.getBoolean("voronoiCell", false);
+
+                        try {
+                            if (!jsonStr.equals("")) {
+                                JSONArray array = new JSONArray(jsonStr);
+
+                                final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
+
+                                for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
+                                    boolean noStationMatch = true;
+                                    boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
+                                    for (int counter = 0; counter < array.length(); counter++) {
+                                        JSONObject object = array.getJSONObject(counter);
+                                        //Add each number and address to its correspondent marker
+
+                                        if (object.getString("number").equals(feature.getProperty("Number"))) {
+                                            noStationMatch = false;
+                                            GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                                            pointStyle.setTitle(feature.getProperty("Address"));
+                                            pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
+                                            pointStyle.setAlpha((float) 0.5);
+
+                                            //set markers colors depending on available bikes/stands
+                                            if (onFoot) {
+                                                if (object.getInt("available_bikes") == 0) {
+                                                    pointStyle.setIcon(icon_red);
+                                                    if (showAvailable) {
+                                                        pointStyle.setVisible(false);
+                                                    }
+                                                } else if (object.getInt("available_bikes") < 5) {
+                                                    pointStyle.setIcon(icon_orange);
+                                                } else if (object.getInt("available_bikes") < 10) {
+                                                    pointStyle.setIcon(icon_yellow);
+                                                } else {
+                                                    pointStyle.setIcon(icon_green);
+                                                }
+                                            } else {
+                                                if (object.getInt("available_bike_stands") == 0) {
+                                                    pointStyle.setIcon(icon_red);
+                                                    if (showAvailable) {
+                                                        pointStyle.setVisible(false);
+                                                    }
+                                                } else if (object.getInt("available_bike_stands") < 5) {
+                                                    pointStyle.setIcon(icon_orange);
+                                                } else if (object.getInt("available_bike_stands") < 10) {
+                                                    pointStyle.setIcon(icon_yellow);
+                                                } else {
+                                                    pointStyle.setIcon(icon_green);
+                                                }
+                                            }
+
+                                            //Apply full opacity to fav stations
+                                            if (currentStationIsFav) {
+                                                pointStyle.setAlpha(1);
+                                            }
+
+                                            //If favorites r selected, hide the rest
+                                            if (showFavorites) {
+                                                if (!currentStationIsFav) {
+                                                    pointStyle.setVisible(false);
+                                                }
+                                            }
+                                            feature.setPointStyle(pointStyle);
+                                        }
+                                    }
+                                    if (noStationMatch) {
+                                        GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                                        pointStyle.setTitle("No data available :(");
+                                        pointStyle.setSnippet("No data available :(");
+                                        pointStyle.setIcon(icon_blue);
+                                        pointStyle.setAlpha((float) 0.5);
+                                        if (showAvailable) {
+                                            pointStyle.setVisible(false);
+                                        }
+                                        feature.setPointStyle(pointStyle);
+                                    }
+                                }
+
+                                if (voronoiCell) {
+                                    try {
+                                        final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
+                                        for (GeoJsonFeature feature : voronoi.getFeatures()) {
+                                            GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
+                                            stringStyle.setColor(-16776961);
+                                            stringStyle.setWidth(2);
+                                            feature.setLineStringStyle(stringStyle);
+                                        }
+                                        voronoi.addLayerToMap();
+                                    } catch (JSONException e) {
+                                        Log.e(mLogTag, "JSONArray could not be created");
+                                    } catch (IOException e) {
+                                        Log.e(mLogTag, "GeoJSON file could not be read");
+                                    }
+                                }
+
+                                if (estacionesLayer) {
+                                    layer.addLayerToMap();
+                                }
+
+                                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                                    // Use default InfoWindow frame
+                                    @Override
+                                    public View getInfoWindow(Marker marker) {
+                                        return null;
+                                    }
+
+                                    // Defines the contents of the InfoWindow
+                                    @Override
+                                    public View getInfoContents(Marker marker) {
+
+                                        // Getting view from the layout file info_window_layout
+                                        final View v = getActivity().getLayoutInflater().inflate(R.layout.windowlayout, null);
+
+                                        // Getting reference to the ImageView/title/snippet
+                                        TextView title = (TextView) v.findViewById(R.id.title);
+                                        TextView snippet = (TextView) v.findViewById(R.id.snippet);
+                                        ImageView btn_star = (ImageView) v.findViewById(R.id.btn_star);
+
+                                        title.setText(marker.getTitle());
+                                        snippet.setText(marker.getSnippet());
+
+                                        //Checking if current station is favorite
+                                        boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+
+                                        //Setting correspondent icon
+                                        if (currentStationIsFav) {
+                                            btn_star.setImageDrawable(myDrawableFavOn);
+                                        } else {
+                                            btn_star.setImageDrawable(myDrawableFavOff);
+                                        }
+
+                                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                            @Override
+                                            public void onInfoWindowClick(Marker marker) {
+
+                                                boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+                                                boolean showFavorites = settings.getBoolean("showFavorites", false);
+
+                                                if (currentStationIsFav) {
+                                                    marker.setAlpha((float) 0.5);
+                                                    if (showFavorites) {
+                                                        marker.setVisible(false);
+                                                    }
+                                                    marker.showInfoWindow();
+                                                    editor.putBoolean(marker.getTitle(), false);
+                                                    editor.apply();
+                                                } else {
+                                                    marker.setAlpha(1);
+                                                    marker.showInfoWindow();
+                                                    editor.putBoolean(marker.getTitle(), true);
+                                                    editor.apply();
+                                                }
+                                                marker.showInfoWindow();
+                                                //Log.e("map marker", "marker is  " + marker.getTitle());
+
+                                            }
+                                        });
+
+                                        // Returning the view containing InfoWindow contents
+                                        return v;
+                                    }
+                                });
+
+                                //Toggle Stations
+                                btnEstacionesToggle.setOnClickListener(new View.OnClickListener() {
+                                    public void onClick(View v) {
+                                        boolean showFavorites = settings.getBoolean("showFavorites", false);
+
+                                        for (GeoJsonFeature feature : layer.getFeatures()) {
+                                            GeoJsonPointStyle pointStyle = feature.getPointStyle();
+                                            boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
+                                            if (estacionesLayer) {
+                                                pointStyle.setVisible(false);
+                                            } else {
+                                                if (showFavorites && currentStationIsFav) {
+                                                    pointStyle.setVisible(true);
+                                                } else if (!showFavorites) {
+                                                    pointStyle.setVisible(true);
+                                                }
+                                            }
+                                            feature.setPointStyle(pointStyle);
+                                        }
+
+                                        if (estacionesLayer) {
+                                            btnEstacionesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
+                                            estacionesLayer = false;
+                                        } else {
+                                            btnEstacionesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
+                                            estacionesLayer = true;
+                                        }
+                                    }
+                                });
+
+                                //Toggle onFoot/onBike
+                                btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
+                                    public void onClick(View v) {
+                                        layer.removeLayerFromMap();
+                                        if (onFoot) {
+                                            onFoot = false;
+                                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
+                                            getStations();
+                                        } else {
+                                            onFoot = true;
+                                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
+                                            getStations();
+                                        }
+                                    }
+                                });
+
+                                //Reload data
+                                btnRefresh.setOnClickListener(new View.OnClickListener() {
+                                    public void onClick(View v) {
+                                        layer.removeLayerFromMap();
+                                        getStations();
+                                    }
+                                });
+
+                            }
+
+                        } catch (JSONException e) {
+
+                            Log.e(mLogTag, "JSONArray could not be created");
+
+                        } catch (IOException e) {
+
+                            Log.e(mLogTag, "GeoJSON file could not be read");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", "error get data for map");
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
     }
 
     private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
@@ -341,291 +627,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 editor.putBoolean("firstTimeParking", true).apply();
             }
         }
-    }
-
-    private class GetStations extends AsyncTask<Void, Void, GeoJsonLayer> {
-
-        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
-        final Button btn_estaciones = (Button) view.findViewById(R.id.btnEstacionesToggle);
-        final Button btnOnFootToggle = (Button) view.findViewById(R.id.btnOnFootToggle);
-        final Button btnRefresh = (Button) view.findViewById(R.id.btnRefresh);
-        final Drawable myDrawableBike = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_bike_black_24dp);
-        final Drawable myDrawableWalk = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_walk_black_24dp);
-        final Drawable myDrawableStationsOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_place_black_24dp);
-
-        //BitmapDescriptor icon_reed = (BitmapDescriptorFactory.fromResource(R.drawable.splash_inverted));
-        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
-        SharedPreferences.Editor editor = settings.edit();
-        //Load default marker icons
-        BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-        BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-        BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-        BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-        BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
-
-        @Override
-        protected GeoJsonLayer doInBackground(Void... params) {
-
-            Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
-
-            // Creating service handler class instance
-            WebRequest webreq = new WebRequest();
-
-            // Making a request to url and getting response
-            String jsonStr = webreq.makeWebServiceCall(url, WebRequest.GET);
-
-            boolean showAvailable = settings.getBoolean("showAvailable", false);
-
-            try {
-                if (!jsonStr.equals("")) {
-                    JSONArray array = new JSONArray(jsonStr);
-                    boolean alone;
-
-                    final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
-
-                    for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
-                        alone = true;
-                        for (int counter = 0; counter < array.length(); counter++) {
-                            JSONObject object = array.getJSONObject(counter);
-                            //Add each number and address to its correspondent marker
-
-                            if (object.getString("number").equals(feature.getProperty("Number"))) {
-                                alone = false;
-                                GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                                pointStyle.setTitle(feature.getProperty("Address"));
-                                pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
-                                pointStyle.setAlpha((float) 0.5);
-
-                                //set markers colors depending on available bikes/stands
-                                if (onFoot) {
-                                    if (object.getInt("available_bikes") == 0) {
-                                        pointStyle.setIcon(icon_red);
-                                        if (showAvailable) {
-                                            pointStyle.setVisible(false);
-                                        }
-                                    } else if (object.getInt("available_bikes") < 5) {
-                                        pointStyle.setIcon(icon_orange);
-                                    } else if (object.getInt("available_bikes") < 10) {
-                                        pointStyle.setIcon(icon_yellow);
-                                    } else {
-                                        pointStyle.setIcon(icon_green);
-                                    }
-                                } else {
-                                    if (object.getInt("available_bike_stands") == 0) {
-                                        pointStyle.setIcon(icon_red);
-                                        if (showAvailable) {
-                                            pointStyle.setVisible(false);
-                                        }
-                                    } else if (object.getInt("available_bike_stands") < 5) {
-                                        pointStyle.setIcon(icon_orange);
-                                    } else if (object.getInt("available_bike_stands") < 10) {
-                                        pointStyle.setIcon(icon_yellow);
-                                    } else {
-                                        pointStyle.setIcon(icon_green);
-                                    }
-                                }
-
-                                boolean showFavorites = settings.getBoolean("showFavorites", false);
-                                boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-
-                                //Apply full opacity to fav stations
-                                if (currentStationIsFav) {
-                                    pointStyle.setAlpha(1);
-                                }
-
-                                //If favorites r selected, hide the rest
-                                if (showFavorites) {
-                                    if (!currentStationIsFav) {
-                                        pointStyle.setVisible(false);
-                                    }
-                                }
-                                feature.setPointStyle(pointStyle);
-                            }
-                        }
-                        if (alone) {
-                            GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                            pointStyle.setTitle("No data available :(");
-                            pointStyle.setSnippet("No data available :(");
-                            pointStyle.setIcon(icon_blue);
-                            pointStyle.setAlpha((float) 0.5);
-                            if (showAvailable) {
-                                pointStyle.setVisible(false);
-                            }
-                            feature.setPointStyle(pointStyle);
-                        }
-                    }
-                    return layer;
-                }
-            } catch (JSONException e) {
-
-                Log.e(mLogTag, "JSONArray could not be created");
-
-
-            } catch (IOException e) {
-
-                Log.e(mLogTag, "GeoJSON file could not be read");
-
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(final GeoJsonLayer layer) {
-            boolean voronoiCell = settings.getBoolean("voronoiCell", false);
-            if (voronoiCell) {
-                try {
-                    final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
-                    for (GeoJsonFeature feature : voronoi.getFeatures()) {
-                        GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
-                        stringStyle.setColor(-16776961);
-                        stringStyle.setWidth(2);
-                        feature.setLineStringStyle(stringStyle);
-                    }
-                    voronoi.addLayerToMap();
-                } catch (JSONException e) {
-                    Log.e(mLogTag, "JSONArray could not be created");
-                } catch (IOException e) {
-                    Log.e(mLogTag, "GeoJSON file could not be read");
-                }
-            }
-            if (layer != null) {
-                if (estacionesLayer) {
-                    layer.addLayerToMap();
-                }
-
-                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-                    // Use default InfoWindow frame
-                    @Override
-                    public View getInfoWindow(Marker marker) {
-                        return null;
-                    }
-
-                    // Defines the contents of the InfoWindow
-                    @Override
-                    public View getInfoContents(Marker marker) {
-
-                        final Drawable myDrawableFavOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_black_24dp);
-                        final Drawable myDrawableFavOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_outline_black_24dp);
-
-                        // Getting view from the layout file info_window_layout
-                        final View v = getActivity().getLayoutInflater().inflate(R.layout.windowlayout, null);
-
-                        // Getting reference to the ImageView/title/snippet
-                        TextView title = (TextView) v.findViewById(R.id.title);
-                        TextView snippet = (TextView) v.findViewById(R.id.snippet);
-                        ImageView btn_star = (ImageView) v.findViewById(R.id.btn_star);
-
-                        title.setText(marker.getTitle());
-                        snippet.setText(marker.getSnippet());
-
-                        //Checking if current station is favorite
-                        boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
-
-                        //Setting correspondent icon
-                        if (currentStationIsFav) {
-                            btn_star.setImageDrawable(myDrawableFavOn);
-                        } else {
-                            btn_star.setImageDrawable(myDrawableFavOff);
-                        }
-
-                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                            @Override
-                            public void onInfoWindowClick(Marker marker) {
-
-                                boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
-                                boolean showFavorites = settings.getBoolean("showFavorites", false);
-
-
-                                if (currentStationIsFav) {
-                                    marker.setAlpha((float) 0.5);
-                                    if (showFavorites) {
-                                        marker.setVisible(false);
-                                    }
-                                    marker.showInfoWindow();
-                                    editor.putBoolean(marker.getTitle(), false);
-                                    editor.apply();
-                                } else {
-                                    marker.setAlpha(1);
-                                    marker.showInfoWindow();
-                                    editor.putBoolean(marker.getTitle(), true);
-                                    editor.apply();
-                                }
-                                marker.showInfoWindow();
-                                //Log.e("map marker", "marker is  " + marker.getTitle());
-
-                            }
-                        });
-
-                        // Returning the view containing InfoWindow contents
-                        return v;
-                    }
-                });
-
-                //Toggle Stations
-                btn_estaciones.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        boolean showFavorites = settings.getBoolean("showFavorites", false);
-
-                        for (GeoJsonFeature feature : layer.getFeatures()) {
-                            GeoJsonPointStyle pointStyle = feature.getPointStyle();
-                            boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-                            if (estacionesLayer) {
-                                pointStyle.setVisible(false);
-                            } else {
-                                if (showFavorites && currentStationIsFav) {
-                                    pointStyle.setVisible(true);
-                                } else if (!showFavorites) {
-                                    pointStyle.setVisible(true);
-                                }
-                            }
-                            feature.setPointStyle(pointStyle);
-                        }
-
-                        if (estacionesLayer) {
-                            btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
-                            estacionesLayer = false;
-                        } else {
-                            btn_estaciones.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
-                            estacionesLayer = true;
-                        }
-                    }
-                });
-
-                //Toggle onFoot/onBike
-                btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        layer.removeLayerFromMap();
-                        if (onFoot) {
-                            onFoot = false;
-                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
-                            new GetStations().execute();
-
-                        } else {
-                            onFoot = true;
-                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
-                            new GetStations().execute();
-                        }
-
-                    }
-                });
-
-                //Reload data
-                btnRefresh.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        layer.removeLayerFromMap();
-                        new GetStations().execute();
-                    }
-                });
-
-
-            } else {
-                if (isAdded()) {
-                    Snackbar.make(view, "No se han podido cargar los datos, prueba más tarde", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        }
-
     }
 
 }
