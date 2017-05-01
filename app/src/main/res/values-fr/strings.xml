@@ -36,7 +36,6 @@
     <string name="developer">Systemallica</string>
     <string name="ad_restore_hint">Oh&#8230; :( Si un jour tu changes d\'avis, il suffit de clicker sur le bouton à nouveau! </string>
     <string name="ad_restore">Rétablir les publicités</string>
-    <string name="ad_reminder">(Il est nécessaire de redémarrer l\'application)</string>
     <string name="ad_remove_hint">Ce bouton enlevera les publicités pour toujours, mais, si tu aimes mon application, laisse-lez activées s\'il te plaît, ils m\'aident à continuer à travailler sur elle.</string>
     <string name="descStar">Icône étoile</string>
     <string name="load_lanes">Chargement des voies cyclables&#8230;</string>
@@ -64,7 +63,7 @@
     <string name="language">Langue</string>
     <string name="spanish">Espagnol</string>
     <string name="english">Anglais</string>
-    <string name="language_summary">Changer la langue de l\'appli (il est nécessaire de rédemarrer)</string>
+    <string name="language_summary">Changer la langue de l\'appli</string>
     <string name="french">Français</string>
     <string name="pref_voronoi_summary_off">Les cellules de Voronoi ne se montreront pas</string>
     <string name="others">Autres</string>

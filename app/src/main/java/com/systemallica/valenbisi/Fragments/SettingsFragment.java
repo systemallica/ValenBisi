@@ -187,6 +187,11 @@ public class SettingsFragment extends PreferenceFragment {
                 editor.putString("locale", userSelectedValue);
                 editor.apply();
 
+                Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                getActivity().finish();
+
                return true;
             }
         });

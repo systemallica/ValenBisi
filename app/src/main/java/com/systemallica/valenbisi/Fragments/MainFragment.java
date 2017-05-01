@@ -1,5 +1,6 @@
 package com.systemallica.valenbisi.Fragments;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -57,21 +58,27 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private final static String mLogTag = "GeoJsonDemo";
     String url = PrivateInfo.url;
     UiSettings mapSettings;
-    int MY_LOCATION_REQUEST_CODE = 1;
+    int location_request_code = 1;
     boolean estacionesLayer = true;
     boolean onFoot = true;
     GeoJsonLayer carril = null;
     GeoJsonLayer parking = null;
     View view;
     TrackGPS gps;
-    double longitude, latitude;
+    double longitude;
+    double latitude;
     private GoogleMap mMap;
 
-    @BindView(R.id.btnCarrilToggle) Button btnCarrilToggle;
-    @BindView(R.id.btnParkingToggle) Button btnParkingToggle;
-    @BindView(R.id.btnEstacionesToggle) Button btnEstacionesToggle;
-    @BindView(R.id.btnOnFootToggle) Button btnOnFootToggle;
-    @BindView(R.id.btnRefresh) Button btnRefresh;
+    @BindView(R.id.btnCarrilToggle)
+    Button btnCarrilToggle;
+    @BindView(R.id.btnParkingToggle)
+    Button btnParkingToggle;
+    @BindView(R.id.btnEstacionesToggle)
+    Button btnEstacionesToggle;
+    @BindView(R.id.btnOnFootToggle)
+    Button btnOnFootToggle;
+    @BindView(R.id.btnRefresh)
+    Button btnRefresh;
 
     @Nullable
     @Override
@@ -117,11 +124,11 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         //Check for sdk >= 23
         if (Build.VERSION.SDK_INT >= 23) {
             //Check location permission
-            if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_LOCATION_REQUEST_CODE);
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        location_request_code);
 
             } else {
                 mMap.setMyLocationEnabled(true);
@@ -161,7 +168,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         // Move the camera
         if (Build.VERSION.SDK_INT >= 23) {
             //Check location permission
-            if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
                 if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
@@ -219,8 +226,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == MY_LOCATION_REQUEST_CODE) {
-            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+        if (requestCode == location_request_code) {
+            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
             } else {
@@ -231,16 +238,17 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+
     public void getStations() {
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
 
         //Load default marker icons
-        final BitmapDescriptor icon_green = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-        final BitmapDescriptor icon_orange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
-        final BitmapDescriptor icon_yellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
-        final BitmapDescriptor icon_red = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-        final BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+        final BitmapDescriptor icongreen = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        final BitmapDescriptor iconorange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
+        final BitmapDescriptor iconyellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
+        final BitmapDescriptor iconred = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        final BitmapDescriptor iconblue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
 
         //Load icons
         final Drawable myDrawableBike = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_bike_black_24dp);
@@ -261,7 +269,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onResponse(String jsonStr) {
 
-                        //Log.e("respuesta http", jsonStr);
                         boolean showAvailable = settings.getBoolean("showAvailable", false);
                         boolean showFavorites = settings.getBoolean("showFavorites", false);
                         boolean voronoiCell = settings.getBoolean("voronoiCell", false);
@@ -289,29 +296,29 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                             //set markers colors depending on available bikes/stands
                                             if (onFoot) {
                                                 if (object.getInt("available_bikes") == 0) {
-                                                    pointStyle.setIcon(icon_red);
+                                                    pointStyle.setIcon(iconred);
                                                     if (showAvailable) {
                                                         pointStyle.setVisible(false);
                                                     }
                                                 } else if (object.getInt("available_bikes") < 5) {
-                                                    pointStyle.setIcon(icon_orange);
+                                                    pointStyle.setIcon(iconorange);
                                                 } else if (object.getInt("available_bikes") < 10) {
-                                                    pointStyle.setIcon(icon_yellow);
+                                                    pointStyle.setIcon(iconyellow);
                                                 } else {
-                                                    pointStyle.setIcon(icon_green);
+                                                    pointStyle.setIcon(icongreen);
                                                 }
                                             } else {
                                                 if (object.getInt("available_bike_stands") == 0) {
-                                                    pointStyle.setIcon(icon_red);
+                                                    pointStyle.setIcon(iconred);
                                                     if (showAvailable) {
                                                         pointStyle.setVisible(false);
                                                     }
                                                 } else if (object.getInt("available_bike_stands") < 5) {
-                                                    pointStyle.setIcon(icon_orange);
+                                                    pointStyle.setIcon(iconorange);
                                                 } else if (object.getInt("available_bike_stands") < 10) {
-                                                    pointStyle.setIcon(icon_yellow);
+                                                    pointStyle.setIcon(iconyellow);
                                                 } else {
-                                                    pointStyle.setIcon(icon_green);
+                                                    pointStyle.setIcon(icongreen);
                                                 }
                                             }
 
@@ -333,7 +340,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                         GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                                         pointStyle.setTitle("No data available :(");
                                         pointStyle.setSnippet("No data available :(");
-                                        pointStyle.setIcon(icon_blue);
+                                        pointStyle.setIcon(iconblue);
                                         pointStyle.setAlpha((float) 0.5);
                                         if (showAvailable) {
                                             pointStyle.setVisible(false);

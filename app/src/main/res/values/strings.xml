@@ -61,7 +61,7 @@
     <string name="voronoi_info">Para saber qué es una celda de Voronoi haz click aquí</string>
 
     <string name="language">Idioma</string>
-    <string name="language_summary">Cambiar el idioma de la app (requiere reinicio)</string>
+    <string name="language_summary">Cambiar el idioma de la app</string>
 
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
     <string name="ad_remove">Quitar anuncios</string>
@@ -110,7 +110,6 @@
     <string name="others">Otros</string>
 
     <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
-    <string name="ad_reminder">(Requiere reinicio)</string>
 
     <string name="purchase_failed">Vaya, algo ha salido mal al contactar con la Play Store! :(</string>
     <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>

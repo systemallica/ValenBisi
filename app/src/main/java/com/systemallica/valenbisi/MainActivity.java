@@ -1,6 +1,7 @@
 package com.systemallica.valenbisi;
 
 import android.app.ActivityManager;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     public static final String PREFS_NAME = "MyPrefsFile";
     private IabHelper billingHelper;
     Context context = null;
+    Fragment currentFragment = getFragmentManager().findFragmentByTag("mainFragment");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -448,6 +450,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     public void CheckVersion(){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -461,13 +464,13 @@ public class MainActivity extends AppCompatActivity
                         // Display the first 500 characters of the response string.
                         String versionName = BuildConfig.VERSION_NAME;
 
-                        latestVersion = latestVersion.trim();
-                        versionName = versionName.trim();
+                        String latestVersionTrimmed = latestVersion.trim();
+                        String versionNameTrimmed = versionName.trim();
 
-                        Log.e("versionName", versionName);
-                        Log.e("latestVersion", latestVersion);
+                        Log.e("versionName", versionNameTrimmed);
+                        Log.e("latestVersion", latestVersionTrimmed);
 
-                        if (!versionName.equals(latestVersion)) {
+                        if (!versionNameTrimmed.equals(latestVersionTrimmed)) {
                             new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
                                     .setTitle(R.string.update_available)
                                     .setMessage(R.string.update_message)
@@ -512,6 +515,7 @@ public class MainActivity extends AppCompatActivity
     public void onDestroy() {
 
         super.onDestroy();
+
         disposeBillingHelper();
     }
 

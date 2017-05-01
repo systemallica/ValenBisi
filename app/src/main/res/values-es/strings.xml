@@ -36,7 +36,6 @@
     <string name="developer">Systemallica</string>
     <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
     <string name="ad_restore">Restaurar anuncios</string>
-    <string name="ad_reminder">(Requiere reinicio)</string>
     <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor dejalos activados, me ayudan a seguir trabajando en ella.</string>
     <string name="descStar">Icono estrella</string>
     <string name="load_lanes">Cargando carriles&#8230;</string>
@@ -67,7 +66,7 @@
     <string name="spanish">Español</string>
     <string name="english">Inglés</string>
     <string name="french">Francés</string>
-    <string name="language_summary">Cambiar el idioma de la app (requiere reinicio)</string>
+    <string name="language_summary">Cambiar el idioma de la app</string>
     <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
     <string name="others">Otros</string>
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>

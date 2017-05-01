@@ -36,7 +36,6 @@
     <string name="no_location_permission">No location permission, location will not work</string>
     <string name="ad_restore_hint">Oh&#8230; :( If you ever change your mind, just tap the button again!</string>
     <string name="ad_restore">Restore ads</string>
-    <string name="ad_reminder">(Requires reopening the app)</string>
     <string name="ad_remove_hint">This button will remove ads forever, but if you enjoy my app, please let them on, they help me keep working on the app.</string>
     <string name="descStar">Star Icon</string>
     <string name="load_lanes">Loading lanes&#8230;</string>

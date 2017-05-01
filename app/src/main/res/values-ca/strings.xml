@@ -36,7 +36,6 @@
     <string name="version">Versió</string>
     <string name="ad_restore_hint">Oh&#8230; :( Si alguna vegada canvies d\'oponió, només presiona de nou el botó!</string>
     <string name="ad_restore">Restaurar anuncis</string>
-    <string name="ad_reminder">(Requereix reinici)</string>
     <string name="ad_remove_hint">Aquest botó borrarà el anuncis per sempre, però, si t\'agrada la meva aplicació, per favor deixa\'ls activats, m\'ajuden a continuar trevallant en ella.</string>
     <string name="descStar">Icon estrela</string>
     <string name="load_lanes">Carregant carrils&#8230;</string>

@@ -16,3 +16,4 @@
 #   public *;
 #}
 -keepattributes EnclosingMethod
+-dontwarn okio.**
