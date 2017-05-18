@@ -1,7 +1,6 @@
 package com.systemallica.valenbisi;
 
 import android.app.ActivityManager;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity
     public static final String PREFS_NAME = "MyPrefsFile";
     private IabHelper billingHelper;
     Context context = null;
-    Fragment currentFragment = getFragmentManager().findFragmentByTag("mainFragment");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

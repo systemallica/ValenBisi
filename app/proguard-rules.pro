@@ -15,5 +15,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keepattributes EnclosingMethod
--dontwarn okio.**
