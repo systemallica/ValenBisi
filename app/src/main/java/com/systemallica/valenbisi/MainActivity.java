@@ -513,14 +513,5 @@ public class MainActivity extends AppCompatActivity
     public void onDestroy() {
 
         super.onDestroy();
-
-        disposeBillingHelper();
-    }
-
-    private void disposeBillingHelper() {
-        if (billingHelper != null) {
-            billingHelper.dispose();
-        }
-        billingHelper = null;
     }
 }
