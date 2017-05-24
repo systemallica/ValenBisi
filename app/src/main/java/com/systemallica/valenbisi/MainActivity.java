@@ -26,16 +26,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.android.trivialdrivesample.util.IabException;
 import com.example.android.trivialdrivesample.util.IabHelper;
 import com.example.android.trivialdrivesample.util.IabResult;
@@ -47,7 +40,15 @@ import com.systemallica.valenbisi.Fragments.DonateFragment;
 import com.systemallica.valenbisi.Fragments.MainFragment;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
+import java.io.IOException;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import static android.view.View.GONE;
 import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocale;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     public static final String PREFS_NAME = "MyPrefsFile";
     private IabHelper billingHelper;
     Context context = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         //init drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -147,7 +149,7 @@ public class MainActivity extends AppCompatActivity
             boolean noUpdate = settings.getBoolean("noUpdate", false);
 
             if(!noUpdate) {
-                CheckVersion();
+                checkUpdate();
             }
         }
 
@@ -169,7 +171,7 @@ public class MainActivity extends AppCompatActivity
             String clave = PrivateInfo.clave;
             billingHelper = new IabHelper(context, clave);
             billingHelper.startSetup(this);
-         }
+        }
 
     }
 
@@ -310,7 +312,7 @@ public class MainActivity extends AppCompatActivity
         //Apply it if user didn't specify a locale
         if (locale.equals("default_locale")){
             super.attachBaseContext(MyContextWrapper.wrap(newBase,sysLocale.getLanguage()));
-        //Else apply user choice
+            //Else apply user choice
         }else{
             super.attachBaseContext(MyContextWrapper.wrap(newBase,locale));
         }
@@ -449,64 +451,76 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void CheckVersion(){
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://raw.githubusercontent.com/systemallica/ValenBisi/master/Version";
+    public void checkUpdate(){
+        final MainActivity parent = this;
+        final OkHttpClient client = new OkHttpClient();
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String latestVersion) {
-                        // Display the first 500 characters of the response string.
-                        String versionName = BuildConfig.VERSION_NAME;
+        Request request = new Request.Builder()
+                .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/Version")
+                .build();
 
-                        String latestVersionTrimmed = latestVersion.trim();
-                        String versionNameTrimmed = versionName.trim();
-
-                        Log.e("versionName", versionNameTrimmed);
-                        Log.e("latestVersion", latestVersionTrimmed);
-
-                        if (!versionNameTrimmed.equals(latestVersionTrimmed)) {
-                            new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
-                                    .setTitle(R.string.update_available)
-                                    .setMessage(R.string.update_message)
-                                    .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
-                                            startActivity(browserIntent);
-                                        }
-                                    })
-
-                                    .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            //Do nothing
-                                        }
-                                    })
-
-                                    .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                                            SharedPreferences.Editor editor = settings.edit();
-                                            editor.putBoolean("noUpdate", true);
-                                            editor.apply();
-                                        }
-                                    })
-
-                                    .setIcon(R.drawable.ic_system_update_black_24dp)
-                                    .show();
-
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error","error check version");
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    String latestVersion = responseBody.string();
+                    String versionName = BuildConfig.VERSION_NAME;
+
+                    String latestVersionTrimmed = latestVersion.trim();
+                    String versionNameTrimmed = versionName.trim();
+
+                    //Log.e("versionName", versionNameTrimmed);
+                    //Log.e("latestVersion", latestVersionTrimmed);
+
+                    if (!versionNameTrimmed.equals(latestVersionTrimmed)) {
+                        parent.runOnUiThread(new Runnable() {
+                            public void run() {
+                                new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
+                                        .setTitle(R.string.update_available)
+                                        .setMessage(R.string.update_message)
+                                        .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
+                                                startActivity(browserIntent);
+                                            }
+                                        })
+
+                                        .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                //Do nothing
+                                            }
+                                        })
+
+                                        .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                                                SharedPreferences.Editor editor = settings.edit();
+                                                editor.putBoolean("noUpdate", true);
+                                                editor.apply();
+                                            }
+                                        })
+
+                                        .setIcon(R.drawable.ic_system_update_black_24dp)
+                                        .show();
+                            }
+                        });
+
+                    }
+
+                }
             }
         });
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+
+
+
+
     }
 
     @Override
