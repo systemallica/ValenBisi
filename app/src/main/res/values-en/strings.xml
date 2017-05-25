@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ad_remove">Remove ads</string>
-    <string name="bike">On bike</string>
-    <string name="btn_carril">Bike lanes</string>
-    <string name="btn_estaciones">Bike stations</string>
-    <string name="construction">Under construction</string>
     <string name="contact">Contact:</string>
     <string name="desc">Opens GitHub</string>
     <string name="developed">Developed by:</string>
@@ -24,13 +20,11 @@
     <string name="pref_showAvailable_summary_on">Only available stations will be shown</string>
     <string name="pref_showFavourites_summary_off">All stations will be shown</string>
     <string name="pref_showFavourites_summary_on">Only favorite stations will be shown</string>
-    <string name="refresh">Refresh</string>
     <string name="showAvailable">Show only available stations</string>
     <string name="showFavourites">Show only favorite stations</string>
     <string name="source">Source code:</string>
     <string name="thanks">Thanks:</string>
     <string name="version">Version</string>
-    <string name="foot">On foot</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="no_location_permission">No location permission, location will not work</string>
@@ -47,7 +41,6 @@
     <string name="no_internet_message">The app won\'t work without Internet connection. Connect to the Internet and restart the app.</string>
     <string name="pref_initialZoom_summary_off">The app won\'t zoom to the current position on startup</string>
     <string name="pref_initialZoom_summary_on">The app will zoom to the current position on startup</string>
-    <string name="share">Download the best ValenBisi app at: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
     <string name="update_available">Update available</string>
     <string name="update_message">Do you want to update the app?</string>
     <string name="update_never">Never</string>
@@ -68,7 +61,6 @@
     <string name="french">French</string>
     <string name="others">Others</string>
     <string name="english">English</string>
-    <string name="on_restart">Changes will be applied on app restart</string>
     <string name="pref_voronoi_summary_off">Voronoi cells won\'t be displayed</string>
     <string name="pref_voronoi_summary_on">Vorono cells will be displayed</string>
     <string name="voronoi_info">Tap here to learn about Voronoi cells</string>

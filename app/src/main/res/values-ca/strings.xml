@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ad_remove">Quitar anuncis</string>
-    <string name="bike">Vaig en bici</string>
-    <string name="btn_carril">Carril bici</string>
-    <string name="btn_estaciones">Estacions</string>
-    <string name="construction">En construcció</string>
     <string name="contact">Contacte:</string>
     <string name="desc">Obri GitHub:</string>
     <string name="developed">Desenvolupat per:</string>
     <string name="developer">Systemallica</string>
-    <string name="foot">Vaig a peu</string>
     <string name="mapView">Vista de mapa satèl·lit</string>
     <string name="matchNavigationBar">Adjustar color de la barra de navegació</string>
     <string name="nav_about">Sobre l\'aplicació</string>
@@ -28,7 +23,6 @@
     <string name="pref_showAvailable_summary_on">Es mostraràn només les estacions disponibles</string>
     <string name="pref_showFavourites_summary_off">Es mostraràn totes les estacions</string>
     <string name="pref_showFavourites_summary_on">Es mostraràn només les estacions favorites</string>
-    <string name="refresh">Refrescar</string>
     <string name="showAvailable">Mostrar només estacions disponibles</string>
     <string name="showFavourites">Mostrar només estacions favorites</string>
     <string name="source">Codi font:</string>
@@ -48,7 +42,6 @@
     <string name="update_never">Mai</string>
     <string name="update_message">Vols actualitzar l\'app?</string>
     <string name="update_available">Actualització disponible</string>
-    <string name="share">Descarrega la millor applicació de ValenBisi a: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
     <string name="pref_initialZoom_summary_on">Es farà zoom a la posició actual al iniciar l\'app</string>
     <string name="pref_initialZoom_summary_off">No es farà zoom a la posició actual al iniciar l\'app</string>
     <string name="no_internet_message">L\'app no funcionarà sense connexió a Internet. Connecta\'t i reinicia l\'app.</string>
@@ -67,7 +60,6 @@
     <string name="spanish">Espanyol</string>
     <string name="french">Francés</string>
     <string name="language_summary">Canviar la llengua de l\'app</string>
-    <string name="on_restart">El canvi s\'applicarà al reiniciar l\'app</string>
     <string name="others">Altres</string>
     <string name="pref_voronoi_summary_off">No es mostraràn les cel·les de Voronoi</string>
     <string name="pref_voronoi_summary_on">Es mostraràn les cel·les de Voronoi</string>

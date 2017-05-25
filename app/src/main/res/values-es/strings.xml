@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ad_remove">Quitar anuncios</string>
-    <string name="bike">Voy en bici</string>
-    <string name="btn_estaciones">Estaciones</string>
-    <string name="btn_carril">Carril bici</string>
-    <string name="construction">En construcción</string>
     <string name="desc">Abre GitHub</string>
     <string name="contact">Contacto:</string>
     <string name="developed">Desarrollado por:</string>
-    <string name="foot">Voy a pie</string>
     <string name="mapView">Vista de mapa satélite</string>
     <string name="matchNavigationBar">Ajustar color de la barra de navegación</string>
     <string name="nav_about">Sobre la aplicación</string>
@@ -27,7 +22,6 @@
     <string name="pref_showAvailable_summary_on">Se mostrarán solo las estaciones disponibles</string>
     <string name="pref_showFavourites_summary_off">Se mostrarán todas las estaciones</string>
     <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
-    <string name="refresh">Refrescar</string>
     <string name="showAvailable">Mostrar solo estaciones disponibles</string>
     <string name="showFavourites">Mostrar solo favoritos</string>
     <string name="source">Código fuente:</string>
@@ -47,7 +41,6 @@
     <string name="no_internet_message">La aplicación no funcionará sin Internet. Conéctate y reiníciala.</string>
     <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
     <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
-    <string name="share">Descarga la mejor app de ValenBisi en: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
     <string name="update_available">Actualización disponible</string>
     <string name="update_message">¿Quieres actualizar la aplicación?</string>
     <string name="update_never">Nunca</string>
@@ -67,7 +60,6 @@
     <string name="english">Inglés</string>
     <string name="french">Francés</string>
     <string name="language_summary">Cambiar el idioma de la app</string>
-    <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
     <string name="others">Otros</string>
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>

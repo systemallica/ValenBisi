@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ad_remove">Enlever les publicités</string>
-    <string name="bike">Je vais en vélo</string>
-    <string name="btn_estaciones">Stations</string>
-    <string name="btn_carril">Voie cyclable</string>
-    <string name="construction">En construction</string>
     <string name="desc">Ouvre GitHub</string>
     <string name="contact">Contact:</string>
     <string name="developed">Développé par:</string>
-    <string name="foot">Je vais à pied</string>
     <string name="mapView">Vue de la carte satélite</string>
     <string name="matchNavigationBar">Adapter la couleur de la barre de navigation</string>
     <string name="nav_about">À propos de l\'application</string>
@@ -27,7 +22,6 @@
     <string name="pref_showAvailable_summary_on">Seulement les stations disponibles seront montrées</string>
     <string name="pref_showFavourites_summary_off">Toutes les stations seront montrées</string>
     <string name="pref_showFavourites_summary_on">Seulement les stations préférées seront montrées</string>
-    <string name="refresh">Actualiser</string>
     <string name="showAvailable">Montrer seulement les stations disponibles</string>
     <string name="showFavourites">Montrer seulement les stations préférées</string>
     <string name="source">Code source:</string>
@@ -47,7 +41,6 @@
     <string name="no_internet_message">L\'application ne fonctionnera pas sans internet. Connecte-toi et redémarrela.</string>
     <string name="pref_initialZoom_summary_off">Il n\'y aura pas de zoom à la position actuelle au démarrage de l\'application.</string>
     <string name="pref_initialZoom_summary_on">Au démarrage de l\'application, il y aura un zoom à la position actuelle.</string>
-    <string name="share">Télécharge la meilleure appli de ValenBisi sur: https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
     <string name="update_available">Mise à jour disponible</string>
     <string name="update_message">Veux-tu mettre à jour l\'application?</string>
     <string name="update_never">Jamais</string>
@@ -67,7 +60,6 @@
     <string name="french">Français</string>
     <string name="pref_voronoi_summary_off">Les cellules de Voronoi ne se montreront pas</string>
     <string name="others">Autres</string>
-    <string name="on_restart">Le changement s\'appliquera au redémarrage de l\'appli</string>
     <string name="voronoi">Cellules de Voronoi</string>
     <string name="default_locale">Par défaut</string>
     <string name="pref_voronoi_summary_on">Les cellules de Voronoi seront montrées</string>

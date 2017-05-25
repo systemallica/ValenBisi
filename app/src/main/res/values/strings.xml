@@ -1,22 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">ValenBisi</string>
-    <string name="github" translatable="false">https://github.com/systemallica/ValenBisi</string>
-    <string name="playstore" translatable="false">https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
-    <string name="version_web" translatable="false">https://systemallica.000webhostapp.com/version.html</string>
-
-    <string name="share">https://play.google.com/store/apps/details?id=com.systemallica.valenbisi</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="title_activity_maps" translatable="false">ValenBisi</string>
-    <string name="geojson_url" translatable="false">http://www.systemallica.hostei.com/Valence.geojson</string>
     <string name="no_location_permission">No location permission, location will not work.</string>
-    <string name="btn_carril">Carril bici</string>
-    <string name="btn_estaciones">Estaciones</string>
-    <string name="foot">Voy a pie</string>
-    <string name="bike">Voy en bici</string>
-    <string name="refresh">Refrescar</string>
 
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustes</string>
@@ -24,7 +12,6 @@
     <string name="nav_share">Comparte</string>
     <string name="nav_about">Sobre la aplicación</string>
 
-    <string name="construction">En construcción</string>
     <string name="developed">Desarollado por:</string>
     <string name="developer">Systemallica</string>
     <string name="email" translatable="false">soporte.valenbisi@gmail.com</string>
@@ -108,8 +95,6 @@
     <string name="catalan_code" translatable="false">ca</string>
 
     <string name="others">Otros</string>
-
-    <string name="on_restart">El cambio se aplicará al reiniciar la app</string>
 
     <string name="purchase_failed">Vaya, algo ha salido mal al contactar con la Play Store! :(</string>
     <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
