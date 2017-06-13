@@ -26,6 +26,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -265,6 +266,9 @@ public class MainActivity extends AppCompatActivity
 
     protected void compraCorrecta(IabResult result, Purchase info){
 
+        Log.e("Purchase result", result.toString());
+        Log.e("Purchase info", info.toString());
+
         // Consumimos los elementos a fin de poder probar varias compras
         //billingHelper.consumeAsync(info, null);
         Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_success, Snackbar.LENGTH_SHORT).show();
@@ -462,18 +466,25 @@ public class MainActivity extends AppCompatActivity
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try (ResponseBody responseBody = response.body()) {
+                try {
+                    ResponseBody responseBody = response.body();
                     if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                    String latestVersion = responseBody.string();
+                    String latestVersionTemp = "";
+
+                    if(responseBody!=null) {
+                        latestVersionTemp = responseBody.string();
+                    }
+
+                    String latestVersion = latestVersionTemp;
                     String versionName = BuildConfig.VERSION_NAME;
 
-                    String latestVersionTrimmed = latestVersion.trim();
+                    final String latestVersionTrimmed = latestVersion.trim();
                     String versionNameTrimmed = versionName.trim();
 
                     //Log.e("versionName", versionNameTrimmed);
@@ -482,38 +493,48 @@ public class MainActivity extends AppCompatActivity
                     if (!versionNameTrimmed.equals(latestVersionTrimmed)) {
                         parent.runOnUiThread(new Runnable() {
                             public void run() {
-                                new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
-                                        .setTitle(R.string.update_available)
-                                        .setMessage(R.string.update_message)
-                                        .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
-                                                startActivity(browserIntent);
-                                            }
-                                        })
+                                if (latestVersionTrimmed.equals("")) {
+                                    Snackbar.make(getParent().findViewById(android.R.id.content), "Error", Snackbar.LENGTH_SHORT).show();
+                                } else {
+                                    new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
+                                            .setTitle(R.string.update_available)
+                                            .setMessage(R.string.update_message)
+                                            .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
+                                                    startActivity(browserIntent);
+                                                }
+                                            })
 
-                                        .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                //Do nothing
-                                            }
-                                        })
+                                            .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    //Do nothing
+                                                }
+                                            })
 
-                                        .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                                                SharedPreferences.Editor editor = settings.edit();
-                                                editor.putBoolean("noUpdate", true);
-                                                editor.apply();
-                                            }
-                                        })
+                                            .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                                                    SharedPreferences.Editor editor = settings.edit();
+                                                    editor.putBoolean("noUpdate", true);
+                                                    editor.apply();
+                                                }
+                                            })
 
-                                        .setIcon(R.drawable.ic_system_update_black_24dp)
-                                        .show();
+                                            .setIcon(R.drawable.ic_system_update_black_24dp)
+                                            .show();
+                                }
                             }
                         });
 
+
                     }
 
+
+                }finally {
+                    if (response != null) {
+                        response.close();
+                    }
                 }
             }
         });

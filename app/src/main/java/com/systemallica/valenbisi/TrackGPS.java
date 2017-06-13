@@ -173,7 +173,7 @@ public class TrackGPS extends Service implements LocationListener {
     public void stopUsingGPS() {
         if (locationManager != null) {
 
-            //locationManager.removeUpdates(TrackGPS.this);
+            locationManager.removeUpdates(TrackGPS.this);
 
         }
     }

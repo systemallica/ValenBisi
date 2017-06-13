@@ -174,7 +174,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
                 } else {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                    gps.stopUsingGPS();
                 }
             } else {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
@@ -186,17 +185,18 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
                 } else {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                    gps.stopUsingGPS();
                 }
             } else {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
             }
         }
 
+        gps.stopUsingGPS();
+
         try {
             getStations();
         }catch(IOException e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         if (settings.getBoolean("parkingLayer", false)) {
@@ -274,15 +274,21 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try (ResponseBody responseBody = response.body()) {
+                try {
                     if (!response.isSuccessful())throw new IOException("Unexpected code " + response);
+                    ResponseBody responseBody = response.body();
+                    String jsonStrTemp = "";
 
-                    final String jsonStr = responseBody.string();
+                    if(responseBody!=null) {
+                        jsonStrTemp = responseBody.string();
+                    }
+
+                    final String jsonStr = jsonStrTemp;
                     //Log.e("jsonStr1", jsonStr);
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
@@ -492,7 +498,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                 try {
                                                     getStations();
                                                 }catch(IOException e){
-                                                    System.out.println(e);
+                                                    e.printStackTrace();
                                                 }
 
                                             } else {
@@ -501,7 +507,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                 try {
                                                     getStations();
                                                 }catch(IOException e){
-                                                    System.out.println(e);
+                                                    e.printStackTrace();
                                                 }
                                             }
                                         }
@@ -514,7 +520,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                             try {
                                                 getStations();
                                             }catch(IOException e){
-                                                System.out.println(e);
+                                                e.printStackTrace();
                                             }
                                         }
                                     });
@@ -532,6 +538,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
 
+                }finally {
+                    if (response != null) {
+                        response.close();
+                    }
                 }
 
             }

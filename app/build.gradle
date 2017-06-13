@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 31
         versionName "1.6.3"
