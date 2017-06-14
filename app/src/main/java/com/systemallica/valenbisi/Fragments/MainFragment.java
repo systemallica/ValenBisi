@@ -236,7 +236,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
             } else {
-
+                mMap.setMyLocationEnabled(false);
                 Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
 
             }
@@ -676,4 +676,31 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= 23) {
+            //Check location permission
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(false);
+            }
+        } else {
+            mMap.setMyLocationEnabled(false);
+        }
+
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if (Build.VERSION.SDK_INT >= 23) {
+            //Check location permission
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mMap.setMyLocationEnabled(false);
+            }
+        } else {
+            mMap.setMyLocationEnabled(false);
+        }
+
+    }
 }
