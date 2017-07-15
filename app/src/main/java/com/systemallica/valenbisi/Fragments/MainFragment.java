@@ -96,7 +96,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         getActivity().setTitle(R.string.nav_map);
 
         MapView mapView;
-        mapView = (MapView) view.findViewById(R.id.map);
+        mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
@@ -410,9 +410,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                 final View v = getActivity().getLayoutInflater().inflate(R.layout.windowlayout, null);
 
                                                 // Getting reference to the ImageView/title/snippet
-                                                TextView title = (TextView) v.findViewById(R.id.title);
-                                                TextView snippet = (TextView) v.findViewById(R.id.snippet);
-                                                ImageView btn_star = (ImageView) v.findViewById(R.id.btn_star);
+                                                TextView title = v.findViewById(R.id.title);
+                                                TextView snippet = v.findViewById(R.id.snippet);
+                                                ImageView btn_star = v.findViewById(R.id.btn_star);
 
                                                 title.setText(marker.getTitle());
                                                 snippet.setText(marker.getSnippet());

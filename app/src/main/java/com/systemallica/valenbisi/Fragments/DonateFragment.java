@@ -46,8 +46,8 @@ public class DonateFragment extends Fragment{
         //Change toolbar title
         getActivity().setTitle(R.string.nav_donate);
 
-        SubmitButton  btn_remove_ads = (SubmitButton)view.findViewById(R.id.btn_remove_ads);
-        SubmitButton btn_buy = (SubmitButton)view.findViewById(R.id.btn_buy);
+        SubmitButton  btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
+        SubmitButton btn_buy = view.findViewById(R.id.btn_buy);
 
         donatorImage.setVisibility(GONE);
 
@@ -77,7 +77,7 @@ public class DonateFragment extends Fragment{
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState){
-        final SubmitButton btn_remove_ads = (SubmitButton ) view.findViewById(R.id.btn_remove_ads);
+        final SubmitButton btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
 
         btn_remove_ads.setOnClickListener(new View.OnClickListener() {
 
@@ -86,7 +86,7 @@ public class DonateFragment extends Fragment{
                 SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
                 SharedPreferences.Editor editor = settings.edit();
                 boolean removedAds = settings.getBoolean("removedAds", false);
-                AdView mAdView = (AdView) getActivity().findViewById(R.id.adView);
+                AdView mAdView = getActivity().findViewById(R.id.adView);
 
                 if(!removedAds) {
                     editor.putBoolean("removedAds", true);
@@ -113,7 +113,7 @@ public class DonateFragment extends Fragment{
             }
         });
 
-        SubmitButton btn_buy = (SubmitButton)view.findViewById(R.id.btn_buy);
+        SubmitButton btn_buy = view.findViewById(R.id.btn_buy);
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

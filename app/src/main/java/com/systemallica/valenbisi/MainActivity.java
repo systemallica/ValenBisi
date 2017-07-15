@@ -95,18 +95,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(activity_main);
 
         //init toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //init drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         //init navigation view
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Inflate main fragment
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         boolean donationPurchased = settings.getBoolean("donationPurchased", false);
 
         //Ads management
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
         if(!donationPurchased) {
             //Ad request and load
             AdRequest adRequest = new AdRequest.Builder().build();
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity
         editor.putBoolean("donationPurchased", true);
         editor.apply();
 
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView =  findViewById(R.id.adView);
         if(mAdView!=null) {
             mAdView.setVisibility(GONE);
             mAdView.destroy();
@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = findViewById(R.id.adView);
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean removedAds = settings.getBoolean("removedAds", false);
@@ -450,7 +450,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
