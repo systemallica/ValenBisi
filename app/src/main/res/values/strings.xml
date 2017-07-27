@@ -104,4 +104,8 @@
     <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
     <string name="donar">Donar</string>
 
+    <string name="bikeLanes">Carriles bici por defecto</string>
+    <string name="pref_bikeLanes_summary_off">Los carriles se ocultarán al iniciar la app</string>
+    <string name="pref_bikeLanes_summary_on">Los carriles se mostrarán al iniciar la app</string>
+
 </resources>

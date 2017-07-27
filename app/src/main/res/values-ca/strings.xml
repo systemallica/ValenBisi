@@ -73,4 +73,7 @@
     <string name="donator">Ja has donat!</string>
     <string name="donator_thanks">Gracies per la teua donació. Gaudeix de l\'aplicació sense anuncis y sabent que m\'has ajudat!</string>
     <string name="license">Llicència correcta</string>
+    <string name="bikeLanes">Carrils bici per defecte</string>
+    <string name="pref_bikeLanes_summary_off">Els carrils s\'ocultaràn al iniciar l\'app</string>
+    <string name="pref_bikeLanes_summary_on">Els carrils es mostrarà al iniciar l\'app</string>
 </resources>

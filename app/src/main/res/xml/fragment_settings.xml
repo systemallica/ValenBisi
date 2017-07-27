@@ -23,6 +23,14 @@
 
     <CheckBoxPreference
 
+        android:key="bikeLanes"
+        android:title="@string/bikeLanes"
+        android:summaryOff="@string/pref_bikeLanes_summary_off"
+        android:summaryOn="@string/pref_bikeLanes_summary_on"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+
         android:key="showFavorites"
         android:title="@string/showFavourites"
         android:summaryOff="@string/pref_showFavourites_summary_off"

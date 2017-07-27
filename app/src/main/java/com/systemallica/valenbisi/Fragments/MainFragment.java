@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -120,6 +122,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         boolean satellite = settings.getBoolean("satellite", false);
         editor.putBoolean("firstTime", true).apply();
         editor.putBoolean("firstTimeParking", true).apply();
+        editor.putBoolean("carrilLayer", false).apply();
 
         //Check for sdk >= 23
         if (Build.VERSION.SDK_INT >= 23) {
@@ -243,7 +246,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     public void getStations() throws IOException{
         final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -262,6 +264,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
         final Drawable myDrawableFavOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_black_24dp);
         final Drawable myDrawableFavOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_outline_black_24dp);
+        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
+        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
 
         Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
 
@@ -371,6 +375,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                 }
                                                 feature.setPointStyle(pointStyle);
                                             }
+                                        }
+
+                                        boolean bikeLanes = settings.getBoolean("bikeLanes", false);
+
+                                        if(bikeLanes){
+                                            btnCarrilToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+                                            new GetLanes().execute();
                                         }
 
                                         if (voronoiCell) {
@@ -592,17 +603,21 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         protected void onPostExecute(GeoJsonLayer carril) {
+            boolean bikeLanes = settings.getBoolean("bikeLanes", false);
 
-            if (!settings.getBoolean("carrilLayer", false)) {
+            if(bikeLanes && !settings.getBoolean("carrilLayer", false)) {
                 carril.addLayerToMap();
                 editor.putBoolean("carrilLayer", true).apply();
-            } else {
-                carril.removeLayerFromMap();
-                editor.putBoolean("carrilLayer", false).apply();
-                editor.putBoolean("firstTime", true).apply();
-
+            }else{
+                if (!settings.getBoolean("carrilLayer", false)) {
+                    carril.addLayerToMap();
+                    editor.putBoolean("carrilLayer", true).apply();
+                } else {
+                    carril.removeLayerFromMap();
+                    editor.putBoolean("carrilLayer", false).apply();
+                    editor.putBoolean("firstTime", true).apply();
+                }
             }
-
         }
     }
 
@@ -621,7 +636,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         protected GeoJsonLayer doInBackground(Void... params) {
             boolean showFavorites = settings.getBoolean("showFavorites", false);
 
-            BitmapDescriptor icon_blue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
+            Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_map_marker_radius_black_48dp);
+            bm = Bitmap.createScaledBitmap(bm, 50, 50, false);
+
+            BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
 
             try {
                 //parking layer
@@ -632,7 +650,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         pointStyle.setTitle(getString(R.string.parking) + " " + feature.getProperty("id"));
                         pointStyle.setSnippet(getString(R.string.plazas) + " " + feature.getProperty("plazas"));
                         pointStyle.setAlpha((float) 0.5);
-                        pointStyle.setIcon(icon_blue);
+                        pointStyle.setIcon(icon_parking);
 
                         boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
 
@@ -692,5 +710,20 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(mMap != null && getActivity() != null) {
+            if (Build.VERSION.SDK_INT >= 23) {
+                //Check location permission
+                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                }
+            } else {
+                mMap.setMyLocationEnabled(true);
+            }
+        }
     }
 }
