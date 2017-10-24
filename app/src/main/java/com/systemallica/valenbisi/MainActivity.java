@@ -24,7 +24,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -122,35 +121,37 @@ public class MainActivity extends AppCompatActivity
         final ConnectivityManager cm =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        final boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnected();
+        if(cm != null) {
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            final boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnected();
 
-        //React to the check
-        if(!isConnected) {
-            //Prompt an alert dialog to the user
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.no_internet)
-                    .setMessage(R.string.no_internet_message)
-                    .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            System.exit(0);
-                        }
-                    })
+            //React to the check
+            if (!isConnected) {
+                //Prompt an alert dialog to the user
+                new AlertDialog.Builder(context)
+                        .setTitle(R.string.no_internet)
+                        .setMessage(R.string.no_internet_message)
+                        .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.exit(0);
+                            }
+                        })
 
-                    .setNegativeButton(R.string.continuer, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Do nothing
-                        }
-                    })
+                        .setNegativeButton(R.string.continuer, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Do nothing
+                            }
+                        })
 
-                    .setIcon(R.drawable.ic_report_problem_black_24dp)
-                    .show();
-        }else{
-            boolean noUpdate = settings.getBoolean("noUpdate", false);
+                        .setIcon(R.drawable.ic_report_problem_black_24dp)
+                        .show();
+            } else {
+                boolean noUpdate = settings.getBoolean("noUpdate", false);
 
-            if(!noUpdate) {
-                getLatestVersion();
+                if (!noUpdate) {
+                    getLatestVersion();
+                }
             }
         }
 

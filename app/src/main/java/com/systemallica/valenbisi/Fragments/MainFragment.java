@@ -265,7 +265,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final Drawable myDrawableFavOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_black_24dp);
         final Drawable myDrawableFavOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_outline_black_24dp);
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
-        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
 
         Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
 
@@ -581,7 +580,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             try {
                 //lanes layer
                 if (settings.getBoolean("firstTime", true)) {
-                    carril = new GeoJsonLayer(mMap, R.raw.oficialcarril, getActivity().getApplicationContext());
+                    carril = new GeoJsonLayer(mMap, R.raw.bike_lanes_0917, getActivity().getApplicationContext());
                     for (GeoJsonFeature feature : carril.getFeatures()) {
                         GeoJsonLineStringStyle stringStyle = carril.getDefaultLineStringStyle();
                         stringStyle.setWidth(5);
