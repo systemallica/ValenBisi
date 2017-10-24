@@ -43,11 +43,19 @@ public class DonateFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_donate, container, false);
         ButterKnife.bind(this, view);
+
         //Change toolbar title
         getActivity().setTitle(R.string.nav_donate);
 
-        SubmitButton  btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, Bundle savedInstanceState){
+
+        final SubmitButton btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
         SubmitButton btn_buy = view.findViewById(R.id.btn_buy);
+
 
         donatorImage.setVisibility(GONE);
 
@@ -72,13 +80,6 @@ public class DonateFragment extends Fragment{
             btn_buy.setVisibility(GONE);
         }
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState){
-        final SubmitButton btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
-
         btn_remove_ads.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
@@ -95,8 +96,6 @@ public class DonateFragment extends Fragment{
                     Snackbar.make(view, R.string.ads_removed, Snackbar.LENGTH_SHORT).show();
 
                     mAdView.setVisibility(GONE);
-                    //mAdView.destroy();
-
                 }
                 else{
                     editor.putBoolean("removedAds", false);
@@ -113,13 +112,11 @@ public class DonateFragment extends Fragment{
             }
         });
 
-        SubmitButton btn_buy = view.findViewById(R.id.btn_buy);
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).startBuyProcess();
             }
         });
-
     }
 }

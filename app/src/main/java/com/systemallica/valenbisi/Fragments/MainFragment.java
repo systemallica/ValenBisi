@@ -2,6 +2,7 @@ package com.systemallica.valenbisi.Fragments;
 
 import android.Manifest;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -58,18 +59,17 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private final static String mLogTag = "GeoJsonDemo";
-    String url = PrivateInfo.url;
-    UiSettings mapSettings;
+    private String url = PrivateInfo.url;
     int location_request_code = 1;
     boolean estacionesLayer = true;
     boolean onFoot = true;
-    GeoJsonLayer carril = null;
-    GeoJsonLayer parking = null;
-    View view;
-    TrackGPS gps;
+    private GeoJsonLayer carril = null;
+    private GeoJsonLayer parking = null;
+    private View view;
     double longitude;
     double latitude;
     private GoogleMap mMap;
+    private Context context;
 
     @BindView(R.id.btnCarrilToggle)
     Button btnCarrilToggle;
@@ -94,8 +94,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        //Change toolbar title
+        // Change toolbar title
         getActivity().setTitle(R.string.nav_map);
+        // Store context in variable
+        context = getActivity().getApplicationContext();
 
         MapView mapView;
         mapView = view.findViewById(R.id.map);
@@ -109,13 +111,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        //Load icons
-        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
-        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
-        final Drawable myDrawableParkingOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_local_parking_black_24dp);
-        //final Drawable myDrawableParkingOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_off_black_24dp);
-
-        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        // Load icons
+        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
+        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_off_black_24dp);
+        final Drawable myDrawableParkingOn = ContextCompat.getDrawable(context, R.drawable.ic_local_parking_black_24dp);
+        // Map settings
+        UiSettings mapSettings;
+        // GPS object
+        TrackGPS gps;
+        // User preferences
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
         mMap = googleMap;
@@ -140,12 +145,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             mMap.setMyLocationEnabled(true);
         }
 
-        //Set map zoom controls
+        // Set map zoom controls
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(false);
 
-        //Set type of map and min zoom
+        // Set type of map and min zoom
         if (!satellite) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         } else {
@@ -153,7 +158,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
         mMap.setMinZoomPreference(12);
 
-        gps = new TrackGPS(getActivity().getApplicationContext());
+        gps = new TrackGPS(context);
 
         if (gps.canGetLocation()) {
 
@@ -161,8 +166,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             latitude = gps.getLatitude();
 
         }
-        //39.420//39.515
-        //-0.272//-0.572
+        // 39.420//39.515
+        // -0.272//-0.572
         LatLng currentLocation = new LatLng(latitude, longitude);
         LatLng valencia = new LatLng(39.479, -0.372);
 
@@ -170,7 +175,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         // Move the camera
         if (Build.VERSION.SDK_INT >= 23) {
-            //Check location permission
+            // Check location permission
             if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
                 if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
@@ -235,7 +240,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == location_request_code) {
-            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
             } else {
@@ -247,24 +252,24 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void getStations() throws IOException{
-        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
 
-        //Load default marker icons
+        // Load default marker icons
         final BitmapDescriptor icongreen = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         final BitmapDescriptor iconorange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         final BitmapDescriptor iconyellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         final BitmapDescriptor iconred = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         final BitmapDescriptor iconblue = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE);
 
-        //Load icons
-        final Drawable myDrawableBike = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_bike_black_24dp);
-        final Drawable myDrawableWalk = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_directions_walk_black_24dp);
-        final Drawable myDrawableStationsOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_place_black_24dp);
-        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_map_marker_off_black_24dp);
-        final Drawable myDrawableFavOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_black_24dp);
-        final Drawable myDrawableFavOff = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_star_outline_black_24dp);
-        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.ic_road_variant_black_24dp);
+        // Load icons
+        final Drawable myDrawableBike = ContextCompat.getDrawable(context, R.drawable.ic_directions_bike_black_24dp);
+        final Drawable myDrawableWalk = ContextCompat.getDrawable(context, R.drawable.ic_directions_walk_black_24dp);
+        final Drawable myDrawableStationsOn = ContextCompat.getDrawable(context, R.drawable.ic_place_black_24dp);
+        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(context, R.drawable.ic_map_marker_off_black_24dp);
+        final Drawable myDrawableFavOn = ContextCompat.getDrawable(context, R.drawable.ic_star_black_24dp);
+        final Drawable myDrawableFavOff = ContextCompat.getDrawable(context, R.drawable.ic_star_outline_black_24dp);
+        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
 
         Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
 
@@ -292,7 +297,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     }
 
                     final String jsonStr = jsonStrTemp;
-                    //Log.e("jsonStr1", jsonStr);
                     if(getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
@@ -304,15 +308,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     if (!jsonStr.equals("")) {
                                         JSONArray array = new JSONArray(jsonStr);
 
-                                        final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, getActivity().getApplicationContext());
+                                        final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, context);
 
-                                        for (GeoJsonFeature feature : layer.getFeatures()) {  //loop through features
+                                        for (GeoJsonFeature feature : layer.getFeatures()) {  // loop through features
                                             boolean noStationMatch = true;
                                             boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
                                             for (int counter = 0; counter < array.length(); counter++) {
                                                 JSONObject object = array.getJSONObject(counter);
-                                                //Add each number and address to its correspondent marker
-
+                                                // Add each number and address to its correspondent marker
                                                 if (object.getString("number").equals(feature.getProperty("Number"))) {
                                                     noStationMatch = false;
                                                     GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
@@ -320,7 +323,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                     pointStyle.setSnippet(getString(R.string.spots) + " " + object.getInt("available_bike_stands") + " - " + getString(R.string.bikes) + " " + object.getInt("available_bikes"));
                                                     pointStyle.setAlpha((float) 0.5);
 
-                                                    //set markers colors depending on available bikes/stands
+                                                    // set markers colors depending on available bikes/stands
                                                     if (onFoot) {
                                                         if (object.getInt("available_bikes") == 0) {
                                                             pointStyle.setIcon(iconred);
@@ -349,12 +352,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                         }
                                                     }
 
-                                                    //Apply full opacity to fav stations
+                                                    // Apply full opacity to fav stations
                                                     if (currentStationIsFav) {
                                                         pointStyle.setAlpha(1);
                                                     }
 
-                                                    //If favorites r selected, hide the rest
+                                                    // If favorites r selected, hide the rest
                                                     if (showFavorites) {
                                                         if (!currentStationIsFav) {
                                                             pointStyle.setVisible(false);
@@ -385,7 +388,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                                         if (voronoiCell) {
                                             try {
-                                                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, getActivity().getApplicationContext());
+                                                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, context);
                                                 for (GeoJsonFeature feature : voronoi.getFeatures()) {
                                                     GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
                                                     stringStyle.setColor(-16776961);
@@ -427,10 +430,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                 title.setText(marker.getTitle());
                                                 snippet.setText(marker.getSnippet());
 
-                                                //Checking if current station is favorite
+                                                // Checking if current station is favorite
                                                 boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
 
-                                                //Setting correspondent icon
+                                                // Setting correspondent icon
                                                 if (currentStationIsFav) {
                                                     btn_star.setImageDrawable(myDrawableFavOn);
                                                 } else {
@@ -459,8 +462,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                                             editor.apply();
                                                         }
                                                         marker.showInfoWindow();
-                                                        //Log.e("map marker", "marker is  " + marker.getTitle());
-
                                                     }
                                                 });
 
@@ -469,7 +470,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                             }
                                         });
 
-                                        //Toggle Stations
+                                        // Toggle Stations
                                         btnEstacionesToggle.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
                                                 boolean showFavorites = settings.getBoolean("showFavorites", false);
@@ -499,7 +500,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                             }
                                         });
 
-                                        //Toggle onFoot/onBike
+                                        // Toggle onFoot/onBike
                                         btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
                                                 layer.removeLayerFromMap();
@@ -524,7 +525,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                             }
                                         });
 
-                                        //Reload data
+                                        // Reload data
                                         btnRefresh.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
                                                 layer.removeLayerFromMap();
@@ -564,7 +565,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
-        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+
+
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
         protected void onPreExecute() {
@@ -578,9 +581,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         protected GeoJsonLayer doInBackground(Void... params) {
 
             try {
-                //lanes layer
+                // lanes layer
                 if (settings.getBoolean("firstTime", true)) {
-                    carril = new GeoJsonLayer(mMap, R.raw.bike_lanes_0917, getActivity().getApplicationContext());
+                    carril = new GeoJsonLayer(mMap, R.raw.bike_lanes_0917, context);
                     for (GeoJsonFeature feature : carril.getFeatures()) {
                         GeoJsonLineStringStyle stringStyle = carril.getDefaultLineStringStyle();
                         stringStyle.setWidth(5);
@@ -621,7 +624,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private class GetParking extends AsyncTask<Void, Void, GeoJsonLayer> {
-        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
         protected void onPreExecute() {
@@ -641,9 +644,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
 
             try {
-                //parking layer
+                // parking layer
                 if (settings.getBoolean("firstTimeParking", true)) {
-                    parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, getActivity().getApplicationContext());
+                    parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
                     for (GeoJsonFeature feature : parking.getFeatures()) {
                         GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                         pointStyle.setTitle(getString(R.string.parking) + " " + feature.getProperty("id"));
@@ -653,12 +656,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                         boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
 
-                        //Apply full opacity to fav stations
+                        // Apply full opacity to fav stations
                         if (currentStationIsFav) {
                             pointStyle.setAlpha(1);
                         }
 
-                        //If favorites are selected, hide the rest
+                        // If favorites are selected, hide the rest
                         if (showFavorites) {
                             if (!currentStationIsFav) {
                                 pointStyle.setVisible(false);
@@ -700,11 +703,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         super.onPause();
         if(mMap != null && getActivity() != null) {
             if (Build.VERSION.SDK_INT >= 23) {
-                //Check location permission
+                // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    // Re-enable location as the user returns to the app
                     mMap.setMyLocationEnabled(false);
                 }
             } else {
+                // Disable location to avoid battery drain
                 mMap.setMyLocationEnabled(false);
             }
         }
@@ -716,7 +721,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
         if(mMap != null && getActivity() != null) {
             if (Build.VERSION.SDK_INT >= 23) {
-                //Check location permission
+                // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     mMap.setMyLocationEnabled(true);
                 }

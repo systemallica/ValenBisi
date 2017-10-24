@@ -1,5 +1,6 @@
 package com.systemallica.valenbisi.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -16,7 +17,9 @@ import com.systemallica.valenbisi.R;
 
 
 public class SettingsFragment extends PreferenceFragment {
+
     public static final String PREFS_NAME = "MyPrefsFile";
+    private Context context;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -26,7 +29,8 @@ public class SettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
+        context = getActivity().getApplicationContext();
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
 
         //Change toolbar title
@@ -48,17 +52,17 @@ public class SettingsFragment extends PreferenceFragment {
                     if (!navBarPref.isChecked()) {
                         editor.putBoolean("navBar", true);
                         editor.apply();
-                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorPrimary));
+                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.colorPrimary));
                     }
                     else{
                         editor.putBoolean("navBar", false);
                         editor.apply();
-                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.black));
+                        getActivity().getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.black));
                     }
                 }
                 else{
                     if(isAdded()) {
-                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Tu versión de Android no es compatible con esto :(", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(context, "Tu versión de Android no es compatible con esto :(", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
@@ -209,9 +213,11 @@ public class SettingsFragment extends PreferenceFragment {
                 editor.apply();
 
                 Intent i = getActivity().getPackageManager().getLaunchIntentForPackage(getActivity().getPackageName());
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
-                getActivity().finish();
+                if(i != null) {
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                    getActivity().finish();
+                }
 
                return true;
             }
