@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
             boolean noUpdate = settings.getBoolean("noUpdate", false);
 
             if(!noUpdate) {
-                checkUpdate();
+                getLatestVersion();
             }
         }
 
@@ -455,8 +455,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void checkUpdate(){
-        final MainActivity parent = this;
+    public void getLatestVersion(){
         final OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -482,54 +481,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     String latestVersion = latestVersionTemp;
-                    String versionName = BuildConfig.VERSION_NAME;
-
-                    final String latestVersionTrimmed = latestVersion.trim();
-                    String versionNameTrimmed = versionName.trim();
-
-                    //Log.e("versionName", versionNameTrimmed);
-                    //Log.e("latestVersion", latestVersionTrimmed);
-
-                    if (!versionNameTrimmed.equals(latestVersionTrimmed)) {
-                        parent.runOnUiThread(new Runnable() {
-                            public void run() {
-                                if (latestVersionTrimmed.equals("")) {
-                                    Snackbar.make(getParent().findViewById(android.R.id.content), "Error", Snackbar.LENGTH_SHORT).show();
-                                } else {
-                                    new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, R.style.myDialog))
-                                            .setTitle(R.string.update_available)
-                                            .setMessage(R.string.update_message)
-                                            .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
-                                                    startActivity(browserIntent);
-                                                }
-                                            })
-
-                                            .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    //Do nothing
-                                                }
-                                            })
-
-                                            .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                                                    SharedPreferences.Editor editor = settings.edit();
-                                                    editor.putBoolean("noUpdate", true);
-                                                    editor.apply();
-                                                }
-                                            })
-
-                                            .setIcon(R.drawable.ic_system_update_black_24dp)
-                                            .show();
-                                }
-                            }
-                        });
-
-
-                    }
-
+                    checkUpdate(latestVersion.trim());
 
                 }finally {
                     if (response != null) {
@@ -538,10 +490,50 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+    }
 
+    public void checkUpdate(final String latestVersion){
 
+        String versionName = BuildConfig.VERSION_NAME.trim();
 
+        if (!versionName.equals(latestVersion)) {
 
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (latestVersion.equals("")) {
+                        Snackbar.make(findViewById(android.R.id.content), "Error", Snackbar.LENGTH_SHORT).show();
+                        Log.e("version:", "no updates");
+                    } else {
+                        Log.e("version:", "update found!");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle(R.string.update_available)
+                                .setMessage(R.string.update_message)
+                                .setIcon(R.drawable.ic_system_update_black_24dp)
+                                .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"));
+                                        startActivity(browserIntent);
+                                    }
+                                })
+                                .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Do nothing
+                                    }
+                                })
+                                .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                                        SharedPreferences.Editor editor = settings.edit();
+                                        editor.putBoolean("noUpdate", true);
+                                        editor.apply();
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                }
+            });
+        }
     }
 
     @Override
