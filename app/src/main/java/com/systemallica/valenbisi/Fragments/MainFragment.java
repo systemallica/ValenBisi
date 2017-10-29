@@ -308,7 +308,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     if (!jsonStr.equals("")) {
                                         JSONArray array = new JSONArray(jsonStr);
 
-                                        final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia, context);
+                                        final GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.valencia_1017, context);
 
                                         for (GeoJsonFeature feature : layer.getFeatures()) {  // loop through features
                                             boolean noStationMatch = true;
