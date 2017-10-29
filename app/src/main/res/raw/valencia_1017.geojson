@@ -1,0 +1,3305 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.369528093405798,39.497128187401 ]
+      },
+      "properties": {
+        "Number":233,
+        "Name":"233_SAN_JUAN_BOSCO_SANTIAGO_RUSIÑOL",
+        "Address":"San Juan Bosco - Santiago Rusiñol" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.397848157697943,39.45869404863428 ]
+      },
+      "properties": {
+        "Number":211,
+        "Name":"211_CALLE_FRAY_JUNÍPERO_SERRA_ESQ_CALLE_VALL_D'UIX",
+        "Address":"Fray Junípero Serra - Vall d'Uixó" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.348533015740284,39.46964810153237 ]
+      },
+      "properties": {
+        "Number":98,
+        "Name":"098_SANTOS JUSTO Y PASTOR",
+        "Address":"Justo y Pastor - Duque de Gaeta" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.357652050365347,39.483221144341215 ]
+      },
+      "properties": {
+        "Number":116,
+        "Name":"116_C/ DR. VICENTE ZARAGOZA",
+        "Address":"Doctor Vicente Zaragozá - Ramón Asensio" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.390305142409828,39.4723390971218 ]
+      },
+      "properties": {
+        "Number":21,
+        "Name":"021_JUAN_LLORENS_29",
+        "Address":"Juan Llorens - Literato Gabriel Miró" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38680912265075,39.4551140401216 ]
+      },
+      "properties": {
+        "Number":193,
+        "Name":"193_CALLE_CARTEROS",
+        "Address":"Uruguay - Carteros" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.34057499279659,39.471312109714646 ]
+      },
+      "properties": {
+        "Number":99,
+        "Name":"099_AVDA. BLASCO IBAÑEZ 8",
+        "Address":"Blasco Ibañez - Pintor José Mongrell" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.406600189533111,39.46905808079698 ]
+      },
+      "properties": {
+        "Number":246,
+        "Name":"246_AVDA_TRES_CRUCES_ENTRADA_HOSPITAL_GENERAL",
+        "Address":"Tres Cruces - Hospital General" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.334812971276553,39.46341708497314 ]
+      },
+      "properties": {
+        "Number":159,
+        "Name":"159_FRANCISCO CUBELLS",
+        "Address":"Francisco Cubells - San José de la Vega" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.373430100012801,39.48762415410862 ]
+      },
+      "properties": {
+        "Number":134,
+        "Name":"134_C/ MAXIMILIANO THOUS",
+        "Address":"Maximiliano Thous - Luz Casanova" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.377294117154526,39.49801318789519 ]
+      },
+      "properties": {
+        "Number":235,
+        "Name":"235_CONDE_DE_TORREFIEL_CECILIO_PLA",
+        "Address":"Conde Torrefiel - Cecilio Plá" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.39343615667867,39.481430126787565 ]
+      },
+      "properties": {
+        "Number":172,
+        "Name":"172_AVENIDA_PIO_XII",
+        "Address":"Pío XII - Campanar" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.333278958357397,39.448038033633594 ]
+      },
+      "properties": {
+        "Number":274,
+        "Name":"274_MANUEL_ANDRES_CASTELL_DE_POLOP",
+        "Address":"San Francisco de Paula - Castell de Pop" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.404687184457659,39.47029608559258 ]
+      },
+      "properties": {
+        "Number":217,
+        "Name":"217_CALLE_9_DE_OCTUBRE_ESQ_CALLE_PINTOR_STOLZ",
+        "Address":"Pintor Stolz - Nueve de Octubre" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38302,39.48001 ]
+      },
+      "properties": {
+        "Number":1,
+        "Name":"001_GUILLEN_DE_CASTRO",
+        "Address":"C/GUILLEM DE CASTRO esquina con C/NA JORDANA" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358643429344464,39.450775142005085 ]
+      },
+      "properties": {
+        "Number":48,
+        "Name":"48_AVDA. ANTONIO FERRANDIS",
+        "Address":"Antonio Ferrandis - General Urrutia" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.354157040555065,39.48445314961921 ]
+      },
+      "properties": {
+        "Number":122,
+        "Name":"122_C_MÚSICO HIPÓLITO MARTÍNEZ",
+        "Address":"Músico Hipólito Martínez - Diógenes López Mecho" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.384005125495213,39.47602411158443 ]
+      },
+      "properties": {
+        "Number":82,
+        "Name":"082_GUILLEN_DE_CASTRO_TORRES_DE_QUART",
+        "Address":"Guillem de Castro (Torres de Quart)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.324660945171817,39.47137711508329 ]
+      },
+      "properties": {
+        "Number":165,
+        "Name":"165_PAVIA 2",
+        "Address":"Pavía - Espadán" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.341477998410525,39.47671212762051 ]
+      },
+      "properties": {
+        "Number":106,
+        "Name":"106_AVDA. DE LOS NARANJOS",
+        "Address":"Albalat dels Tarongers - Professor Ernest Lluch" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.355509029538065,39.45648005487459 ]
+      },
+      "properties": {
+        "Number":47,
+        "Name":"47_AVDA. AUTOPISTA DEL SALER",
+        "Address":"Autopista del Saler - Puente Monteolivete" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.324735949373236,39.478753139905066 ]
+      },
+      "properties": {
+        "Number":169,
+        "Name":"169_PAVIA 4",
+        "Address":"Pavía (Instituto Isabel de Villena)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.35720111550767,39.452954722176685 ]
+      },
+      "properties": {
+        "Number":49,
+        "Name":"49_C/ RICARDO MUÑOZ SUAY",
+        "Address":"Ricardo Muñoz Suay - María José Victoria Fuster (C.C. El Saler)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358862055563278,39.48615015382428 ]
+      },
+      "properties": {
+        "Number":121,
+        "Name":"121_C_MURTA",
+        "Address":"Murta - Sant Eperit" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.391027148421504,39.47950512106764 ]
+      },
+      "properties": {
+        "Number":143,
+        "Name":"143_AVDA. MENENDEZ PIDAL",
+        "Address":"Pio XII - Menéndez PIdal (Nuevo Centro)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.396678168748875,39.48581114052686 ]
+      },
+      "properties": {
+        "Number":204,
+        "Name":"204_AVDA_GENERAL_AVILES",
+        "Address":"Corts Valencianes - General Avilés" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.380387098491455,39.446050011610645 ]
+      },
+      "properties": {
+        "Number":190,
+        "Name":"190_CTRA_MALILLA",
+        "Address":"Cra. Malilla - Bulevar Sur" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.346431002074561,39.45600205620843 ]
+      },
+      "properties": {
+        "Number":52,
+        "Name":"52_C/ LUIS GARCIA BERLANGA",
+        "Address":"Luis García Berlanga Martí - Menorca" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.373735105660714,39.49646718382403 ]
+      },
+      "properties": {
+        "Number":234,
+        "Name":"234_PLAZA MUSICO_ESPI_JOSE_ESTEVE",
+        "Address":"Plaza Músico Espí" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.3954071515343,39.460848056694466 ]
+      },
+      "properties": {
+        "Number":198,
+        "Name":"198_CALLE_FONTANARS_DELS_AFORINS",
+        "Address":"Fontanars dels Aforins - Vall d'Uixó" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38037911504075,39.47680311538018 ]
+      },
+      "properties": {
+        "Number":3,
+        "Name":"003_PLAZA_MUSICO_LOPEZ_CHAVARRI",
+        "Address":"Plaza del Musico López Chavarri" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.343552001034738,39.4700511045018 ]
+      },
+      "properties": {
+        "Number":76,
+        "Name":"076_CAMPOAMOR II",
+        "Address":"Campoamor - Músico Ginés" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.335255974679776,39.46726209778759 ]
+      },
+      "properties": {
+        "Number":84,
+        "Name":"84_SERRERIA_ESQ_PINTOR FERRER CALATAYUD",
+        "Address":"Serrería"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.418584242795808,39.50141318615774 ]
+      },
+      "properties": {
+        "Number":268,
+        "Name":"268_PZA_LUIS_CANO_5",
+        "Address":"Plaza Luis Cano"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.405664185821979,39.46737807542721 ]
+      },
+      "properties": {
+        "Number":247,
+        "Name":"247_AVDA_TRES_CRUCES_MUSICO_AYLLON",
+        "Address":"Tres Cruces - Músico Ayllón" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.365119064198398,39.46733308836422 ]
+      },
+      "properties": {
+        "Number":31,
+        "Name":"031_CALLE SALAMANCA",
+        "Address":"Salamanca - Conde Altea" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.386120116565009,39.44767101522146 ]
+      },
+      "properties": {
+        "Number":255,
+        "Name":"255_SAN_VICENTE_MARTIR_TOMAS_DE_VILLAROYA",
+        "Address":"Tomas de Villarroya - San Vicente" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.364867058884755,39.458880059935595 ]
+      },
+      "properties": {
+        "Number":41,
+        "Name":"41_AVDA. GRAL. URRUTIA",
+        "Address":"General Urrutia - Granada" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.386143126606345,39.46616307762487 ]
+      },
+      "properties": {
+        "Number":26,
+        "Name":"026_CALLE_SAN_JOSE_DE_CALASANZ",
+        "Address":"San José de Calasanz - Salas Quiroga" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.374101,39.471935 ]
+      },
+      "properties": {
+        "Number":12,
+        "Name":"012_CALLE_MINYANA",
+        "Address":"Calle Salvá - Calle Poeta Querol" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.366517061973888,39.455440047796785 ]
+      },
+      "properties": {
+        "Number":179,
+        "Name":"179_AVENIDA_DE_LA_PLATA_45",
+        "Address":"Av. de la Plata - Zapadores" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.361069056238335,39.47509611584928 ]
+      },
+      "properties": {
+        "Number":81,
+        "Name":"081_DOCTOR FORNOS",
+        "Address":"Micer Mascó - Rodriguez Fornos" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.367842074631205,39.47155010170615 ]
+      },
+      "properties": {
+        "Number":28,
+        "Name":"028_NAVARRO REVERTE",
+        "Address":"Navarro Reverter - Grabador Esteve" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.371254089734112,39.48062113119549 ]
+      },
+      "properties": {
+        "Number":131,
+        "Name":"131_C/ ALBORAYA",
+        "Address":"Alboraya - Flora" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.342366002058633,39.47854813352072 ]
+      },
+      "properties": {
+        "Number":112,
+        "Name":"112_AVDA. DE LOS NARANJOS",
+        "Address":"Manuel Broseta i Pont - Naranjos" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.384633120260506,39.46278806672407 ]
+      },
+      "properties": {
+        "Number":243,
+        "Name":"243_ALBACETE_ESQ_MALUQUER",
+        "Address":"Albacete - Maluquer" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.408208195369257,39.470941086635776 ]
+      },
+      "properties": {
+        "Number":265,
+        "Name":"265_C_ALCASSER_POETA_ALBERTO_LISTA",
+        "Address":"Alcasser - Poeta Alberto Lista" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.394474168343446,39.497417180383685 ]
+      },
+      "properties": {
+        "Number":238,
+        "Name":"238_SAN_JOSE_ARTESANO_FRANCISCO_MOROTE_GREUS",
+        "Address":"San Jose Artesano - Francisco Morote Greus" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358505044597536,39.467747091898616 ]
+      },
+      "properties": {
+        "Number":63,
+        "Name":"063_AVDA. DEL PUERTO I",
+        "Address":"Av Puerto 19 (Telefónica)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.344495997567289,39.45838906488428 ]
+      },
+      "properties": {
+        "Number":56,
+        "Name":"56_AVDA. DE FRANCIA",
+        "Address":"Francia - Menorca" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.403022190134151,39.490216153353934 ]
+      },
+      "properties": {
+        "Number":227,
+        "Name":"227_CALLE_SAN_CLEMENTE_ENTRA_HOSPITAL_ARNAU_VILANO",
+        "Address":"San Clemente - Hospital Arnau de Vilanova" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.365844081019678,39.49461218010229 ]
+      },
+      "properties": {
+        "Number":232,
+        "Name":"232_SAN_VICENTE_DE_PAUL_SANTIAGO_RUSIÑOL",
+        "Address":"San Vicente Paul - Santiago Rusiñol" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.352239033238509,39.481530140385686 ]
+      },
+      "properties": {
+        "Number":115,
+        "Name":"115_C/ DR. VICENTE ZARAGOZA",
+        "Address":"Cataluña - Doctor Vicente Zaragozá" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.39683915840866,39.46563907240366 ]
+      },
+      "properties": {
+        "Number":215,
+        "Name":"215_CALLE_MUSICO_AYLLON_ESQ_CALLE_FRANCISCO_DOLZ",
+        "Address":"Músico Ayllón - Francisco Dolz" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.350468025305313,39.47664412448885 ]
+      },
+      "properties": {
+        "Number":261,
+        "Name":"261_PZA_XUQUER_ESQ_VINALOPO",
+        "Address":"Plaza Xuquer - Vinalopó" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.346811013895548,39.47580112282824 ]
+      },
+      "properties": {
+        "Number":102,
+        "Name":"102_AVDA.RAMON LLUL",
+        "Address":"Ramón Llull - Serpis" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.368338073115823,39.4659740827401 ]
+      },
+      "properties": {
+        "Number":32,
+        "Name":"032_C/ CONDE DE ALTEA",
+        "Address":"Conde Altea - Almirante Cadarso" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.357333043778256,39.47274710913562 ]
+      },
+      "properties": {
+        "Number":79,
+        "Name":"079_AVDA. ARAGON II",
+        "Address":"Aragón - Ernesto Ferrer" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375175098086736,39.47428810857441 ]
+      },
+      "properties": {
+        "Number":8,
+        "Name":"008_PLAZA_DE_LA_REINA_ESQUINA_CALLE_DEL_MAR",
+        "Address":"Plaza de la Reina - Mar" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.391129156875508,39.4947261723789 ]
+      },
+      "properties": {
+        "Number":237,
+        "Name":"237_LEVANTE_UD_AVDA_ECUADOR",
+        "Address":"Levante U.D. - Ecuador" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.333702973476317,39.47365411982902 ]
+      },
+      "properties": {
+        "Number":108,
+        "Name":"108_ LUIS PEIXO",
+        "Address":"Luís Peixó 20" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.336888975014669,39.45882806883267 ]
+      },
+      "properties": {
+        "Number":67,
+        "Name":"067_JUAN VERDEGUER",
+        "Address":"Juan Verdeguer - Toneleros" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.362137064678155,39.484848148381595 ]
+      },
+      "properties": {
+        "Number":120,
+        "Name":"120_C_DR VICENTE ZARAGOZA",
+        "Address":"Doctor Vicente Zaragozá - Emilio Baró" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.391681147609965,39.47433710342028 ]
+      },
+      "properties": {
+        "Number":19,
+        "Name":"019_JUAN_LLORENS",
+        "Address":"Juan Llorens - Quart" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.388701135103807,39.46769708197544 ]
+      },
+      "properties": {
+        "Number":25,
+        "Name":"025_CALLE_DEL_ALBERIC",
+        "Address":"Alberique"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.37059709396399,39.492184170392264 ]
+      },
+      "properties": {
+        "Number":178,
+        "Name":"178_CALLE_REIG_GENOVES",
+        "Address":"Reig Genovés - Ramón Contreras Mongrell" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.351674028220146,39.47534611972441 ]
+      },
+      "properties": {
+        "Number":94,
+        "Name":"094_AVDA. BLASCO IBAÑEZ 5",
+        "Address":"Blasco Ibañez - Clariano" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38969114895134,39.48797215005971 ]
+      },
+      "properties": {
+        "Number":140,
+        "Name":"140_AVENIDA_CAMPANAR",
+        "Address":"Campanar - Nicasio Benlloch" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.367635083238739,39.488734159713275 ]
+      },
+      "properties": {
+        "Number":128,
+        "Name":"128_C/ ALFAUIR",
+        "Address":"Alfahuir - Peñiscola" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.40294418188015,39.47523810283483 ]
+      },
+      "properties": {
+        "Number":221,
+        "Name":"221_AVDA_MANUEL_DE_FALLA_ESQ_CALLE_HERNANDEZ_LAZAR",
+        "Address":"Manuel de Falla - Hernández Lázaro" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.377350100922523,39.467436084759534 ]
+      },
+      "properties": {
+        "Number":17,
+        "Name":"017_ESTACION RENFE I",
+        "Address":"Xátiva - Bailén (Estación del Norte)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.392326143951058,39.4639310680958 ]
+      },
+      "properties": {
+        "Number":256,
+        "Name":"256_AVDA_TRES_FORQUES_TURIS",
+        "Address":"Tres Forques - Turís" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.384313132924836,39.48815815241352 ]
+      },
+      "properties": {
+        "Number":138,
+        "Name":"138_SAN_PANCRACIO",
+        "Address":"San Pancracio - Periodista Llorente" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370052077239064,39.46409007583113 ]
+      },
+      "properties": {
+        "Number":34,
+        "Name":"34_AVDA. ANTIGUO REINO DE VALENCIA",
+        "Address":"Regne de Valencia - Doctor Sumsi" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.385247133088568,39.48323613551247 ]
+      },
+      "properties": {
+        "Number":141,
+        "Name":"141_C/ GREGORIO GEA (PEATONAL)",
+        "Address":"Gregorio Gea - Padre Ferris" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.348305017144382,39.47352211466433 ]
+      },
+      "properties": {
+        "Number":96,
+        "Name":"096_AVDA. BLASCO IBAÑEZ 6",
+        "Address":"Blasco Ibañez - Yecla" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.337207979114133,39.46463708827678 ]
+      },
+      "properties": {
+        "Number":151,
+        "Name":"151_JERONIMO MONSORIU",
+        "Address":"Jerónimo Monsoriu - Alcalde Cano Coloma" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38922812163005,39.43979598762512 ]
+      },
+      "properties": {
+        "Number":258,
+        "Name":"258_PINTOR_RAFAEL_SOLVES_ESQ_JOSE_SOTO_MICO",
+        "Address":"Pintor Rafael Solves - Jose Soto Mico" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.381677113224894,39.46618607914484 ]
+      },
+      "properties": {
+        "Number":58,
+        "Name":"058_PLAZA DE ESPAÑA",
+        "Address":"Plaza España" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.371737,39.469181 ]
+      },
+      "properties": {
+        "Number":70,
+        "Name":"70_CALLE_COLON_ESQ_ALMIRANTE_ROGER_DE_LAURIA",
+        "Address":"Colón"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.409735197841415,39.46701107287583 ]
+      },
+      "properties": {
+        "Number":263,
+        "Name":"263_PADRE ESTEBAN_PERNET_ANTES_CASA_MISERICORDIA",
+        "Address":"Padre Esteban Pernet - Casa Misericordia" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.360507057423573,39.4804341340267 ]
+      },
+      "properties": {
+        "Number":118,
+        "Name":"118_C/ DR. GOMEZ FERRER",
+        "Address":"Gómez Ferrer - Álvaro de Bazán" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.346682016720988,39.481772142992675 ]
+      },
+      "properties": {
+        "Number":114,
+        "Name":"114_ADOLFO SUAREZ",
+        "Address":"UPV Informática" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.397063157732616,39.463133063872554 ]
+      },
+      "properties": {
+        "Number":213,
+        "Name":"213_CALLE_ARCHIDUQUE_CARLOS_ESQ_CALLE_JOSE_MA_MOR",
+        "Address":"Archiduque Carlos - José María Mortes Lerma" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.340651997804929,39.480184139586505 ]
+      },
+      "properties": {
+        "Number":111,
+        "Name":"111_COLEGIO MAYOR",
+        "Address":"UPV Galileo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.39000812823506,39.44768201399717 ]
+      },
+      "properties": {
+        "Number":254,
+        "Name":"254_AVDA_DR_TOMAS_SALA_CARTEROS",
+        "Address":"Doctor Tomás Sala - Carteros" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.393759152416117,39.471680093784954 ]
+      },
+      "properties": {
+        "Number":201,
+        "Name":"201_AVDA_PEREZ_GALDOS",
+        "Address":"Perez Galdós - Nou Moles" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.386738140863954,39.48940615584413 ]
+      },
+      "properties": {
+        "Number":174,
+        "Name":"174_CALLE_MONDUBER",
+        "Address":"Monduber - Peset Aleixandre" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.365758075579642,39.484941147529945 ]
+      },
+      "properties": {
+        "Number":77,
+        "Name":"77_C/ MOLINELL",
+        "Address":"Molinell - Calderón de la Barca" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.401273181871356,39.48457713488814 ]
+      },
+      "properties": {
+        "Number":203,
+        "Name":"203_CALLE_REINA_VIOLANTE",
+        "Address":"Reina Violante - Escultor García Mas" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.324700947178956,39.4748761268572 ]
+      },
+      "properties": {
+        "Number":167,
+        "Name":"167_PAVIA 3",
+        "Address":"Pavía - Acequia de la Cadena" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.34736601693197,39.47835413125328 ]
+      },
+      "properties": {
+        "Number":104,
+        "Name":"104_ALBALAT DELS TARONGERS",
+        "Address":"Albalat dels Tarongers - Paseo Facultades" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.336770986463246,39.48070814260447 ]
+      },
+      "properties": {
+        "Number":110,
+        "Name":"110_KISSHOMARU",
+        "Address":"UPV Trinquet" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.341823991929563,39.46277108052299 ]
+      },
+      "properties": {
+        "Number":68,
+        "Name":"068_AVDA. DEL PUERTO IV",
+        "Address":"Av. Puerto - José Aguilar" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.363169057053421,39.46492108086036 ]
+      },
+      "properties": {
+        "Number":155,
+        "Name":"155_C/ SALAMANCA",
+        "Address":"Salamanca - Reina Doña Germana" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.372796083742631,39.460893064158775 ]
+      },
+      "properties": {
+        "Number":152,
+        "Name":"152_C/ LITERATO AZORÍN",
+        "Address":"Reina Doña María - Cádiz" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.374106081983545,39.450359028192096 ]
+      },
+      "properties": {
+        "Number":186,
+        "Name":"186_CALLE_INGENIERO_JOAQUIN_BENLLOCH",
+        "Address":"Benifairó de Valldigna - Joaquín Benlloch" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.374022085762198,39.457822053401024 ]
+      },
+      "properties": {
+        "Number":39,
+        "Name":"39_AVDA. PERIS Y VALERO",
+        "Address":"Peris y Valero - Cuba" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370301088264948,39.48320614021858 ]
+      },
+      "properties": {
+        "Number":130,
+        "Name":"130_C/ CONVENTO CARMELITAS",
+        "Address":"Convento Carmelitas - Alboraya" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.336314982139155,39.47521312423745 ]
+      },
+      "properties": {
+        "Number":107,
+        "Name":"107_C/ CAMPILLO ALTO BUEY",
+        "Address":"Campillo de Altobuey (Polideportivo)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.33336295982062,39.450273041140704 ]
+      },
+      "properties": {
+        "Number":273,
+        "Name":"273_CALLE_MORAIRA_CALLE_DALT_DE_LA_MAR",
+        "Address":"Moraira - Alta del Mar" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38029811284559,39.473169103148095 ]
+      },
+      "properties": {
+        "Number":147,
+        "Name":"147_CALLE_PIE_DE_LA_CRUZ_CALLE_DE_LA_REJA",
+        "Address":"Pie de la Cruz - Rejas" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.373220088928677,39.46815908853249 ]
+      },
+      "properties": {
+        "Number":18,
+        "Name":"018_COLON II",
+        "Address":"Colón 20-22" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.363317066947724,39.48248814004604 ]
+      },
+      "properties": {
+        "Number":119,
+        "Name":"119_C/ JAIME ROIG",
+        "Address":"Jaime Roig - Bachiller" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.324724943771547,39.468428105127856 ]
+      },
+      "properties": {
+        "Number":164,
+        "Name":"164_PAVIA 1",
+        "Address":"Pavía - Columbretes" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.399226167293882,39.4688460824582 ]
+      },
+      "properties": {
+        "Number":216,
+        "Name":"216_AVDA_DEL_CID_ESQ_CALLE_BURGOS",
+        "Address":"Av. del Cid - Burgos" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.381942112481819,39.46333006942278 ]
+      },
+      "properties": {
+        "Number":27,
+        "Name":"027_CALLE_SAN_VICENTE_MARTIR_129",
+        "Address":"San Vicente Martir - Doctor Vilá Barberá" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.346399008039668,39.46721209400214 ]
+      },
+      "properties": {
+        "Number":72,
+        "Name":"072_RAMIRO MAETZU",
+        "Address":"Ramiro de Maeztu - Peris Brell" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.381996108347568,39.455361042514035 ]
+      },
+      "properties": {
+        "Number":207,
+        "Name":"207_CALLE_MILLARES_ESQ_CALLE_FEDERICO_GARCA_LORCA",
+        "Address":"Giorgeta"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.400055184833165,39.496953177032466 ]
+      },
+      "properties": {
+        "Number":239,
+        "Name":"239_LA_FLORISTA_TRANVIA_PALACIO_CONGRESOS",
+        "Address":"Florista - T4 (Palau de Congressos)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.33824098596173,39.471602111446835 ]
+      },
+      "properties": {
+        "Number":100,
+        "Name":"100_AVDA. BLASCO IBAÑEZ 9",
+        "Address":"Blasco Ibañez - Mestre Ripoll" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.388157129082296,39.4595430546337 ]
+      },
+      "properties": {
+        "Number":196,
+        "Name":"196_AVDA_GASPAR_AGUILAR",
+        "Address":"Jerónimo Muñoz - Gaspar Aguilar" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.414523213347863,39.46912807848099 ]
+      },
+      "properties": {
+        "Number":264,
+        "Name":"264_AVDA_CID_ANTES_MARCONI",
+        "Address":"Av. del Cid - Marconi" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.379987120406342,39.489001156645486 ]
+      },
+      "properties": {
+        "Number":137,
+        "Name":"137_CALLE_ECONOMISTA_GAY",
+        "Address":"Economista Gay - Luis Crumiere" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.327977958049006,39.47683913241012 ]
+      },
+      "properties": {
+        "Number":168,
+        "Name":"168_AVDA. MALVARROSA",
+        "Address":"Malvarrosa - Río Tajo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.40506018155276,39.46280806019345 ]
+      },
+      "properties": {
+        "Number":248,
+        "Name":"248_AVDA_TRES_CRUCES_JOSE_MARIA_MORTES_LERMA",
+        "Address":"Tres Cruces - Jose Maria Mortes Lerma" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.353825031741888,39.469917100728054 ]
+      },
+      "properties": {
+        "Number":74,
+        "Name":"074_PLAZA SAN FELIPE NERI",
+        "Address":"Plaza San Felipe Neri (Mercado Algirós)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.393106139888379,39.45205002773928 ]
+      },
+      "properties": {
+        "Number":209,
+        "Name":"209_AVDA_GASPAR_AGUILAR_ESQ_CALLE_MUSICO_PENELLA",
+        "Address":"Gaspar Aguilar - Músico Penella" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.379276110679168,39.474840109114226 ]
+      },
+      "properties": {
+        "Number":7,
+        "Name":"007_PZA_DEL_MERCADO_TAULA_DE_CANVIS",
+        "Address":"Plaza del Mercado - Taula de Canvis" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.343223001657882,39.47303611466866 ]
+      },
+      "properties": {
+        "Number":97,
+        "Name":"097_AVDA. BLASCO IBAÑEZ 7",
+        "Address":"Blasco Ibañez 121" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.378712119815713,39.495040177417366 ]
+      },
+      "properties": {
+        "Number":231,
+        "Name":"231_CALLE_DE_ALCAÑIZ_ESQ_CALLE_CAMBRILS",
+        "Address":"Alcañiz - Cambrils" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.364932074551232,39.487639156890914 ]
+      },
+      "properties": {
+        "Number":123,
+        "Name":"123_C_ALBOCACER",
+        "Address":"Albocácer - Vinaroz" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358878039093959,39.45547705039899 ]
+      },
+      "properties": {
+        "Number":46,
+        "Name":"46_AVDA. INSTITUTO OBRERO DE VALENCIA",
+        "Address":"Pintor Luis Arcas - Inst. Obrero Valenciano" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.382803130751858,39.49255716773316 ]
+      },
+      "properties": {
+        "Number":175,
+        "Name":"175_CALLE_JUAN_XXIII",
+        "Address":"Juan XXIII - Domingo Gómez" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.328901958917283,39.47331712024639 ]
+      },
+      "properties": {
+        "Number":166,
+        "Name":"166_PROGRESO",
+        "Address":"Don Vicente Guillot - Progreso" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.348230007860048,39.456732058086 ]
+      },
+      "properties": {
+        "Number":53,
+        "Name":"53_C/ LUIS GARCIA BERLANGA",
+        "Address":"Alameda - Pintor Maella" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.389982155850781,39.499247187993085 ]
+      },
+      "properties": {
+        "Number":271,
+        "Name":"271_CALLE_SALVADOR_CERVERÓ_CALLE_CARLOS_CORTINA",
+        "Address":"Salvador Cerveró - Carlos Cortina" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.363105052261891,39.456397052131265 ]
+      },
+      "properties": {
+        "Number":44,
+        "Name":"44_AVDA. GRAL. URRUTIA",
+        "Address":"General Urrutia - Av. de la Plata" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370524081869223,39.47006009581504 ]
+      },
+      "properties": {
+        "Number":16,
+        "Name":"016_COLON I",
+        "Address":"Colón"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.361946047377204,39.45378704370325 ]
+      },
+      "properties": {
+        "Number":45,
+        "Name":"45_AVDA. GRAL. URRUTIA",
+        "Address":"Hermanos Maristas - General Urrutia" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358709056987903,39.489661165707126 ]
+      },
+      "properties": {
+        "Number":125,
+        "Name":"125_C/ MASQUEFA",
+        "Address":"Masquefa"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.368909065084874,39.447928021676226 ]
+      },
+      "properties": {
+        "Number":187,
+        "Name":"187_AVDA_AUSIAS_MARCH",
+        "Address":"Ángel Villena - Ausias March" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.333600974859012,39.47678713041781 ]
+      },
+      "properties": {
+        "Number":109,
+        "Name":"109_AVDA. NARANJOS",
+        "Address":"Naranjos - Ingeniero Fausto Elio" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.393181160103781,39.489255153267536 ]
+      },
+      "properties": {
+        "Number":205,
+        "Name":"205_CALLE_NICASIO_BENLLOCH",
+        "Address":"Nicasio Benlloch - Amics dels Corpus" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375973105008805,39.48272413676827 ]
+      },
+      "properties": {
+        "Number":133,
+        "Name":"133_C/ ALFAMBRA",
+        "Address":"Alfambra - Poeta Monmeneu" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.376436094678165,39.460932063112466 ]
+      },
+      "properties": {
+        "Number":156,
+        "Name":"156_C/ CUBA",
+        "Address":"Puerto Rico - Cuba" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.32988595660341,39.46357208709311 ]
+      },
+      "properties": {
+        "Number":162,
+        "Name":"162_PZA. ARMADA ESPAÑOLA",
+        "Address":"Armada Española - Mariano Cuber" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.389098149691761,39.49268016612935 ]
+      },
+      "properties": {
+        "Number":206,
+        "Name":"206_CALLE_PERIODISTA_GIL_SUMBIELA",
+        "Address":"Periodista Gil Sumbiela - Poeta Serrano Clavero" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.400667169496185,39.46490006867376 ]
+      },
+      "properties": {
+        "Number":214,
+        "Name":"214_CALLE_SANTA_CRUZ_DE_TENERIFE_ESQ_CALLE_LLOMBA",
+        "Address":"Santa Cruz de Tenerife"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.374915095234885,39.470434095658966 ]
+      },
+      "properties": {
+        "Number":40,
+        "Name":"40_CALLE_BARCAS_FRENTE _TEATRO_PRINCIPAL",
+        "Address":"Barcas"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.401684,39.472789 ]
+      },
+      "properties": {
+        "Number":219,
+        "Name":"219_CALLE_CASTAN_TOBEÑAS_ESQ_CALLE_VELAZQUEZ",
+        "Address":"Castán Tobeñas - Rincon de Ademuz" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.354640030484729,39.46305607733176 ]
+      },
+      "properties": {
+        "Number":59,
+        "Name":"059_AVDA. DE BALEARES I",
+        "Address":"Baleares - Río Escalona" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.367664059275921,39.444093009140374 ]
+      },
+      "properties": {
+        "Number":91,
+        "Name":"091_CALLE_GRABADOR_JORDAN_46_PLAZA_ESCULTOR_PASTOR",
+        "Address":"Grabador Jordan - Escultor Pastor" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375433100164395,39.476715116676885 ]
+      },
+      "properties": {
+        "Number":4,
+        "Name":"004_PLAZA_DE_LA_VIRGEN_CALLE_BAILIA",
+        "Address":"Plaza de la Virgen - Bailía" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.329098964737767,39.48302815289556 ]
+      },
+      "properties": {
+        "Number":171,
+        "Name":"171_CALLE GRAN CANARIA",
+        "Address":"Gran Canaria - Ingeniero Manuel Maese" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.357156046729095,39.47921913101099 ]
+      },
+      "properties": {
+        "Number":117,
+        "Name":"117_PRIMADO REIG",
+        "Address":"Gascó Oliag - Primado Reig" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.388444135439494,39.469755089002845 ]
+      },
+      "properties": {
+        "Number":22,
+        "Name":"022_JUAN_LLORENS_57",
+        "Address":"Angel Guimerá - Juan Llorens" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.348777010892994,39.45931106660426 ]
+      },
+      "properties": {
+        "Number":55,
+        "Name":"55_AVDA. DE FRANCIA",
+        "Address":"Francia - Pintor Maella" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.379815109120643,39.46893508902061 ]
+      },
+      "properties": {
+        "Number":14,
+        "Name":"014_BARÓN CARCER",
+        "Address":"Huesca - Barón de Cárcer" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.359409052701581,39.47777012539991 ]
+      },
+      "properties": {
+        "Number":89,
+        "Name":"89_AVDA. BLASCO IBAÑEZ",
+        "Address":"Blasco Ibañez"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.362389059448826,39.47371011075012 ]
+      },
+      "properties": {
+        "Number":80,
+        "Name":"080_AMADEO SAVOIA",
+        "Address":"Amadeo de Saboya (frente Ayuntamiento)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.40048716710112,39.461452057092146 ]
+      },
+      "properties": {
+        "Number":212,
+        "Name":"212_CALLE_FRAY_JUANÍPERO_SERRA_ESQ_CALLE_TORRENTE",
+        "Address":"Fray Juanípero Serra - Torrente" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358779046585651,39.469913099113434 ]
+      },
+      "properties": {
+        "Number":78,
+        "Name":"078_AVDA. ARAGÓN I",
+        "Address":"Aragón - Vicente Sancho Tello" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.378944118876901,39.491985167042394 ]
+      },
+      "properties": {
+        "Number":176,
+        "Name":"176_CAMINO_DE_MONCADA_52",
+        "Address":"Cno. Moncada - Pedro Patricio Mey" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.3862691299059,39.47159609591605 ]
+      },
+      "properties": {
+        "Number":23,
+        "Name":"023_GRAN_VIA_FERNANDO_EL_CATOLICO",
+        "Address":"Fernando el Católico - Erudito Orellana" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.382964127549696,39.48567414446925 ]
+      },
+      "properties": {
+        "Number":139,
+        "Name":"139_C/ REUS",
+        "Address":"Reus - Alquería de la Estrella" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.338811982446624,39.46192007863096 ]
+      },
+      "properties": {
+        "Number":69,
+        "Name":"069_AVDA. DEL PUERTO",
+        "Address":"Av. Puerto - Serrería" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.36539006649012,39.47008009754055 ]
+      },
+      "properties": {
+        "Number":29,
+        "Name":"029_PLAZA AMERICA",
+        "Address":"Plaza América - Cirilo Amorós - Sorní" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.38866912636635,39.451660027860314 ]
+      },
+      "properties": {
+        "Number":208,
+        "Name":"208_CALLE_CARTEROS_ESQ_CALLE_MOSSEN_FEBRER",
+        "Address":"Carteros - Mossen Febrer" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.352950020141597,39.453286044933414 ]
+      },
+      "properties": {
+        "Number":50,
+        "Name":"50_AVDA. AUTOPISTA DEL SALER",
+        "Address":"Autopista del Saler - Antonio Ferrandis (C.C. El Saler)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.4008977,39.45632 ]
+      },
+      "properties": {
+        "Number":250,
+        "Name":"250_AVDA_TRES_CRUCES_PIO_XI",
+        "Address":"Tres Cruces - Pio XI" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.379839115061075,39.4798571258551 ]
+      },
+      "properties": {
+        "Number":2,
+        "Name":"002_CALLE_SALVADOR_GINER_CALLE_MUSEO",
+        "Address":"Salvador Giner - C. Museo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.358749040474832,39.45874906147631 ]
+      },
+      "properties": {
+        "Number":42,
+        "Name":"42_AVDA. DE LA PLATA",
+        "Address":"Av. de la Plata (Museo Fallero)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.396807152864784,39.45552103825903 ]
+      },
+      "properties": {
+        "Number":210,
+        "Name":"210_CALLE_CAMPOS_CRESPO_ESQ_CALLE_JUAN_DE_GARAY",
+        "Address":"Campos Crespo - Juan de Garay" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.393425153835504,39.4761901091111 ]
+      },
+      "properties": {
+        "Number":202,
+        "Name":"202_PASEO_PECHINA",
+        "Address":"Pechina - Teruel" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.382369130775341,39.495034176224834 ]
+      },
+      "properties": {
+        "Number":236,
+        "Name":"236_RIO_SEGRE_RAFAEL_COMPANY",
+        "Address":"Rio Segre - Rafael Company" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.378592114439778,39.48567014586083 ]
+      },
+      "properties": {
+        "Number":135,
+        "Name":"135_AVDA. CONSTITUCIÓN",
+        "Address":"Constitución - Reus" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.404504176110588,39.45579803670432 ]
+      },
+      "properties": {
+        "Number":251,
+        "Name":"251_ARQUITECTO_SEGURA_LAGO_CAMINO_NUEVO_DE_PICAÑA",
+        "Address":"Arquitecto Segura del Lago - Camino Nuevo de Picaña" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.387457129393968,39.464020069969 ]
+      },
+      "properties": {
+        "Number":157,
+        "Name":"157_AVENIDA_PEREZ_GALDOS",
+        "Address":"Pérez Galdós - Marqués de Zenete" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.350928020671138,39.46548408671991 ]
+      },
+      "properties": {
+        "Number":65,
+        "Name":"065_AVDA. DEL PUERTO III",
+        "Address":"Av. Puerto - Doctor Manuel Candela" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.392424141132886,39.458152048558595 ]
+      },
+      "properties": {
+        "Number":197,
+        "Name":"197_CALLE_FONTANARS_DELS_AFORINS",
+        "Address":"Fontanars dels Aforins - Jacinto Labaila" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.361233058011854,39.47748012383395 ]
+      },
+      "properties": {
+        "Number":88,
+        "Name":"088_AVDA. BLASCO IBAÑEZ 3",
+        "Address":"Blasco Ibañez"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.401233183623003,39.48807514670377 ]
+      },
+      "properties": {
+        "Number":225,
+        "Name":"225_CALLE_PADRE_BARRANCO_DESPUES_CALLE_BENIFAIRO",
+        "Address":"Padre Barranco - Carlos Ruano Llopis (Pintor)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.356059041618514,39.475828119933816 ]
+      },
+      "properties": {
+        "Number":92,
+        "Name":"092_AVDA. DE ARAGON",
+        "Address":" 4 - ESQ AVDA BLASCO IBAÑEZ"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.37408108969372,39.464786076876194 ]
+      },
+      "properties": {
+        "Number":33,
+        "Name":"033_GRAN_VIA_GERMANIAS_ESQ_CALLE_RUZAFA",
+        "Address":"Germanías - Ruzafa" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.364806069768998,39.47943212926333 ]
+      },
+      "properties": {
+        "Number":85,
+        "Name":"085_AVDA_BLASCO IBAÑEZ 1",
+        "Address":"Blasco Ibañez - Jaime Roig" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370965084251257,39.472030102316914 ]
+      },
+      "properties": {
+        "Number":13,
+        "Name":"013_PZA. ALFONSO MAGNANIMO_CON_CALLE_LA_NAVE",
+        "Address":"Alfonso el Magnánimo - Nave" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.373525099027208,39.48525414608695 ]
+      },
+      "properties": {
+        "Number":132,
+        "Name":"132_C/ RUAYA",
+        "Address":"Platero Suárez - Milagrosa" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.381065108588874,39.46098606179716 ]
+      },
+      "properties": {
+        "Number":194,
+        "Name":"194_ESTACION_AVE_JOAQUIN_SOROLLA",
+        "Address":"Estación AVE Joaquín Sorolla" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.361971060764256,39.47848612698768 ]
+      },
+      "properties": {
+        "Number":87,
+        "Name":"87_AVDA BLASCO IBAÑEZ 2",
+        "Address":"Blasco Ibañez - Doctor Gómez Ferrer (Clínico)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.40127817864509,39.47852611446744 ]
+      },
+      "properties": {
+        "Number":223,
+        "Name":"223_CALLE_VALLE_BALLESTERA_ESQ_PLAZA_POLICIA_LOCAL",
+        "Address":"Valle de la Ballestera - Hospital Nueve de Octubre" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370021082654504,39.474323110354575 ]
+      },
+      "properties": {
+        "Number":9,
+        "Name":"009_PLAZA_TETUAN_4",
+        "Address":"Plaza de Tetuán" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.368590075268948,39.468569091411034 ]
+      },
+      "properties": {
+        "Number":30,
+        "Name":"030_CIRILO AMOROS",
+        "Address":"Cirilo Amorós - Jorge Juan (Mercado Colón)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.406462200475517,39.490257152389816 ]
+      },
+      "properties": {
+        "Number":266,
+        "Name":"266_PLANA_ALTA_ESQ_AVDA_MAESTRO_RODRIGO",
+        "Address":"Canal de Navarrés - Maestro Rodrigo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.34621001424835,39.479803136509446 ]
+      },
+      "properties": {
+        "Number":95,
+        "Name":"95_AVDA. DE LOS NARANJOS",
+        "Address":"Naranjos (Magisterio)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.342242991568314,39.45977907030124 ]
+      },
+      "properties": {
+        "Number":62,
+        "Name":"062_MENORCA",
+        "Address":"Menorca - Baleares" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.395571161644053,39.478747117048464 ]
+      },
+      "properties": {
+        "Number":144,
+        "Name":"144_CALLE_MARQUES_DE_SAN_JUAN",
+        "Address":"Marqués de San Juan - Diputat Lluís Lucía" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.37599308454911,39.4446390082756 ]
+      },
+      "properties": {
+        "Number":189,
+        "Name":"189_HOSPITAL_NUEVA_FE",
+        "Address":"Hospital Nueva Fe (administración)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.37003608893869,39.485943149532034 ]
+      },
+      "properties": {
+        "Number":129,
+        "Name":"129_C_ALMAZORA",
+        "Address":"Almazora - Benimuslem" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.368282068629998,39.45796705574948 ]
+      },
+      "properties": {
+        "Number":181,
+        "Name":"181_CALLE_DEL_SALINAR",
+        "Address":"Zapadores"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.367061075518166,39.47755312220108 ]
+      },
+      "properties": {
+        "Number":83,
+        "Name":"83_PZA. DE LA LEGIÓN ESPAÑOLA",
+        "Address":"General Elio - Llano del Real" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.361886052119026,39.462902074466406 ]
+      },
+      "properties": {
+        "Number":149,
+        "Name":"149_AVDA. PERIS Y VALERO",
+        "Address":"Peris y Valero - Salamanca" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.382701118769287,39.47078409432719 ]
+      },
+      "properties": {
+        "Number":10,
+        "Name":"010_CALLE_DEL_HOSPITAL_FRENTE_CALLE_HORNO_DEL_HOSP",
+        "Address":"Hospital - Horno del Hospital" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.351867021712218,39.462199075340266 ]
+      },
+      "properties": {
+        "Number":60,
+        "Name":"060_AVDA.BALEARES II",
+        "Address":"Baleares - Lebón" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.394897167291038,39.49307216559276 ]
+      },
+      "properties": {
+        "Number":229,
+        "Name":"229_CALLE_AITANA_ESQ_AVDA_BURJASSOT",
+        "Address":"Aitana - Florista" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.405642188252898,39.47202809113153 ]
+      },
+      "properties": {
+        "Number":245,
+        "Name":"245_9_DE_OCTUBRE_CIEZA",
+        "Address":"Nueve de Octubre - Cieza" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.392980165265021,39.50004318971825 ]
+      },
+      "properties": {
+        "Number":270,
+        "Name":"270_CALLE_NINOT_ESQ_PZA_REGINO_MAS",
+        "Address":"Ninot - Regino Mas" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370340076012569,39.459369828677254 ]
+      },
+      "properties": {
+        "Number":38,
+        "Name":"38_AVDA. PERIS Y VALERO",
+        "Address":"Peris y Valero - Cabo Jubi" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.4036651706049,39.450256018261534 ]
+      },
+      "properties": {
+        "Number":252,
+        "Name":"252_DE_LOS_GREMIOS_CAMPOS_CRESPO",
+        "Address":"Dels Gremis - Campos Crespo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.378805097289263,39.45260503424732 ]
+      },
+      "properties": {
+        "Number":192,
+        "Name":"192_CTRA_MALILLA",
+        "Address":"Cra. Malilla - Oltá" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.380263118087985,39.48313013675752 ]
+      },
+      "properties": {
+        "Number":153,
+        "Name":"153_C/ LLANO DE ZAIDA",
+        "Address":"Llano de la Zaidía - Doctor Olóriz" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.403679186925212,39.480536120478945 ]
+      },
+      "properties": {
+        "Number":224,
+        "Name":"224_PLAZA_JOSE_MONFORTE_TUDELA_ESQ_CALLE_HERNANDEZ",
+        "Address":"Jorge Comin (Metge) - Terrateig" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.343702007510602,39.48124414217441 ]
+      },
+      "properties": {
+        "Number":113,
+        "Name":"113_ETS CAMINOS",
+        "Address":"UPV Caminos" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.389750145869399,39.48188812951767 ]
+      },
+      "properties": {
+        "Number":142,
+        "Name":"142_C/ GREGORIO GEA (PEATONAL)",
+        "Address":"Gregorio Gea - Profesor Beltrán Báguena" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.426354265293528,39.499875178486775 ]
+      },
+      "properties": {
+        "Number":269,
+        "Name":"269_CAMPAMENTO_81",
+        "Address":"Campamento"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.35246203223541,39.47842112983494 ]
+      },
+      "properties": {
+        "Number":103,
+        "Name":"103_RUBEN DARIO",
+        "Address":"Rubén Darío - Plaza Fray Luis Colomer" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.376875101498657,39.471154097455006 ]
+      },
+      "properties": {
+        "Number":11,
+        "Name":"011_PZA_AYTO_CON_CALLE_COTANDA",
+        "Address":"Plaza Ayuntamiento - Cotanda" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.404288192680299,39.48787514504915 ]
+      },
+      "properties": {
+        "Number":242,
+        "Name":"242_LA_SAFOR_AVDA_MAESTRO_RODRIGO",
+        "Address":"La Safor - Maestro Rodrigo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.397373166037864,39.47686111010473 ]
+      },
+      "properties": {
+        "Number":222,
+        "Name":"222_AVDA_MAESTRO_RODRIGO_ESQ_AVDA_MANUEL_DE_FALLA",
+        "Address":"Maestro Rodrigo - Manuel de Falla" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.34390000326249,39.47225011180076 ]
+      },
+      "properties": {
+        "Number":93,
+        "Name":"93_AVADA_BLASCO_IBAÑEZ_DESP_C_POETA_DURAN_TORTAJAD",
+        "Address":"Blasco Ibañez - Poeta Durán Tortajada" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.35834704234339,39.46444408081199 ]
+      },
+      "properties": {
+        "Number":57,
+        "Name":"057_CALLE PINTOR MONLEON",
+        "Address":"Alameda - Pintor Monleón" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.401192164498328,39.452694027294896 ]
+      },
+      "properties": {
+        "Number":253,
+        "Name":"253_PLAZA_JOSE_MELIA_CASTELLO_CAMPOS_CRESPO",
+        "Address":"José Meliá Castelló - Campos Crespo" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.332280972954351,39.480591143659446 ]
+      },
+      "properties": {
+        "Number":272,
+        "Name":"272_VICENTE_LA_RODA_C_INGENIERO_FAUSTO_ELIO",
+        "Address":"Vicente la Roda - Ingeniero Fausto Elio" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.36019506326505,39.493066176705305 ]
+      },
+      "properties": {
+        "Number":126,
+        "Name":"126_C/ ALFAUIR",
+        "Address":"Alfahuir - José Chabas Bordehore" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.384372117626406,39.45935205521343 ]
+      },
+      "properties": {
+        "Number":195,
+        "Name":"195_CALLE_GIORGETA",
+        "Address":"Giorgeta - Roig de Corella" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.347921009381426,39.46126107345635 ]
+      },
+      "properties": {
+        "Number":61,
+        "Name":"061_VICENTE VIDAL",
+        "Address":"Vicent Vidal - Pintor Maella" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.352781023126671,39.45974606677287 ]
+      },
+      "properties": {
+        "Number":54,
+        "Name":"54_PASEO ALAMEDA",
+        "Address":"Plaza de Europa" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.323491937905993,39.464405091973795 ]
+      },
+      "properties": {
+        "Number":163,
+        "Name":"163_PASEO NEPTUNO",
+        "Address":"Paseo Neptuno 32-34" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.406227193465013,39.47847411270088 ]
+      },
+      "properties": {
+        "Number":244,
+        "Name":"244_AVDA_PIO_BAROJA_VALLE_DE_LA_BALLESTERA",
+        "Address":"Valle de la Ballestera - Pio Baroja" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.351792026815861,39.472081108680385 ]
+      },
+      "properties": {
+        "Number":75,
+        "Name":"075_CAMPOAMOR I",
+        "Address":"República Argentina - Campoamor" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.323855937664754,39.4619430835605 ]
+      },
+      "properties": {
+        "Number":276,
+        "Name":"276_EDIFICIO_VELES_E_VENTS",
+        "Address":"Veles e Vents" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.362046066347782,39.48846916061659 ]
+      },
+      "properties": {
+        "Number":124,
+        "Name":"124_C/ AZAGADOR DE ALBORAYA",
+        "Address":"Azagador de Alboraya - Dolores Marqués" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.406020201221407,39.4941361656198 ]
+      },
+      "properties": {
+        "Number":267,
+        "Name":"267_C_BENIFERRI_VICENTE_TOMAS_MARTI",
+        "Address":"Beniferri - Vicent Tomás Martí" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.329644959268791,39.46984410830488 ]
+      },
+      "properties": {
+        "Number":154,
+        "Name":"154_PESCADORES",
+        "Address":"Pescadores - Progreso" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.393106136312086,39.44542800538199 ]
+      },
+      "properties": {
+        "Number":259,
+        "Name":"259_CALLE_PIO_IX_POLIDEPORTIVO_RAMBLETA",
+        "Address":"Pio IX - Músico Cabanilles" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.391284136125771,39.45520803898995 ]
+      },
+      "properties": {
+        "Number":86,
+        "Name":"86_AVDA_GASPAR_AGUILAR_ESQ_VICENTE_PARRA",
+        "Address":"Gaspar Aguilar - Vicente Parra" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.342969997228533,39.46622709180114 ]
+      },
+      "properties": {
+        "Number":73,
+        "Name":"073_JERONIMO MONSORIU",
+        "Address":"Jerónimo Monsoriu - Industria" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.36453707493258,39.49055916686075 ]
+      },
+      "properties": {
+        "Number":127,
+        "Name":"127_C/ DUQUE DE MANDAS",
+        "Address":"Alfahuir - Duque de Mandas" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.354286031274125,39.46648608901148 ]
+      },
+      "properties": {
+        "Number":64,
+        "Name":"064_AVDA. DEL PUERTO II",
+        "Address":"Av. Puerto 61-63" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.35905805107551,39.47670212191253 ]
+      },
+      "properties": {
+        "Number":90,
+        "Name":"90_AVDA. BLASCO IBAÑEZ",
+        "Address":"Blasco Ibañez"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.391043151456223,39.48507813986351 ]
+      },
+      "properties": {
+        "Number":146,
+        "Name":"146_AVDA. CAMPANAR",
+        "Address":"Av. Campanar (La Fe)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.37059407126453,39.45001202816097 ]
+      },
+      "properties": {
+        "Number":185,
+        "Name":"185_AVDA_AUSIAS_MARCH",
+        "Address":"Ebanista Caselles - Ausias March" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.386875144115863,39.494718173715064 ]
+      },
+      "properties": {
+        "Number":230,
+        "Name":"230_CALLE_POETA_SERRANO_CLAVERO_EQ_GENERAL_LLORENS",
+        "Address":"Poeta Serrano Clavero - General Llorens" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.333621966050435,39.460348075016185 ]
+      },
+      "properties": {
+        "Number":71,
+        "Name":"071_AVDA DEL PUERTO VI",
+        "Address":"Av. Puerto - Plaza Tribunal de les Aigües" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.365661057953976,39.452750038999675 ]
+      },
+      "properties": {
+        "Number":184,
+        "Name":"184_CALLE_BOMBER_RAMON_DUART",
+        "Address":"Bombero Ramón Duart - Hermanos Maristas" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.402831173069948,39.459474049657025 ]
+      },
+      "properties": {
+        "Number":249,
+        "Name":"249_AVDA_TRES_CRUCES_SEGUNDA_REPUBLICA_ESPAÑOLA",
+        "Address":"Tres Cruces - Segunda República Española" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.367085068143159,39.46371707553277 ]
+      },
+      "properties": {
+        "Number":35,
+        "Name":"35_C/ DUQUE DE CALABRIA",
+        "Address":"Regne de Valencia - Almirante Cadarso" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.387938136740957,39.47500210686962 ]
+      },
+      "properties": {
+        "Number":20,
+        "Name":"020_FERNANDO_EL_CATOLICO_CALLE_QUART",
+        "Address":"Quart - Fernando el Católico" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.398950178249295,39.490832156737454 ]
+      },
+      "properties": {
+        "Number":226,
+        "Name":"226_CALLE_SAFOR_ESQ_AVDA_DE_LAS_CORTES_VALENCIANAS",
+        "Address":"Corts Valencianes - La Safor" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375056087555512,39.455400044894006 ]
+      },
+      "properties": {
+        "Number":182,
+        "Name":"182_AVDA_AUSIAS_MARCH",
+        "Address":"Ausias March - Pianista Amparo Iturbi" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.397475163041212,39.470708089307045 ]
+      },
+      "properties": {
+        "Number":218,
+        "Name":"218_CALLE_SALVADOR_FERRANDIS_LUNA_ESQ_CALLE_JUAN_B",
+        "Address":"Salvador Ferrandis Luna - Juan Bautista Vives" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375701108044157,39.4899091610835 ]
+      },
+      "properties": {
+        "Number":136,
+        "Name":"136_CALLE_ECONOMISTA_GAY",
+        "Address":"Economista Gay - Constitución" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.391649140641673,39.461556060298705 ]
+      },
+      "properties": {
+        "Number":199,
+        "Name":"199_CALLE_BEATO_NICOLAS_FACTOR",
+        "Address":"Beato Nicolás Factor - Convento de Jesús" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.344611008304436,39.477658129796865 ]
+      },
+      "properties": {
+        "Number":105,
+        "Name":"105_AVDA. DE LOS NARANJOS",
+        "Address":"Aularios Universidad de Valencia" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.398486171871458,39.481515125451246 ]
+      },
+      "properties": {
+        "Number":145,
+        "Name":"145_PLAZA_BADAJOZ",
+        "Address":"Plaza Badajoz" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.33515596627555,39.452273047299634 ]
+      },
+      "properties": {
+        "Number":275,
+        "Name":"275_CAMINO_DE_LAS_MORERAS_ESQ_RONDA_DE_NAZARET",
+        "Address":"Moreras - Rona de Nazaret" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.407308186532079,39.45952404837945 ]
+      },
+      "properties": {
+        "Number":260,
+        "Name":"260_DELS_FERRERS_ESQ_TRAGINERS",
+        "Address":"Traginers - Pedrapiquers" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.373882078122754,39.44446300836761 ]
+      },
+      "properties": {
+        "Number":188,
+        "Name":"188_HOSPITAL_NUEVA_FE",
+        "Address":"Hospital Nueva Fe (consultas externas)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.347318002649104,39.45215104293519 ]
+      },
+      "properties": {
+        "Number":51,
+        "Name":"51_PSO. DE LAS MORERAS",
+        "Address":"Moreras (Oceanográfico)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.366531327258963,39.46090558239442 ]
+      },
+      "properties": {
+        "Number":37,
+        "Name":"37_AVDA. PERIS Y VALERO",
+        "Address":"Peris y Valero - Luis Santángel" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.389195124464717,39.44521900594571 ]
+      },
+      "properties": {
+        "Number":257,
+        "Name":"257_PLAZA_SALVADOR_SORIA_ESQ_PIO_X",
+        "Address":"Plaza Salvador Soria"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.327809952057852,39.46666609819163 ]
+      },
+      "properties": {
+        "Number":158,
+        "Name":"158_DR.LLUNCH",
+        "Address":"Doctor Lluch - Virgen del Sufragio" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.361244048329219,39.45944506301512 ]
+      },
+      "properties": {
+        "Number":43,
+        "Name":"43_C/ DE ORIENTE",
+        "Address":"Escultor José Capuz - Oriente" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.401638188523523,39.494972169842995 ]
+      },
+      "properties": {
+        "Number":240,
+        "Name":"240_CAMP_DEL_TURIA_AVDA_CORTES_VALENCIANAS",
+        "Address":"Camp del Turia - Corts Valencianes" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.350700021177111,39.467689094227495 ]
+      },
+      "properties": {
+        "Number":150,
+        "Name":"150_DR. MANUEL CANDELA",
+        "Address":"Manuel Candela - Rodriguez de Cepeda" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.398412167524643,39.473823099518064 ]
+      },
+      "properties": {
+        "Number":220,
+        "Name":"220_CALLE_CASTAN_TOBEÑAS_ESQ_CALLE_DE_GOYA",
+        "Address":"Castán Tobeñas - Patriques" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.398762179196655,39.49366016633798 ]
+      },
+      "properties": {
+        "Number":228,
+        "Name":"228_AVDA_NICASIO_BENLLOCH_ESQ_CALLE_L'HORTA_SUD",
+        "Address":"Doctor Nicasio Benlloch - L'Horta Sud" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.384174124251856,39.47276610053889 ]
+      },
+      "properties": {
+        "Number":6,
+        "Name":"006_GUILLEN_CASTRO_CON_CALLE_SAN_PEDRO_PASCUAL",
+        "Address":"Guillem de Castro - San Pedro Pascual" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.370774075033782,39.45598904826899 ]
+      },
+      "properties": {
+        "Number":180,
+        "Name":"180_AVENIDA_DOCTOR_WAKSMAN",
+        "Address":"Doctor Waksman - Nieves" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.373579103612918,39.493513173915595 ]
+      },
+      "properties": {
+        "Number":177,
+        "Name":"177_CALLE_ALCUDIA",
+        "Address":"Alcudia de Crespins - Pedro Patricio Mey" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.378957096498364,39.450297026408926 ]
+      },
+      "properties": {
+        "Number":191,
+        "Name":"191_CTRA_MALILLA",
+        "Address":"Esparraguera - Cra. Malilla" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.371231087646942,39.47686311853029 ]
+      },
+      "properties": {
+        "Number":5,
+        "Name":"005_PINTOR_LOPEZ_PZA_POETA_LLORENTE",
+        "Address":"Plaza Poeta Llorente" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.372375077997377,39.452588036275 ]
+      },
+      "properties": {
+        "Number":183,
+        "Name":"183_AVDA_AUSIAS_MARCH",
+        "Address":"Ausias March - Av. de la Plata" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.334451973768557,39.470036107395714 ]
+      },
+      "properties": {
+        "Number":101,
+        "Name":"101_AVDA. BLASCO IBAÑEZ 10",
+        "Address":"Marino Blas de Lezo (estación Cabañal Adif)" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.384118122083548,39.469045088002915 ]
+      },
+      "properties": {
+        "Number":24,
+        "Name":"024_GRAN_VIA_RAMON_Y_CAJAL",
+        "Address":"Fernando el Católico - Cuenca" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.401981188470323,39.49294616289816 ]
+      },
+      "properties": {
+        "Number":241,
+        "Name":"241_VALL_DE_ALBAIDA_PEATONAL",
+        "Address":"La Vall d'Albaida - Corts Valencianes" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.331816964744236,39.467937101175984 ]
+      },
+      "properties": {
+        "Number":161,
+        "Name":"161_MEDITERRANEO",
+        "Address":"Mediterráneo - Plaza Cruz de Cañamelar" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.33907198613268,39.46730409669327 ]
+      },
+      "properties": {
+        "Number":160,
+        "Name":"160_JOSE MARIA DE HARO",
+        "Address":"José María de Haro - Justo y Pastor" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.346352006288128,39.46423908400446 ]
+      },
+      "properties": {
+        "Number":66,
+        "Name":"066_GUILLEN DE ANGLESOLA",
+        "Address":"Guillem de Anglesola - Av. Puerto" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.394769162326153,39.48450913674717 ]
+      },
+      "properties": {
+        "Number":173,
+        "Name":"173_AVENIDA_PIO_XII_34",
+        "Address":"Pío XII - Monestir de Poblet" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.393305148918046,39.4677050805168 ]
+      },
+      "properties": {
+        "Number":200,
+        "Name":"200_AVDA_DEL_CID",
+        "Address":"Av. del Cid - Julián Peña" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.409316194664879,39.46344006095387 ]
+      },
+      "properties": {
+        "Number":262,
+        "Name":"262_AVDA_TRES_FORQUES_COLONIA_ESPANOLA_DE_MEXICO",
+        "Address":"Tres Forques - Colonia Española de Mexico" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375728096943875,39.469056090688554 ]
+      },
+      "properties": {
+        "Number":15,
+        "Name":"015_RIBERA",
+        "Address":"Ribera - Plaza Ayuntamiento" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.375527101694727,39.47904012448793 ]
+      },
+      "properties": {
+        "Number":36,
+        "Name":"036_PZA_LOS_FUEROS_CONDE_TRENOR",
+        "Address":"Plaza de los Fueros - Conde Trenor" 
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates":  [ -0.325424953690914,39.48294115378812 ]
+      },
+      "properties": {
+        "Number":170,
+        "Name":"170_PAVIA 5",
+        "Address":"Isabel de Villena - Mendizábal" 
+      }
+    }
+  ]
+}
