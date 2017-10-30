@@ -180,10 +180,12 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!lastUpdatedPref.isChecked()) {
                     editor.putBoolean("lastUpdated", true);
+                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     editor.putBoolean("lastUpdated", false);
+                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 return true;

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -47,6 +46,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Formatter;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -370,17 +372,22 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 pointStyle.setSnippet(getString(R.string.spots) + " " +
                                         feature.getProperty("available_bike_stands") + " - " +
                                         getString(R.string.bikes) + " " +
-                                        feature.getProperty("available_bikes")+
-                                        "\n "+
-                                        getString(R.string.last_updated) +
-                                        feature.getProperty("last_updated"));
+                                        feature.getProperty("available_bikes"));
 
                                 // Add last updated time if user has checked that option
                                 if(lastUpdated){
+                                    // Convert from ms to time
+                                    Calendar date = new GregorianCalendar();
+                                    date.setTimeInMillis(Long.parseLong(feature.getProperty("last_updated")));
+                                    // Format time as HH:mm:ss
+                                    StringBuilder sbu = new StringBuilder();
+                                    Formatter fmt = new Formatter(sbu);
+                                    fmt.format("%tT", date.getTime());
+                                    // Add to pointStyle
                                     pointStyle.setSnippet(pointStyle.getSnippet() +
-                                            "\n "+
-                                            getString(R.string.last_updated) +
-                                            feature.getProperty("last_updated"));
+                                            "\n"+
+                                            getString(R.string.last_updated) + " " +
+                                            sbu);
                                 }
 
                                 // Set transparency

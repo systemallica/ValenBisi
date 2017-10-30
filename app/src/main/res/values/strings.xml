@@ -51,8 +51,7 @@
     <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
     <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
 
-    <string name="lastUpdated">Última actualización</string>
-    <string name="pref_lastUpdated_summary_off">No se mostrará la hora de la última actualización en la estación</string>
+    <string name="pref_lastUpdated_summary_off">No se mostrará la hora de la última actualización en cada estación</string>
     <string name="pref_lastUpdated_summary_on">Se mostrará la hora de la última actualización en la estación</string>
 
     <string name="bikeLanes">Carriles bici por defecto</string>
@@ -89,7 +88,6 @@
 
     <string name="spots">Huecos&#58;</string>
     <string name="bikes">Bicis:</string>
-    <string name="last_updated">Última actualización:</string>
 
     <string name="plazas">Plazas totales:</string>
     <string name="parking">Parking bicis</string>
@@ -114,5 +112,6 @@
     <string name="donator">Ya has donado! :)</string>
     <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
     <string name="donar">Donar</string>
+    <string name="last_updated">Última actualización:</string>
 
 </resources>
