@@ -172,6 +172,24 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
 
+        //LastUpdated stuff
+        final CheckBoxPreference lastUpdatedPref = (CheckBoxPreference) findPreference("lastUpdated");
+        lastUpdatedPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!lastUpdatedPref.isChecked()) {
+                    editor.putBoolean("lastUpdated", true);
+                    editor.apply();
+                }
+                else{
+                    editor.putBoolean("lastUpdated", false);
+                    editor.apply();
+                }
+                return true;
+            }
+        });
+
         //Voronoi stuff
         final CheckBoxPreference voronoiPref = (CheckBoxPreference) findPreference("voronoiCell");
         voronoiPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

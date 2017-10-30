@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ValenBisi.iml" filepath="$PROJECT_DIR$/ValenBisi.iml" />
+      <module fileurl="file://D:\Profiles\areveronmolina\Desktop\Intercept\ValenBisi\ValenBisi.iml" filepath="D:\Profiles\areveronmolina\Desktop\Intercept\ValenBisi\ValenBisi.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Profiles\areveronmolina\Desktop\Intercept\ValenBisi\app\app.iml" filepath="D:\Profiles\areveronmolina\Desktop\Intercept\ValenBisi\app\app.iml" />
     </modules>
   </component>
 </project>

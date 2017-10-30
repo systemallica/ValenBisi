@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -319,6 +320,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     boolean showFavorites = settings.getBoolean("showFavorites", false);
                     boolean voronoiCell = settings.getBoolean("voronoiCell", false);
                     boolean bikeLanes = settings.getBoolean("bikeLanes", false);
+                    boolean lastUpdated = settings.getBoolean("lastUpdated", true);
                     // Create empty GeoJsonLayer
                     JSONObject dummy = new JSONObject();
                     final GeoJsonLayer layer = new GeoJsonLayer(mMap, dummy);
@@ -368,7 +370,19 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 pointStyle.setSnippet(getString(R.string.spots) + " " +
                                         feature.getProperty("available_bike_stands") + " - " +
                                         getString(R.string.bikes) + " " +
-                                        feature.getProperty("available_bikes"));
+                                        feature.getProperty("available_bikes")+
+                                        "\n "+
+                                        getString(R.string.last_updated) +
+                                        feature.getProperty("last_updated"));
+
+                                // Add last updated time if user has checked that option
+                                if(lastUpdated){
+                                    pointStyle.setSnippet(pointStyle.getSnippet() +
+                                            "\n "+
+                                            getString(R.string.last_updated) +
+                                            feature.getProperty("last_updated"));
+                                }
+
                                 // Set transparency
                                 pointStyle.setAlpha((float) 0.5);
 

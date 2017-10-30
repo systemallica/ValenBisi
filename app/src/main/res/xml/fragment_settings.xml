@@ -5,81 +5,89 @@
         android:key="pref_key_map"
         android:defaultValue="false">
 
-    <CheckBoxPreference
+        <CheckBoxPreference
 
-        android:key="initialZoom"
-        android:title="@string/initialZoom"
-        android:summaryOff="@string/pref_initialZoom_summary_off"
-        android:summaryOn="@string/pref_initialZoom_summary_on"
-        android:defaultValue="true" />
+            android:key="initialZoom"
+            android:title="@string/initialZoom"
+            android:summaryOff="@string/pref_initialZoom_summary_off"
+            android:summaryOn="@string/pref_initialZoom_summary_on"
+            android:defaultValue="true" />
 
-    <CheckBoxPreference
+        <CheckBoxPreference
 
-        android:key="satellite"
-        android:title="@string/mapView"
-        android:summaryOff="@string/pref_mapView_summary_off"
-        android:summaryOn="@string/pref_mapView_summary_on"
-        android:defaultValue="false" />
+            android:key="lastUpdated"
+            android:title="@string/lastUpdated"
+            android:summaryOff="@string/pref_lastUpdated_summary_off"
+            android:summaryOn="@string/pref_lastUpdated_summary_on"
+            android:defaultValue="true" />
 
-    <CheckBoxPreference
+        <CheckBoxPreference
 
-        android:key="bikeLanes"
-        android:title="@string/bikeLanes"
-        android:summaryOff="@string/pref_bikeLanes_summary_off"
-        android:summaryOn="@string/pref_bikeLanes_summary_on"
-        android:defaultValue="false" />
+            android:key="satellite"
+            android:title="@string/mapView"
+            android:summaryOff="@string/pref_mapView_summary_off"
+            android:summaryOn="@string/pref_mapView_summary_on"
+            android:defaultValue="false" />
 
-    <CheckBoxPreference
+        <CheckBoxPreference
 
-        android:key="showFavorites"
-        android:title="@string/showFavourites"
-        android:summaryOff="@string/pref_showFavourites_summary_off"
-        android:summaryOn="@string/pref_showFavourites_summary_on"
-        android:defaultValue="false" />
+            android:key="bikeLanes"
+            android:title="@string/bikeLanes"
+            android:summaryOff="@string/pref_bikeLanes_summary_off"
+            android:summaryOn="@string/pref_bikeLanes_summary_on"
+            android:defaultValue="false" />
 
-    <CheckBoxPreference
+        <CheckBoxPreference
 
-        android:key="showAvailable"
-        android:title="@string/showAvailable"
-        android:summaryOff="@string/pref_showAvailable_summary_off"
-        android:summaryOn="@string/pref_showAvailable_summary_on"
-        android:defaultValue="false" />
+            android:key="showFavorites"
+            android:title="@string/showFavourites"
+            android:summaryOff="@string/pref_showFavourites_summary_off"
+            android:summaryOn="@string/pref_showFavourites_summary_on"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+
+            android:key="showAvailable"
+            android:title="@string/showAvailable"
+            android:summaryOff="@string/pref_showAvailable_summary_off"
+            android:summaryOn="@string/pref_showAvailable_summary_on"
+            android:defaultValue="false" />
 
 
 
-    <CheckBoxPreference
-        android:key="voronoiCell"
-        android:title="@string/voronoi"
-        android:summaryOff="@string/pref_voronoi_summary_off"
-        android:summaryOn="@string/pref_voronoi_summary_on"
-        android:defaultValue="false"/>
+        <CheckBoxPreference
+            android:key="voronoiCell"
+            android:title="@string/voronoi"
+            android:summaryOff="@string/pref_voronoi_summary_off"
+            android:summaryOn="@string/pref_voronoi_summary_on"
+            android:defaultValue="false"/>
 
-    <Preference
-        android:key="infoVoronoi"
-        android:summary="@string/voronoi_info"
-        android:icon="@drawable/ic_menu_about"/>
+        <Preference
+            android:key="infoVoronoi"
+            android:summary="@string/voronoi_info"
+            android:icon="@drawable/ic_menu_about"/>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/others"
         android:key="pref_key_others">
 
-    <CheckBoxPreference
+        <CheckBoxPreference
 
-        android:key="navBar"
-        android:title="@string/matchNavigationBar"
-        android:summaryOff="@string/pref_matchNavigationBar_summary_off"
-        android:summaryOn="@string/pref_matchNavigationBar_summary_on"
-        android:defaultValue="true" />
+            android:key="navBar"
+            android:title="@string/matchNavigationBar"
+            android:summaryOff="@string/pref_matchNavigationBar_summary_off"
+            android:summaryOn="@string/pref_matchNavigationBar_summary_on"
+            android:defaultValue="true" />
 
-    <ListPreference
+        <ListPreference
 
-        android:key="language"
-        android:title="@string/language"
-        android:summary="@string/language_summary"
-        android:entries="@array/languages"
-        android:entryValues="@array/languages_values"
-        android:defaultValue="@string/default_locale_code"/>
+            android:key="language"
+            android:title="@string/language"
+            android:summary="@string/language_summary"
+            android:entries="@array/languages"
+            android:entryValues="@array/languages_values"
+            android:defaultValue="@string/default_locale_code"/>
         <ListPreference
 
             android:key="blank"

@@ -47,6 +47,18 @@
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
     <string name="voronoi_info">Para saber qué es una celda de Voronoi haz click aquí</string>
 
+    <string name="initialZoom">Zoom inicial</string>
+    <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
+    <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
+
+    <string name="lastUpdated">Última actualización</string>
+    <string name="pref_lastUpdated_summary_off">No se mostrará la hora de la última actualización en la estación</string>
+    <string name="pref_lastUpdated_summary_on">Se mostrará la hora de la última actualización en la estación</string>
+
+    <string name="bikeLanes">Carriles bici por defecto</string>
+    <string name="pref_bikeLanes_summary_off">Los carriles se ocultarán al iniciar la app</string>
+    <string name="pref_bikeLanes_summary_on">Los carriles se mostrarán al iniciar la app</string>
+
     <string name="language">Idioma</string>
     <string name="language_summary">Cambiar el idioma de la app</string>
 
@@ -75,12 +87,9 @@
 
     <string name="no_data">No se han podido cargar los datos :(</string>
 
-    <string name="initialZoom">Zoom inicial</string>
-    <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
-    <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
-
     <string name="spots">Huecos&#58;</string>
     <string name="bikes">Bicis:</string>
+    <string name="last_updated">Última actualización:</string>
 
     <string name="plazas">Plazas totales:</string>
     <string name="parking">Parking bicis</string>
@@ -105,9 +114,5 @@
     <string name="donator">Ya has donado! :)</string>
     <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
     <string name="donar">Donar</string>
-
-    <string name="bikeLanes">Carriles bici por defecto</string>
-    <string name="pref_bikeLanes_summary_off">Los carriles se ocultarán al iniciar la app</string>
-    <string name="pref_bikeLanes_summary_on">Los carriles se mostrarán al iniciar la app</string>
 
 </resources>
