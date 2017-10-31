@@ -1,5 +1,6 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
     <PreferenceCategory
         android:title="@string/nav_map"
         android:key="pref_key_map"
@@ -66,6 +67,7 @@
             android:key="infoVoronoi"
             android:summary="@string/voronoi_info"
             android:icon="@drawable/ic_menu_about"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -88,12 +90,10 @@
             android:entries="@array/languages"
             android:entryValues="@array/languages_values"
             android:defaultValue="@string/default_locale_code"/>
-        <ListPreference
 
-            android:key="blank"
-            android:title=" "/>
+        <Preference
+            android:key="blank"/>
+
     </PreferenceCategory>
-
-
 
 </PreferenceScreen>
