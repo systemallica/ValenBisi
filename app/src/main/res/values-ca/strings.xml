@@ -80,4 +80,5 @@
     <string name="pref_lastUpdated_summary_off">No es mostrarà l\'hora de l\'última actualització en cada estació</string>
     <string name="pref_lastUpdated_summary_on">Es mostrarà l\'hora de l\'última actualització en cada estació</string>
     <string name="last_updated">Última actualització:</string>
+    <string name="lastUpdated">Última actualitzación</string>
 </resources>

@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/btnCarrilToggle"
+        android:id="@+id/btnLanesToggle"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:background="@drawable/map_style_bg"
@@ -30,13 +30,13 @@
         android:drawableStart="@drawable/ic_road_variant_off_black_24dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:layout_alignBaseline="@+id/btnEstacionesToggle"
-        android:layout_alignBottom="@+id/btnEstacionesToggle"
+        android:layout_alignBaseline="@+id/btnStationsToggle"
+        android:layout_alignBottom="@+id/btnStationsToggle"
         android:layout_marginStart="10dp"
         />
 
     <Button
-        android:id="@+id/btnEstacionesToggle"
+        android:id="@+id/btnStationsToggle"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:background="@drawable/map_style_bg"
@@ -46,7 +46,7 @@
         android:paddingEnd="10dp"
         android:layout_alignBaseline="@+id/btnOnFootToggle"
         android:layout_alignBottom="@+id/btnOnFootToggle"
-        android:layout_toEndOf="@+id/btnCarrilToggle" />
+        android:layout_toEndOf="@+id/btnLanesToggle" />
 
     <Button
         android:id="@+id/btnOnFootToggle"
@@ -58,7 +58,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/btnEstacionesToggle"
+        android:layout_toEndOf="@+id/btnStationsToggle"
         android:layout_marginTop="10dp" />
 
     <Button

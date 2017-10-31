@@ -88,6 +88,7 @@
 
     <string name="spots">Huecos&#58;</string>
     <string name="bikes">Bicis:</string>
+    <string name="closed">Estación cerrada</string>
 
     <string name="plazas">Plazas totales:</string>
     <string name="parking">Parking bicis</string>
@@ -113,5 +114,6 @@
     <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
     <string name="donar">Donar</string>
     <string name="last_updated">Última actualización:</string>
+    <string name="lastUpdated">Última actualización</string>
 
 </resources>

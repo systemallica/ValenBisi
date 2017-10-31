@@ -80,4 +80,5 @@
     <string name="pref_lastUpdated_summary_off">Latest update time won\'t be shown</string>
     <string name="pref_lastUpdated_summary_on">Latest update time will be shown</string>
     <string name="last_updated">Last update:</string>
+    <string name="lastUpdated">Last update</string>
 </resources>

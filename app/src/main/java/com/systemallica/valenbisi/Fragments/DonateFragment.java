@@ -30,6 +30,10 @@ public class DonateFragment extends Fragment{
     @BindView(R.id.textDonate) TextView textDonate;
     @BindView(R.id.donatorImage) ImageView donatorImage;
 
+    public DonateFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

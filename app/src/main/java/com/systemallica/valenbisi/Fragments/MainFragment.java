@@ -76,16 +76,20 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private Context context;
 
-    @BindView(R.id.btnCarrilToggle)
-    Button btnCarrilToggle;
+    @BindView(R.id.btnLanesToggle)
+    Button btnLanesToggle;
     @BindView(R.id.btnParkingToggle)
     Button btnParkingToggle;
-    @BindView(R.id.btnEstacionesToggle)
-    Button btnEstacionesToggle;
+    @BindView(R.id.btnStationsToggle)
+    Button btnStationsToggle;
     @BindView(R.id.btnOnFootToggle)
     Button btnOnFootToggle;
     @BindView(R.id.btnRefresh)
     Button btnRefresh;
+
+    public MainFragment() {
+        // Required empty public constructor
+    }
 
     @Nullable
     @Override
@@ -217,13 +221,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             new GetParking().execute();
         }
 
-        btnCarrilToggle.setOnClickListener(new View.OnClickListener() {
+        btnLanesToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!settings.getBoolean("carrilLayer", false)) {
-                    btnCarrilToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+                    btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
                     new GetLanes().execute();
                 } else {
-                    btnCarrilToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
+                    btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
                     new GetLanes().execute();
                 }
             }
@@ -304,6 +308,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final BitmapDescriptor iconOrange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         final BitmapDescriptor iconYellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         final BitmapDescriptor iconRed = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        final BitmapDescriptor iconViolet = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
 
         // Load icons
         final Drawable myDrawableBike = ContextCompat.getDrawable(context, R.drawable.ic_directions_bike_black_24dp);
@@ -353,6 +358,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 properties.put("available_bike_stands", station.getString("available_bike_stands"));
                                 properties.put("available_bikes", station.getString("available_bikes"));
                                 properties.put("last_updated", station.getString("last_update"));
+                                properties.put("status", station.getString("status"));
                                 // Transform in GeoJsonFeature
                                 GeoJsonFeature pointFeature = new GeoJsonFeature(point, "Origin", properties, null);
                                 // Add feature to GeoJsonLayer
@@ -368,11 +374,50 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 // Add title
                                 GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                                 pointStyle.setTitle(feature.getProperty("address"));
-                                // Add number of available bikes/stands
-                                pointStyle.setSnippet(getString(R.string.spots) + " " +
-                                        feature.getProperty("available_bike_stands") + " - " +
-                                        getString(R.string.bikes) + " " +
-                                        feature.getProperty("available_bikes"));
+                                // If the station is open
+                                if(feature.getProperty("status").equals("OPEN")) {
+                                    // Add number of available bikes/stands
+                                    pointStyle.setSnippet(getString(R.string.spots) + " " +
+                                            feature.getProperty("available_bike_stands") + " - " +
+                                            getString(R.string.bikes) + " " +
+                                            feature.getProperty("available_bikes"));
+
+                                    int available_bikes = Integer.parseInt(feature.getProperty("available_bikes"));
+                                    int available_bike_stands = Integer.parseInt(feature.getProperty("available_bike_stands"));
+
+                                    // Set markers colors depending on available bikes/stands
+                                    if (onFoot) {
+                                        if (available_bikes == 0) {
+                                            pointStyle.setIcon(iconRed);
+                                            if (showAvailable) {
+                                                pointStyle.setVisible(false);
+                                            }
+                                        } else if (available_bikes < 5) {
+                                            pointStyle.setIcon(iconOrange);
+                                        } else if (available_bikes < 10) {
+                                            pointStyle.setIcon(iconYellow);
+                                        } else {
+                                            pointStyle.setIcon(iconGreen);
+                                        }
+                                    } else {
+                                        if (available_bike_stands == 0) {
+                                            pointStyle.setIcon(iconRed);
+                                            if (showAvailable) {
+                                                pointStyle.setVisible(false);
+                                            }
+                                        } else if (available_bike_stands < 5) {
+                                            pointStyle.setIcon(iconOrange);
+                                        } else if (available_bike_stands < 10) {
+                                            pointStyle.setIcon(iconYellow);
+                                        } else {
+                                            pointStyle.setIcon(iconGreen);
+                                        }
+                                    }
+                                }else{
+                                    // Add "CLOSED" snippet and icon
+                                    pointStyle.setSnippet(getString(R.string.closed));
+                                    pointStyle.setIcon(iconViolet);
+                                }
 
                                 // Add last updated time if user has checked that option
                                 if(lastUpdated){
@@ -392,38 +437,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                                 // Set transparency
                                 pointStyle.setAlpha((float) 0.5);
-
-                                int available_bikes = Integer.parseInt(feature.getProperty("available_bikes"));
-                                int available_bike_stands = Integer.parseInt(feature.getProperty("available_bike_stands"));
-
-                                // Set markers colors depending on available bikes/stands
-                                if (onFoot) {
-                                    if (available_bikes == 0) {
-                                        pointStyle.setIcon(iconRed);
-                                        if (showAvailable) {
-                                            pointStyle.setVisible(false);
-                                        }
-                                    } else if (available_bikes < 5) {
-                                        pointStyle.setIcon(iconOrange);
-                                    } else if (available_bikes < 10) {
-                                        pointStyle.setIcon(iconYellow);
-                                    } else {
-                                        pointStyle.setIcon(iconGreen);
-                                    }
-                                } else {
-                                    if (available_bike_stands == 0) {
-                                        pointStyle.setIcon(iconRed);
-                                        if (showAvailable) {
-                                            pointStyle.setVisible(false);
-                                        }
-                                    } else if (available_bike_stands < 5) {
-                                        pointStyle.setIcon(iconOrange);
-                                    } else if (available_bike_stands < 10) {
-                                        pointStyle.setIcon(iconYellow);
-                                    } else {
-                                        pointStyle.setIcon(iconGreen);
-                                    }
-                                }
 
                                 // Apply full opacity to favourite stations
                                 if (currentStationIsFav) {
@@ -507,7 +520,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 }
                             });
                             // Toggle Stations
-                            btnEstacionesToggle.setOnClickListener(new View.OnClickListener() {
+                            btnStationsToggle.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
                                     boolean showFavorites = settings.getBoolean("showFavorites", false);
 
@@ -527,10 +540,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     }
 
                                     if (stationsLayer) {
-                                        btnEstacionesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
+                                        btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
                                         stationsLayer = false;
                                     } else {
-                                        btnEstacionesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
+                                        btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
                                         stationsLayer = true;
                                     }
                                 }
@@ -578,7 +591,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         }
 
                         if(bikeLanes){
-                            btnCarrilToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+                            btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
                             new GetLanes().execute();
                         }
 
