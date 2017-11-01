@@ -460,7 +460,7 @@ public class MainActivity extends AppCompatActivity
         final OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
-                .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/Version")
+                .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/VersionCode")
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -495,9 +495,10 @@ public class MainActivity extends AppCompatActivity
 
     public void checkUpdate(final String latestVersion){
 
-        String versionName = BuildConfig.VERSION_NAME.trim();
+        int versionCode = BuildConfig.VERSION_CODE;
+        int versionGit = Integer.parseInt(latestVersion);
 
-        if (!versionName.equals(latestVersion)) {
+        if (versionCode < versionGit) {
 
             runOnUiThread(new Runnable() {
                 public void run() {

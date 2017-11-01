@@ -81,4 +81,5 @@
     <string name="pref_lastUpdated_summary_on">Se mostrará la hora de la última actualización en cada estación</string>
     <string name="last_updated">Última actualización:</string>
     <string name="lastUpdated">Última actualización</string>
+    <string name="closed">Estación cerrada</string>
 </resources>
