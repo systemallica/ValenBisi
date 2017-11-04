@@ -377,9 +377,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 // If the station is open
                                 if(feature.getProperty("status").equals("OPEN")) {
                                     // Add number of available bikes/stands
-                                    pointStyle.setSnippet(getString(R.string.spots) + " " +
+                                    pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.spots) + " " +
                                             feature.getProperty("available_bike_stands") + " - " +
-                                            getString(R.string.bikes) + " " +
+                                            MainFragment.this.getResources().getString(R.string.bikes) + " " +
                                             feature.getProperty("available_bikes"));
 
                                     int available_bikes = Integer.parseInt(feature.getProperty("available_bikes"));
@@ -415,7 +415,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     }
                                 }else{
                                     // Add "CLOSED" snippet and icon
-                                    pointStyle.setSnippet(getString(R.string.closed));
+                                    pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.closed));
                                     pointStyle.setIcon(iconViolet);
                                 }
 
@@ -431,7 +431,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     // Add to pointStyle
                                     pointStyle.setSnippet(pointStyle.getSnippet() +
                                             "\n"+
-                                            getString(R.string.last_updated) + " " +
+                                            MainFragment.this.getResources().getString(R.string.last_updated) + " " +
                                             sbu);
                                 }
 
@@ -707,8 +707,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
                     for (GeoJsonFeature feature : parking.getFeatures()) {
                         GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                        pointStyle.setTitle(getString(R.string.parking) + " " + feature.getProperty("id"));
-                        pointStyle.setSnippet(getString(R.string.plazas) + " " + feature.getProperty("plazas"));
+                        pointStyle.setTitle(MainFragment.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
+                        pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
                         pointStyle.setAlpha((float) 0.5);
                         pointStyle.setIcon(icon_parking);
 
