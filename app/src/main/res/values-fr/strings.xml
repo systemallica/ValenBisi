@@ -82,4 +82,6 @@
     <string name="pref_lastUpdated_summary_off">La dernière mise à jour ne sera pas affichée</string>
     <string name="lastUpdated">Dernière mis à jour</string>
     <string name="closed">Station fermée</string>
+    <string name="alpha_title">Version alpha</string>
+    <string name="alpha_message">Atention! Tu est en train d\'utiliser una version alpha. Ça peut être instable.</string>
 </resources>

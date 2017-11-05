@@ -82,4 +82,6 @@
     <string name="last_updated">Última actualización:</string>
     <string name="lastUpdated">Última actualización</string>
     <string name="closed">Estación cerrada</string>
+    <string name="alpha_title">Versión alpha</string>
+    <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
 </resources>

@@ -5,13 +5,11 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="jiji"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/title"
         android:textStyle="normal|bold" />
     <TextView
-        android:text="holi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/snippet"

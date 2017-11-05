@@ -84,6 +84,9 @@
     <string name="update_not_now">Ahora no</string>
     <string name="update_never">Nunca</string>
 
+    <string name="alpha_title">Versión alpha</string>
+    <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
+
     <string name="no_data">No se han podido cargar los datos :(</string>
 
     <string name="spots">Huecos&#58;</string>

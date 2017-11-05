@@ -147,11 +147,7 @@ public class MainActivity extends AppCompatActivity
                         .setIcon(R.drawable.ic_report_problem_black_24dp)
                         .show();
             } else {
-                boolean noUpdate = settings.getBoolean("noUpdate", false);
-
-                if (!noUpdate) {
-                    getLatestVersion();
-                }
+                getLatestVersion();
             }
         }
 
@@ -500,13 +496,13 @@ public class MainActivity extends AppCompatActivity
 
         if (versionCode < versionGit) {
 
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    if (latestVersion.equals("")) {
-                        Snackbar.make(findViewById(android.R.id.content), "Error", Snackbar.LENGTH_SHORT).show();
-                        Log.e("version:", "no updates");
-                    } else {
-                        Log.e("version:", "update found!");
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            boolean noUpdate = settings.getBoolean("noUpdate", false);
+
+            if (!noUpdate) {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setTitle(R.string.update_available)
                                 .setMessage(R.string.update_message)
@@ -519,7 +515,7 @@ public class MainActivity extends AppCompatActivity
                                 })
                                 .setNegativeButton(R.string.update_not_now, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        //Do nothing
+                                        // Do nothing
                                     }
                                 })
                                 .setNeutralButton(R.string.update_never, new DialogInterface.OnClickListener() {
@@ -532,7 +528,26 @@ public class MainActivity extends AppCompatActivity
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
+
                     }
+                });
+            }
+        }else if(versionCode > versionGit){
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(R.string.alpha_title)
+                            .setMessage(R.string.alpha_message)
+                            //.setIcon(R.drawable.ic_system_update_black_24dp)
+                            .setPositiveButton(R.string.update_ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Do nothing
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
                 }
             });
         }
