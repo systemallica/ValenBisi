@@ -419,11 +419,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     pointStyle.setIcon(iconViolet);
                                 }
 
+                                // Get API time
+                                long apiTime = Long.parseLong(feature.getProperty("last_updated"));
+                                // Create calendar object
+                                Calendar date = new GregorianCalendar();
+                                // Get current time
+                                long time = date.getTimeInMillis();
                                 // Add last updated time if user has checked that option
                                 if(lastUpdated){
-                                    // Convert from ms to time
-                                    Calendar date = new GregorianCalendar();
-                                    date.setTimeInMillis(Long.parseLong(feature.getProperty("last_updated")));
+                                    // Set API time
+                                    date.setTimeInMillis(apiTime);
                                     // Format time as HH:mm:ss
                                     StringBuilder sbu = new StringBuilder();
                                     Formatter fmt = new Formatter(sbu);
@@ -433,6 +438,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                             "\n"+
                                             MainFragment.this.getResources().getString(R.string.last_updated) + " " +
                                             sbu);
+                                }
+                                // If data has not been updated for more than 1 hour
+                                if((time-apiTime) > 3600000){
+                                    // Add warning that data may be unreliable
+                                    pointStyle.setSnippet(pointStyle.getSnippet() +
+                                            "\n\n" +
+                                            MainFragment.this.getResources().getString(R.string.data_old) +
+                                            "\n" +
+                                            MainFragment.this.getResources().getString(R.string.data_unreliable));
                                 }
 
                                 // Set transparency

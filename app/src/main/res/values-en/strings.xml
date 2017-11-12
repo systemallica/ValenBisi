@@ -84,4 +84,6 @@
     <string name="closed">Station closed</string>
     <string name="alpha_title">Alpha version</string>
     <string name="alpha_message">Beware! You are using an alpha release. It may be unstable.</string>
+    <string name="data_old">Data is more than one hour old!</string>
+    <string name="data_unreliable">It may be unreliable.</string>
 </resources>
