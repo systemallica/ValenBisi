@@ -319,7 +319,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final Drawable myDrawableFavOff = ContextCompat.getDrawable(context, R.drawable.ic_star_outline_black_24dp);
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
 
-        if(getActivity() != null) {
+        if(getActivity() != null && isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     // Get user preferences
@@ -716,43 +716,45 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
             BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
 
-            try {
-                // parking layer
-                if (settings.getBoolean("firstTimeParking", true)) {
-                    parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
-                    for (GeoJsonFeature feature : parking.getFeatures()) {
-                        GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                        pointStyle.setTitle(MainFragment.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
-                        pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
-                        pointStyle.setAlpha((float) 0.5);
-                        pointStyle.setIcon(icon_parking);
+            if(isAdded()) {
+                try {
+                    // parking layer
+                    if (settings.getBoolean("firstTimeParking", true)) {
+                        parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
+                        for (GeoJsonFeature feature : parking.getFeatures()) {
+                            GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                            pointStyle.setTitle(MainFragment.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
+                            pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
+                            pointStyle.setAlpha((float) 0.5);
+                            pointStyle.setIcon(icon_parking);
 
-                        boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
+                            boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
 
-                        // Apply full opacity to fav stations
-                        if (currentStationIsFav) {
-                            pointStyle.setAlpha(1);
-                        }
-
-                        // If favorites are selected, hide the rest
-                        if (showFavorites) {
-                            if (!currentStationIsFav) {
-                                pointStyle.setVisible(false);
+                            // Apply full opacity to fav stations
+                            if (currentStationIsFav) {
+                                pointStyle.setAlpha(1);
                             }
+
+                            // If favorites are selected, hide the rest
+                            if (showFavorites) {
+                                if (!currentStationIsFav) {
+                                    pointStyle.setVisible(false);
+                                }
+                            }
+                            feature.setPointStyle(pointStyle);
+
                         }
-                        feature.setPointStyle(pointStyle);
-
+                        editor.putBoolean("firstTimeParking", false).apply();
                     }
-                    editor.putBoolean("firstTimeParking", false).apply();
+
+                } catch (IOException e) {
+
+                    Log.e(mLogTag, "GeoJSON file could not be read");
+
+                } catch (JSONException e) {
+
+                    Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
                 }
-
-            } catch (IOException e) {
-
-                Log.e(mLogTag, "GeoJSON file could not be read");
-
-            } catch (JSONException e) {
-
-                Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
             }
 
             return parking;
@@ -760,13 +762,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer parking) {
 
-            if (!settings.getBoolean("parkingLayer", false)) {
-                parking.addLayerToMap();
-                editor.putBoolean("parkingLayer", true).apply();
-            } else {
-                parking.removeLayerFromMap();
-                editor.putBoolean("parkingLayer", false).apply();
-                editor.putBoolean("firstTimeParking", true).apply();
+            if(parking != null) {
+                if (!settings.getBoolean("parkingLayer", false)) {
+                    parking.addLayerToMap();
+                    editor.putBoolean("parkingLayer", true).apply();
+                } else {
+                    parking.removeLayerFromMap();
+                    editor.putBoolean("parkingLayer", false).apply();
+                    editor.putBoolean("firstTimeParking", true).apply();
+                }
             }
         }
     }
