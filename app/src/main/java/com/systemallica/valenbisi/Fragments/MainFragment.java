@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -288,7 +289,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     final String jsonData = jsonStrTemp;
                     applyJSONData(jsonData);
 
-                }finally {
+                }catch(IOException e){
+                    Log.e("error", "error with http request");
+                }finally{
                     if (response != null) {
                         response.close();
                     }
@@ -492,8 +495,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                     TextView snippet = v.findViewById(R.id.snippet);
                                     ImageView btn_star = v.findViewById(R.id.btn_star);
 
+                                    if(marker.getSnippet().contains("\n\n")){
+                                        snippet.setTextColor(getResources().getColor(R.color.red));
+                                        snippet.setTypeface(null, Typeface.BOLD);
+                                        snippet.setText(marker.getSnippet());
+                                    }else{
+                                        snippet.setText(marker.getSnippet());
+                                    }
                                     title.setText(marker.getTitle());
-                                    snippet.setText(marker.getSnippet());
 
                                     // Checking if current station is favorite
                                     boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
@@ -679,18 +688,19 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer lanes) {
             boolean bikeLanes = settings.getBoolean("bikeLanes", false);
-
-            if(bikeLanes && !settings.getBoolean("carrilLayer", false)) {
-                lanes.addLayerToMap();
-                editor.putBoolean("carrilLayer", true).apply();
-            }else{
-                if (!settings.getBoolean("carrilLayer", false)) {
+            if(lanes != null) {
+                if (bikeLanes && !settings.getBoolean("carrilLayer", false)) {
                     lanes.addLayerToMap();
                     editor.putBoolean("carrilLayer", true).apply();
                 } else {
-                    lanes.removeLayerFromMap();
-                    editor.putBoolean("carrilLayer", false).apply();
-                    editor.putBoolean("firstTime", true).apply();
+                    if (!settings.getBoolean("carrilLayer", false)) {
+                        lanes.addLayerToMap();
+                        editor.putBoolean("carrilLayer", true).apply();
+                    } else {
+                        lanes.removeLayerFromMap();
+                        editor.putBoolean("carrilLayer", false).apply();
+                        editor.putBoolean("firstTime", true).apply();
+                    }
                 }
             }
         }

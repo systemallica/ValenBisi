@@ -18,3 +18,6 @@
 -dontwarn okio.**
 -dontwarn javax.annotation.Nullable
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
+-printmapping out.map
+-renamesourcefileattribute SourceFile 
+-keepattributes SourceFile,LineNumberTable

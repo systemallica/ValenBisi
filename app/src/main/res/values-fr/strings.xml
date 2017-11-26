@@ -84,6 +84,6 @@
     <string name="closed">Station fermée</string>
     <string name="alpha_title">Version alpha</string>
     <string name="alpha_message">Atention! Tu est en train d\'utiliser una version alpha. Ça peut être instable.</string>
-    <string name="data_old">Les données n\'ont pas été mis a jour récemment!</string>
-    <string name="data_unreliable">Il est possible qu\'elles ne coïncident pas avec la réalité</string>
+    <string name="data_old">Les données n\'ont pas été mis a jour récemment,</string>
+    <string name="data_unreliable">il est possible qu\'elles ne coïncident pas avec la réalité</string>
 </resources>

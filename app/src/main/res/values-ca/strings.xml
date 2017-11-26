@@ -84,6 +84,6 @@
     <string name="closed">Estació tancada</string>
     <string name="alpha_title">Versió alpha</string>
     <string name="alpha_message">Atenció! Estàs utilitzant una versió alpha. Pot contenir errors.</string>
-    <string name="data_old">Les dades porten més d\'una hora sense actualitzars-se!</string>
-    <string name="data_unreliable">Potser no coincidisquen amb la realitat.</string>
+    <string name="data_old">Les dades porten més d\'una hora sense actualitzars-se,</string>
+    <string name="data_unreliable">potser no coincidisquen amb la realitat.</string>
 </resources>
