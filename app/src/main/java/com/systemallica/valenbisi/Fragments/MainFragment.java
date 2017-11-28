@@ -139,112 +139,115 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         editor.putBoolean("firstTimeParking", true).apply();
         editor.putBoolean("carrilLayer", false).apply();
 
-        //Check for sdk >= 23
-        if (Build.VERSION.SDK_INT >= 23) {
-            //Check location permission
-            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
+        // Check fragment is added and activity is reachable
+        if(isAdded() && getActivity()!= null) {
+            //Check for sdk >= 23
+            if (Build.VERSION.SDK_INT >= 23) {
+                //Check location permission
+                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        locationRequestCode);
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            locationRequestCode);
 
+                } else {
+                    mMap.setMyLocationEnabled(true);
+                }
             } else {
                 mMap.setMyLocationEnabled(true);
             }
-        } else {
-            mMap.setMyLocationEnabled(true);
-        }
 
-        // Set map zoom controls
-        mapSettings = mMap.getUiSettings();
-        mapSettings.setZoomControlsEnabled(true);
-        mapSettings.setCompassEnabled(false);
+            // Set map zoom controls
+            mapSettings = mMap.getUiSettings();
+            mapSettings.setZoomControlsEnabled(true);
+            mapSettings.setCompassEnabled(false);
 
-        // Set type of map and min zoom
-        if (!satellite) {
-            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        } else {
-            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        }
-        mMap.setMinZoomPreference(12);
-
-        gps = new TrackGPS(context);
-
-        if (gps.canGetLocation()) {
-
-            longitude = gps.getLongitude();
-            latitude = gps.getLatitude();
-
-        }
-        // 39.420//39.515
-        // -0.272//-0.572
-        LatLng currentLocation = new LatLng(latitude, longitude);
-        LatLng valencia = new LatLng(39.479, -0.372);
-
-        boolean initialZoom = settings.getBoolean("initialZoom", true);
-
-        // Move the camera
-        if (Build.VERSION.SDK_INT >= 23) {
-            // Check location permission
-            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
-                if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-                } else {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                }
+            // Set type of map and min zoom
+            if (!satellite) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             } else {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
+            mMap.setMinZoomPreference(12);
 
-        } else {
-            if (initialZoom && gps.canGetLocation()) {
-                if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
+            gps = new TrackGPS(context);
+
+            if (gps.canGetLocation()) {
+
+                longitude = gps.getLongitude();
+                latitude = gps.getLatitude();
+
+            }
+            // 39.420//39.515
+            // -0.272//-0.572
+            LatLng currentLocation = new LatLng(latitude, longitude);
+            LatLng valencia = new LatLng(39.479, -0.372);
+
+            boolean initialZoom = settings.getBoolean("initialZoom", true);
+
+            // Move the camera
+            if (Build.VERSION.SDK_INT >= 23) {
+                // Check location permission
+                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
+                    if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                    } else {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                    }
+                } else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-                } else {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
                 }
+
             } else {
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
-            }
-        }
-
-        gps.stopUsingGPS();
-
-        try {
-            getStations();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-        if (settings.getBoolean("parkingLayer", false)) {
-            editor.putBoolean("parkingLayer", false).apply();
-            new GetParking().execute();
-        }
-
-        btnLanesToggle.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (!settings.getBoolean("carrilLayer", false)) {
-                    btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
-                    new GetLanes().execute();
+                if (initialZoom && gps.canGetLocation()) {
+                    if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                    } else {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                    }
                 } else {
-                    btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
-                    new GetLanes().execute();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
                 }
             }
-        });
 
-        btnParkingToggle.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (!settings.getBoolean("parkingLayer", false)) {
-                    btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
-                    new GetParking().execute();
-                } else {
-                    btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
-                    new GetParking().execute();
-                }
+            gps.stopUsingGPS();
+
+            try {
+                getStations();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+
+            if (settings.getBoolean("parkingLayer", false)) {
+                editor.putBoolean("parkingLayer", false).apply();
+                new GetParking().execute();
+            }
+
+            btnLanesToggle.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (!settings.getBoolean("carrilLayer", false)) {
+                        btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+                        new GetLanes().execute();
+                    } else {
+                        btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
+                        new GetLanes().execute();
+                    }
+                }
+            });
+
+            btnParkingToggle.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (!settings.getBoolean("parkingLayer", false)) {
+                        btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
+                        new GetParking().execute();
+                    } else {
+                        btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
+                        new GetParking().execute();
+                    }
+                }
+            });
+        }
     }
 
     @Override
