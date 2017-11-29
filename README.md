@@ -1,6 +1,6 @@
-# ValenBisi
+# Map for ValenBisi
 
-ValenBisi is an Android aplication designed to be useful for the users of the public bike network in Valencia. With this in mind, ValenBisi displays real-time information about the bike stations all around the city, in a clean, easy-to-use and colorful way. 
+Map for ValenBisi is an Android application designed to be useful for the users of the public bike network in Valencia. With this in mind, Map for ValenBisi displays real-time information about the bike stations all around the city, in a clean, easy-to-use and colorful way. 
 
 You can use this app to see where the stations are located, how many bikes are there in each station and how many places to leave your bike are left. Besides, you can choose between a wide range of options to customize the app to your liking, and display different types of information.
 
@@ -32,4 +32,4 @@ It has been developed using the Material Design guidelines provided by Google, a
 
 If you have any problem with the app you can open an issue here on GitHub or email me at:
 
-soporte.valenbisi@gmail.com
+systemallica.apps@gmail.com
