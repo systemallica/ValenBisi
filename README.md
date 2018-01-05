@@ -6,6 +6,8 @@ You can use this app to see where the stations are located, how many bikes are t
 
 It has been developed using the Material Design guidelines provided by Google, and it will always be open source.
 
+[![Build Status](https://travis-ci.org/systemallica/ValenBisi.svg?branch=master)](https://travis-ci.org/systemallica/ValenBisi)
+
 ## Features:
 
 * Colorful display of bike stations
