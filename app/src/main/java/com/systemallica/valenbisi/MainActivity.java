@@ -1,5 +1,6 @@
 package com.systemallica.valenbisi;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -29,10 +30,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.android.trivialdrivesample.util.IabException;
-import com.example.android.trivialdrivesample.util.IabHelper;
-import com.example.android.trivialdrivesample.util.IabResult;
-import com.example.android.trivialdrivesample.util.Purchase;
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
@@ -41,6 +43,7 @@ import com.systemallica.valenbisi.Fragments.MainFragment;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 import okhttp3.Call;
@@ -57,12 +60,11 @@ import static com.systemallica.valenbisi.R.layout.activity_main;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, IabHelper.OnIabSetupFinishedListener, IabHelper.OnIabPurchaseFinishedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, PurchasesUpdatedListener{
 
     NavigationView navigationView;
     FragmentManager mFragmentManager;
     public static final String PREFS_NAME = "MyPrefsFile";
-    private IabHelper billingHelper;
     Context context = null;
 
 
@@ -70,7 +72,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
         boolean navBar = settings.getBoolean("navBar", true);
 
@@ -153,145 +155,117 @@ public class MainActivity extends AppCompatActivity
 
         boolean donationPurchased = settings.getBoolean("donationPurchased", false);
 
-        //Ads management
-        AdView mAdView = findViewById(R.id.adView);
+        // Ads management
+        final AdView mAdView = findViewById(R.id.adView);
         if(!donationPurchased) {
-            //Ad request and load
+            // Ad request and load
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
             mAdView.setVisibility(GONE);
         }
 
         boolean firstLaunch = settings.getBoolean("firstLaunch", true);
-        //License management
+
         if (firstLaunch) {
+            // Check license
+            final BillingClient mBillingClient;
 
-            String clave = PrivateInfo.clave;
-            billingHelper = new IabHelper(context, clave);
-            billingHelper.startSetup(this);
-        }
-
-    }
-
-    public void startBuyProcess(){
-        String clave = PrivateInfo.clave;
-        billingHelper = new IabHelper(context, clave);
-        billingHelper.startSetup(this);
-    }
-
-
-
-    @Override
-    public void onIabSetupFinished(IabResult result) {
-        if (result.isSuccess()) {
-
-            try{
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                boolean firstLaunch = settings.getBoolean("firstLaunch", true);
-                if(firstLaunch){
-                    SharedPreferences.Editor editor = settings.edit();
-                    if(billingHelper.queryInventory(true, null).hasPurchase(PrivateInfo.donation)) {
-                        //How-to consume purchase if already made
-                        //Inventory a = billingHelper.queryInventory(true, null);
-                        //Purchase item = a.getPurchase(Donation.donation);
-                        //billingHelper.consumeAsync(item, null);
-
-                        editor.putBoolean("donationPurchased", true);
-                        editor.apply();
-
-                        Snackbar.make(this.findViewById(android.R.id.content), R.string.license, Snackbar.LENGTH_LONG).show();
-                    }
-                    editor.putBoolean("firstLaunch", false);
-                    editor.apply();
-                    if (billingHelper != null) {
-                        billingHelper.dispose();
-                    }
-                    billingHelper = null;
-                }else {
-                    if (!billingHelper.queryInventory(true, null).hasPurchase(PrivateInfo.donation)) {
-                        compraElemento();
+            mBillingClient = BillingClient.newBuilder(MainActivity.this).setListener(this).build();
+            mBillingClient.startConnection(new BillingClientStateListener() {
+                @Override
+                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
+                    if (billingResponseCode == BillingClient.BillingResponse.OK) {
+                        // The billing client is ready
+                        Log.e("Billing", "connection OK");
+                        // Get past purchases
+                        Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
+                        List purchases = purchasesResult.getPurchasesList();
+                        Log.e("purchases: ", Integer.toString(purchases.size()));
+                        for (Object purchase : purchases) {
+                            Purchase mPurchase = (Purchase) purchase;
+                            String purchaseSku = mPurchase.getSku();
+                            Log.e("Billing", purchaseSku);
+                            // The donation package is already bought, apply license
+                            if (purchaseSku.equals("donation_upgrade")) {
+                                Log.e("Billing", "license applied");
+                                SharedPreferences.Editor editor = settings.edit();
+                                editor.putBoolean("donationPurchased", true);
+                                editor.apply();
+                                mAdView.setVisibility(GONE);
+                                mAdView.destroy();
+                            }
+                        }
                     }
                 }
 
-            } catch(IabException e){
-                e.printStackTrace();
-            }
-
-        } else {
-
-            errorAlIniciar();
+                @Override
+                public void onBillingServiceDisconnected() {
+                    // Try to restart the connection on the next request to
+                    // Google Play by calling the startConnection() method.
+                    Log.e("Billing", "disconnected");
+                }
+            });
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("firstLaunch", false);
+            editor.apply();
         }
-
     }
-
-
-    protected void errorAlIniciar() {
-        Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_failed, Snackbar.LENGTH_SHORT).show();
-    }
-
-
-    protected void compraElemento() {
-        purchaseItem(PrivateInfo.donation);
-    }
-
-
-    protected void purchaseItem(String sku) {
-        billingHelper.launchPurchaseFlow(this, sku, 123, this);
-    }
-
 
     @Override
-    public void onIabPurchaseFinished(IabResult result, Purchase info) {
-        if (result.isFailure()) {
-            compraFallida();
-        } else {
-            compraCorrecta(result, info);
-        }
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // Pass on the activity result to the helper for handling
-        if (!billingHelper.handleActivityResult(requestCode, resultCode, data)) {
-            // not handled, so handle it ourselves (here's where you'd
-            // perform any handling of activity results not related to in-app
-            // billing...
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    protected void compraCorrecta(IabResult result, Purchase info){
-
-        Log.e("Purchase result", result.toString());
-        Log.e("Purchase info", info.toString());
-
-        // Consumimos los elementos a fin de poder probar varias compras
-        //billingHelper.consumeAsync(info, null);
-        Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_success, Snackbar.LENGTH_SHORT).show();
-
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("donationPurchased", true);
-        editor.apply();
-
-        AdView mAdView =  findViewById(R.id.adView);
-        if(mAdView!=null) {
+    public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
+        if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
+            Log.e("Billing", "success");
+            final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("donationPurchased", true);
+            editor.apply();
+            final AdView mAdView = findViewById(R.id.adView);
             mAdView.setVisibility(GONE);
             mAdView.destroy();
+            Log.e("Billing", "license applied");
+        } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+            Log.e("Billing", "user canceled");
+        } else {
+            // Handle any other error codes.
+            Log.e("Billing", "error");
         }
-        if (billingHelper != null) {
-            billingHelper.dispose();
-        }
-        billingHelper = null;
     }
 
-    protected void compraFallida(){
-        Snackbar.make(this.findViewById(android.R.id.content), R.string.purchase_failed, Snackbar.LENGTH_SHORT).show();
-        if (billingHelper != null) {
-            billingHelper.dispose();
-        }
-        billingHelper = null;
+    public void startBuyProcess(){
+        final BillingClient mBillingClient;
+
+        mBillingClient = BillingClient.newBuilder(MainActivity.this).setListener(this).build();
+        mBillingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
+                if (billingResponseCode == BillingClient.BillingResponse.OK) {
+                    // The billing client is ready
+                    Log.e("Billing", "connection OK");
+                    final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                    boolean donationPurchased = settings.getBoolean("donationPurchased", false);
+                    if(!donationPurchased){
+                        // Start buy process
+                        Log.e("Billing", "buy");
+                        BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                                    .setSku("donation_upgrade")
+                                    .setType(BillingClient.SkuType.INAPP)
+                                    .build();
+                        // Launch purchase
+                        mBillingClient.launchBillingFlow(MainActivity.this, flowParams);
+                    }else{
+                        Log.e("Billing", "already bought");
+                    }
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+                Log.e("Billing", "disconnected");
+            }
+        });
     }
 
     @Override

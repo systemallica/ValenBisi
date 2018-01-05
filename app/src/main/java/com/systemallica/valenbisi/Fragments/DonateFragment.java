@@ -60,7 +60,6 @@ public class DonateFragment extends Fragment{
         final SubmitButton btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
         SubmitButton btn_buy = view.findViewById(R.id.btn_buy);
 
-
         donatorImage.setVisibility(GONE);
 
         SharedPreferences settings = getActivity().getApplicationContext().getSharedPreferences(PREFS_NAME, 0);
