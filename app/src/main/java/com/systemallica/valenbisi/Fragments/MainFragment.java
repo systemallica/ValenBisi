@@ -38,7 +38,6 @@ import com.google.maps.android.geojson.GeoJsonLayer;
 import com.google.maps.android.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.geojson.GeoJsonPoint;
 import com.google.maps.android.geojson.GeoJsonPointStyle;
-import com.systemallica.valenbisi.PrivateInfo;
 import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.TrackGPS;
 
@@ -65,7 +64,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private final static String mLogTag = "GeoJsonDemo";
-    private String url = PrivateInfo.url;
+    private String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
     int locationRequestCode = 1;
     boolean stationsLayer = true;
     boolean onFoot = true;
