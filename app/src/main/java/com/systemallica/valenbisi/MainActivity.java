@@ -24,7 +24,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -171,18 +170,14 @@ public class MainActivity extends AppCompatActivity
             public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     // The billing client is ready
-                    Log.e("Billing", "connection OK");
                     // Get past purchases
                     Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
                     List purchases = purchasesResult.getPurchasesList();
-                    Log.e("purchases: ", Integer.toString(purchases.size()));
                     for (Object purchase : purchases) {
                         Purchase mPurchase = (Purchase) purchase;
                         String purchaseSku = mPurchase.getSku();
-                        Log.e("Billing", purchaseSku);
                         // The donation package is already bought, apply license
                         if (purchaseSku.equals("donation_upgrade")) {
-                            Log.e("Billing", "license applied");
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putBoolean("donationPurchased", true);
                             editor.apply();
@@ -201,7 +196,7 @@ public class MainActivity extends AppCompatActivity
                     if (responseCode == BillingClient.BillingResponse.OK) {
                         // Handle the success of the consume operation.
                         // For example, increase the number of coins inside the user's basket.
-                        Log.e("Billing","consumed");
+                        //Log.e("Billing","consumed");
                     }
                 }
             };
@@ -210,7 +205,6 @@ public class MainActivity extends AppCompatActivity
             public void onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                //Log.e("Billing", "disconnected");
             }
 
         });

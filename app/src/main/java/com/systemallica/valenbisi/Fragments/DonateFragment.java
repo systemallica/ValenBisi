@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,20 +133,16 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
             public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     // The billing client is ready
-                    Log.e("Billing", "connection OK");
                     final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                     boolean donationPurchased = settings.getBoolean("donationPurchased", false);
                     if(!donationPurchased){
                         // Start buy process
-                        Log.e("Billing", "buy");
                         BillingFlowParams flowParams = BillingFlowParams.newBuilder()
                                 .setSku("donation_upgrade")
                                 .setType(BillingClient.SkuType.INAPP)
                                 .build();
                         // Launch purchase
                         mBillingClient.launchBillingFlow(getActivity(), flowParams);
-                    }else{
-                        Log.e("Billing", "already bought");
                     }
                 }
             }
@@ -156,7 +151,9 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
             public void onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                Log.e("Billing", "disconnected");
+                if(getView() != null) {
+                    Snackbar.make(getView(), R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -164,9 +161,7 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
     @Override
     public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
         if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-            Log.e("Billing", "success");
             if(getView() != null) {
-
                 // Apply preference
                 SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                 SharedPreferences.Editor editor = settings.edit();
@@ -182,10 +177,14 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
             }
         } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-            Log.e("Billing", "user canceled");
+            if(getView() != null) {
+                Snackbar.make(getView(), R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show();
+            }
         } else {
             // Handle any other error codes.
-            Log.e("Billing", "error");
+            if(getView() != null) {
+                Snackbar.make(getView(), R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 

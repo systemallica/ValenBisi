@@ -87,4 +87,5 @@
     <string name="data_old">Los datos llevan más de una hora sin actualizarse,</string>
     <string name="data_unreliable">puede que no coincidan con la realidad.</string>
     <string name="donate_paypal">Y si te sientes generos@, puedes hacer una donación directamente por PayPal a esta dirección:</string>
+    <string name="donation_cancelled">Proceso cancelado :(</string>
 </resources>
