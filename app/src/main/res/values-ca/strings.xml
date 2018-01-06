@@ -86,4 +86,5 @@
     <string name="alpha_message">Atenció! Estàs utilitzant una versió alpha. Pot contenir errors.</string>
     <string name="data_old">Les dades porten més d\'una hora sense actualitzars-se,</string>
     <string name="data_unreliable">potser no coincidisquen amb la realitat.</string>
+    <string name="donate_paypal">I si et sents amb ganes de donar més, pots fer una donació directa a través de PayPal a aquesta direcció:</string>
 </resources>

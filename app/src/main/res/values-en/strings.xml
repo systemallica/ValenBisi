@@ -86,4 +86,5 @@
     <string name="alpha_message">Beware! You are using an alpha release. It may be unstable.</string>
     <string name="data_old">Data is more than one hour old,</string>
     <string name="data_unreliable">it may be unreliable.</string>
+    <string name="donate_paypal">And if you feel like giving more, you can make a donation to the following PayPal account:</string>
 </resources>
