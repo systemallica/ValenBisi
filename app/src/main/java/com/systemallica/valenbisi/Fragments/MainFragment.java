@@ -63,6 +63,7 @@ import okhttp3.ResponseBody;
 public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String PREFS_NAME = "MyPrefsFile";
+    public static final double zoomBorder = 12.0;
     private final static String mLogTag = "GeoJsonDemo";
     int locationRequestCode = 1;
     boolean stationsLayer = true;
@@ -74,6 +75,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     double latitude;
     private GoogleMap mMap;
     private Context context;
+    JSONObject dummy = new JSONObject();
+    GeoJsonLayer layer;
 
     @BindView(R.id.btnLanesToggle)
     Button btnLanesToggle;
@@ -129,12 +132,26 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         // User preferences
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
-
-        mMap = googleMap;
         boolean satellite = settings.getBoolean("satellite", false);
         editor.putBoolean("firstTime", true).apply();
         editor.putBoolean("firstTimeParking", true).apply();
         editor.putBoolean("carrilLayer", false).apply();
+
+        mMap = googleMap;
+
+        // Remove stations when zoomed out
+        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                float zoom = mMap.getCameraPosition().zoom;
+                if(zoom < zoomBorder && layer.isLayerOnMap() && layer != null){
+                    layer.removeLayerFromMap();
+                    Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
+                }else if(zoom >= zoomBorder && !layer.isLayerOnMap() &&layer != null){
+                    layer.addLayerToMap();
+                }
+            }
+        });
 
         // Check fragment is added and activity is reachable
         if(isAdded() && getActivity()!= null) {
@@ -165,7 +182,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             } else {
                 mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             }
-            mMap.setMinZoomPreference(12);
+            mMap.setMinZoomPreference(10);
 
             gps = new TrackGPS(context);
 
@@ -188,23 +205,23 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
                     if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
                     } else {
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
                     }
                 } else {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
                 }
 
             } else {
                 if (initialZoom && gps.canGetLocation()) {
                     if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
                     } else {
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
                     }
                 } else {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(valencia));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
                 }
             }
 
@@ -256,7 +273,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             } else {
                 mMap.setMyLocationEnabled(false);
                 Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
-
             }
         }
     }
@@ -323,6 +339,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         final Drawable myDrawableFavOff = ContextCompat.getDrawable(context, R.drawable.ic_star_outline_black_24dp);
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
 
+        layer = new GeoJsonLayer(mMap, dummy);
+
         if(getActivity() != null && isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
@@ -332,9 +350,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     boolean voronoiCell = settings.getBoolean("voronoiCell", false);
                     boolean bikeLanes = settings.getBoolean("bikeLanes", false);
                     boolean lastUpdated = settings.getBoolean("lastUpdated", true);
-                    // Create empty GeoJsonLayer
-                    JSONObject dummy = new JSONObject();
-                    final GeoJsonLayer layer = new GeoJsonLayer(mMap, dummy);
 
                     try {
                         // If data is not empty
@@ -547,29 +562,31 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             // Toggle Stations
                             btnStationsToggle.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                    if(mMap.getCameraPosition().zoom >= zoomBorder) {
+                                        boolean showFavorites = settings.getBoolean("showFavorites", false);
 
-                                    for (GeoJsonFeature feature : layer.getFeatures()) {
-                                        GeoJsonPointStyle pointStyle = feature.getPointStyle();
-                                        boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-                                        if (stationsLayer) {
-                                            pointStyle.setVisible(false);
-                                        } else {
-                                            if (showFavorites && currentStationIsFav) {
-                                                pointStyle.setVisible(true);
-                                            } else if (!showFavorites) {
-                                                pointStyle.setVisible(true);
+                                        for (GeoJsonFeature feature : layer.getFeatures()) {
+                                            GeoJsonPointStyle pointStyle = feature.getPointStyle();
+                                            boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
+                                            if (stationsLayer) {
+                                                pointStyle.setVisible(false);
+                                            } else {
+                                                if (showFavorites && currentStationIsFav) {
+                                                    pointStyle.setVisible(true);
+                                                } else if (!showFavorites) {
+                                                    pointStyle.setVisible(true);
+                                                }
                                             }
+                                            feature.setPointStyle(pointStyle);
                                         }
-                                        feature.setPointStyle(pointStyle);
-                                    }
 
-                                    if (stationsLayer) {
-                                        btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
-                                        stationsLayer = false;
-                                    } else {
-                                        btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
-                                        stationsLayer = true;
+                                        if (stationsLayer) {
+                                            btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
+                                            stationsLayer = false;
+                                        } else {
+                                            btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
+                                            stationsLayer = true;
+                                        }
                                     }
                                 }
                             });
@@ -577,23 +594,25 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             // Toggle onFoot/onBike
                             btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    layer.removeLayerFromMap();
-                                    if (onFoot) {
-                                        onFoot = false;
-                                        btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
-                                        try {
-                                            getStations();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                    if(mMap.getCameraPosition().zoom >= zoomBorder) {
+                                        layer.removeLayerFromMap();
+                                        if (onFoot) {
+                                            onFoot = false;
+                                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
+                                            try {
+                                                getStations();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
 
-                                    } else {
-                                        onFoot = true;
-                                        btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
-                                        try {
-                                            getStations();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
+                                        } else {
+                                            onFoot = true;
+                                            btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
+                                            try {
+                                                getStations();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                     }
                                 }
@@ -602,15 +621,17 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             // Reload data
                             btnRefresh.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    layer.removeLayerFromMap();
-                                    try {
-                                        getStations();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                    if(mMap.getCameraPosition().zoom >= zoomBorder) {
+                                        layer.removeLayerFromMap();
+                                        try {
+                                            getStations();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
                             });
-                        // Show message if API response is empty
+                            // Show message if API response is empty
                         }else{
                             Snackbar.make(view, R.string.no_data, Snackbar.LENGTH_LONG).show();
                         }

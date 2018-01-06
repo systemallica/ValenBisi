@@ -88,4 +88,5 @@
     <string name="data_unreliable">puede que no coincidan con la realidad.</string>
     <string name="donate_paypal">Y si te sientes generos@, puedes hacer una donación directamente por PayPal a esta dirección:</string>
     <string name="donation_cancelled">Proceso cancelado :(</string>
+    <string name="zoom_in">Haz zoom para ver las estaciones</string>
 </resources>

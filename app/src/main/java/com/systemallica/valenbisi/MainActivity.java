@@ -184,22 +184,10 @@ public class MainActivity extends AppCompatActivity
                             mAdView.setVisibility(GONE);
                             mAdView.destroy();
                             // Consume purchase
-                            mBillingClient.consumeAsync(mPurchase.getPurchaseToken(), listener);
                         }
                     }
                 }
             }
-
-            ConsumeResponseListener listener = new ConsumeResponseListener() {
-                @Override
-                public void onConsumeResponse(@BillingClient.BillingResponse int responseCode, String outToken) {
-                    if (responseCode == BillingClient.BillingResponse.OK) {
-                        // Handle the success of the consume operation.
-                        // For example, increase the number of coins inside the user's basket.
-                        //Log.e("Billing","consumed");
-                    }
-                }
-            };
 
             @Override
             public void onBillingServiceDisconnected() {

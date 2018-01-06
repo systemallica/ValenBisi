@@ -88,4 +88,5 @@
     <string name="data_unreliable">potser no coincidisquen amb la realitat.</string>
     <string name="donate_paypal">I si et sents amb ganes de donar més, pots fer una donació directa a través de PayPal a aquesta direcció:</string>
     <string name="donation_cancelled">Procés cancel·lat :(</string>
+    <string name="zoom_in">Fes zoom per vore les estacions</string>
 </resources>

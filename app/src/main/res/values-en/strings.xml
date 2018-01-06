@@ -88,4 +88,5 @@
     <string name="data_unreliable">it may be unreliable.</string>
     <string name="donate_paypal">And if you feel like giving more, you can make a donation to the following PayPal account:</string>
     <string name="donation_cancelled">Process canceled :(</string>
+    <string name="zoom_in">Zoom in to see the bike stations</string>
 </resources>
