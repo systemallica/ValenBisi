@@ -8,8 +8,8 @@ android {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 44
-        versionName "1.9.0-alfa2"
+        versionCode 45
+        versionName "1.9.0-alfa3"
     }
 
     lintOptions {
@@ -37,7 +37,7 @@ dependencies {
     compile 'com.android.support:design:27.0.2'
     compile 'com.android.support:support-v4:27.0.2'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
-    compile 'com.google.maps.android:android-maps-utils:0.4.4'
+    compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.google.firebase:firebase-ads:11.8.0'
     compile 'com.android.billingclient:billing:1.0'
 
