@@ -57,7 +57,7 @@ public class AboutFragment extends Fragment {
     //Send email
     @OnClick(R.id.email) public void email() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:soporte.valenbisi@gmail.com"));
+        emailIntent.setData(Uri.parse("mailto:systemallica.apps@gmail.com"));
         startActivity(emailIntent);
     }
 

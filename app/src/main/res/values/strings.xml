@@ -14,7 +14,7 @@
 
     <string name="developed">Desarollado por:</string>
     <string name="developer">Systemallica</string>
-    <string name="email" translatable="false">soporte.valenbisi@gmail.com</string>
+    <string name="email" translatable="false">systemallica.apps@gmail.com</string>
     <string name="thanks">Agradecimientos:</string>
     <string name="thank1" translatable="false">ArtemisSoul8</string>
     <string name="thank2" translatable="false">StackOverflow</string>
@@ -113,6 +113,7 @@
     <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
     <string name="license">Licencia correcta</string>
     <string name="donate">Si lo prefieres, puedes hacerme una pequeña donación que eliminará los anuncios y me dará ánimos para seguir</string>
+    <string name="donate_paypal">Y si te sientes generos@, puedes hacer una donación directamente por PayPal a esta dirección:</string>
     <string name="donator">Ya has donado! :)</string>
     <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
     <string name="donar">Donar</string>

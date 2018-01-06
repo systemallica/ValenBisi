@@ -64,7 +64,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private final static String mLogTag = "GeoJsonDemo";
-    private String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
     int locationRequestCode = 1;
     boolean stationsLayer = true;
     boolean onFoot = true;
@@ -115,7 +114,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         mapView.getMapAsync(this);
 
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -266,6 +264,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     public void getStations() throws IOException{
 
         final OkHttpClient client = new OkHttpClient();
+        String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
 
         Request request = new Request.Builder()
                 .url(url)

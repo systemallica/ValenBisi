@@ -1,34 +1,46 @@
 package com.systemallica.valenbisi.Fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.BillingClientStateListener;
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.ads.AdView;
-import com.spark.submitbutton.SubmitButton;
-import com.systemallica.valenbisi.MainActivity;
 import com.systemallica.valenbisi.R;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class DonateFragment extends Fragment{
+public class DonateFragment extends Fragment implements PurchasesUpdatedListener {
 
     public static final String PREFS_NAME = "MyPrefsFile";// Debug tag, for logging
 
     @BindView(R.id.textRemove) TextView textRemove;
     @BindView(R.id.textDonate) TextView textDonate;
     @BindView(R.id.donatorImage) ImageView donatorImage;
+    @BindView(R.id.btn_remove_ads) Button btn_remove_ads;
+    @BindView(R.id.btn_buy) Button btn_buy;
 
     public DonateFragment() {
         // Required empty public constructor
@@ -55,10 +67,7 @@ public class DonateFragment extends Fragment{
     }
 
     @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState){
-
-        final SubmitButton btn_remove_ads = view.findViewById(R.id.btn_remove_ads);
-        SubmitButton btn_buy = view.findViewById(R.id.btn_buy);
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
 
         donatorImage.setVisibility(GONE);
 
@@ -66,7 +75,7 @@ public class DonateFragment extends Fragment{
         boolean removedAds = settings.getBoolean("removedAds", false);
         boolean donationPurchased = settings.getBoolean("donationPurchased", false);
 
-        if(!removedAds){
+        if (!removedAds) {
             textRemove.setText(R.string.ad_remove_hint);
             btn_remove_ads.setText(R.string.ad_remove);
         } else {
@@ -74,13 +83,8 @@ public class DonateFragment extends Fragment{
             btn_remove_ads.setText(R.string.ad_restore);
         }
 
-        if(donationPurchased){
-            donatorImage.setVisibility(VISIBLE);
-            textRemove.setVisibility(GONE);
-            textDonate.setGravity(Gravity.CENTER_VERTICAL);
-            textDonate.setText(R.string.donator_thanks);
-            btn_remove_ads.setVisibility(GONE);
-            btn_buy.setVisibility(GONE);
+        if (donationPurchased) {
+            showDonatorStatus();
         }
 
         btn_remove_ads.setOnClickListener(new View.OnClickListener() {
@@ -92,24 +96,22 @@ public class DonateFragment extends Fragment{
                 boolean removedAds = settings.getBoolean("removedAds", false);
                 AdView mAdView = getActivity().findViewById(R.id.adView);
 
-                if(!removedAds) {
+                if (!removedAds) {
                     editor.putBoolean("removedAds", true);
                     editor.apply();
                     textRemove.setText(R.string.ad_restore_hint);
                     Snackbar.make(view, R.string.ads_removed, Snackbar.LENGTH_SHORT).show();
-
+                    btn_remove_ads.setText(R.string.ad_restore);
                     mAdView.setVisibility(GONE);
-                }
-                else{
+                } else {
                     editor.putBoolean("removedAds", false);
                     editor.apply();
                     textRemove.setText(R.string.ads_restored);
                     Snackbar.make(view, R.string.ads_restored, Snackbar.LENGTH_SHORT).show();
-
-                    if(mAdView!=null) {
+                    btn_remove_ads.setText(R.string.ad_remove);
+                    if (mAdView != null) {
                         mAdView.setVisibility(VISIBLE);
                     }
-
                 }
 
             }
@@ -118,8 +120,89 @@ public class DonateFragment extends Fragment{
         btn_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).startBuyProcess();
+                startBuyProcess();
             }
         });
+    }
+
+    public void startBuyProcess(){
+        final BillingClient mBillingClient;
+
+        mBillingClient = BillingClient.newBuilder(getActivity().getApplicationContext()).setListener(this).build();
+        mBillingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
+                if (billingResponseCode == BillingClient.BillingResponse.OK) {
+                    // The billing client is ready
+                    Log.e("Billing", "connection OK");
+                    final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                    boolean donationPurchased = settings.getBoolean("donationPurchased", false);
+                    if(!donationPurchased){
+                        // Start buy process
+                        Log.e("Billing", "buy");
+                        BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                                .setSku("donation_upgrade")
+                                .setType(BillingClient.SkuType.INAPP)
+                                .build();
+                        // Launch purchase
+                        mBillingClient.launchBillingFlow(getActivity(), flowParams);
+                    }else{
+                        Log.e("Billing", "already bought");
+                    }
+                }
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+                Log.e("Billing", "disconnected");
+            }
+        });
+    }
+
+    @Override
+    public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
+        if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
+            Log.e("Billing", "success");
+            if(getView() != null) {
+
+                // Apply preference
+                SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("donationPurchased", true);
+                editor.apply();
+
+                // Destroy Ad
+                AdView mAdView = getActivity().findViewById(R.id.adView);
+                mAdView.setVisibility(GONE);
+                mAdView.destroy();
+
+                showDonatorStatus();
+            }
+        } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+            Log.e("Billing", "user canceled");
+        } else {
+            // Handle any other error codes.
+            Log.e("Billing", "error");
+        }
+    }
+
+    private void showDonatorStatus(){
+        // Show feedback to the user
+        donatorImage.setVisibility(VISIBLE);
+        textRemove.setVisibility(GONE);
+        textDonate.setGravity(Gravity.CENTER_VERTICAL);
+        textDonate.setText(R.string.donator_thanks);
+        btn_remove_ads.setVisibility(GONE);
+        btn_buy.setVisibility(GONE);
+    }
+
+    //Send donation
+    @OnClick(R.id.email) public void email() {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:systemallica.apps@gmail.com"));
+        startActivity(emailIntent);
     }
 }

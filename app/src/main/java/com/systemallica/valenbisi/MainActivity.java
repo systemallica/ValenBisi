@@ -1,6 +1,5 @@
 package com.systemallica.valenbisi;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -18,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,7 +30,7 @@ import android.view.View;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.ads.AdRequest;
@@ -60,7 +58,7 @@ import static com.systemallica.valenbisi.R.layout.activity_main;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PurchasesUpdatedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, PurchasesUpdatedListener {
 
     NavigationView navigationView;
     FragmentManager mFragmentManager;
@@ -164,75 +162,7 @@ public class MainActivity extends AppCompatActivity
             mAdView.setVisibility(GONE);
         }
 
-        boolean firstLaunch = settings.getBoolean("firstLaunch", true);
-
-        if (firstLaunch) {
-            // Check license
-            final BillingClient mBillingClient;
-
-            mBillingClient = BillingClient.newBuilder(MainActivity.this).setListener(this).build();
-            mBillingClient.startConnection(new BillingClientStateListener() {
-                @Override
-                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
-                    if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                        // The billing client is ready
-                        Log.e("Billing", "connection OK");
-                        // Get past purchases
-                        Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
-                        List purchases = purchasesResult.getPurchasesList();
-                        Log.e("purchases: ", Integer.toString(purchases.size()));
-                        for (Object purchase : purchases) {
-                            Purchase mPurchase = (Purchase) purchase;
-                            String purchaseSku = mPurchase.getSku();
-                            Log.e("Billing", purchaseSku);
-                            // The donation package is already bought, apply license
-                            if (purchaseSku.equals("donation_upgrade")) {
-                                Log.e("Billing", "license applied");
-                                SharedPreferences.Editor editor = settings.edit();
-                                editor.putBoolean("donationPurchased", true);
-                                editor.apply();
-                                mAdView.setVisibility(GONE);
-                                mAdView.destroy();
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onBillingServiceDisconnected() {
-                    // Try to restart the connection on the next request to
-                    // Google Play by calling the startConnection() method.
-                    Log.e("Billing", "disconnected");
-                }
-            });
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("firstLaunch", false);
-            editor.apply();
-        }
-    }
-
-    @Override
-    public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
-        if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-            Log.e("Billing", "success");
-            final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean("donationPurchased", true);
-            editor.apply();
-            final AdView mAdView = findViewById(R.id.adView);
-            mAdView.setVisibility(GONE);
-            mAdView.destroy();
-            Log.e("Billing", "license applied");
-        } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-            // Handle an error caused by a user cancelling the purchase flow.
-            Log.e("Billing", "user canceled");
-        } else {
-            // Handle any other error codes.
-            Log.e("Billing", "error");
-        }
-    }
-
-    public void startBuyProcess(){
+        // Check license
         final BillingClient mBillingClient;
 
         mBillingClient = BillingClient.newBuilder(MainActivity.this).setListener(this).build();
@@ -242,30 +172,59 @@ public class MainActivity extends AppCompatActivity
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     // The billing client is ready
                     Log.e("Billing", "connection OK");
-                    final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-                    boolean donationPurchased = settings.getBoolean("donationPurchased", false);
-                    if(!donationPurchased){
-                        // Start buy process
-                        Log.e("Billing", "buy");
-                        BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                                    .setSku("donation_upgrade")
-                                    .setType(BillingClient.SkuType.INAPP)
-                                    .build();
-                        // Launch purchase
-                        mBillingClient.launchBillingFlow(MainActivity.this, flowParams);
-                    }else{
-                        Log.e("Billing", "already bought");
+                    // Get past purchases
+                    Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
+                    List purchases = purchasesResult.getPurchasesList();
+                    Log.e("purchases: ", Integer.toString(purchases.size()));
+                    for (Object purchase : purchases) {
+                        Purchase mPurchase = (Purchase) purchase;
+                        String purchaseSku = mPurchase.getSku();
+                        Log.e("Billing", purchaseSku);
+                        // The donation package is already bought, apply license
+                        if (purchaseSku.equals("donation_upgrade")) {
+                            Log.e("Billing", "license applied");
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putBoolean("donationPurchased", true);
+                            editor.apply();
+                            mAdView.setVisibility(GONE);
+                            mAdView.destroy();
+                            // Consume purchase
+                            mBillingClient.consumeAsync(mPurchase.getPurchaseToken(), listener);
+                        }
                     }
                 }
             }
+
+            ConsumeResponseListener listener = new ConsumeResponseListener() {
+                @Override
+                public void onConsumeResponse(@BillingClient.BillingResponse int responseCode, String outToken) {
+                    if (responseCode == BillingClient.BillingResponse.OK) {
+                        // Handle the success of the consume operation.
+                        // For example, increase the number of coins inside the user's basket.
+                        Log.e("Billing","consumed");
+                    }
+                }
+            };
 
             @Override
             public void onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                Log.e("Billing", "disconnected");
+                //Log.e("Billing", "disconnected");
             }
+
         });
+    }
+
+    @Override
+    public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
+        //if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
+            // Success
+        //} else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+        //} else {
+            // Handle any other error codes.
+        //}
     }
 
     @Override
