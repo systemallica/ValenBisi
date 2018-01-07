@@ -144,11 +144,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onCameraMove() {
                 float zoom = mMap.getCameraPosition().zoom;
-                if(zoom < zoomBorder && layer.isLayerOnMap() && layer != null){
-                    layer.removeLayerFromMap();
-                    Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
-                }else if(zoom >= zoomBorder && !layer.isLayerOnMap() &&layer != null){
-                    layer.addLayerToMap();
+                if(zoom < zoomBorder && layer != null){
+                    if(layer.isLayerOnMap()) {
+                        layer.removeLayerFromMap();
+                        Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
+                    }
+                }else if(zoom >= zoomBorder &&layer != null){
+                    if(!layer.isLayerOnMap()) {
+                        layer.addLayerToMap();
+                    }
                 }
             }
         });
@@ -279,6 +283,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public void getStations() throws IOException{
 
+        // Show loading message
+        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_SHORT).show();
+
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
 
@@ -354,9 +361,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     try {
                         // If data is not empty
                         if (!jsonData.equals("")) {
-                            // Show loading message
-                            Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_SHORT).show();
-
                             JSONArray jsonDataArray = new JSONArray(jsonData);
 
                             // Parse data from API

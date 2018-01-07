@@ -17,10 +17,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
-/**
- * Created by ANQ on 8/8/2016.
- */
-
 public class TrackGPS extends Service implements LocationListener {
 
     private final Context mContext;
