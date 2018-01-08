@@ -29,7 +29,6 @@ import android.view.View;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.ads.AdRequest;
@@ -51,8 +50,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 import static android.view.View.GONE;
-import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocale;
-import static com.systemallica.valenbisi.MyContextWrapper.getSystemLocaleLegacy;
+import static com.systemallica.valenbisi.ContextWrapper.getSystemLocale;
+import static com.systemallica.valenbisi.ContextWrapper.getSystemLocaleLegacy;
 import static com.systemallica.valenbisi.R.layout.activity_main;
 
 
@@ -227,10 +226,10 @@ public class MainActivity extends AppCompatActivity
 
         //Apply it if user didn't specify a locale
         if (locale.equals("default_locale")){
-            super.attachBaseContext(MyContextWrapper.wrap(newBase,sysLocale.getLanguage()));
+            super.attachBaseContext(ContextWrapper.wrap(newBase,sysLocale.getLanguage()));
             //Else apply user choice
         }else{
-            super.attachBaseContext(MyContextWrapper.wrap(newBase,locale));
+            super.attachBaseContext(ContextWrapper.wrap(newBase,locale));
         }
     }
 

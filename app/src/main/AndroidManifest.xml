@@ -43,6 +43,11 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
 
+        <service
+            android:exported= "false"
+            android:label="string resource"
+            android:name=".TrackGPS"/>
+
     </application>
 
 </manifest>

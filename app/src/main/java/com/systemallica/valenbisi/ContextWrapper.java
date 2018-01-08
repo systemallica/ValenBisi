@@ -1,25 +1,20 @@
 package com.systemallica.valenbisi;
 
-/**
- * Created by Systemallica on 21/02/2017.
- */
-
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.os.Build;
 
 import java.util.Locale;
 
-public class MyContextWrapper extends ContextWrapper {
+public class ContextWrapper extends android.content.ContextWrapper {
 
-    public MyContextWrapper(Context base) {
+    public ContextWrapper(Context base) {
         super(base);
     }
 
     @SuppressWarnings("deprecation")
-    public static ContextWrapper wrap(Context context, String language) {
+    public static android.content.ContextWrapper wrap(Context context, String language) {
         Configuration config = context.getResources().getConfiguration();
         Locale sysLocale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -41,7 +36,7 @@ public class MyContextWrapper extends ContextWrapper {
                 context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
             }
         }
-        return new MyContextWrapper(context);
+        return new ContextWrapper(context);
     }
 
     @SuppressWarnings("deprecation")

@@ -139,24 +139,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         mMap = googleMap;
 
-        // Remove stations when zoomed out
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-            @Override
-            public void onCameraMove() {
-                float zoom = mMap.getCameraPosition().zoom;
-                if(zoom < zoomBorder && layer != null){
-                    if(layer.isLayerOnMap()) {
-                        layer.removeLayerFromMap();
-                        Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
-                    }
-                }else if(zoom >= zoomBorder &&layer != null){
-                    if(!layer.isLayerOnMap()) {
-                        layer.addLayerToMap();
-                    }
-                }
-            }
-        });
-
         // Check fragment is added and activity is reachable
         if(isAdded() && getActivity()!= null) {
             //Check for sdk >= 23
@@ -241,6 +223,25 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 editor.putBoolean("parkingLayer", false).apply();
                 new GetParking().execute();
             }
+
+            // Remove stations when zoomed out
+            mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+                @Override
+                public void onCameraMove() {
+
+                    float zoom = mMap.getCameraPosition().zoom;
+                    if(zoom < zoomBorder && layer != null){
+                        if(layer.isLayerOnMap()) {
+                            layer.removeLayerFromMap();
+                            Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
+                        }
+                    }else if(zoom >= zoomBorder &&layer != null){
+                        if(!layer.isLayerOnMap()) {
+                            layer.addLayerToMap();
+                        }
+                    }
+                }
+            });
 
             btnLanesToggle.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
