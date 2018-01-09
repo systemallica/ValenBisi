@@ -225,9 +225,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             }
 
             // Remove stations when zoomed out
-            mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
                 @Override
-                public void onCameraMove() {
+                public void onCameraIdle() {
 
                     float zoom = mMap.getCameraPosition().zoom;
                     if(zoom < zoomBorder && layer != null){
