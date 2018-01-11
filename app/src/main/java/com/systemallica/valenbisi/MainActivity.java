@@ -24,6 +24,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -211,11 +212,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void attachBaseContext(Context newBase) {
 
-        //Changing language
+        // Changing language
         final SharedPreferences settings = newBase.getSharedPreferences(PREFS_NAME, 0);
         String locale = settings.getString("locale", "default_locale");
 
-        //Get default system locale
+        // Get default system locale
         Configuration config = newBase.getResources().getConfiguration();
         Locale sysLocale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -224,10 +225,10 @@ public class MainActivity extends AppCompatActivity
             sysLocale = getSystemLocaleLegacy(config);
         }
 
-        //Apply it if user didn't specify a locale
+        // Apply default locale if user didn't specify a locale
         if (locale.equals("default_locale")){
-            super.attachBaseContext(ContextWrapper.wrap(newBase,sysLocale.getLanguage()));
-            //Else apply user choice
+            super.attachBaseContext(ContextWrapper.wrap(newBase, sysLocale.getLanguage()));
+        // Else apply user choice
         }else{
             super.attachBaseContext(ContextWrapper.wrap(newBase,locale));
         }
