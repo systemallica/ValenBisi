@@ -133,17 +133,14 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
             public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     // The billing client is ready
-                    final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-                    boolean donationPurchased = settings.getBoolean("donationPurchased", false);
-                    if(!donationPurchased){
-                        // Start buy process
-                        BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                                .setSku("donation_upgrade")
-                                .setType(BillingClient.SkuType.INAPP)
-                                .build();
-                        // Launch purchase
-                        mBillingClient.launchBillingFlow(getActivity(), flowParams);
-                    }
+                    // Start buy process
+                    BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                            .setSku("donation_upgrade")
+                            .setType(BillingClient.SkuType.INAPP)
+                            .build();
+                    // Launch purchase
+                    mBillingClient.launchBillingFlow(getActivity(), flowParams);
+
                 }
             }
 
