@@ -33,11 +33,14 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
-import com.google.maps.android.data.geojson.GeoJsonPoint;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
+import com.systemallica.valenbisi.ClusterPoint;
+import com.systemallica.valenbisi.IconRenderer;
 import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.TrackGPS;
 
@@ -49,7 +52,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Formatter;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +62,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class MainFragment extends Fragment implements OnMapReadyCallback {
+public class MainFragment extends Fragment implements OnMapReadyCallback{
 
     public static final String PREFS_NAME = "MyPrefsFile";
     public static final double zoomBorder = 12.0;
@@ -224,25 +226,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                 new GetParking().execute();
             }
 
-            // Remove stations when zoomed out
-            mMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
-                @Override
-                public void onCameraIdle() {
-
-                    float zoom = mMap.getCameraPosition().zoom;
-                    if(zoom < zoomBorder && layer != null){
-                        if(layer.isLayerOnMap()) {
-                            layer.removeLayerFromMap();
-                            Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
-                        }
-                    }else if(zoom >= zoomBorder &&layer != null){
-                        if(!layer.isLayerOnMap()) {
-                            layer.addLayerToMap();
-                        }
-                    }
-                }
-            });
-
             btnLanesToggle.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (!settings.getBoolean("carrilLayer", false)) {
@@ -284,8 +267,18 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     public void getStations() throws IOException{
 
+        // Clear map
+        mMap.clear();
+
         // Show loading message
-        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
+
+        // Load ClusterManager
+        final ClusterManager<ClusterPoint> mClusterManager = new ClusterManager<>(context, mMap);
+        // Set custom renderer
+        mClusterManager.setRenderer(new IconRenderer(getActivity().getApplicationContext(), mMap, mClusterManager));
+        // Attach to listener
+        mMap.setOnCameraIdleListener(mClusterManager);
 
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
@@ -312,7 +305,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                     }
 
                     final String jsonData = jsonStrTemp;
-                    applyJSONData(jsonData);
+                    applyJSONData(jsonData, mClusterManager);
 
                 }catch(IOException e){
                     Log.e("error", "error with http request");
@@ -326,7 +319,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    public void applyJSONData(final String jsonData){
+    public void applyJSONData(final String jsonData, final ClusterManager mClusterManager){
 
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -371,75 +364,59 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 JSONObject latLong = station.getJSONObject("position");
                                 Double lat = latLong.getDouble("lat");
                                 Double lng = latLong.getDouble("lng");
-                                // Create point in map
-                                GeoJsonPoint point = new GeoJsonPoint(new LatLng(lat, lng));
-                                // Add properties
-                                HashMap<String, String> properties = new HashMap<>();
-                                properties.put("name", station.getString("name"));
-                                properties.put("number", station.getString("number"));
-                                properties.put("address", station.getString("address"));
-                                properties.put("status", station.getString("status"));
-                                properties.put("available_bike_stands", station.getString("available_bike_stands"));
-                                properties.put("available_bikes", station.getString("available_bikes"));
-                                properties.put("last_updated", station.getString("last_update"));
-                                properties.put("status", station.getString("status"));
-                                // Transform in GeoJsonFeature
-                                GeoJsonFeature pointFeature = new GeoJsonFeature(point, "Origin", properties, null);
-                                // Add feature to GeoJsonLayer
-                                layer.addFeature(pointFeature);
-                            }
 
-                            // Add parsed data to each point in map
-                            for (GeoJsonFeature feature : layer.getFeatures()) {  // loop through features
+                                String name = station.getString("name");
+                                String number = station.getString("number");
+                                String address = station.getString("address");
+                                String status = station.getString("status");
+                                int available_bike_stands = station.getInt("available_bike_stands");
+                                int available_bikes = station.getInt("available_bikes");
+                                String last_update = station.getString("last_update");
+                                String snippet;
+                                BitmapDescriptor icon;
+                                Float alpha;
+                                Boolean visibility = true;
 
-                                // Find if current station is marked as favourite
-                                boolean currentStationIsFav = settings.getBoolean(feature.getProperty("address"), false);
+                                boolean currentStationIsFav = settings.getBoolean(address, false);
 
-                                // Add title
-                                GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                                pointStyle.setTitle(feature.getProperty("address"));
-                                // If the station is open
-                                if(feature.getProperty("status").equals("OPEN")) {
+                                if (status.equals("OPEN")){
                                     // Add number of available bikes/stands
-                                    pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.spots) + " " +
-                                            feature.getProperty("available_bike_stands") + " - " +
+                                    snippet = MainFragment.this.getResources().getString(R.string.spots) + " " +
+                                            available_bike_stands + " - " +
                                             MainFragment.this.getResources().getString(R.string.bikes) + " " +
-                                            feature.getProperty("available_bikes"));
-
-                                    int available_bikes = Integer.parseInt(feature.getProperty("available_bikes"));
-                                    int available_bike_stands = Integer.parseInt(feature.getProperty("available_bike_stands"));
+                                            available_bikes;
 
                                     // Set markers colors depending on available bikes/stands
                                     if (onFoot) {
                                         if (available_bikes == 0) {
-                                            pointStyle.setIcon(iconRed);
+                                            icon = iconRed;
                                             if (showAvailable) {
-                                                pointStyle.setVisible(false);
+                                                visibility = false;
                                             }
                                         } else if (available_bikes < 5) {
-                                            pointStyle.setIcon(iconOrange);
+                                            icon = iconOrange;
                                         } else if (available_bikes < 10) {
-                                            pointStyle.setIcon(iconYellow);
+                                            icon = iconYellow;
                                         } else {
-                                            pointStyle.setIcon(iconGreen);
+                                            icon = iconGreen;
                                         }
                                     } else {
                                         if (available_bike_stands == 0) {
-                                            pointStyle.setIcon(iconRed);
+                                            icon = iconRed;
                                             if (showAvailable) {
-                                                pointStyle.setVisible(false);
+                                                visibility = false;
                                             }
                                         } else if (available_bike_stands < 5) {
-                                            pointStyle.setIcon(iconOrange);
+                                            icon = iconOrange;
                                         } else if (available_bike_stands < 10) {
-                                            pointStyle.setIcon(iconYellow);
+                                            icon = iconYellow;
                                         } else {
-                                            pointStyle.setIcon(iconGreen);
+                                            icon = iconGreen;
                                         }
                                     }
 
                                     // Get API time
-                                    long apiTime = Long.parseLong(feature.getProperty("last_updated"));
+                                    long apiTime = Long.parseLong(last_update);
                                     // Create calendar object
                                     Calendar date = new GregorianCalendar();
                                     // Get current time
@@ -453,44 +430,49 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                         Formatter fmt = new Formatter(sbu);
                                         fmt.format("%tT", date.getTime());
                                         // Add to pointStyle
-                                        pointStyle.setSnippet(pointStyle.getSnippet() +
+                                        snippet = snippet +
                                                 "\n"+
                                                 MainFragment.this.getResources().getString(R.string.last_updated) + " " +
-                                                sbu);
+                                                sbu;
                                     }
                                     // If data has not been updated for more than 1 hour
                                     if((time-apiTime) > 3600000){
                                         // Add warning that data may be unreliable
-                                        pointStyle.setSnippet(pointStyle.getSnippet() +
+                                        snippet = snippet +
                                                 "\n\n" +
                                                 MainFragment.this.getResources().getString(R.string.data_old) +
                                                 "\n" +
-                                                MainFragment.this.getResources().getString(R.string.data_unreliable));
+                                                MainFragment.this.getResources().getString(R.string.data_unreliable);
                                     }
 
                                 }else{
-                                    // Add "CLOSED" snippet and icon
-                                    pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.closed));
-                                    pointStyle.setIcon(iconViolet);
+                                    snippet = MainFragment.this.getResources().getString(R.string.closed);
+                                    icon = iconViolet;
                                 }
 
                                 // Set transparency
-                                pointStyle.setAlpha((float) 0.5);
+                                alpha = (float)0.5;
 
                                 // Apply full opacity to favourite stations
                                 if (currentStationIsFav) {
-                                    pointStyle.setAlpha(1);
+                                    alpha = (float)1.0;
                                 }
 
                                 // If displaying only favorites are selected, hide the rest
                                 if (showFavorites) {
                                     if (!currentStationIsFav) {
-                                        pointStyle.setVisible(false);
+                                        visibility = false;
                                     }
                                 }
-                                // Set the style to the point in the map
-                                feature.setPointStyle(pointStyle);
+
+                                // Add feature to GeoJsonLayer
+                                ClusterPoint clPoint = new ClusterPoint(lat, lng, address, snippet, icon, alpha, visibility);
+                                mClusterManager.addItem(clPoint);
+
+                                //layer.addFeature(pointFeature);
                             }
+
+                            mClusterManager.cluster();
 
                             if (stationsLayer) {
                                 layer.addLayerToMap();
@@ -508,91 +490,88 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 @Override
                                 public View getInfoContents(Marker marker) {
 
-                                    // Getting view from the layout file info_window_layout
-                                    final View v = getActivity().getLayoutInflater().inflate(R.layout.windowlayout, null);
+                                    if(marker.getSnippet() != null) {
+                                        // Getting view from the layout file info_window_layout
+                                        final View v = getActivity().getLayoutInflater().inflate(R.layout.windowlayout, null);
 
-                                    // Getting reference to the ImageView/title/snippet
-                                    TextView title = v.findViewById(R.id.title);
-                                    TextView snippet = v.findViewById(R.id.snippet);
-                                    ImageView btn_star = v.findViewById(R.id.btn_star);
+                                        // Getting reference to the ImageView/title/snippet
+                                        TextView title = v.findViewById(R.id.title);
+                                        TextView snippet = v.findViewById(R.id.snippet);
+                                        ImageView btn_star = v.findViewById(R.id.btn_star);
 
-                                    if(marker.getSnippet().contains("\n\n")){
-                                        snippet.setTextColor(getResources().getColor(R.color.red));
-                                        snippet.setTypeface(null, Typeface.BOLD);
-                                        snippet.setText(marker.getSnippet());
-                                    }else{
-                                        snippet.setText(marker.getSnippet());
-                                    }
-                                    title.setText(marker.getTitle());
 
-                                    // Checking if current station is favorite
-                                    boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+                                        if (marker.getSnippet().contains("\n\n")) {
+                                            snippet.setTextColor(getResources().getColor(R.color.red));
+                                            snippet.setTypeface(null, Typeface.BOLD);
+                                            snippet.setText(marker.getSnippet());
+                                        } else {
+                                            snippet.setText(marker.getSnippet());
+                                        }
+                                        title.setText(marker.getTitle());
 
-                                    // Setting correspondent icon
-                                    if (currentStationIsFav) {
-                                        btn_star.setImageDrawable(myDrawableFavOn);
-                                    } else {
-                                        btn_star.setImageDrawable(myDrawableFavOff);
-                                    }
+                                        // Checking if current station is favorite
+                                        boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
 
-                                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                                        @Override
-                                        public void onInfoWindowClick(Marker marker) {
+                                        // Setting correspondent icon
+                                        if (currentStationIsFav) {
+                                            btn_star.setImageDrawable(myDrawableFavOn);
+                                        } else {
+                                            btn_star.setImageDrawable(myDrawableFavOff);
+                                        }
 
-                                            boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
-                                            boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                            @Override
+                                            public void onInfoWindowClick(Marker marker) {
 
-                                            if (currentStationIsFav) {
-                                                marker.setAlpha((float) 0.5);
-                                                if (showFavorites) {
-                                                    marker.setVisible(false);
+                                                boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
+                                                boolean showFavorites = settings.getBoolean("showFavorites", false);
+
+                                                if (currentStationIsFav) {
+                                                    marker.setAlpha((float) 0.5);
+                                                    if (showFavorites) {
+                                                        marker.setVisible(false);
+                                                    }
+                                                    marker.showInfoWindow();
+                                                    editor.putBoolean(marker.getTitle(), false);
+                                                    editor.apply();
+                                                } else {
+                                                    marker.setAlpha(1);
+                                                    marker.showInfoWindow();
+                                                    editor.putBoolean(marker.getTitle(), true);
+                                                    editor.apply();
                                                 }
                                                 marker.showInfoWindow();
-                                                editor.putBoolean(marker.getTitle(), false);
-                                                editor.apply();
-                                            } else {
-                                                marker.setAlpha(1);
-                                                marker.showInfoWindow();
-                                                editor.putBoolean(marker.getTitle(), true);
-                                                editor.apply();
                                             }
-                                            marker.showInfoWindow();
-                                        }
-                                    });
-
-                                    // Returning the view containing InfoWindow contents
-                                    return v;
+                                        });
+                                        // Returning the view containing InfoWindow contents
+                                        return v;
+                                    }else{
+                                        return null;
+                                    }
                                 }
                             });
                             // Toggle Stations
                             btnStationsToggle.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    if(mMap.getCameraPosition().zoom >= zoomBorder) {
-                                        boolean showFavorites = settings.getBoolean("showFavorites", false);
 
-                                        for (GeoJsonFeature feature : layer.getFeatures()) {
-                                            GeoJsonPointStyle pointStyle = feature.getPointStyle();
-                                            boolean currentStationIsFav = settings.getBoolean(feature.getProperty("Address"), false);
-                                            if (stationsLayer) {
-                                                pointStyle.setVisible(false);
-                                            } else {
-                                                if (showFavorites && currentStationIsFav) {
-                                                    pointStyle.setVisible(true);
-                                                } else if (!showFavorites) {
-                                                    pointStyle.setVisible(true);
-                                                }
-                                            }
-                                            feature.setPointStyle(pointStyle);
-                                        }
-
-                                        if (stationsLayer) {
-                                            btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
-                                            stationsLayer = false;
-                                        } else {
-                                            btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
-                                            stationsLayer = true;
+                                    if (stationsLayer) {
+                                        mMap.clear();
+                                    } else {
+                                        try {
+                                            getStations();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
                                         }
                                     }
+
+                                    if (stationsLayer) {
+                                        btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
+                                        stationsLayer = false;
+                                    } else {
+                                        btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
+                                        stationsLayer = true;
+                                    }
+
                                 }
                             });
 
@@ -626,18 +605,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             // Reload data
                             btnRefresh.setOnClickListener(new View.OnClickListener() {
                                 public void onClick(View v) {
-                                    if(mMap.getCameraPosition().zoom >= zoomBorder) {
-                                        layer.removeLayerFromMap();
-                                        try {
-                                            getStations();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
+                                    mMap.clear();
+                                    try {
+                                        getStations();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
                                 }
                             });
-                            // Show message if API response is empty
                         }else{
+                            // Show message if API response is empty
                             Snackbar.make(view, R.string.no_data, Snackbar.LENGTH_LONG).show();
                         }
 
