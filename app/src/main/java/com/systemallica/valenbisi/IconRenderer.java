@@ -1,6 +1,7 @@
 package com.systemallica.valenbisi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.MarkerOptions;

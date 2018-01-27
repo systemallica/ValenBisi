@@ -58,6 +58,14 @@ public class ClusterPoint implements ClusterItem {
         return mAlpha;
     }
 
+    public void setAlpha(Float alpha){
+        mAlpha = alpha;
+    }
+
+    public void setVisibility(Boolean visibility){
+        mVisibility = visibility;
+    }
+
     public Boolean getVisibility(){
         return mVisibility;
     }
