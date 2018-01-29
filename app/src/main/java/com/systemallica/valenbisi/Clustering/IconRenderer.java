@@ -1,7 +1,6 @@
-package com.systemallica.valenbisi;
+package com.systemallica.valenbisi.Clustering;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -11,9 +10,13 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 public class IconRenderer extends DefaultClusterRenderer<ClusterPoint> {
 
+    private final Context mContext;
+
     public IconRenderer(Context context, GoogleMap map,
                         ClusterManager<ClusterPoint> clusterManager) {
         super(context, map, clusterManager);
+
+        mContext = context;
     }
 
     @Override
@@ -25,4 +28,5 @@ public class IconRenderer extends DefaultClusterRenderer<ClusterPoint> {
         markerOptions.visible(item.getVisibility());
         super.onBeforeClusterItemRendered(item, markerOptions);
     }
+
 }

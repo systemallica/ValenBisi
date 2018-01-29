@@ -21,4 +21,9 @@
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
+    <style name="AppTheme.WhiteTextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
 </resources>
