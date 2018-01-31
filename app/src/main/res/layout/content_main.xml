@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
-    tools:context="com.systemallica.valenbisi.Fragments.MainFragment" >
+    tools:context="com.systemallica.valenbisi.Fragments.MapsFragmentClustered" >
 
     <FrameLayout
         android:id="@+id/containerView"

@@ -54,8 +54,6 @@
             android:summaryOn="@string/pref_showAvailable_summary_on"
             android:defaultValue="false" />
 
-
-
         <CheckBoxPreference
             android:key="voronoiCell"
             android:title="@string/voronoi"

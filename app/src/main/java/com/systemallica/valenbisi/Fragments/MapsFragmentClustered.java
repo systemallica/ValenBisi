@@ -62,7 +62,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class MainFragment extends Fragment implements OnMapReadyCallback{
+public class MapsFragmentClustered extends Fragment implements OnMapReadyCallback{
 
     public static final String PREFS_NAME = "MyPrefsFile";
     private final static String mLogTag = "GeoJsonDemo";
@@ -89,7 +89,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback{
     @BindView(R.id.btnRefresh)
     Button btnRefresh;
 
-    public MainFragment() {
+    public MapsFragmentClustered() {
         // Required empty public constructor
     }
 
@@ -180,13 +180,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback{
             gps = new TrackGPS(context);
 
             if (gps.canGetLocation()) {
-
                 longitude = gps.getLongitude();
-                latitude = gps.getLatitude();
-
+                latitude  = gps.getLatitude();
             }
-            // 39.420//39.515
-            // -0.272//-0.572
+
             LatLng currentLocation = new LatLng(latitude, longitude);
             LatLng valencia = new LatLng(39.479, -0.372);
 
@@ -352,9 +349,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback{
 
                                     if (status.equals("OPEN")) {
                                         // Add number of available bikes/stands
-                                        snippet = MainFragment.this.getResources().getString(R.string.spots) + " " +
+                                        snippet = MapsFragmentClustered.this.getResources().getString(R.string.spots) + " " +
                                                 spots + " - " +
-                                                MainFragment.this.getResources().getString(R.string.bikes) + " " +
+                                                MapsFragmentClustered.this.getResources().getString(R.string.bikes) + " " +
                                                 bikes;
 
                                         // Set markers colors depending on available bikes/stands
@@ -403,7 +400,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback{
                                             // Add to pointStyle
                                             snippet = snippet +
                                                     "\n" +
-                                                    MainFragment.this.getResources().getString(R.string.last_updated) + " " +
+                                                    MapsFragmentClustered.this.getResources().getString(R.string.last_updated) + " " +
                                                     sbu;
                                         }
                                         // If data has not been updated for more than 1 hour
@@ -411,13 +408,13 @@ public class MainFragment extends Fragment implements OnMapReadyCallback{
                                             // Add warning that data may be unreliable
                                             snippet = snippet +
                                                     "\n\n" +
-                                                    MainFragment.this.getResources().getString(R.string.data_old) +
+                                                    MapsFragmentClustered.this.getResources().getString(R.string.data_old) +
                                                     "\n" +
-                                                    MainFragment.this.getResources().getString(R.string.data_unreliable);
+                                                    MapsFragmentClustered.this.getResources().getString(R.string.data_unreliable);
                                         }
 
                                     } else {
-                                        snippet = MainFragment.this.getResources().getString(R.string.closed);
+                                        snippet = MapsFragmentClustered.this.getResources().getString(R.string.closed);
                                         icon = iconViolet;
                                         if (showAvailable) {
                                             visibility = false;
@@ -756,8 +753,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback{
                         parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
                         for (GeoJsonFeature feature : parking.getFeatures()) {
                             GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                            pointStyle.setTitle(MainFragment.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
-                            pointStyle.setSnippet(MainFragment.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
+                            pointStyle.setTitle(MapsFragmentClustered.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
+                            pointStyle.setSnippet(MapsFragmentClustered.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
                             pointStyle.setAlpha((float) 0.5);
                             pointStyle.setIcon(icon_parking);
 
