@@ -24,7 +24,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -36,7 +35,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.DonateFragment;
-import com.systemallica.valenbisi.Fragments.MainFragment;
+import com.systemallica.valenbisi.Fragments.MapsFragmentClustered;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = mFragmentManager.beginTransaction();
 
         if (savedInstanceState == null) {
-            ft.replace(R.id.containerView, new MainFragment(), "mainFragment").commit();
+            ft.replace(R.id.containerView, new MapsFragmentClustered()).commit();
             navigationView.getMenu().getItem(0).setChecked(true);
         }
 
@@ -255,35 +254,18 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean removedAds = settings.getBoolean("removedAds", false);
 
+        // Load fragment transaction
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+
         if (id == R.id.nav_map) {
 
             mAdView.setVisibility(GONE);
 
-            //Change toolbar title
+            // Change toolbar title
             this.setTitle(R.string.nav_map);
-            SharedPreferences.Editor editor = settings.edit();
-            boolean isChanged = settings.getBoolean("isChanged", false);
 
-            FragmentTransaction ft = mFragmentManager.beginTransaction();
-            if(isChanged){
-                ft.replace(R.id.containerView, new MainFragment(), "mainFragment");
-                editor.putBoolean("isChanged", false);
-                editor.apply();
-            }
-            else {
-                ft.show(getFragmentManager().findFragmentByTag("mainFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
-                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
-            }
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.commit();
+            // Change fragment
+            transaction.replace(R.id.containerView, new MapsFragmentClustered());
 
         } else if (id == R.id.nav_settings) {
 
@@ -291,20 +273,8 @@ public class MainActivity extends AppCompatActivity
                 mAdView.setVisibility(View.VISIBLE);
             }
 
-            FragmentTransaction ft = mFragmentManager.beginTransaction();
-            ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
-            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null) {
-                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
-            }
-            ft.add(R.id.containerView, new SettingsFragment(), "settingsFragment");
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.commit();
+            // Change fragment
+            transaction.replace(R.id.containerView, new SettingsFragment());
 
         } else if (id == R.id.nav_donate) {
 
@@ -312,20 +282,8 @@ public class MainActivity extends AppCompatActivity
                 mAdView.setVisibility(View.VISIBLE);
             }
 
-            FragmentTransaction ft = mFragmentManager.beginTransaction();
-            ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
-            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
-            }
-            ft.add(R.id.containerView, new DonateFragment(), "donateFragment");
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.commit();
+            // Change fragment
+            transaction.replace(R.id.containerView, new DonateFragment());
 
         } else if (id == R.id.nav_share) {
 
@@ -345,22 +303,14 @@ public class MainActivity extends AppCompatActivity
                 mAdView.setVisibility(View.VISIBLE);
             }
 
-            FragmentTransaction ft = mFragmentManager.beginTransaction();
-            ft.hide(getFragmentManager().findFragmentByTag("mainFragment"));
-            if(getFragmentManager().findFragmentByTag("settingsFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("settingsFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("donateFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("donateFragment"));
-            }
-            if(getFragmentManager().findFragmentByTag("aboutFragment")!=null){
-                ft.remove(getFragmentManager().findFragmentByTag("aboutFragment"));
-            }
-            ft.add(R.id.containerView, new AboutFragment(), "aboutFragment");
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-            ft.commit();
+            // Change fragment
+            transaction.replace(R.id.containerView, new AboutFragment());
 
         }
+
+        // Commit fragment
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
