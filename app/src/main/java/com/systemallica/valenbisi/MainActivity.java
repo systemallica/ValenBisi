@@ -35,6 +35,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.DonateFragment;
+import com.systemallica.valenbisi.Fragments.MapsFragment;
 import com.systemallica.valenbisi.Fragments.MapsFragmentClustered;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
 
@@ -253,6 +254,7 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean removedAds = settings.getBoolean("removedAds", false);
+        boolean clustering = settings.getBoolean("clustering", true);
 
         // Load fragment transaction
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -265,7 +267,11 @@ public class MainActivity extends AppCompatActivity
             this.setTitle(R.string.nav_map);
 
             // Change fragment
-            transaction.replace(R.id.containerView, new MapsFragmentClustered());
+            if(clustering) {
+                transaction.replace(R.id.containerView, new MapsFragmentClustered());
+            }else{
+                transaction.replace(R.id.containerView, new MapsFragment());
+            }
 
         } else if (id == R.id.nav_settings) {
 

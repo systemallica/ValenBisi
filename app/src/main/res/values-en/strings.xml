@@ -89,4 +89,7 @@
     <string name="donate_paypal">And if you feel like giving more, you can make a donation to the following PayPal account:</string>
     <string name="donation_cancelled">Process canceled :(</string>
     <string name="zoom_in">Zoom in to see the bike stations</string>
+    <string name="stations">Stations</string>
+    <string name="pref_clustering_summary_off">Stations won\'t be clustered when zooming out</string>
+    <string name="pref_clustering_summary_on">Stations will be clustered when zooming out</string>
 </resources>

@@ -79,12 +79,10 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!satelliteViewPref.isChecked()) {
                     editor.putBoolean("satellite", true);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     editor.putBoolean("satellite", false);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
 
@@ -122,12 +120,10 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!showFavoritesPref.isChecked()) {
                     editor.putBoolean("showFavorites", true);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     editor.putBoolean("showFavorites", false);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 return true;
@@ -142,12 +138,10 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!showAvailablesPref.isChecked()) {
                     editor.putBoolean("showAvailable", true);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     editor.putBoolean("showAvailable", false);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 return true;
@@ -180,17 +174,34 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!lastUpdatedPref.isChecked()) {
                     editor.putBoolean("lastUpdated", true);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     editor.putBoolean("lastUpdated", false);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 return true;
             }
         });
+
+        //Clustering stuff
+        final CheckBoxPreference clusteringPref = (CheckBoxPreference) findPreference("clustering");
+        clusteringPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!clusteringPref.isChecked()) {
+                    editor.putBoolean("clustering", true);
+                    editor.apply();
+                }
+                else{
+                    editor.putBoolean("clustering", false);
+                    editor.apply();
+                }
+                return true;
+            }
+        });
+
 
         //Voronoi stuff
         final CheckBoxPreference voronoiPref = (CheckBoxPreference) findPreference("voronoiCell");
@@ -200,12 +211,10 @@ public class SettingsFragment extends PreferenceFragment {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!voronoiPref.isChecked()) {
                     editor.putBoolean("voronoiCell", true);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 else{
                     editor.putBoolean("voronoiCell", false);
-                    editor.putBoolean("isChanged", true);
                     editor.apply();
                 }
                 return true;

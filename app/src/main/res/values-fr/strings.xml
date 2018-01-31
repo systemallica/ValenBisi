@@ -89,4 +89,7 @@
     <string name="donate_paypal">Et si vous voulez, vous pouvez faire un don sur le compte PayPal suivant:</string>
     <string name="donation_cancelled">Transaction annulée:(</string>
     <string name="zoom_in">Zoomez pour voir les stations</string>
+    <string name="stations">Stations</string>
+    <string name="pref_clustering_summary_off">Les stations ne seront pas clusterisées avec le zoom out</string>
+    <string name="pref_clustering_summary_on">Les stations seront clusterisées avec le zoom out</string>
 </resources>

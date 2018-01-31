@@ -89,4 +89,7 @@
     <string name="donate_paypal">Y si te sientes generos@, puedes hacer una donación directamente por PayPal a esta dirección:</string>
     <string name="donation_cancelled">Proceso cancelado :(</string>
     <string name="zoom_in">Haz zoom para ver las estaciones</string>
+    <string name="stations">Estaciones</string>
+    <string name="pref_clustering_summary_off">Las estaciones no se agruparán al alejar el zoom</string>
+    <string name="pref_clustering_summary_on">Las estaciones se agruparán al alejar el zoom</string>
 </resources>
