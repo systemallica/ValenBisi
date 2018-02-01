@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         context = this;
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-
+        boolean clustering = settings.getBoolean("clustering", true);
         boolean navBar = settings.getBoolean("navBar", true);
 
         int colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
@@ -112,7 +112,12 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = mFragmentManager.beginTransaction();
 
         if (savedInstanceState == null) {
-            ft.replace(R.id.containerView, new MapsFragmentClustered()).commit();
+            // Change fragment
+            if(clustering) {
+                ft.replace(R.id.containerView, new MapsFragmentClustered()).commit();
+            }else{
+                ft.replace(R.id.containerView, new MapsFragment()).commit();
+            }
             navigationView.getMenu().getItem(0).setChecked(true);
         }
 
