@@ -245,12 +245,41 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     public void getStations() throws IOException{
 
+        // Load icon
+        final Drawable myDrawableLaneOn   = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
+
+        // Load preferences
+        final SharedPreferences settings  = context.getSharedPreferences(PREFS_NAME, 0);
+        boolean voronoiCell               = settings.getBoolean("voronoiCell", false);
+        boolean bikeLanes                 = settings.getBoolean("bikeLanes", false);
+
         // Clear map
         mMap.clear();
         mClusterManager.clearItems();
 
-        // Show loading message
-        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
+        setOfflineListeners();
+
+        if(bikeLanes){
+            btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+            new GetLanes().execute();
+        }
+
+        if (voronoiCell) {
+            try {
+                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, context);
+                for (GeoJsonFeature feature : voronoi.getFeatures()) {
+                    GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
+                    stringStyle.setColor(-16776961);
+                    stringStyle.setWidth(2);
+                    feature.setLineStringStyle(stringStyle);
+                }
+                voronoi.addLayerToMap();
+            } catch (JSONException e) {
+                Log.e(mLogTag, "JSONArray could not be created");
+            } catch (IOException e) {
+                Log.e(mLogTag, "GeoJSON file could not be read");
+            }
+        }
 
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
@@ -262,7 +291,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Log.e("error", "error with http call(no internet?)");
             }
 
             @Override
@@ -273,6 +302,8 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                     String jsonStrTemp        = "";
 
                     if(responseBody!=null) {
+                        // Show loading message
+                        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
                         jsonStrTemp = responseBody.string();
                     }
 
@@ -302,17 +333,12 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         final BitmapDescriptor iconRed    = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         final BitmapDescriptor iconViolet = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
 
-        // Load icons
-        final Drawable myDrawableLaneOn   = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
-
         if(getActivity() != null && isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     // Get user preferences
                     boolean showAvailable = settings.getBoolean("showAvailable", false);
                     boolean showFavorites = settings.getBoolean("showFavorites", false);
-                    boolean voronoiCell   = settings.getBoolean("voronoiCell", false);
-                    boolean bikeLanes     = settings.getBoolean("bikeLanes", false);
                     boolean lastUpdated   = settings.getBoolean("lastUpdated", true);
 
                     try {
@@ -444,33 +470,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
                                 }
                                 mClusterManager.cluster();
-                                setListeners();
+                                setOnlineListeners();
                             }
                         }else{
                             // Show message if API response is empty
                             Snackbar.make(view, R.string.no_data, Snackbar.LENGTH_LONG).show();
-                        }
-
-                        if(bikeLanes){
-                            btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
-                            new GetLanes().execute();
-                        }
-
-                        if (voronoiCell) {
-                            try {
-                                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, context);
-                                for (GeoJsonFeature feature : voronoi.getFeatures()) {
-                                    GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
-                                    stringStyle.setColor(-16776961);
-                                    stringStyle.setWidth(2);
-                                    feature.setLineStringStyle(stringStyle);
-                                }
-                                voronoi.addLayerToMap();
-                            } catch (JSONException e) {
-                                Log.e(mLogTag, "JSONArray could not be created");
-                            } catch (IOException e) {
-                                Log.e(mLogTag, "GeoJSON file could not be read");
-                            }
                         }
 
                     } catch (JSONException e) {
@@ -483,21 +487,14 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    private void setListeners(){
+    private void setOfflineListeners() {
+        // Preferences
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+
         // Load icons
         final Drawable myDrawableLaneOn      = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
         final Drawable myDrawableLaneOff     = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_off_black_24dp);
         final Drawable myDrawableParkingOn   = ContextCompat.getDrawable(context, R.drawable.ic_local_parking_black_24dp);
-        final Drawable myDrawableBike        = ContextCompat.getDrawable(context, R.drawable.ic_directions_bike_black_24dp);
-        final Drawable myDrawableWalk        = ContextCompat.getDrawable(context, R.drawable.ic_directions_walk_black_24dp);
-        final Drawable myDrawableStationsOn  = ContextCompat.getDrawable(context, R.drawable.ic_place_black_24dp);
-        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(context, R.drawable.ic_map_marker_off_black_24dp);
-        final Drawable myDrawableFavOff   = ContextCompat.getDrawable(context, R.drawable.ic_star_outline_black_24dp);
-        final Drawable myDrawableFavOn    = ContextCompat.getDrawable(context, R.drawable.ic_star_black_24dp);
-
-        // Preferences
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
 
         btnLanesToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -522,6 +519,20 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                 }
             }
         });
+    }
+
+    private void setOnlineListeners(){
+        // Load icons
+        final Drawable myDrawableBike        = ContextCompat.getDrawable(context, R.drawable.ic_directions_bike_black_24dp);
+        final Drawable myDrawableWalk        = ContextCompat.getDrawable(context, R.drawable.ic_directions_walk_black_24dp);
+        final Drawable myDrawableStationsOn  = ContextCompat.getDrawable(context, R.drawable.ic_place_black_24dp);
+        final Drawable myDrawableStationsOff = ContextCompat.getDrawable(context, R.drawable.ic_map_marker_off_black_24dp);
+        final Drawable myDrawableFavOff   = ContextCompat.getDrawable(context, R.drawable.ic_star_outline_black_24dp);
+        final Drawable myDrawableFavOn    = ContextCompat.getDrawable(context, R.drawable.ic_star_black_24dp);
+
+        // Preferences
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences.Editor editor = settings.edit();
 
         // Toggle Stations
         btnStationsToggle.setOnClickListener(new View.OnClickListener() {
