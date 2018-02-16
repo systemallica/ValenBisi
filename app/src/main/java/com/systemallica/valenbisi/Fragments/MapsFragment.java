@@ -487,7 +487,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private void setOfflineListeners(){
 
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
 
         // Load icons
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
