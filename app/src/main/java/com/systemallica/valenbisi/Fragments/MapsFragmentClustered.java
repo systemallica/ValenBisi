@@ -42,7 +42,7 @@ import com.google.maps.android.data.geojson.GeoJsonPointStyle;
 import com.systemallica.valenbisi.Clustering.ClusterPoint;
 import com.systemallica.valenbisi.Clustering.IconRenderer;
 import com.systemallica.valenbisi.R;
-import com.systemallica.valenbisi.TrackGPS;
+import com.systemallica.valenbisi.Services.TrackGPSService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,7 +124,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         // Map settings
         UiSettings mapSettings;
         // GPS object
-        TrackGPS gps;
+        TrackGPSService gps;
         // User preferences
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -177,7 +177,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             }
             mMap.setMinZoomPreference(10);
 
-            gps = new TrackGPS(context);
+            gps = new TrackGPSService(context);
 
             if (gps.canGetLocation()) {
                 longitude = gps.getLongitude();

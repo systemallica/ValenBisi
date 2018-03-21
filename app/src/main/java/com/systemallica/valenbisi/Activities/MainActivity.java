@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi;
+package com.systemallica.valenbisi.Activities;
 
 import android.app.ActivityManager;
 import android.app.FragmentManager;
@@ -33,11 +33,14 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.systemallica.valenbisi.BuildConfig;
+import com.systemallica.valenbisi.ContextWrapper;
 import com.systemallica.valenbisi.Fragments.AboutFragment;
 import com.systemallica.valenbisi.Fragments.DonateFragment;
 import com.systemallica.valenbisi.Fragments.MapsFragment;
 import com.systemallica.valenbisi.Fragments.MapsFragmentClustered;
 import com.systemallica.valenbisi.Fragments.SettingsFragment;
+import com.systemallica.valenbisi.R;
 
 import java.io.IOException;
 import java.util.List;

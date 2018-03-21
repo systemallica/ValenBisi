@@ -39,7 +39,7 @@ import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.data.geojson.GeoJsonPoint;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
 import com.systemallica.valenbisi.R;
-import com.systemallica.valenbisi.TrackGPS;
+import com.systemallica.valenbisi.Services.TrackGPSService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -124,7 +124,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Map settings
         UiSettings mapSettings;
         // GPS object
-        TrackGPS gps;
+        TrackGPSService gps;
         // User preferences
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -166,7 +166,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
             mMap.setMinZoomPreference(10);
 
-            gps = new TrackGPS(context);
+            gps = new TrackGPSService(context);
 
             if (gps.canGetLocation()) {
 

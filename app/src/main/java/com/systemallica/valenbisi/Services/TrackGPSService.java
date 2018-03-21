@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi;
+package com.systemallica.valenbisi.Services;
 
 import android.app.Service;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
-public class TrackGPS extends Service implements LocationListener {
+public class TrackGPSService extends Service implements LocationListener {
 
     private final Context mContext;
     boolean checkGPS = false;
@@ -23,12 +23,12 @@ public class TrackGPS extends Service implements LocationListener {
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
     protected LocationManager locationManager;
 
-    public TrackGPS(Context mContext) {
+    public TrackGPSService(Context mContext) {
         this.mContext = mContext;
         getLocation();
     }
 
-    public TrackGPS(){
+    public TrackGPSService(){
         mContext = null;
     }
 
@@ -126,7 +126,7 @@ public class TrackGPS extends Service implements LocationListener {
     public void stopUsingGPS() {
         if (locationManager != null) {
 
-            locationManager.removeUpdates(TrackGPS.this);
+            locationManager.removeUpdates(TrackGPSService.this);
 
         }
     }

@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi;
+package com.systemallica.valenbisi.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
