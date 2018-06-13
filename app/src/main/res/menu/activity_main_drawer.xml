@@ -12,11 +12,11 @@
             android:title="@string/nav_settings" />
         <item
             android:id="@+id/nav_donate"
-            android:icon="@drawable/ic_not_interested_black_24dp"
+            android:icon="@drawable/ic_menu_forbidden"
             android:title="@string/nav_donate" />
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_menu_share_alt"
             android:title="@string/nav_share" />
         <item
             android:id="@+id/nav_about"
