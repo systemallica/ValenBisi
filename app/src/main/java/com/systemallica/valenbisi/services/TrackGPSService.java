@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Services;
+package com.systemallica.valenbisi.services;
 
 import android.app.Service;
 import android.content.Context;

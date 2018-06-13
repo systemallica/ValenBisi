@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Fragments;
+package com.systemallica.valenbisi.fragments;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -39,10 +39,10 @@ import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
-import com.systemallica.valenbisi.Clustering.ClusterPoint;
-import com.systemallica.valenbisi.Clustering.IconRenderer;
+import com.systemallica.valenbisi.clustering.ClusterPoint;
+import com.systemallica.valenbisi.clustering.IconRenderer;
 import com.systemallica.valenbisi.R;
-import com.systemallica.valenbisi.Services.TrackGPSService;
+import com.systemallica.valenbisi.services.TrackGPSService;
 
 import org.json.JSONArray;
 import org.json.JSONException;

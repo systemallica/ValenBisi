@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Clustering;
+package com.systemallica.valenbisi.clustering;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Fragments;
+package com.systemallica.valenbisi.fragments;
 
 import android.content.Context;
 import android.content.Intent;

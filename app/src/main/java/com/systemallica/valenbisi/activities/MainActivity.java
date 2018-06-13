@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Activities;
+package com.systemallica.valenbisi.activities;
 
 import android.app.ActivityManager;
 import android.app.FragmentManager;
@@ -33,13 +33,14 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.systemallica.valenbisi.BuildConfig;
 import com.systemallica.valenbisi.ContextWrapper;
-import com.systemallica.valenbisi.Fragments.AboutFragment;
-import com.systemallica.valenbisi.Fragments.DonateFragment;
-import com.systemallica.valenbisi.Fragments.MapsFragment;
-import com.systemallica.valenbisi.Fragments.MapsFragmentClustered;
-import com.systemallica.valenbisi.Fragments.SettingsFragment;
+import com.systemallica.valenbisi.fragments.AboutFragment;
+import com.systemallica.valenbisi.fragments.DonateFragment;
+import com.systemallica.valenbisi.fragments.MapsFragment;
+import com.systemallica.valenbisi.fragments.MapsFragmentClustered;
+import com.systemallica.valenbisi.fragments.SettingsFragment;
 import com.systemallica.valenbisi.R;
 
 import java.io.IOException;
@@ -161,7 +162,9 @@ public class MainActivity extends AppCompatActivity
         boolean donationPurchased = settings.getBoolean("donationPurchased", false);
 
         // Ads management
+        MobileAds.initialize(this, "ca-app-pub-7754892948346904/1371669271");
         final AdView mAdView = findViewById(R.id.adView);
+
         if(!donationPurchased) {
             // Ad request and load
             AdRequest adRequest = new AdRequest.Builder().build();
@@ -169,7 +172,7 @@ public class MainActivity extends AppCompatActivity
             mAdView.setVisibility(GONE);
         }
 
-        // Check license
+        // Check licenseº
         final BillingClient mBillingClient;
 
         mBillingClient = BillingClient.newBuilder(MainActivity.this).setListener(this).build();

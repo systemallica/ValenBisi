@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Clustering;
+package com.systemallica.valenbisi.clustering;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.LatLng;

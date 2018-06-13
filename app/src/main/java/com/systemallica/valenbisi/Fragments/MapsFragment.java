@@ -1,4 +1,4 @@
-package com.systemallica.valenbisi.Fragments;
+package com.systemallica.valenbisi.fragments;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -39,7 +39,7 @@ import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.data.geojson.GeoJsonPoint;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
 import com.systemallica.valenbisi.R;
-import com.systemallica.valenbisi.Services.TrackGPSService;
+import com.systemallica.valenbisi.services.TrackGPSService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -354,7 +354,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                 properties.put("available_bike_stands", station.getString("available_bike_stands"));
                                 properties.put("available_bikes", station.getString("available_bikes"));
                                 properties.put("last_updated", station.getString("last_update"));
-                                properties.put("status", station.getString("status"));
                                 // Transform in GeoJsonFeature
                                 GeoJsonFeature pointFeature = new GeoJsonFeature(point, "Origin", properties, null);
                                 // Add feature to GeoJsonLayer
