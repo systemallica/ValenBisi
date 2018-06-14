@@ -136,7 +136,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
 
         // Check fragment is added and activity is reachable
-        if(isAdded() && getActivity()!= null) {
+        if (isAdded() && getActivity() != null) {
             //Check for sdk >= 23
             if (Build.VERSION.SDK_INT >= 23) {
                 //Check location permission
@@ -209,11 +209,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             gps.stopUsingGPS();
 
-            try {
-                getStations();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            getStations();
 
             if (settings.getBoolean("parkingLayer", false)) {
                 editor.putBoolean("parkingLayer", false).apply();
@@ -235,7 +231,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public void getStations() throws IOException{
+    public void getStations() {
 
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
@@ -250,7 +246,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         setOfflineListeners();
 
-        if(bikeLanes){
+        if (bikeLanes) {
             btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
             new GetLanes().execute();
         }
@@ -283,13 +279,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, Response response) {
                 try {
-                    if (!response.isSuccessful())throw new IOException("Unexpected code " + response);
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response);
                     ResponseBody responseBody = response.body();
                     String jsonStrTemp = "";
 
-                    if(responseBody!=null) {
+                    if (responseBody != null) {
                         // Show loading message
                         Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_SHORT).show();
                         jsonStrTemp = responseBody.string();
@@ -298,9 +295,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     final String jsonData = jsonStrTemp;
                     applyJSONData(jsonData);
 
-                }catch(IOException e){
+                } catch (IOException e) {
                     Log.e("error", "error with http request");
-                }finally{
+                } finally {
                     if (response != null) {
                         response.close();
                     }
@@ -310,7 +307,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    public void applyJSONData(final String jsonData){
+    public void applyJSONData(final String jsonData) {
 
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
 
@@ -323,7 +320,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         layer = new GeoJsonLayer(mMap, dummy);
 
-        if(getActivity() != null && isAdded()) {
+        if (getActivity() != null && isAdded()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     // Get user preferences
@@ -337,7 +334,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                             JSONArray jsonDataArray = new JSONArray(jsonData);
 
                             // Parse data from API
-                            for(int i = 0; i < jsonDataArray.length(); i++){
+                            for (int i = 0; i < jsonDataArray.length(); i++) {
                                 // Get current station position
                                 JSONObject station = jsonDataArray.getJSONObject(i);
                                 JSONObject latLong = station.getJSONObject("position");
@@ -370,7 +367,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                 GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
                                 pointStyle.setTitle(feature.getProperty("address"));
                                 // If the station is open
-                                if(feature.getProperty("status").equals("OPEN")) {
+                                if (feature.getProperty("status").equals("OPEN")) {
                                     // Add number of available bikes/stands
                                     pointStyle.setSnippet(MapsFragment.this.getResources().getString(R.string.spots) + " " +
                                             feature.getProperty("available_bike_stands") + " - " +
@@ -416,7 +413,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                     // Get current time
                                     long time = date.getTimeInMillis();
                                     // Add last updated time if user has checked that option
-                                    if(lastUpdated){
+                                    if (lastUpdated) {
                                         // Set API time
                                         date.setTimeInMillis(apiTime);
                                         // Format time as HH:mm:ss
@@ -425,12 +422,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                         fmt.format("%tT", date.getTime());
                                         // Add to pointStyle
                                         pointStyle.setSnippet(pointStyle.getSnippet() +
-                                                "\n"+
+                                                "\n" +
                                                 MapsFragment.this.getResources().getString(R.string.last_updated) + " " +
                                                 sbu);
                                     }
                                     // If data has not been updated for more than 1 hour
-                                    if((time-apiTime) > 3600000){
+                                    if ((time - apiTime) > 3600000) {
                                         // Add warning that data may be unreliable
                                         pointStyle.setSnippet(pointStyle.getSnippet() +
                                                 "\n\n" +
@@ -439,7 +436,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                                 MapsFragment.this.getResources().getString(R.string.data_unreliable));
                                     }
 
-                                }else{
+                                } else {
                                     // Add "CLOSED" snippet and icon
                                     pointStyle.setSnippet(MapsFragment.this.getResources().getString(R.string.closed));
                                     pointStyle.setIcon(iconViolet);
@@ -468,7 +465,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                 setOnlineListeners();
                             }
 
-                        }else{
+                        } else {
                             // Show message if API response is empty
                             Snackbar.make(view, R.string.no_data, Snackbar.LENGTH_LONG).show();
                         }
@@ -483,7 +480,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void setOfflineListeners(){
+    private void setOfflineListeners() {
 
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
 
@@ -517,7 +514,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    private void setOnlineListeners(){
+    private void setOnlineListeners() {
 
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -535,13 +532,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public void onCameraIdle() {
 
                 float zoom = mMap.getCameraPosition().zoom;
-                if(zoom < zoomBorder && layer != null){
-                    if(layer.isLayerOnMap()) {
+                if (zoom < zoomBorder && layer != null) {
+                    if (layer.isLayerOnMap()) {
                         layer.removeLayerFromMap();
                         Snackbar.make(view, R.string.zoom_in, Snackbar.LENGTH_SHORT).show();
                     }
-                }else if(zoom >= zoomBorder &&layer != null){
-                    if(!layer.isLayerOnMap()) {
+                } else if (zoom >= zoomBorder && layer != null) {
+                    if (!layer.isLayerOnMap()) {
                         layer.addLayerToMap();
                     }
                 }
@@ -568,11 +565,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 TextView snippet = v.findViewById(R.id.snippet);
                 ImageView btn_star = v.findViewById(R.id.btn_star);
 
-                if(marker.getSnippet().contains("\n\n")){
+                if (marker.getSnippet().contains("\n\n")) {
                     snippet.setTextColor(getResources().getColor(R.color.red));
                     snippet.setTypeface(null, Typeface.BOLD);
                     snippet.setText(marker.getSnippet());
-                }else{
+                } else {
                     snippet.setText(marker.getSnippet());
                 }
                 title.setText(marker.getTitle());
@@ -619,7 +616,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Toggle Stations
         btnStationsToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mMap.getCameraPosition().zoom >= zoomBorder) {
+                if (mMap.getCameraPosition().zoom >= zoomBorder) {
                     boolean showFavorites = settings.getBoolean("showFavorites", false);
 
                     for (GeoJsonFeature feature : layer.getFeatures()) {
@@ -651,25 +648,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Toggle onFoot/onBike
         btnOnFootToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mMap.getCameraPosition().zoom >= zoomBorder) {
+                if (mMap.getCameraPosition().zoom >= zoomBorder) {
                     layer.removeLayerFromMap();
                     if (onFoot) {
                         onFoot = false;
                         btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableBike, null, null, null);
-                        try {
-                            getStations();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
+                        getStations();
 
                     } else {
                         onFoot = true;
                         btnOnFootToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableWalk, null, null, null);
-                        try {
-                            getStations();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
+                        getStations();
                     }
                 }
             }
@@ -678,13 +669,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Reload data
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mMap.getCameraPosition().zoom >= zoomBorder) {
+                if (mMap.getCameraPosition().zoom >= zoomBorder) {
                     layer.removeLayerFromMap();
-                    try {
-                        getStations();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    getStations();
                 }
             }
         });
@@ -709,7 +696,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             try {
                 // lanes layer
                 if (settings.getBoolean("firstTime", true)) {
-                    lanes = new GeoJsonLayer(mMap, R.raw.bike_lanes_0917, context);
+                    lanes = new GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context);
                     for (GeoJsonFeature feature : lanes.getFeatures()) {
                         GeoJsonLineStringStyle stringStyle = lanes.getDefaultLineStringStyle();
                         stringStyle.setWidth(5);
@@ -732,7 +719,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer lanes) {
             boolean bikeLanes = settings.getBoolean("bikeLanes", false);
-            if(lanes != null) {
+            if (lanes != null) {
                 if (bikeLanes && !settings.getBoolean("carrilLayer", false)) {
                     lanes.addLayerToMap();
                     editor.putBoolean("carrilLayer", true).apply();
@@ -770,7 +757,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
 
-            if(isAdded()) {
+            if (isAdded()) {
                 try {
                     // parking layer
                     if (settings.getBoolean("firstTimeParking", true)) {
@@ -816,7 +803,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         protected void onPostExecute(GeoJsonLayer parking) {
 
-            if(parking != null) {
+            if (parking != null) {
                 if (!settings.getBoolean("parkingLayer", false)) {
                     parking.addLayerToMap();
                     editor.putBoolean("parkingLayer", true).apply();
@@ -830,9 +817,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        if(mMap != null && getActivity() != null) {
+        if (mMap != null && getActivity() != null) {
             if (Build.VERSION.SDK_INT >= 23) {
                 // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -848,9 +835,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(mMap != null && getActivity() != null) {
+        if (mMap != null && getActivity() != null) {
             if (Build.VERSION.SDK_INT >= 23) {
                 // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
