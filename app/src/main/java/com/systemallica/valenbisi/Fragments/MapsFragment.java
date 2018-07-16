@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -698,8 +699,30 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 if (settings.getBoolean("firstTime", true)) {
                     lanes = new GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context);
                     for (GeoJsonFeature feature : lanes.getFeatures()) {
-                        GeoJsonLineStringStyle stringStyle = lanes.getDefaultLineStringStyle();
+                        GeoJsonLineStringStyle stringStyle = new GeoJsonLineStringStyle();
                         stringStyle.setWidth(5);
+                        if (settings.getBoolean("cicloCalles", true)) {
+                            switch (feature.getProperty("estado")) {
+                                // Normal bike lane
+                                case "1":
+                                    stringStyle.setColor(Color.BLACK);
+                                    break;
+                                // Ciclocalle
+                                case "2":
+                                    stringStyle.setColor(Color.BLUE);
+                                    break;
+                                // Weird fragments
+                                case "3":
+                                    stringStyle.setColor(Color.BLUE);
+                                    break;
+                                // Rio
+                                case "4":
+                                    stringStyle.setColor(Color.BLACK);
+                                    break;
+                                default:
+                                    stringStyle.setColor(Color.RED);
+                            }
+                        }
                         feature.setLineStringStyle(stringStyle);
                     }
                     editor.putBoolean("firstTime", false).apply();

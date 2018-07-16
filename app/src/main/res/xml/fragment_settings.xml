@@ -28,6 +28,13 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="cicloCalles"
+            android:summaryOff="@string/pref_cicloCalles_summary_off"
+            android:summaryOn="@string/pref_cicloCalles_summary_on"
+            android:title="@string/cicloCalles" />
+
+        <CheckBoxPreference
             android:key="clustering"
             android:title="@string/clustering"
             android:summaryOff="@string/pref_clustering_summary_off"

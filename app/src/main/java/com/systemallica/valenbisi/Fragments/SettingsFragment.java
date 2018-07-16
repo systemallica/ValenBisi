@@ -112,6 +112,27 @@ public class SettingsFragment extends PreferenceFragment {
 
         });
 
+        //Ciclocalles stuff
+        final CheckBoxPreference ciclocallesPref = (CheckBoxPreference) findPreference("cicloCalles");
+
+        ciclocallesPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (!ciclocallesPref.isChecked()) {
+                    editor.putBoolean("cicloCalles", true);
+                    editor.apply();
+                }
+                else{
+                    editor.putBoolean("cicloCalles", false);
+                    editor.apply();
+                }
+
+                return true;
+            }
+
+        });
+
         //Favorite stuff
         final CheckBoxPreference showFavoritesPref = (CheckBoxPreference) findPreference("showFavorites");
         showFavoritesPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

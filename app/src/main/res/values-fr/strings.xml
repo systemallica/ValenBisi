@@ -92,4 +92,7 @@
     <string name="stations">Stations</string>
     <string name="pref_clustering_summary_off">Les stations ne seront pas clusterisées avec le zoom out</string>
     <string name="pref_clustering_summary_on">Les stations seront clusterisées avec le zoom out</string>
+    <string name="cicloCalles">Distinguer ciclocalles</string>
+    <string name="pref_cicloCalles_summary_off">Les ciclocalles seront montrées avec une coleur differente de la coleur des pistes cyclables</string>
+    <string name="pref_cicloCalles_summary_on">Les ciclocalles seront montrées avec la même coleur que les pistes cyclables</string>
 </resources>

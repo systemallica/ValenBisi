@@ -92,4 +92,7 @@
     <string name="stations">Estaciones</string>
     <string name="pref_clustering_summary_off">Las estaciones no se agruparán al alejar el zoom</string>
     <string name="pref_clustering_summary_on">Las estaciones se agruparán al alejar el zoom</string>
+    <string name="cicloCalles">Diferenciar ciclocalles</string>
+    <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>
+    <string name="pref_cicloCalles_summary_on">Las ciclocalles se mostrarán en un color diferente a los carriles</string>
 </resources>

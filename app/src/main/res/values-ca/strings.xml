@@ -92,4 +92,7 @@
     <string name="stations">Estacions</string>
     <string name="pref_clustering_summary_off">Les estacion no s\'agruparàn al allunyar el zoom</string>
     <string name="pref_clustering_summary_on">Les estacion s\'agruparàn al allunyar el zoom</string>
+    <string name="cicloCalles">Diferenciar ciclocarrers</string>
+    <string name="pref_cicloCalles_summary_off">Els ciclocarrers es mostraràn amb un color diferent que els carrils</string>
+    <string name="pref_cicloCalles_summary_on">Els ciclocarrers es mostraràn amb el mateix color que els carril</string>
 </resources>

@@ -58,6 +58,10 @@
     <string name="pref_bikeLanes_summary_off">Los carriles se ocultarán al iniciar la app</string>
     <string name="pref_bikeLanes_summary_on">Los carriles se mostrarán al iniciar la app</string>
 
+    <string name="cicloCalles">Diferenciar ciclocalles</string>
+    <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>
+    <string name="pref_cicloCalles_summary_on">Las ciclocalles se mostrarán en un color diferente a los carriles</string>
+
     <string name="language">Idioma</string>
     <string name="language_summary">Cambiar el idioma de la app</string>
 
