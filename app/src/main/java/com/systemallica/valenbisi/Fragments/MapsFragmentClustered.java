@@ -73,8 +73,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     private GeoJsonLayer lanes = null;
     private GeoJsonLayer parking = null;
     private View view;
-    double longitude;
-    double latitude;
     private GoogleMap mMap;
     private Context context;
     ClusterManager<ClusterPoint> mClusterManager = null;
@@ -108,7 +106,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
         // Change toolbar title
         getActivity().setTitle(R.string.nav_map);
-        // Store context in variable
+        // Store context in member variable
         context = getActivity().getApplicationContext();
 
         MapView mapView;
@@ -119,67 +117,101 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-
-        // Map settings
-        UiSettings mapSettings;
-        // GPS object
-        TrackGPSService gps;
-        // User preferences
+    public void initPreferences(){
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        boolean satellite = settings.getBoolean("satellite", false);
         editor.putBoolean("firstTime", true).apply();
         editor.putBoolean("firstTimeParking", true).apply();
         editor.putBoolean("carrilLayer", false).apply();
+    }
 
-        // Load Map
-        mMap = googleMap;
+    public void initClusterManager(){
         // Load ClusterManager to the Map
         mClusterManager = new ClusterManager<>(context, mMap);
-        // Attach listeners
+        // Set custom renderer
+        mClusterManager.setRenderer(new IconRenderer(getActivity().getApplicationContext(), mMap, mClusterManager));
+    }
+
+    public void initMap(){
         mMap.setOnInfoWindowClickListener(mClusterManager);
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
-        // Set windowAdapter
+
         mMap.setInfoWindowAdapter(mClusterManager.getMarkerManager());
-        // Set custom renderer
-        mClusterManager.setRenderer(new IconRenderer(getActivity().getApplicationContext(), mMap, mClusterManager));
 
-        // Check fragment is added and activity is reachable
-        if (isAdded() && getActivity() != null) {
-            //Check for sdk >= 23
-            if (Build.VERSION.SDK_INT >= 23) {
-                //Check location permission
-                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+        mMap.setMinZoomPreference(10);
 
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            locationRequestCode);
+        setMapSettings();
 
-                } else {
-                    mMap.setMyLocationEnabled(true);
-                }
+        setMapBasemap();
+
+        checkLocationPermission();
+    }
+
+    public boolean isFragmentReady(){
+        return isAdded() && getActivity() != null;
+    }
+
+    public boolean isSdkHigherThanLollipop(){
+        return Build.VERSION.SDK_INT >= 23;
+    }
+
+    public void setMapBasemap(){
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        boolean satellite = settings.getBoolean("satellite", false);
+        if (!satellite) {
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        } else {
+            mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        }
+    }
+
+    public void setMapSettings(){
+        UiSettings mapSettings;
+        mapSettings = mMap.getUiSettings();
+        mapSettings.setZoomControlsEnabled(true);
+        mapSettings.setCompassEnabled(false);
+    }
+
+    public void checkLocationPermission(){
+        if (isSdkHigherThanLollipop()) {
+            //Check location permission
+            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        locationRequestCode);
+
             } else {
                 mMap.setMyLocationEnabled(true);
             }
+        } else {
+            mMap.setMyLocationEnabled(true);
+        }
+    }
 
-            // Set map zoom controls
-            mapSettings = mMap.getUiSettings();
-            mapSettings.setZoomControlsEnabled(true);
-            mapSettings.setCompassEnabled(false);
+    @Override
+    public void onMapReady(GoogleMap map) {
 
-            // Set type of map and min zoom
-            if (!satellite) {
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-            } else {
-                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-            }
-            mMap.setMinZoomPreference(10);
+        if (isFragmentReady()) {
 
+            // Store map in member variable
+            mMap = map;
+
+            final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+            final SharedPreferences.Editor editor = settings.edit();
+
+            initPreferences();
+
+            initClusterManager();
+
+            initMap();
+
+            TrackGPSService gps;
             gps = new TrackGPSService(context);
 
+            double longitude = 0.0;
+            double latitude = 0.0;
             if (gps.canGetLocation()) {
                 longitude = gps.getLongitude();
                 latitude = gps.getLatitude();
@@ -191,7 +223,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             boolean initialZoom = settings.getBoolean("initialZoom", true);
 
             // Move the camera
-            if (Build.VERSION.SDK_INT >= 23) {
+            if (isSdkHigherThanLollipop()) {
                 // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
@@ -331,7 +363,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         final BitmapDescriptor iconRed = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         final BitmapDescriptor iconViolet = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
 
-        if (getActivity() != null && isAdded()) {
+        if (isFragmentReady()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     // Get user preferences
@@ -763,7 +795,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
 
-            if (isAdded()) {
+            if (isFragmentReady()) {
                 try {
                     // parking layer
                     if (settings.getBoolean("firstTimeParking", true)) {
@@ -826,7 +858,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     public void onPause() {
         super.onPause();
         if (mMap != null && getActivity() != null) {
-            if (Build.VERSION.SDK_INT >= 23) {
+            if (isSdkHigherThanLollipop()) {
                 // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     // Re-enable location as the user returns to the app
@@ -844,7 +876,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     public void onResume() {
         super.onResume();
         if (mMap != null && getActivity() != null) {
-            if (Build.VERSION.SDK_INT >= 23) {
+            if (isSdkHigherThanLollipop()) {
                 // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     mMap.setMyLocationEnabled(true);
