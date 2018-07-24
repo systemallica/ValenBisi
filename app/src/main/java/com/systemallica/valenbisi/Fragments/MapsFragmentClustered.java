@@ -76,6 +76,8 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     private GoogleMap mMap;
     private Context context;
     ClusterManager<ClusterPoint> mClusterManager = null;
+    SharedPreferences settings;
+    SharedPreferences.Editor settingsEditor;
 
     @BindView(R.id.btnLanesToggle)
     Button btnLanesToggle;
@@ -148,7 +150,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             getStations();
 
-            final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
             final SharedPreferences.Editor editor = settings.edit();
             if (settings.getBoolean("parkingLayer", false)) {
                 editor.putBoolean("parkingLayer", false).apply();
@@ -158,11 +159,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     public void initPreferences() {
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean("firstTime", true).apply();
-        editor.putBoolean("firstTimeParking", true).apply();
-        editor.putBoolean("carrilLayer", false).apply();
+        settings = context.getSharedPreferences(PREFS_NAME, 0);
+        settingsEditor = settings.edit();
+        settingsEditor.putBoolean("firstTime", true).apply();
+        settingsEditor.putBoolean("firstTimeParking", true).apply();
+        settingsEditor.putBoolean("carrilLayer", false).apply();
     }
 
     public void initClusterManager() {
@@ -201,7 +202,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     public void setMapBasemap() {
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         boolean satellite = settings.getBoolean("satellite", false);
         if (!satellite) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -259,7 +259,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         LatLng currentLocation = new LatLng(latitude, longitude);
         LatLng valencia = new LatLng(39.479, -0.372);
 
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         boolean initialZoom = settings.getBoolean("initialZoom", true);
 
         if (isLocationPermissionGranted() && initialZoom && gps.canGetLocation()) {
@@ -280,8 +279,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         // Load icon
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
 
-        // Load preferences
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         boolean voronoiCell = settings.getBoolean("voronoiCell", false);
         boolean bikeLanes = settings.getBoolean("bikeLanes", false);
 
@@ -356,8 +353,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     public void applyJSONData(final String jsonData) {
-
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
 
         // Load default marker icons
         final BitmapDescriptor iconGreen = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
@@ -521,9 +516,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     private void setOfflineListeners() {
-        // Preferences
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-
         // Load icons
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
         final Drawable myDrawableLaneOff = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_off_black_24dp);
@@ -562,10 +554,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         final Drawable myDrawableStationsOff = ContextCompat.getDrawable(context, R.drawable.ic_map_marker_off_black_24dp);
         final Drawable myDrawableFavOff = ContextCompat.getDrawable(context, R.drawable.ic_star_outline_black_24dp);
         final Drawable myDrawableFavOn = ContextCompat.getDrawable(context, R.drawable.ic_star_black_24dp);
-
-        // Preferences
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
 
         // Toggle Stations
         btnStationsToggle.setOnClickListener(new View.OnClickListener() {
@@ -675,13 +663,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                                         if (showFavorites) {
                                             item.setVisibility(false);
                                         }
-                                        editor.putBoolean(item.getTitle(), false);
-                                        editor.apply();
+                                        settingsEditor.putBoolean(item.getTitle(), false).apply();
                                     } else {
                                         item.setAlpha((float) 1.0);
                                         marker.setAlpha((float) 1.0);
-                                        editor.putBoolean(item.getTitle(), true);
-                                        editor.apply();
+                                        settingsEditor.putBoolean(item.getTitle(), true).apply();
                                     }
                                     marker.showInfoWindow();
                                     mClusterManager.cluster();
@@ -698,10 +684,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
-
-
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
 
         protected void onPreExecute() {
             if (!settings.getBoolean("carrilLayer", false)) {
@@ -743,7 +725,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                         }
                         feature.setLineStringStyle(stringStyle);
                     }
-                    editor.putBoolean("firstTime", false).apply();
+                    settingsEditor.putBoolean("firstTime", false).apply();
                 }
 
             } catch (IOException e) {
@@ -763,15 +745,15 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             if (lanes != null) {
                 if (bikeLanes && !settings.getBoolean("carrilLayer", false)) {
                     lanes.addLayerToMap();
-                    editor.putBoolean("carrilLayer", true).apply();
+                    settingsEditor.putBoolean("carrilLayer", true).apply();
                 } else {
                     if (!settings.getBoolean("carrilLayer", false)) {
                         lanes.addLayerToMap();
-                        editor.putBoolean("carrilLayer", true).apply();
+                        settingsEditor.putBoolean("carrilLayer", true).apply();
                     } else {
                         lanes.removeLayerFromMap();
-                        editor.putBoolean("carrilLayer", false).apply();
-                        editor.putBoolean("firstTime", true).apply();
+                        settingsEditor.putBoolean("carrilLayer", false).apply();
+                        settingsEditor.putBoolean("firstTime", true).apply();
                     }
                 }
             }
