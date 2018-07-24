@@ -239,7 +239,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     public boolean isValencia(LatLng currentLocation) {
-        return currentLocation.latitude <= 39.515 && currentLocation.latitude >= 39.420 && currentLocation.longitude <= -0.272 || currentLocation.longitude >= -0.572;
+        return currentLocation.latitude >= 39.420 && currentLocation.latitude <= 39.515 && currentLocation.longitude >= -0.572 && currentLocation.longitude <= -0.272 ;
     }
 
     public void setInitialPosition() {
