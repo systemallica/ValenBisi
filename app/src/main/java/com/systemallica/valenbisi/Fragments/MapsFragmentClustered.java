@@ -105,7 +105,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
         // Change toolbar title
         getActivity().setTitle(R.string.nav_map);
         // Store context in member variable
@@ -115,7 +114,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
-
     }
 
     @Override
@@ -129,9 +127,9 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == locationRequestCode) {
             if (isLocationPermissionGranted()) {
-                setLocationButtonVisible(true);
+                setLocationButtonEnabled(true);
             } else {
-                setLocationButtonVisible(false);
+                setLocationButtonEnabled(false);
                 Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
             }
         }
@@ -211,7 +209,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     public void initLocationButton() {
         if (isLocationPermissionGranted()) {
-            setLocationButtonVisible(true);
+            setLocationButtonEnabled(true);
         } else {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     locationRequestCode);
@@ -228,7 +226,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         return Build.VERSION.SDK_INT >= 23;
     }
 
-    public void setLocationButtonVisible(boolean mode) {
+    public void setLocationButtonEnabled(boolean mode) {
         try {
             mMap.setMyLocationEnabled(mode);
         } catch (SecurityException e) {
@@ -262,7 +260,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public LatLng getCurrentLocation(){
+    public LatLng getCurrentLocation() {
         TrackGPSService gps = new TrackGPSService(context);
 
         if (gps.canGetLocation()) {
@@ -270,7 +268,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             double latitude = gps.getLatitude();
             gps.stopUsingGPS();
             return new LatLng(latitude, longitude);
-        } else{
+        } else {
             gps.stopUsingGPS();
             return null;
         }
@@ -847,7 +845,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         super.onPause();
         if (isApplicationReady() && isMapReady() && isLocationPermissionGranted()) {
             // Disable location to avoid battery drain
-            setLocationButtonVisible(false);
+            setLocationButtonEnabled(false);
         }
     }
 
@@ -856,7 +854,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         super.onResume();
         if (isApplicationReady() && isMapReady() && isLocationPermissionGranted()) {
             // Re-enable location as the user returns to the app
-            setLocationButtonVisible(true);
+            setLocationButtonEnabled(true);
         }
     }
 }
