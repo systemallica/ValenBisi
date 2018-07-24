@@ -117,7 +117,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     }
 
-    public void initPreferences(){
+    public void initPreferences() {
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
         editor.putBoolean("firstTime", true).apply();
@@ -125,14 +125,14 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         editor.putBoolean("carrilLayer", false).apply();
     }
 
-    public void initClusterManager(){
+    public void initClusterManager() {
         // Load ClusterManager to the Map
         mClusterManager = new ClusterManager<>(context, mMap);
         // Set custom renderer
         mClusterManager.setRenderer(new IconRenderer(getActivity().getApplicationContext(), mMap, mClusterManager));
     }
 
-    public void initMap(){
+    public void initMap() {
         mMap.setOnInfoWindowClickListener(mClusterManager);
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
@@ -145,18 +145,18 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
         setMapBasemap();
 
-        checkLocationPermission();
+        initLocationButton();
     }
 
-    public boolean isFragmentReady(){
-        return isAdded() && getActivity() != null;
+    public boolean isApplicationReady() {
+        return isAdded() && getActivity() != null && mMap != null;
     }
 
-    public boolean isSdkHigherThanLollipop(){
+    public boolean isSdkHigherThanLollipop() {
         return Build.VERSION.SDK_INT >= 23;
     }
 
-    public void setMapBasemap(){
+    public void setMapBasemap() {
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         boolean satellite = settings.getBoolean("satellite", false);
         if (!satellite) {
@@ -166,34 +166,44 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public void setMapSettings(){
+    public void setMapSettings() {
         UiSettings mapSettings;
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(false);
     }
 
-    public void checkLocationPermission(){
-        if (isSdkHigherThanLollipop()) {
-            //Check location permission
-            if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
+    public boolean isLocationPermissionGranted() {
+        return !isSdkHigherThanLollipop() || getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
 
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        locationRequestCode);
+    }
 
-            } else {
-                mMap.setMyLocationEnabled(true);
-            }
+    public void initLocationButton() {
+        if (isLocationPermissionGranted()) {
+            setLocationButtonVisible(true);
         } else {
-            mMap.setMyLocationEnabled(true);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    locationRequestCode);
         }
+    }
+
+    public void setLocationButtonVisible(boolean mode) {
+        try {
+            mMap.setMyLocationEnabled(mode);
+        } catch (SecurityException e) {
+            Log.e("Security exception", e.getMessage());
+        }
+    }
+
+    public boolean isValencia(LatLng currentLocation) {
+        return currentLocation.latitude <= 39.515 && currentLocation.latitude >= 39.420 && currentLocation.longitude <= -0.272 || currentLocation.longitude >= -0.572;
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
 
-        if (isFragmentReady()) {
+        if (isApplicationReady()) {
 
             // Store map in member variable
             mMap = map;
@@ -227,10 +237,10 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                 // Check location permission
                 if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
-                    if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
-                    } else {
+                    if (isValencia(currentLocation)) {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                    } else {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
                     }
                 } else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
@@ -238,10 +248,10 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             } else {
                 if (initialZoom && gps.canGetLocation()) {
-                    if (currentLocation.latitude >= 39.515 || currentLocation.latitude <= 39.420 || currentLocation.longitude >= -0.272 || currentLocation.longitude <= -0.572) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
-                    } else {
+                    if (isValencia(currentLocation)) {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+                    } else {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
                     }
                 } else {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
@@ -262,11 +272,10 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == locationRequestCode) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                mMap.setMyLocationEnabled(true);
+            if (isLocationPermissionGranted()) {
+                setLocationButtonVisible(true);
             } else {
-                mMap.setMyLocationEnabled(false);
+                setLocationButtonVisible(false);
                 Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
             }
         }
@@ -363,7 +372,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         final BitmapDescriptor iconRed = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         final BitmapDescriptor iconViolet = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
 
-        if (isFragmentReady()) {
+        if (isApplicationReady()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     // Get user preferences
@@ -795,7 +804,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
 
-            if (isFragmentReady()) {
+            if (isApplicationReady()) {
                 try {
                     // parking layer
                     if (settings.getBoolean("firstTimeParking", true)) {
@@ -852,21 +861,19 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                 }
             }
         }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (mMap != null && getActivity() != null) {
-            if (isSdkHigherThanLollipop()) {
-                // Check location permission
-                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    // Re-enable location as the user returns to the app
-                    mMap.setMyLocationEnabled(false);
-                }
+        if (isApplicationReady()) {
+            if (isLocationPermissionGranted()) {
+                // Re-enable location as the user returns to the app
+                setLocationButtonVisible(true);
             } else {
                 // Disable location to avoid battery drain
-                mMap.setMyLocationEnabled(false);
+                setLocationButtonVisible(false);
             }
         }
 
@@ -875,14 +882,13 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     @Override
     public void onResume() {
         super.onResume();
-        if (mMap != null && getActivity() != null) {
-            if (isSdkHigherThanLollipop()) {
-                // Check location permission
-                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    mMap.setMyLocationEnabled(true);
-                }
+        if (isApplicationReady()) {
+            if (isLocationPermissionGranted()) {
+                // Re-enable location as the user returns to the app
+                setLocationButtonVisible(true);
             } else {
-                mMap.setMyLocationEnabled(true);
+                // Disable location to avoid battery drain
+                setLocationButtonVisible(false);
             }
         }
     }
