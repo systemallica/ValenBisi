@@ -118,11 +118,25 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
+        // Store map in member variable
+        mMap = map;
+        onMapReadyHandler();
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == locationRequestCode) {
+            if (isLocationPermissionGranted()) {
+                setLocationButtonVisible(true);
+            } else {
+                setLocationButtonVisible(false);
+                Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void onMapReadyHandler() {
         if (isApplicationReady()) {
-
-            // Store map in member variable
-            mMap = map;
 
             initPreferences();
 
@@ -139,18 +153,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             if (settings.getBoolean("parkingLayer", false)) {
                 editor.putBoolean("parkingLayer", false).apply();
                 new GetParking().execute();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == locationRequestCode) {
-            if (isLocationPermissionGranted()) {
-                setLocationButtonVisible(true);
-            } else {
-                setLocationButtonVisible(false);
-                Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -190,7 +192,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         return isAdded() && getActivity() != null;
     }
 
-    public boolean isMapReady(){
+    public boolean isMapReady() {
         return mMap != null;
     }
 
@@ -239,7 +241,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     public boolean isValencia(LatLng currentLocation) {
-        return currentLocation.latitude >= 39.420 && currentLocation.latitude <= 39.515 && currentLocation.longitude >= -0.572 && currentLocation.longitude <= -0.272 ;
+        return currentLocation.latitude >= 39.420 && currentLocation.latitude <= 39.515 && currentLocation.longitude >= -0.572 && currentLocation.longitude <= -0.272;
     }
 
     public void setInitialPosition() {
