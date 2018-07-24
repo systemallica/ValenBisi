@@ -116,6 +116,45 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     }
 
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        if (isApplicationReady()) {
+
+            // Store map in member variable
+            mMap = map;
+
+            initPreferences();
+
+            initClusterManager();
+
+            initMap();
+
+            setInitialPosition();
+
+            getStations();
+
+            final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+            final SharedPreferences.Editor editor = settings.edit();
+            if (settings.getBoolean("parkingLayer", false)) {
+                editor.putBoolean("parkingLayer", false).apply();
+                new GetParking().execute();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == locationRequestCode) {
+            if (isLocationPermissionGranted()) {
+                setLocationButtonVisible(true);
+            } else {
+                setLocationButtonVisible(false);
+                Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void initPreferences() {
         final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
@@ -148,7 +187,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     public boolean isApplicationReady() {
-        return isAdded() && getActivity() != null && mMap != null;
+        return isAdded() && getActivity() != null;
+    }
+
+    public boolean isMapReady(){
+        return mMap != null;
     }
 
     public boolean isSdkHigherThanLollipop() {
@@ -228,45 +271,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
 
         gps.stopUsingGPS();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-
-        if (isApplicationReady()) {
-
-            // Store map in member variable
-            mMap = map;
-
-            initPreferences();
-
-            initClusterManager();
-
-            initMap();
-
-            setInitialPosition();
-
-            getStations();
-
-            final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-            final SharedPreferences.Editor editor = settings.edit();
-            if (settings.getBoolean("parkingLayer", false)) {
-                editor.putBoolean("parkingLayer", false).apply();
-                new GetParking().execute();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == locationRequestCode) {
-            if (isLocationPermissionGranted()) {
-                setLocationButtonVisible(true);
-            } else {
-                setLocationButtonVisible(false);
-                Snackbar.make(view, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show();
-            }
-        }
     }
 
     public void getStations() {
@@ -855,7 +859,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     @Override
     public void onPause() {
         super.onPause();
-        if (isApplicationReady() && isLocationPermissionGranted()) {
+        if (isApplicationReady() && isMapReady() && isLocationPermissionGranted()) {
             // Disable location to avoid battery drain
             setLocationButtonVisible(false);
         }
@@ -864,7 +868,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     @Override
     public void onResume() {
         super.onResume();
-        if (isApplicationReady() && isLocationPermissionGranted()) {
+        if (isApplicationReady() && isMapReady() && isLocationPermissionGranted()) {
             // Re-enable location as the user returns to the app
             setLocationButtonVisible(true);
         }
