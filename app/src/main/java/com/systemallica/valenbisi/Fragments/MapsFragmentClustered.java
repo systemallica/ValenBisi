@@ -867,29 +867,18 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     @Override
     public void onPause() {
         super.onPause();
-        if (isApplicationReady()) {
-            if (isLocationPermissionGranted()) {
-                // Re-enable location as the user returns to the app
-                setLocationButtonVisible(true);
-            } else {
-                // Disable location to avoid battery drain
-                setLocationButtonVisible(false);
-            }
+        if (isApplicationReady() && isLocationPermissionGranted()) {
+            // Disable location to avoid battery drain
+            setLocationButtonVisible(false);
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (isApplicationReady()) {
-            if (isLocationPermissionGranted()) {
-                // Re-enable location as the user returns to the app
-                setLocationButtonVisible(true);
-            } else {
-                // Disable location to avoid battery drain
-                setLocationButtonVisible(false);
-            }
+        if (isApplicationReady() && isLocationPermissionGranted()) {
+            // Re-enable location as the user returns to the app
+            setLocationButtonVisible(true);
         }
     }
 }
