@@ -109,8 +109,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         // Store context in member variable
         context = getActivity().getApplicationContext();
 
-        MapView mapView;
-        mapView = view.findViewById(R.id.map);
+        MapView mapView = view.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
@@ -200,6 +199,37 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         return currentLocation.latitude <= 39.515 && currentLocation.latitude >= 39.420 && currentLocation.longitude <= -0.272 || currentLocation.longitude >= -0.572;
     }
 
+    public void setInitialPosition() {
+
+        TrackGPSService gps;
+        gps = new TrackGPSService(context);
+
+        double longitude = 0.0;
+        double latitude = 0.0;
+        if (gps.canGetLocation()) {
+            longitude = gps.getLongitude();
+            latitude = gps.getLatitude();
+        }
+
+        LatLng currentLocation = new LatLng(latitude, longitude);
+        LatLng valencia = new LatLng(39.479, -0.372);
+
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        boolean initialZoom = settings.getBoolean("initialZoom", true);
+
+        if (isLocationPermissionGranted() && initialZoom && gps.canGetLocation()) {
+            if (isValencia(currentLocation)) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
+            } else {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
+            }
+        } else {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
+        }
+
+        gps.stopUsingGPS();
+    }
+
     @Override
     public void onMapReady(GoogleMap map) {
 
@@ -208,60 +238,18 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             // Store map in member variable
             mMap = map;
 
-            final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-            final SharedPreferences.Editor editor = settings.edit();
-
             initPreferences();
 
             initClusterManager();
 
             initMap();
 
-            TrackGPSService gps;
-            gps = new TrackGPSService(context);
-
-            double longitude = 0.0;
-            double latitude = 0.0;
-            if (gps.canGetLocation()) {
-                longitude = gps.getLongitude();
-                latitude = gps.getLatitude();
-            }
-
-            LatLng currentLocation = new LatLng(latitude, longitude);
-            LatLng valencia = new LatLng(39.479, -0.372);
-
-            boolean initialZoom = settings.getBoolean("initialZoom", true);
-
-            // Move the camera
-            if (isSdkHigherThanLollipop()) {
-                // Check location permission
-                if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED && initialZoom && gps.canGetLocation()) {
-                    if (isValencia(currentLocation)) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                    } else {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
-                    }
-                } else {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
-                }
-
-            } else {
-                if (initialZoom && gps.canGetLocation()) {
-                    if (isValencia(currentLocation)) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
-                    } else {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
-                    }
-                } else {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
-                }
-            }
-
-            gps.stopUsingGPS();
+            setInitialPosition();
 
             getStations();
 
+            final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+            final SharedPreferences.Editor editor = settings.edit();
             if (settings.getBoolean("parkingLayer", false)) {
                 editor.putBoolean("parkingLayer", false).apply();
                 new GetParking().execute();
