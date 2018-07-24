@@ -158,12 +158,8 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public void initPreferences() {
-        settings = context.getSharedPreferences(PREFS_NAME, 0);
-        settingsEditor = settings.edit();
-        settingsEditor.putBoolean("firstTime", true).apply();
-        settingsEditor.putBoolean("firstTimeParking", true).apply();
-        settingsEditor.putBoolean("carrilLayer", false).apply();
+    public boolean isApplicationReady() {
+        return isAdded() && getActivity() != null;
     }
 
     public void initClusterManager() {
@@ -171,6 +167,14 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         mClusterManager = new ClusterManager<>(context, mMap);
         // Set custom renderer
         mClusterManager.setRenderer(new IconRenderer(getActivity().getApplicationContext(), mMap, mClusterManager));
+    }
+
+    public void initPreferences() {
+        settings = context.getSharedPreferences(PREFS_NAME, 0);
+        settingsEditor = settings.edit();
+        settingsEditor.putBoolean("firstTime", true).apply();
+        settingsEditor.putBoolean("firstTimeParking", true).apply();
+        settingsEditor.putBoolean("carrilLayer", false).apply();
     }
 
     public void initMap() {
@@ -189,16 +193,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         initLocationButton();
     }
 
-    public boolean isApplicationReady() {
-        return isAdded() && getActivity() != null;
-    }
-
-    public boolean isMapReady() {
-        return mMap != null;
-    }
-
-    public boolean isSdkHigherThanLollipop() {
-        return Build.VERSION.SDK_INT >= 23;
+    public void setMapSettings() {
+        UiSettings mapSettings;
+        mapSettings = mMap.getUiSettings();
+        mapSettings.setZoomControlsEnabled(true);
+        mapSettings.setCompassEnabled(false);
     }
 
     public void setMapBasemap() {
@@ -210,11 +209,13 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public void setMapSettings() {
-        UiSettings mapSettings;
-        mapSettings = mMap.getUiSettings();
-        mapSettings.setZoomControlsEnabled(true);
-        mapSettings.setCompassEnabled(false);
+    public void initLocationButton() {
+        if (isLocationPermissionGranted()) {
+            setLocationButtonVisible(true);
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    locationRequestCode);
+        }
     }
 
     public boolean isLocationPermissionGranted() {
@@ -223,13 +224,8 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     }
 
-    public void initLocationButton() {
-        if (isLocationPermissionGranted()) {
-            setLocationButtonVisible(true);
-        } else {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    locationRequestCode);
-        }
+    public boolean isSdkHigherThanLollipop() {
+        return Build.VERSION.SDK_INT >= 23;
     }
 
     public void setLocationButtonVisible(boolean mode) {
@@ -240,28 +236,22 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public boolean isValencia(LatLng currentLocation) {
-        return currentLocation.latitude >= 39.420 && currentLocation.latitude <= 39.515 && currentLocation.longitude >= -0.572 && currentLocation.longitude <= -0.272;
+    public boolean isValencia(LatLng location) {
+        return location.latitude >= 39.420 && location.latitude <= 39.515 && location.longitude >= -0.572 && location.longitude <= -0.272;
+    }
+
+    public boolean isMapReady() {
+        return mMap != null;
     }
 
     public void setInitialPosition() {
 
-        TrackGPSService gps;
-        gps = new TrackGPSService(context);
-
-        double longitude = 0.0;
-        double latitude = 0.0;
-        if (gps.canGetLocation()) {
-            longitude = gps.getLongitude();
-            latitude = gps.getLatitude();
-        }
-
-        LatLng currentLocation = new LatLng(latitude, longitude);
+        LatLng currentLocation = getCurrentLocation();
         LatLng valencia = new LatLng(39.479, -0.372);
 
         boolean initialZoom = settings.getBoolean("initialZoom", true);
 
-        if (isLocationPermissionGranted() && initialZoom && gps.canGetLocation()) {
+        if (isLocationPermissionGranted() && initialZoom && currentLocation != null) {
             if (isValencia(currentLocation)) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f));
             } else {
@@ -270,8 +260,20 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         } else {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f));
         }
+    }
 
-        gps.stopUsingGPS();
+    public LatLng getCurrentLocation(){
+        TrackGPSService gps = new TrackGPSService(context);
+
+        if (gps.canGetLocation()) {
+            double longitude = gps.getLongitude();
+            double latitude = gps.getLatitude();
+            gps.stopUsingGPS();
+            return new LatLng(latitude, longitude);
+        } else{
+            gps.stopUsingGPS();
+            return null;
+        }
     }
 
     public void getStations() {
