@@ -65,19 +65,19 @@ import okhttp3.ResponseBody;
 
 public class MapsFragmentClustered extends Fragment implements OnMapReadyCallback {
 
-    public static final String PREFS_NAME = "MyPrefsFile";
+    private static final String PREFS_NAME = "MyPrefsFile";
     private final static String mLogTag = "GeoJsonDemo";
-    int locationRequestCode = 1;
-    boolean stationsLayer = true;
-    boolean onFoot = true;
+    private int locationRequestCode = 1;
+    private boolean stationsLayer = true;
+    private boolean onFoot = true;
     private GeoJsonLayer lanes = null;
     private GeoJsonLayer parking = null;
     private View view;
     private GoogleMap mMap;
     private Context context;
-    ClusterManager<ClusterPoint> mClusterManager = null;
-    SharedPreferences settings;
-    SharedPreferences.Editor settingsEditor;
+    private ClusterManager<ClusterPoint> mClusterManager = null;
+    private SharedPreferences settings;
+    private SharedPreferences.Editor settingsEditor;
 
     @BindView(R.id.btnLanesToggle)
     Button btnLanesToggle;
@@ -135,7 +135,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public void onMapReadyHandler() {
+    private void onMapReadyHandler() {
         if (isApplicationReady()) {
 
             initPreferences();
@@ -156,18 +156,18 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public boolean isApplicationReady() {
+    private boolean isApplicationReady() {
         return isAdded() && getActivity() != null;
     }
 
-    public void initClusterManager() {
+    private void initClusterManager() {
         // Load ClusterManager to the Map
         mClusterManager = new ClusterManager<>(context, mMap);
         // Set custom renderer
         mClusterManager.setRenderer(new IconRenderer(getActivity().getApplicationContext(), mMap, mClusterManager));
     }
 
-    public void initPreferences() {
+    private void initPreferences() {
         settings = context.getSharedPreferences(PREFS_NAME, 0);
         settingsEditor = settings.edit();
         settingsEditor.putBoolean("firstTime", true).apply();
@@ -175,7 +175,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         settingsEditor.putBoolean("carrilLayer", false).apply();
     }
 
-    public void initMap() {
+    private void initMap() {
         mMap.setOnInfoWindowClickListener(mClusterManager);
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
@@ -191,14 +191,14 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         initLocationButton();
     }
 
-    public void setMapSettings() {
+    private void setMapSettings() {
         UiSettings mapSettings;
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(false);
     }
 
-    public void setMapBasemap() {
+    private void setMapBasemap() {
         boolean satellite = settings.getBoolean("satellite", false);
         if (!satellite) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -207,7 +207,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public void initLocationButton() {
+    private void initLocationButton() {
         if (isLocationPermissionGranted()) {
             setLocationButtonEnabled(true);
         } else {
@@ -216,17 +216,17 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public boolean isLocationPermissionGranted() {
+    private boolean isLocationPermissionGranted() {
         return !isSdkHigherThanLollipop() || getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
 
     }
 
-    public boolean isSdkHigherThanLollipop() {
+    private boolean isSdkHigherThanLollipop() {
         return Build.VERSION.SDK_INT >= 23;
     }
 
-    public void setLocationButtonEnabled(boolean mode) {
+    private void setLocationButtonEnabled(boolean mode) {
         try {
             mMap.setMyLocationEnabled(mode);
         } catch (SecurityException e) {
@@ -234,15 +234,15 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public boolean isValencia(LatLng location) {
+    private boolean isValencia(LatLng location) {
         return location.latitude >= 39.420 && location.latitude <= 39.515 && location.longitude >= -0.572 && location.longitude <= -0.272;
     }
 
-    public boolean isMapReady() {
+    private boolean isMapReady() {
         return mMap != null;
     }
 
-    public void setInitialPosition() {
+    private void setInitialPosition() {
 
         LatLng currentLocation = getCurrentLocation();
         LatLng valencia = new LatLng(39.479, -0.372);
@@ -260,7 +260,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public LatLng getCurrentLocation() {
+    private LatLng getCurrentLocation() {
         TrackGPSService gps = new TrackGPSService(context);
 
         if (gps.canGetLocation()) {
