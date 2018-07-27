@@ -50,7 +50,19 @@ public class ClusterPoint implements ClusterItem {
         this.alpha = alpha;
     }
 
+    public Float getAlpha(){
+        return this.alpha;
+    }
+
     public void setVisibility(Boolean visibility){
         this.visibility = visibility;
+    }
+
+    Boolean getVisibility(){
+        return this.visibility;
+    }
+
+    public BitmapDescriptor getIcon(){
+        return this.icon;
     }
 }
