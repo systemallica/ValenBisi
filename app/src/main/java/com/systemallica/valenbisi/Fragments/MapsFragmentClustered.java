@@ -308,7 +308,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
     }
 
-    public void getStations() {
+    private void getStations() {
+        // Clear map
+        mMap.clear();
+        mClusterManager.clearItems();
+
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
 
@@ -325,20 +329,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             @Override
             public void onResponse(Call call, Response response) {
                 try {
-                    if (!response.isSuccessful())
-                        throw new IOException("Unexpected code " + response);
-                    ResponseBody responseBody = response.body();
-                    String jsonStrTemp = "";
-
-                    if (responseBody != null) {
-                        // Show loading message
-                        Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
-                        jsonStrTemp = responseBody.string();
-                    }
-
-                    final String jsonData = jsonStrTemp;
-                    applyJSONData(jsonData);
-
+                    handleApiResponse(response);
                 } catch (IOException e) {
                     Log.e("error", "error with http request");
                 } finally {
@@ -349,6 +340,122 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             }
         });
+    }
+
+    private void handleApiResponse(Response response) throws IOException {
+        if (!response.isSuccessful())
+            throw new IOException("Unexpected code " + response);
+        ResponseBody responseBody = response.body();
+
+        if (responseBody != null) {
+            // Show loading message
+            Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
+            applyJSONData(responseBody.string());
+        } else {
+            Log.e("error", "empty server response");
+        }
+    }
+
+    private void applyJSONData(final String jsonData) {
+
+        if (isApplicationReady()) {
+
+            // Get user preferences
+            boolean showOnlyAvailableStations = settings.getBoolean("showAvailable", false);
+            boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
+
+            try {
+                // If data is not empty
+                if (!jsonData.equals("")) {
+                    if (stationsLayer) {
+                        JSONArray jsonDataArray = new JSONArray(jsonData);
+
+                        // Parse data from API
+                        for (int i = 0; i < jsonDataArray.length(); i++) {
+                            String snippet;
+                            BitmapDescriptor icon;
+                            Float alpha;
+                            Boolean visibility = true;
+                            // Get current station position
+                            JSONObject station = jsonDataArray.getJSONObject(i);
+                            JSONObject latLong = station.getJSONObject("position");
+                            Double lat = latLong.getDouble("lat");
+                            Double lng = latLong.getDouble("lng");
+
+                            String address = station.getString("address");
+                            String status = station.getString("status");
+                            int spots = station.getInt("available_bike_stands");
+                            int bikes = station.getInt("available_bikes");
+                            String lastUpdate = station.getString("last_update");
+                            int bikeStands = station.getInt("bike_stands");
+
+
+                            // If station is not favourite and "Display only favourites is enabled-> Do not add station
+                            boolean currentStationIsFav = settings.getBoolean(address, false);
+                            if (showOnlyFavoriteStations && !currentStationIsFav) {
+                                continue;
+                            }
+
+                            if (status.equals("OPEN")) {
+                                // Set markers colors depending on station availability
+                                icon = getMarkerIcon(onFoot, bikes, spots);
+
+                                // Get markers visibility depending on station availability
+                                if (showOnlyAvailableStations) {
+                                    visibility = getMarkerVisibility(onFoot, bikes, spots);
+                                }
+
+                                snippet = getMarkerSnippet(bikes, spots, lastUpdate);
+
+                            } else {
+                                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                                snippet = MapsFragmentClustered.this.getResources().getString(R.string.closed);
+                                if (showOnlyFavoriteStations) {
+                                    visibility = false;
+                                }
+                            }
+
+                            alpha = getMarkerAlpha(currentStationIsFav);
+
+                            // Add marker to map
+                            ClusterPoint clPoint = new ClusterPoint(lat
+                                    , lng
+                                    , address
+                                    , snippet
+                                    , icon
+                                    , alpha
+                                    , visibility
+                                    , bikes
+                                    , spots
+                                    , bikeStands
+                                    , onFoot);
+                            mClusterManager.addItem(clPoint);
+
+                        }
+
+                        getActivity().runOnUiThread(new Runnable() {
+                            public void run() {
+
+                                mClusterManager.cluster();
+                            }
+                        });
+
+                        setOnlineListeners();
+
+                    }
+                } else {
+                    // Show message if API response is empty
+                    Snackbar.make(view, R.string.no_data, Snackbar.LENGTH_LONG).show();
+                }
+
+            } catch (JSONException e) {
+
+                Log.e(mLogTag, "JSONArray could not be created");
+
+            }
+        }
+
+
     }
 
     public BitmapDescriptor getMarkerIcon(boolean isOnFoot, int bikes, int spots) {
@@ -396,7 +503,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         return visibility;
     }
 
-    private String getMarkerSnippet(int bikes, int spots, String lastUpdate){
+    private String getMarkerSnippet(int bikes, int spots, String lastUpdate) {
         String snippet;
         boolean showLastUpdatedInfo = settings.getBoolean("lastUpdated", true);
 
@@ -406,141 +513,68 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                 MapsFragmentClustered.this.getResources().getString(R.string.bikes) + " " +
                 bikes;
 
-        // Get API time
-        long apiTime = Long.parseLong(lastUpdate);
-        // Create calendar object
-        Calendar date = new GregorianCalendar();
-        // Get current time
-        long time = date.getTimeInMillis();
         // Add last updated time if user has checked that option
         if (showLastUpdatedInfo) {
-            // Set API time
-            date.setTimeInMillis(apiTime);
-            // Format time as HH:mm:ss
-            StringBuilder sbu = new StringBuilder();
-            Formatter fmt = new Formatter(sbu);
-            fmt.format("%tT", date.getTime());
-            // Add to pointStyle
-            snippet = snippet +
-                    "\n" +
-                    MapsFragmentClustered.this.getResources().getString(R.string.last_updated) + " " +
-                    sbu;
+            snippet = snippet + getLastUpdatedInfo(lastUpdate);
         }
+
         // If data has not been updated for more than 1 hour
-        if ((time - apiTime) > 3600000) {
-            // Add warning that data may be unreliable
-            snippet = snippet +
-                    "\n\n" +
-                    MapsFragmentClustered.this.getResources().getString(R.string.data_old) +
-                    "\n" +
-                    MapsFragmentClustered.this.getResources().getString(R.string.data_unreliable);
+        if (millisecondsFrom(lastUpdate) > 3600000) {
+            snippet = snippet + getWarningMessage();
         }
 
         return snippet;
     }
 
-    public void applyJSONData(final String jsonData) {
+    private long millisecondsFrom(String event){
+        long eventTime = Long.parseLong(event);
+        Calendar date = new GregorianCalendar();
+        long currentTime = date.getTimeInMillis();
 
-        if (isApplicationReady()) {
-            getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    // Get user preferences
-                    boolean showOnlyAvailableStations = settings.getBoolean("showAvailable", false);
-                    boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
+        return currentTime - eventTime;
+    }
 
-                    try {
-                        // If data is not empty
-                        if (!jsonData.equals("")) {
-                            if (stationsLayer) {
-                                // Clear map
-                                mMap.clear();
-                                mClusterManager.clearItems();
+    private String getWarningMessage() {
+        String snippet;
 
-                                JSONArray jsonDataArray = new JSONArray(jsonData);
+        // Add warning that data may be unreliable
+        snippet = "\n\n" +
+                MapsFragmentClustered.this.getResources().getString(R.string.data_old) +
+                "\n" +
+                MapsFragmentClustered.this.getResources().getString(R.string.data_unreliable);
 
-                                // Parse data from API
-                                for (int i = 0; i < jsonDataArray.length(); i++) {
-                                    String snippet;
-                                    BitmapDescriptor icon;
-                                    Float alpha;
-                                    Boolean visibility = true;
-                                    // Get current station position
-                                    JSONObject station = jsonDataArray.getJSONObject(i);
-                                    JSONObject latLong = station.getJSONObject("position");
-                                    Double lat = latLong.getDouble("lat");
-                                    Double lng = latLong.getDouble("lng");
+        return snippet;
+    }
 
-                                    String address = station.getString("address");
-                                    String status = station.getString("status");
-                                    int spots = station.getInt("available_bike_stands");
-                                    int bikes = station.getInt("available_bikes");
-                                    String lastUpdate = station.getString("last_update");
-                                    int bikeStands = station.getInt("bike_stands");
+    private String getLastUpdatedInfo(String lastUpdate) {
+        String snippet;
+        long apiTime = Long.parseLong(lastUpdate);
+        Calendar date = new GregorianCalendar();
 
+        // Set API time
+        date.setTimeInMillis(apiTime);
+        // Format time as HH:mm:ss
+        StringBuilder sbu = new StringBuilder();
+        Formatter fmt = new Formatter(sbu);
+        fmt.format("%tT", date.getTime());
+        // Add to pointStyle
+        snippet = "\n" +
+                MapsFragmentClustered.this.getResources().getString(R.string.last_updated) + " " +
+                sbu;
 
-                                    // If station is not favourite and "Display only favourites is enabled-> Do not add station
-                                    boolean currentStationIsFav = settings.getBoolean(address, false);
-                                    if (showOnlyFavoriteStations && !currentStationIsFav) {
-                                        continue;
-                                    }
+        return snippet;
+    }
 
-                                    if (status.equals("OPEN")) {
-                                        // Set markers colors depending on station availability
-                                        icon = getMarkerIcon(onFoot, bikes, spots);
-
-                                        // Get markers visibility depending on station availability
-                                        if(showOnlyAvailableStations) {
-                                            visibility = getMarkerVisibility(onFoot, bikes, spots);
-                                        }
-
-                                        snippet = getMarkerSnippet(bikes, spots, lastUpdate);
-
-                                    } else {
-                                        snippet = MapsFragmentClustered.this.getResources().getString(R.string.closed);
-                                        icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
-                                        if (showOnlyFavoriteStations) {
-                                            visibility = false;
-                                        }
-                                    }
-
-                                    // Apply full opacity only to favourite stations
-                                    if (currentStationIsFav) {
-                                        alpha = (float) 1.0;
-                                    } else {
-                                        alpha = (float) 0.5;
-                                    }
-
-                                    // Add marker to map
-                                    ClusterPoint clPoint = new ClusterPoint(lat
-                                            , lng
-                                            , address
-                                            , snippet
-                                            , icon
-                                            , alpha
-                                            , visibility
-                                            , bikes
-                                            , spots
-                                            , bikeStands
-                                            , onFoot);
-                                    mClusterManager.addItem(clPoint);
-
-                                }
-                                mClusterManager.cluster();
-                                setOnlineListeners();
-                            }
-                        } else {
-                            // Show message if API response is empty
-                            Snackbar.make(view, R.string.no_data, Snackbar.LENGTH_LONG).show();
-                        }
-
-                    } catch (JSONException e) {
-
-                        Log.e(mLogTag, "JSONArray could not be created");
-
-                    }
-                }
-            });
+    public float getMarkerAlpha(boolean currentStationIsFav) {
+        float alpha;
+        // Apply full opacity only to favourite stations
+        if (currentStationIsFav) {
+            alpha = (float) 1.0;
+        } else {
+            alpha = (float) 0.5;
         }
+
+        return alpha;
     }
 
     private void setOfflineListeners() {
