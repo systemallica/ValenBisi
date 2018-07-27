@@ -40,6 +40,7 @@ import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
+import com.systemallica.valenbisi.BikeStation;
 import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.clustering.ClusterPoint;
 import com.systemallica.valenbisi.clustering.IconRenderer;
@@ -347,7 +348,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         if (responseBody != null) {
             // Show loading message
             Snackbar.make(view, R.string.load_stations, Snackbar.LENGTH_LONG).show();
-            applyJSONData(responseBody.string());
+            addDataToMap(responseBody.string());
         } else {
             Log.e(mLogTag, "Empty server response");
             getActivity().runOnUiThread(new Runnable() {
@@ -359,90 +360,67 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    private void applyJSONData(final String jsonData) {
+    private void addDataToMap(String jsonData) {
 
-        if (isApplicationReady()) {
-            // Get user preferences
-            boolean showOnlyAvailableStations = settings.getBoolean("showAvailable", false);
-            boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
-            boolean isOnFoot = settings.getBoolean("isOnFoot", true);
-            boolean showStationsLayer = settings.getBoolean("showStationsLayer", true);
+        boolean showStationsLayer = settings.getBoolean("showStationsLayer", true);
 
-            if (showStationsLayer) {
-                try {
-                    JSONArray jsonDataArray = new JSONArray(jsonData);
+        if (isApplicationReady() && showStationsLayer) {
+            try {
+                JSONArray jsonDataArray = new JSONArray(jsonData);
+                addPointsToCluster(jsonDataArray);
 
-                    // Parse data from API
-                    for (int i = 0; i < jsonDataArray.length(); i++) {
-                        String snippet;
-                        BitmapDescriptor icon;
-                        Float alpha;
-                        Boolean visibility = true;
-                        // Get current station position
-                        JSONObject station = jsonDataArray.getJSONObject(i);
-                        JSONObject latLong = station.getJSONObject("position");
-                        Double lat = latLong.getDouble("lat");
-                        Double lng = latLong.getDouble("lng");
-
-                        String address = station.getString("address");
-                        String status = station.getString("status");
-                        int spots = station.getInt("available_bike_stands");
-                        int bikes = station.getInt("available_bikes");
-                        String lastUpdate = station.getString("last_update");
-                        int bikeStands = station.getInt("bike_stands");
-
-
-                        // If station is not favourite and "Display only favourites is enabled-> Do not add station
-                        boolean currentStationIsFav = settings.getBoolean(address, false);
-                        if (showOnlyFavoriteStations && !currentStationIsFav) {
-                            continue;
-                        }
-
-                        if (status.equals("OPEN")) {
-                            // Set markers colors depending on station availability
-                            icon = getMarkerIcon(isOnFoot, bikes, spots);
-
-                            // Get markers visibility depending on station availability
-                            if (showOnlyAvailableStations) {
-                                visibility = getMarkerVisibility(isOnFoot, bikes, spots);
-                            }
-
-                            snippet = getMarkerSnippet(bikes, spots, lastUpdate);
-
-                        } else {
-                            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
-                            snippet = MapsFragmentClustered.this.getResources().getString(R.string.closed);
-                            if (showOnlyFavoriteStations) {
-                                visibility = false;
-                            }
-                        }
-
-                        alpha = getMarkerAlpha(currentStationIsFav);
-
-                        // Add marker to map
-                        ClusterPoint clPoint = new ClusterPoint(lat
-                                , lng
-                                , address
-                                , snippet
-                                , icon
-                                , alpha
-                                , visibility
-                                , bikes
-                                , spots
-                                , bikeStands
-                                , isOnFoot);
-                        mClusterManager.addItem(clPoint);
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        mClusterManager.cluster();
                     }
+                });
+            } catch (JSONException e) {
+                Log.e(mLogTag, "JSONArray could not be created");
+            }
+        }
+    }
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        public void run() {
-                            mClusterManager.cluster();
-                        }
-                    });
-                } catch (JSONException e) {
-                    Log.e(mLogTag, "JSONArray could not be created");
+    private void addPointsToCluster(JSONArray jsonDataArray) throws JSONException {
+        boolean showOnlyAvailableStations = settings.getBoolean("showAvailable", false);
+        boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
+        boolean isOnFoot = settings.getBoolean("isOnFoot", true);
+        // Parse data from API
+        for (int i = 0; i < jsonDataArray.length(); i++) {
+
+            // Get current station
+            JSONObject jsonStation = jsonDataArray.getJSONObject(i);
+            BikeStation station = new BikeStation(jsonStation);
+
+            // If station is not favourite and "Display only favourites is enabled-> Do not add station
+            boolean currentStationIsFav = settings.getBoolean(station.address, false);
+            if (showOnlyFavoriteStations && !currentStationIsFav) {
+                continue;
+            }
+
+            if (station.status.equals("OPEN")) {
+                // Set markers colors depending on station availability
+                station.icon = getMarkerIcon(isOnFoot, station.bikes, station.spots);
+
+                // Get markers visibility depending on station availability
+                if (showOnlyAvailableStations) {
+                    station.visibility = getMarkerVisibility(isOnFoot, station.bikes, station.spots);
+                }
+
+                station.snippet = getMarkerSnippet(station.bikes, station.spots, station.lastUpdate);
+
+            } else {
+                station.icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                station.snippet = MapsFragmentClustered.this.getResources().getString(R.string.closed);
+                if (showOnlyFavoriteStations) {
+                    station.visibility = false;
                 }
             }
+
+            station.alpha = getMarkerAlpha(currentStationIsFav);
+
+            // Add marker to map
+            ClusterPoint clusterPoint = new ClusterPoint(station, isOnFoot);
+            mClusterManager.addItem(clusterPoint);
         }
     }
 
