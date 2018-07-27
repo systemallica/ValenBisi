@@ -40,9 +40,9 @@ import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
 import com.google.maps.android.data.geojson.GeoJsonLineStringStyle;
 import com.google.maps.android.data.geojson.GeoJsonPointStyle;
+import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.clustering.ClusterPoint;
 import com.systemallica.valenbisi.clustering.IconRenderer;
-import com.systemallica.valenbisi.R;
 import com.systemallica.valenbisi.services.TrackGPSService;
 
 import org.json.JSONArray;
@@ -146,13 +146,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             setInitialPosition();
 
-            getStations();
+            setOfflineListeners();
 
-            final SharedPreferences.Editor editor = settings.edit();
-            if (settings.getBoolean("parkingLayer", false)) {
-                editor.putBoolean("parkingLayer", false).apply();
-                new GetParking().execute();
-            }
+            manageOptionalLayers();
+
+            getStations();
         }
     }
 
@@ -274,42 +272,43 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         }
     }
 
-    public void getStations() {
+    private void manageOptionalLayers() {
+        boolean drawVoronoiCellsIsChecked = settings.getBoolean("voronoiCell", false);
+        if (drawVoronoiCellsIsChecked) {
+            drawBoronoiCells();
+        }
 
-        // Load icon
-        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
-
-        boolean voronoiCell = settings.getBoolean("voronoiCell", false);
-        boolean bikeLanes = settings.getBoolean("bikeLanes", false);
-
-        // Clear map
-        mMap.clear();
-        mClusterManager.clearItems();
-
-        setOfflineListeners();
-
-        if (bikeLanes) {
-            btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+        boolean drawBikeLanesIsChecked = settings.getBoolean("bikeLanes", false);
+        if (drawBikeLanesIsChecked) {
             new GetLanes().execute();
         }
 
-        if (voronoiCell) {
-            try {
-                final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, context);
-                for (GeoJsonFeature feature : voronoi.getFeatures()) {
-                    GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
-                    stringStyle.setColor(-16776961);
-                    stringStyle.setWidth(2);
-                    feature.setLineStringStyle(stringStyle);
-                }
-                voronoi.addLayerToMap();
-            } catch (JSONException e) {
-                Log.e(mLogTag, "JSONArray could not be created");
-            } catch (IOException e) {
-                Log.e(mLogTag, "GeoJSON file could not be read");
+        boolean drawParkingSpotsIsChecked = settings.getBoolean("parkingLayer", false);
+        if (drawParkingSpotsIsChecked) {
+            settingsEditor.putBoolean("parkingLayer", false).apply();
+            new GetParking().execute();
+        }
+    }
+
+    private void drawBoronoiCells() {
+        try {
+            final GeoJsonLayer voronoi = new GeoJsonLayer(mMap, R.raw.voronoi, context);
+            for (GeoJsonFeature feature : voronoi.getFeatures()) {
+                GeoJsonLineStringStyle stringStyle = voronoi.getDefaultLineStringStyle();
+                stringStyle.setColor(-16776961);
+                stringStyle.setWidth(2);
+                feature.setLineStringStyle(stringStyle);
             }
+            voronoi.addLayerToMap();
+        } catch (JSONException e) {
+            Log.e(mLogTag, "JSONArray could not be created");
+        } catch (IOException e) {
+            Log.e(mLogTag, "GeoJSON file could not be read");
         }
 
+    }
+
+    public void getStations() {
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
 
@@ -352,27 +351,111 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         });
     }
 
-    public void applyJSONData(final String jsonData) {
-
+    public BitmapDescriptor getMarkerIcon(boolean isOnFoot, int bikes, int spots) {
         // Load default marker icons
         final BitmapDescriptor iconGreen = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         final BitmapDescriptor iconOrange = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE);
         final BitmapDescriptor iconYellow = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW);
         final BitmapDescriptor iconRed = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-        final BitmapDescriptor iconViolet = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+        BitmapDescriptor icon;
+
+        if (isOnFoot) {
+            if (bikes == 0) {
+                icon = iconRed;
+            } else if (bikes < 5) {
+                icon = iconOrange;
+            } else if (bikes < 10) {
+                icon = iconYellow;
+            } else {
+                icon = iconGreen;
+            }
+        } else {
+            if (spots == 0) {
+                icon = iconRed;
+            } else if (spots < 5) {
+                icon = iconOrange;
+            } else if (spots < 10) {
+                icon = iconYellow;
+            } else {
+                icon = iconGreen;
+            }
+        }
+
+        return icon;
+    }
+
+    private boolean getMarkerVisibility(boolean isOnFoot, int bikes, int spots) {
+        Boolean visibility = true;
+
+        if (isOnFoot && bikes == 0) {
+            visibility = false;
+        } else if (spots == 0) {
+            visibility = false;
+        }
+
+        return visibility;
+    }
+
+    private String getMarkerSnippet(int bikes, int spots, String lastUpdate){
+        String snippet;
+        boolean showLastUpdatedInfo = settings.getBoolean("lastUpdated", true);
+
+        // Add number of available bikes/stands
+        snippet = MapsFragmentClustered.this.getResources().getString(R.string.spots) + " " +
+                spots + " - " +
+                MapsFragmentClustered.this.getResources().getString(R.string.bikes) + " " +
+                bikes;
+
+        // Get API time
+        long apiTime = Long.parseLong(lastUpdate);
+        // Create calendar object
+        Calendar date = new GregorianCalendar();
+        // Get current time
+        long time = date.getTimeInMillis();
+        // Add last updated time if user has checked that option
+        if (showLastUpdatedInfo) {
+            // Set API time
+            date.setTimeInMillis(apiTime);
+            // Format time as HH:mm:ss
+            StringBuilder sbu = new StringBuilder();
+            Formatter fmt = new Formatter(sbu);
+            fmt.format("%tT", date.getTime());
+            // Add to pointStyle
+            snippet = snippet +
+                    "\n" +
+                    MapsFragmentClustered.this.getResources().getString(R.string.last_updated) + " " +
+                    sbu;
+        }
+        // If data has not been updated for more than 1 hour
+        if ((time - apiTime) > 3600000) {
+            // Add warning that data may be unreliable
+            snippet = snippet +
+                    "\n\n" +
+                    MapsFragmentClustered.this.getResources().getString(R.string.data_old) +
+                    "\n" +
+                    MapsFragmentClustered.this.getResources().getString(R.string.data_unreliable);
+        }
+
+        return snippet;
+    }
+
+    public void applyJSONData(final String jsonData) {
 
         if (isApplicationReady()) {
             getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     // Get user preferences
-                    boolean showAvailable = settings.getBoolean("showAvailable", false);
-                    boolean showFavorites = settings.getBoolean("showFavorites", false);
-                    boolean lastUpdated = settings.getBoolean("lastUpdated", true);
+                    boolean showOnlyAvailableStations = settings.getBoolean("showAvailable", false);
+                    boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
 
                     try {
                         // If data is not empty
                         if (!jsonData.equals("")) {
                             if (stationsLayer) {
+                                // Clear map
+                                mMap.clear();
+                                mClusterManager.clearItems();
+
                                 JSONArray jsonDataArray = new JSONArray(jsonData);
 
                                 // Parse data from API
@@ -394,83 +477,28 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                                     String lastUpdate = station.getString("last_update");
                                     int bikeStands = station.getInt("bike_stands");
 
-                                    boolean currentStationIsFav = settings.getBoolean(address, false);
 
                                     // If station is not favourite and "Display only favourites is enabled-> Do not add station
-                                    if (showFavorites && !currentStationIsFav) {
+                                    boolean currentStationIsFav = settings.getBoolean(address, false);
+                                    if (showOnlyFavoriteStations && !currentStationIsFav) {
                                         continue;
                                     }
 
                                     if (status.equals("OPEN")) {
-                                        // Add number of available bikes/stands
-                                        snippet = MapsFragmentClustered.this.getResources().getString(R.string.spots) + " " +
-                                                spots + " - " +
-                                                MapsFragmentClustered.this.getResources().getString(R.string.bikes) + " " +
-                                                bikes;
+                                        // Set markers colors depending on station availability
+                                        icon = getMarkerIcon(onFoot, bikes, spots);
 
-                                        // Set markers colors depending on available bikes/stands
-                                        if (onFoot) {
-                                            if (bikes == 0) {
-                                                icon = iconRed;
-                                                if (showAvailable) {
-                                                    visibility = false;
-                                                }
-                                            } else if (bikes < 5) {
-                                                icon = iconOrange;
-                                            } else if (bikes < 10) {
-                                                icon = iconYellow;
-                                            } else {
-                                                icon = iconGreen;
-                                            }
-                                        } else {
-                                            if (spots == 0) {
-                                                icon = iconRed;
-                                                if (showAvailable) {
-                                                    visibility = false;
-                                                }
-                                            } else if (spots < 5) {
-                                                icon = iconOrange;
-                                            } else if (spots < 10) {
-                                                icon = iconYellow;
-                                            } else {
-                                                icon = iconGreen;
-                                            }
+                                        // Get markers visibility depending on station availability
+                                        if(showOnlyAvailableStations) {
+                                            visibility = getMarkerVisibility(onFoot, bikes, spots);
                                         }
 
-                                        // Get API time
-                                        long apiTime = Long.parseLong(lastUpdate);
-                                        // Create calendar object
-                                        Calendar date = new GregorianCalendar();
-                                        // Get current time
-                                        long time = date.getTimeInMillis();
-                                        // Add last updated time if user has checked that option
-                                        if (lastUpdated) {
-                                            // Set API time
-                                            date.setTimeInMillis(apiTime);
-                                            // Format time as HH:mm:ss
-                                            StringBuilder sbu = new StringBuilder();
-                                            Formatter fmt = new Formatter(sbu);
-                                            fmt.format("%tT", date.getTime());
-                                            // Add to pointStyle
-                                            snippet = snippet +
-                                                    "\n" +
-                                                    MapsFragmentClustered.this.getResources().getString(R.string.last_updated) + " " +
-                                                    sbu;
-                                        }
-                                        // If data has not been updated for more than 1 hour
-                                        if ((time - apiTime) > 3600000) {
-                                            // Add warning that data may be unreliable
-                                            snippet = snippet +
-                                                    "\n\n" +
-                                                    MapsFragmentClustered.this.getResources().getString(R.string.data_old) +
-                                                    "\n" +
-                                                    MapsFragmentClustered.this.getResources().getString(R.string.data_unreliable);
-                                        }
+                                        snippet = getMarkerSnippet(bikes, spots, lastUpdate);
 
                                     } else {
                                         snippet = MapsFragmentClustered.this.getResources().getString(R.string.closed);
-                                        icon = iconViolet;
-                                        if (showAvailable) {
+                                        icon =  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET);
+                                        if (showOnlyFavoriteStations) {
                                             visibility = false;
                                         }
                                     }
@@ -687,6 +715,8 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
         protected void onPreExecute() {
             if (!settings.getBoolean("carrilLayer", false)) {
+                final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
+                btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
                 Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_LONG).show();
             }
         }
@@ -761,9 +791,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     private class GetParking extends AsyncTask<Void, Void, GeoJsonLayer> {
-        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-
         protected void onPreExecute() {
             if (!settings.getBoolean("parkingLayer", false)) {
                 Snackbar.make(view, R.string.load_parking, Snackbar.LENGTH_SHORT).show();
@@ -808,7 +835,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                             feature.setPointStyle(pointStyle);
 
                         }
-                        editor.putBoolean("firstTimeParking", false).apply();
+                        settingsEditor.putBoolean("firstTimeParking", false).apply();
                     }
 
                 } catch (IOException e) {
@@ -829,11 +856,11 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             if (parking != null) {
                 if (!settings.getBoolean("parkingLayer", false)) {
                     parking.addLayerToMap();
-                    editor.putBoolean("parkingLayer", true).apply();
+                    settingsEditor.putBoolean("parkingLayer", true).apply();
                 } else {
                     parking.removeLayerFromMap();
-                    editor.putBoolean("parkingLayer", false).apply();
-                    editor.putBoolean("firstTimeParking", true).apply();
+                    settingsEditor.putBoolean("parkingLayer", false).apply();
+                    settingsEditor.putBoolean("firstTimeParking", true).apply();
                 }
             }
         }
