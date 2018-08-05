@@ -306,9 +306,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getStations() {
-        // Clear map
-        mMap.clear();
-        mClusterManager.clearItems();
+        resetStationsLayer();
 
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
@@ -317,26 +315,43 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 .url(url)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(mLogTag, "error with http call(no internet?)");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) {
-                try {
-                    handleApiResponse(response);
-                } catch (IOException e) {
-                    Log.e(mLogTag, "error with http request");
-                } finally {
-                    if (response != null) {
-                        response.close();
+        client.newCall(request).
+                enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e(mLogTag, "error with http call(no internet?)");
                     }
-                }
 
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        try {
+                            handleApiResponse(response);
+                        } catch (IOException e) {
+                            Log.e(mLogTag, "error with http request");
+                        } finally {
+                            if (response != null) {
+                                response.close();
+                            }
+                        }
+                    }
+                });
+    }
+
+    private void resetStationsLayer() {
+        boolean isClusteringActivated = settings.getBoolean("isClusteringActivated", true);
+
+        if (isClusteringActivated) {
+            mClusterManager.clearItems();
+            mMap.clear();
+
+            //Restore bike lanes if needed
+            boolean isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false);
+            if (isCarrilLayerAdded) {
+                new GetLanes().execute();
             }
-        });
+        } else if (stations != null) {
+            stations.removeLayerFromMap();
+        }
     }
 
     private void handleApiResponse(Response response) throws IOException {
@@ -360,7 +375,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void addDataToMap(String jsonData) {
-
         boolean showStationsLayer = settings.getBoolean("showStationsLayer", true);
         boolean isClusteringActivated = settings.getBoolean("isClusteringActivated", true);
 
@@ -383,7 +397,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         }
                     });
                 }
-
             } catch (JSONException e) {
                 Log.e(mLogTag, "JSONArray could not be created");
             }
@@ -409,7 +422,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mClusterManager.addItem(clusterPoint);
         }
     }
-
 
     private void addPointsToLayer(JSONArray jsonDataArray) throws JSONException {
         boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
@@ -467,7 +479,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 station.visibility = false;
             }
         }
-
         station.alpha = getMarkerAlpha(station.isFavourite);
 
         return station;
@@ -528,7 +539,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 icon = iconGreen;
             }
         }
-
         return icon;
     }
 
@@ -702,8 +712,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 boolean showStationsLayer = settings.getBoolean("showStationsLayer", true);
                 if (showStationsLayer) {
-                    mMap.clear();
-                    mClusterManager.clearItems();
+                    resetStationsLayer();
                     btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
                     settingsEditor.putBoolean("showStationsLayer", false).apply();
                 } else {
@@ -876,7 +885,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
-
             try {
                 lanes = new GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context);
                 for (GeoJsonFeature feature : lanes.getFeatures()) {
@@ -974,6 +982,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 settingsEditor.putBoolean("isParkingLayerAdded", true).apply();
             }
         }
+
     }
 
     @Override
