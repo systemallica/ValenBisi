@@ -28,7 +28,7 @@
             android:title="@string/cicloCalles" />
 
         <CheckBoxPreference
-            android:key="clustering"
+            android:key="isClusteringActivated"
             android:title="@string/clustering"
             android:summaryOff="@string/pref_clustering_summary_off"
             android:summaryOn="@string/pref_clustering_summary_on"

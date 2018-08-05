@@ -39,7 +39,6 @@ import com.systemallica.valenbisi.ContextWrapper;
 import com.systemallica.valenbisi.fragments.AboutFragment;
 import com.systemallica.valenbisi.fragments.DonateFragment;
 import com.systemallica.valenbisi.fragments.MapsFragment;
-import com.systemallica.valenbisi.fragments.MapsFragmentClustered;
 import com.systemallica.valenbisi.fragments.SettingsFragment;
 import com.systemallica.valenbisi.R;
 
@@ -74,13 +73,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         context = this;
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        boolean clustering = settings.getBoolean("clustering", true);
         boolean navBar = settings.getBoolean("navBar", true);
 
         int colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
 
         //Apply preferences navBar preference
-        if(navBar && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (navBar && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(colorPrimary);
         }
 
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         //String title = null;  // You can either set the title to whatever you want or just use null and it will default to your app/activity name
         Bitmap recentsIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.splash_inverted);//Choose the icon
 
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityManager.TaskDescription description = new ActivityManager.TaskDescription(null, recentsIcon, colorPrimary);
             this.setTaskDescription(description);
         }
@@ -117,19 +115,16 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             // Change fragment
-            if(clustering) {
-                ft.replace(R.id.containerView, new MapsFragmentClustered()).commit();
-            }else{
-                ft.replace(R.id.containerView, new MapsFragment()).commit();
-            }
+            ft.replace(R.id.containerView, new MapsFragment()).commit();
+
             navigationView.getMenu().getItem(0).setChecked(true);
         }
 
         //Check internet
         final ConnectivityManager cm =
-                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if(cm != null) {
+        if (cm != null) {
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             final boolean isConnected = activeNetwork != null &&
                     activeNetwork.isConnected();
@@ -165,7 +160,7 @@ public class MainActivity extends AppCompatActivity
         MobileAds.initialize(this, "ca-app-pub-7754892948346904/1371669271");
         final AdView mAdView = findViewById(R.id.adView);
 
-        if(!donationPurchased) {
+        if (!donationPurchased) {
             // Ad request and load
             AdRequest adRequest = new AdRequest.Builder().build();
             mAdView.loadAd(adRequest);
@@ -212,11 +207,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
         //if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-            // Success
+        // Success
         //} else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-            // Handle an error caused by a user cancelling the purchase flow.
+        // Handle an error caused by a user cancelling the purchase flow.
         //} else {
-            // Handle any other error codes.
+        // Handle any other error codes.
         //}
     }
 
@@ -237,11 +232,11 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Apply default locale if user didn't specify a locale
-        if (locale.equals("default_locale")){
+        if (locale.equals("default_locale")) {
             super.attachBaseContext(ContextWrapper.wrap(newBase, sysLocale.getLanguage()));
-        // Else apply user choice
-        }else{
-            super.attachBaseContext(ContextWrapper.wrap(newBase,locale));
+            // Else apply user choice
+        } else {
+            super.attachBaseContext(ContextWrapper.wrap(newBase, locale));
         }
     }
 
@@ -265,7 +260,6 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean removedAds = settings.getBoolean("removedAds", false);
-        boolean clustering = settings.getBoolean("clustering", true);
 
         // Load fragment transaction
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -277,16 +271,11 @@ public class MainActivity extends AppCompatActivity
             // Change toolbar title
             this.setTitle(R.string.nav_map);
 
-            // Change fragment
-            if(clustering) {
-                transaction.replace(R.id.containerView, new MapsFragmentClustered());
-            }else{
-                transaction.replace(R.id.containerView, new MapsFragment());
-            }
+            transaction.replace(R.id.containerView, new MapsFragment());
 
         } else if (id == R.id.nav_settings) {
 
-            if(!removedAds) {
+            if (!removedAds) {
                 mAdView.setVisibility(View.VISIBLE);
             }
 
@@ -295,7 +284,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_donate) {
 
-            if(!removedAds) {
+            if (!removedAds) {
                 mAdView.setVisibility(View.VISIBLE);
             }
 
@@ -310,13 +299,13 @@ public class MainActivity extends AppCompatActivity
                 String sAux = "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi";
                 i.putExtra(Intent.EXTRA_TEXT, sAux);
                 startActivity(i);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 //e.toString();
             }
 
         } else if (id == R.id.nav_about) {
 
-            if(!removedAds) {
+            if (!removedAds) {
                 mAdView.setVisibility(View.VISIBLE);
             }
 
@@ -334,7 +323,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void getLatestVersion(){
+    public void getLatestVersion() {
         final OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -351,18 +340,19 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     ResponseBody responseBody = response.body();
-                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                    if (!response.isSuccessful())
+                        throw new IOException("Unexpected code " + response);
 
                     String latestVersionTemp = "";
 
-                    if(responseBody!=null) {
+                    if (responseBody != null) {
                         latestVersionTemp = responseBody.string();
                     }
 
                     String latestVersion = latestVersionTemp;
                     checkUpdate(latestVersion.trim());
 
-                }finally {
+                } finally {
                     if (response != null) {
                         response.close();
                     }
@@ -371,7 +361,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void checkUpdate(final String latestVersion){
+    public void checkUpdate(final String latestVersion) {
 
         int versionCode = BuildConfig.VERSION_CODE;
         int versionGit = Integer.parseInt(latestVersion);
@@ -414,7 +404,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
             }
-        }else if(versionCode > versionGit){
+        } else if (versionCode > versionGit) {
             runOnUiThread(new Runnable() {
                 public void run() {
 

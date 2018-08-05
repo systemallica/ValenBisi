@@ -20,6 +20,9 @@ public class BikeStation {
     public int bikes;
     public String lastUpdate;
     public int bikeStands;
+    public String number;
+    public String name;
+    public boolean isFavourite;
 
     public BikeStation(JSONObject station) {
         try {
@@ -32,6 +35,8 @@ public class BikeStation {
             this.bikes = station.getInt("available_bikes");
             this.lastUpdate = station.getString("last_update");
             this.bikeStands = station.getInt("bike_stands");
+            this.number = station.getString("number");
+            this.name = station.getString("name");
         } catch (JSONException e) {
             Log.e("Valenbisi error", "JSONObject could not be created");
         }

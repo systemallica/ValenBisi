@@ -185,17 +185,17 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
         //Clustering stuff
-        final CheckBoxPreference clusteringPref = (CheckBoxPreference) findPreference("clustering");
+        final CheckBoxPreference clusteringPref = (CheckBoxPreference) findPreference("isClusteringActivated");
         clusteringPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 if (!clusteringPref.isChecked()) {
-                    editor.putBoolean("clustering", true);
+                    editor.putBoolean("isClusteringActivated", true);
                     editor.apply();
                 }
                 else{
-                    editor.putBoolean("clustering", false);
+                    editor.putBoolean("isClusteringActivated", false);
                     editor.apply();
                 }
                 return true;

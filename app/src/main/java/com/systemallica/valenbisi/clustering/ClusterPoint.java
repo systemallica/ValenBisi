@@ -13,22 +13,14 @@ public class ClusterPoint implements ClusterItem {
     private BitmapDescriptor icon;
     private Float alpha;
     private Boolean visibility;
-    private int bikes;
-    private int spots;
-    private int bikeStands;
-    private boolean onFoot;
 
-    public ClusterPoint(BikeStation station, Boolean onFoot) {
+    public ClusterPoint(BikeStation station) {
         this.position   = new LatLng(station.lat, station.lng);
         this.title      = station.address;
         this.snippet    = station.snippet;
         this.icon       = station.icon;
         this.alpha      = station.alpha;
         this.visibility = station.visibility;
-        this.bikes      = station.bikes;
-        this.spots      = station.spots;
-        this.bikeStands = station.bikeStands;
-        this.onFoot     = onFoot;
     }
 
     @Override
