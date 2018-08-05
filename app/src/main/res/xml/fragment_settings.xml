@@ -21,13 +21,6 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
-            android:key="bikeLanes"
-            android:title="@string/bikeLanes"
-            android:summaryOff="@string/pref_bikeLanes_summary_off"
-            android:summaryOn="@string/pref_bikeLanes_summary_on"
-            android:defaultValue="false" />
-
-        <CheckBoxPreference
             android:defaultValue="true"
             android:key="cicloCalles"
             android:summaryOff="@string/pref_cicloCalles_summary_off"

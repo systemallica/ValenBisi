@@ -55,8 +55,6 @@
     <string name="pref_lastUpdated_summary_on">Se mostrará la hora de la última actualización en la estación</string>
 
     <string name="bikeLanes">Carriles bici por defecto</string>
-    <string name="pref_bikeLanes_summary_off">Los carriles se ocultarán al iniciar la app</string>
-    <string name="pref_bikeLanes_summary_on">Los carriles se mostrarán al iniciar la app</string>
 
     <string name="cicloCalles">Diferenciar ciclocalles</string>
     <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>

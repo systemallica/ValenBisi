@@ -166,9 +166,6 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     private void initPreferences() {
         settings = context.getSharedPreferences(PREFS_NAME, 0);
         settingsEditor = settings.edit();
-        settingsEditor.putBoolean("firstTime", true).apply();
-        settingsEditor.putBoolean("firstTimeParking", true).apply();
-        settingsEditor.putBoolean("carrilLayer", false).apply();
     }
 
     private void initMap() {
@@ -271,19 +268,18 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     private void manageOptionalLayers() {
-        boolean drawVoronoiCellsIsChecked = settings.getBoolean("voronoiCell", false);
-        if (drawVoronoiCellsIsChecked) {
+        boolean isDrawVoronoiCellsChecked = settings.getBoolean("voronoiCell", false);
+        if (isDrawVoronoiCellsChecked) {
             drawBoronoiCells();
         }
 
-        boolean drawBikeLanesIsChecked = settings.getBoolean("bikeLanes", false);
-        if (drawBikeLanesIsChecked) {
+        boolean isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false);
+        if (isCarrilLayerAdded) {
             new GetLanes().execute();
         }
 
-        boolean drawParkingSpotsIsChecked = settings.getBoolean("parkingLayer", false);
-        if (drawParkingSpotsIsChecked) {
-            settingsEditor.putBoolean("parkingLayer", false).apply();
+        boolean isDrawParkingSpotsChecked = settings.getBoolean("isParkingLayerAdded", false);
+        if (isDrawParkingSpotsChecked) {
             new GetParking().execute();
         }
     }
@@ -391,7 +387,7 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             JSONObject jsonStation = jsonDataArray.getJSONObject(i);
             BikeStation station = new BikeStation(jsonStation);
 
-            // If station is not favourite and "Display only favourites is enabled-> Do not add station
+            // If station is not favourite and "Display only favourites" is enabled-> Do not add station
             boolean currentStationIsFav = settings.getBoolean(station.address, false);
             if (showOnlyFavoriteStations && !currentStationIsFav) {
                 continue;
@@ -554,12 +550,21 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
         final Drawable myDrawableStationsOff = ContextCompat.getDrawable(context, R.drawable.ic_map_marker_off_black_24dp);
         final Drawable myDrawableBike = ContextCompat.getDrawable(context, R.drawable.ic_directions_bike_black_24dp);
         final Drawable myDrawableWalk = ContextCompat.getDrawable(context, R.drawable.ic_directions_walk_black_24dp);
+        final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
+        final Drawable myDrawableLaneOff = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_off_black_24dp);
 
         boolean showStationsLayer = settings.getBoolean("showStationsLayer", true);
         if (showStationsLayer) {
             btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOn, null, null, null);
         } else {
             btnStationsToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableStationsOff, null, null, null);
+        }
+
+        boolean isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", true);
+        if (isCarrilLayerAdded) {
+            btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
+        } else {
+            btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
         }
 
         boolean isOnFoot = settings.getBoolean("isOnFoot", false);
@@ -571,31 +576,36 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     }
 
     private void setOfflineListeners() {
-        // Load icons
         final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
         final Drawable myDrawableLaneOff = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_off_black_24dp);
         final Drawable myDrawableParkingOn = ContextCompat.getDrawable(context, R.drawable.ic_local_parking_black_24dp);
 
         btnLanesToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!settings.getBoolean("carrilLayer", false)) {
+                if (!settings.getBoolean("isCarrilLayerAdded", false)) {
                     btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
                     new GetLanes().execute();
                 } else {
                     btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOff, null, null, null);
-                    new GetLanes().execute();
+                    settingsEditor.putBoolean("isCarrilLayerAdded", false).apply();
+                    if (lanes != null) {
+                        lanes.removeLayerFromMap();
+                    }
                 }
             }
         });
 
         btnParkingToggle.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if (!settings.getBoolean("parkingLayer", false)) {
+                if (!settings.getBoolean("isParkingLayerAdded", false)) {
                     btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
                     new GetParking().execute();
                 } else {
                     btnParkingToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableParkingOn, null, null, null);
-                    new GetParking().execute();
+                    settingsEditor.putBoolean("isParkingLayerAdded", false).apply();
+                    if (parking != null) {
+                        parking.removeLayerFromMap();
+                    }
                 }
             }
         });
@@ -737,48 +747,21 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
     private class GetLanes extends AsyncTask<Void, Void, GeoJsonLayer> {
 
         protected void onPreExecute() {
-            if (!settings.getBoolean("carrilLayer", false)) {
-                final Drawable myDrawableLaneOn = ContextCompat.getDrawable(context, R.drawable.ic_road_variant_black_24dp);
-                btnLanesToggle.setCompoundDrawablesWithIntrinsicBounds(myDrawableLaneOn, null, null, null);
-                Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_LONG).show();
-            }
+            Snackbar.make(view, R.string.load_lanes, Snackbar.LENGTH_LONG).show();
         }
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
 
             try {
-                // lanes layer
-                if (settings.getBoolean("firstTime", true)) {
-                    lanes = new GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context);
-                    for (GeoJsonFeature feature : lanes.getFeatures()) {
-                        GeoJsonLineStringStyle stringStyle = new GeoJsonLineStringStyle();
-                        stringStyle.setWidth(5);
-                        if (settings.getBoolean("cicloCalles", true)) {
-                            switch (feature.getProperty("estado")) {
-                                // Normal bike lane
-                                case "1":
-                                    stringStyle.setColor(Color.BLACK);
-                                    break;
-                                // Ciclocalle
-                                case "2":
-                                    stringStyle.setColor(Color.BLUE);
-                                    break;
-                                // Weird fragments
-                                case "3":
-                                    stringStyle.setColor(Color.BLUE);
-                                    break;
-                                // Rio
-                                case "4":
-                                    stringStyle.setColor(Color.BLACK);
-                                    break;
-                                default:
-                                    stringStyle.setColor(Color.RED);
-                            }
-                        }
-                        feature.setLineStringStyle(stringStyle);
+                lanes = new GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context);
+                for (GeoJsonFeature feature : lanes.getFeatures()) {
+                    GeoJsonLineStringStyle stringStyle = new GeoJsonLineStringStyle();
+                    stringStyle.setWidth(5);
+                    if (settings.getBoolean("cicloCalles", true)) {
+                        stringStyle.setColor(getLaneColor(feature));
                     }
-                    settingsEditor.putBoolean("firstTime", false).apply();
+                    feature.setLineStringStyle(stringStyle);
                 }
 
             } catch (IOException e) {
@@ -793,32 +776,35 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
             return lanes;
         }
 
+        private int getLaneColor(GeoJsonFeature feature) {
+            switch (feature.getProperty("estado")) {
+                // Normal bike lane
+                case "1":
+                   return Color.BLACK;
+                // Ciclocalle
+                case "2":
+                    return Color.BLUE;
+                // Weird fragments
+                case "3":
+                    return Color.BLUE;
+                // Rio
+                case "4":
+                    return Color.BLACK;
+                default:
+                    return Color.RED;            }
+        }
+
         protected void onPostExecute(GeoJsonLayer lanes) {
-            boolean bikeLanes = settings.getBoolean("bikeLanes", false);
             if (lanes != null) {
-                if (bikeLanes && !settings.getBoolean("carrilLayer", false)) {
-                    lanes.addLayerToMap();
-                    settingsEditor.putBoolean("carrilLayer", true).apply();
-                } else {
-                    if (!settings.getBoolean("carrilLayer", false)) {
-                        lanes.addLayerToMap();
-                        settingsEditor.putBoolean("carrilLayer", true).apply();
-                    } else {
-                        lanes.removeLayerFromMap();
-                        settingsEditor.putBoolean("carrilLayer", false).apply();
-                        settingsEditor.putBoolean("firstTime", true).apply();
-                    }
-                }
+                lanes.addLayerToMap();
+                settingsEditor.putBoolean("isCarrilLayerAdded", true).apply();
             }
         }
     }
 
     private class GetParking extends AsyncTask<Void, Void, GeoJsonLayer> {
         protected void onPreExecute() {
-            if (!settings.getBoolean("parkingLayer", false)) {
-                Snackbar.make(view, R.string.load_parking, Snackbar.LENGTH_SHORT).show();
-
-            }
+            Snackbar.make(view, R.string.load_parking, Snackbar.LENGTH_SHORT).show();
         }
 
         @Override
@@ -832,33 +818,28 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
 
             if (isApplicationReady()) {
                 try {
-                    // parking layer
-                    if (settings.getBoolean("firstTimeParking", true)) {
-                        parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
-                        for (GeoJsonFeature feature : parking.getFeatures()) {
-                            GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
-                            pointStyle.setTitle(MapsFragmentClustered.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
-                            pointStyle.setSnippet(MapsFragmentClustered.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
-                            pointStyle.setAlpha((float) 0.5);
-                            pointStyle.setIcon(icon_parking);
+                    parking = new GeoJsonLayer(mMap, R.raw.aparcabicis, context);
+                    for (GeoJsonFeature feature : parking.getFeatures()) {
+                        GeoJsonPointStyle pointStyle = new GeoJsonPointStyle();
+                        pointStyle.setTitle(MapsFragmentClustered.this.getResources().getString(R.string.parking) + " " + feature.getProperty("id"));
+                        pointStyle.setSnippet(MapsFragmentClustered.this.getResources().getString(R.string.plazas) + " " + feature.getProperty("plazas"));
+                        pointStyle.setAlpha((float) 0.5);
+                        pointStyle.setIcon(icon_parking);
 
-                            boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
+                        boolean currentStationIsFav = settings.getBoolean(pointStyle.getTitle(), false);
 
-                            // Apply full opacity to fav stations
-                            if (currentStationIsFav) {
-                                pointStyle.setAlpha(1);
-                            }
-
-                            // If favorites are selected, hide the rest
-                            if (showFavorites) {
-                                if (!currentStationIsFav) {
-                                    pointStyle.setVisible(false);
-                                }
-                            }
-                            feature.setPointStyle(pointStyle);
-
+                        // Apply full opacity to fav stations
+                        if (currentStationIsFav) {
+                            pointStyle.setAlpha(1);
                         }
-                        settingsEditor.putBoolean("firstTimeParking", false).apply();
+
+                        // If favorites are selected, hide the rest
+                        if (showFavorites) {
+                            if (!currentStationIsFav) {
+                                pointStyle.setVisible(false);
+                            }
+                        }
+                        feature.setPointStyle(pointStyle);
                     }
 
                 } catch (IOException e) {
@@ -870,21 +851,14 @@ public class MapsFragmentClustered extends Fragment implements OnMapReadyCallbac
                     Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject");
                 }
             }
-
             return parking;
         }
 
         protected void onPostExecute(GeoJsonLayer parking) {
 
             if (parking != null) {
-                if (!settings.getBoolean("parkingLayer", false)) {
-                    parking.addLayerToMap();
-                    settingsEditor.putBoolean("parkingLayer", true).apply();
-                } else {
-                    parking.removeLayerFromMap();
-                    settingsEditor.putBoolean("parkingLayer", false).apply();
-                    settingsEditor.putBoolean("firstTimeParking", true).apply();
-                }
+                parking.addLayerToMap();
+                settingsEditor.putBoolean("isParkingLayerAdded", true).apply();
             }
         }
 

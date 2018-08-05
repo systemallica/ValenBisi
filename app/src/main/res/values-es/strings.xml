@@ -73,8 +73,6 @@
     <string name="purchase_failed">Vaya, algo ha salido mal en el proceso de compra! :(</string>
     <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
     <string name="license">Licencia correcta</string>
-    <string name="pref_bikeLanes_summary_on">Los carriles se mostrarán al iniciar la app</string>
-    <string name="pref_bikeLanes_summary_off">Los carriles se ocultarán al iniciar la app</string>
     <string name="bikeLanes">Carriles bici por defecto</string>
     <string name="no_data">No se han podido cargar los datos :(</string>
     <string name="pref_lastUpdated_summary_off">No se mostrará la hora de la última actualización en cada estación</string>

@@ -74,8 +74,6 @@
     <string name="purchase_success">Merci beaucoup pour ta donation! :D</string>
     <string name="license">Licence ok</string>
     <string name="bikeLanes">Pistes cyclables par défaut</string>
-    <string name="pref_bikeLanes_summary_off">Les pistes cyclables ne seront pas montreés par défaut</string>
-    <string name="pref_bikeLanes_summary_on">Les pistes cyclables seront montreés par défaut</string>
     <string name="no_data">Données pas chargées correctement</string>
     <string name="last_updated">Dernière mise à jour:</string>
     <string name="pref_lastUpdated_summary_on">La dernière mise à jour sera affichée</string>

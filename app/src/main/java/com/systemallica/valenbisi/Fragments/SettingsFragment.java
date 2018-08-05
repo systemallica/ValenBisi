@@ -91,27 +91,6 @@ public class SettingsFragment extends PreferenceFragment {
 
         });
 
-        //Bike lanes stuff
-        final CheckBoxPreference bikeLanesPref = (CheckBoxPreference) findPreference("bikeLanes");
-
-        bikeLanesPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if (!bikeLanesPref.isChecked()) {
-                    editor.putBoolean("bikeLanes", true);
-                    editor.apply();
-                }
-                else{
-                    editor.putBoolean("bikeLanes", false);
-                    editor.apply();
-                }
-
-                return true;
-            }
-
-        });
-
         //Ciclocalles stuff
         final CheckBoxPreference ciclocallesPref = (CheckBoxPreference) findPreference("cicloCalles");
 
