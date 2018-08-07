@@ -17,10 +17,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
+
     <Button
         android:id="@+id/btnLanesToggle"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
@@ -34,8 +36,8 @@
 
     <Button
         android:id="@+id/btnStationsToggle"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
         android:drawableStart="@drawable/ic_place_black_24dp"
@@ -48,8 +50,8 @@
 
     <Button
         android:id="@+id/btnOnFootToggle"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
         android:drawableStart="@drawable/ic_directions_walk_black_24dp"
@@ -62,8 +64,8 @@
 
     <Button
         android:id="@+id/btnRefresh"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
         android:drawableStart="@drawable/ic_cached_black_24dp"
@@ -76,8 +78,8 @@
 
     <Button
         android:id="@+id/btnParkingToggle"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
         android:layout_marginEnd="45dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
