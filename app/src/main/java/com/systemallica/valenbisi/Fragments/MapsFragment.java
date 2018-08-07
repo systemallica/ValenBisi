@@ -306,8 +306,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getStations() {
-        resetStationsLayer();
-
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
 
@@ -737,6 +735,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Reload data
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                resetStationsLayer();
                 getStations();
             }
         });
