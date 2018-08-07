@@ -149,6 +149,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             setButtons();
 
+            restoreOptionalLayers();
+
             getStations();
         }
     }
@@ -340,10 +342,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         if (isClusteringActivated) {
             mClusterManager.clearItems();
-            mMap.clear(); //TODO: find a way to avoid clearing the whole map
-
-            restoreOptionalLayers();
-
+            mClusterManager.cluster();
         } else if (stations != null) {
             stations.removeLayerFromMap();
         }
