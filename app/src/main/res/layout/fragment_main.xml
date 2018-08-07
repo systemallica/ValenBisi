@@ -19,70 +19,72 @@
         android:id="@+id/btnLanesToggle"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginStart="40dp"
         android:background="@drawable/map_style_bg"
         android:drawableStart="@drawable/ic_road_variant_off_black_24dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="#666666"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnStationsToggle"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnStationsToggle"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
         android:background="@drawable/map_style_bg"
         android:drawableStart="@drawable/ic_place_black_24dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="#666666"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnOnFootToggle"
-        app:layout_constraintStart_toEndOf="@id/btnLanesToggle" />
+        app:layout_constraintStart_toEndOf="@id/btnLanesToggle"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnOnFootToggle"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/map_style_bg"
         android:drawableStart="@drawable/ic_directions_walk_black_24dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:textColor="#666666"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnRefresh"
-        app:layout_constraintStart_toEndOf="@id/btnStationsToggle" />
+        app:layout_constraintStart_toEndOf="@id/btnStationsToggle"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnRefresh"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/map_style_bg"
         android:drawableStart="@drawable/ic_cached_black_24dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:textColor="#666666"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnParkingToggle"
-        app:layout_constraintStart_toEndOf="@id/btnOnFootToggle" />
+        app:layout_constraintStart_toEndOf="@id/btnOnFootToggle"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnParkingToggle"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="45dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/map_style_bg"
         android:drawableStart="@drawable/ic_local_parking_black_24dp"
         android:paddingEnd="10dp"
         android:paddingStart="10dp"
         android:textColor="#666666"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnRefresh" />
+        app:layout_constraintStart_toEndOf="@id/btnRefresh"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
