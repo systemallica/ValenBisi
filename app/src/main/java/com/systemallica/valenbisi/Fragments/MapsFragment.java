@@ -190,7 +190,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private void setMapSettings() {
         UiSettings mapSettings;
         mapSettings = mMap.getUiSettings();
-        mapSettings.setZoomControlsEnabled(false);
+        mapSettings.setZoomControlsEnabled(true);
         mapSettings.setCompassEnabled(true);
     }
 
