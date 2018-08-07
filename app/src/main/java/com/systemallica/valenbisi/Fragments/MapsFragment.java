@@ -149,8 +149,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             setButtons();
 
-            manageOptionalLayers();
-
             getStations();
         }
     }
@@ -270,7 +268,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void manageOptionalLayers() {
+    private void restoreOptionalLayers() {
         boolean isDrawVoronoiCellsChecked = settings.getBoolean("voronoiCell", false);
         if (isDrawVoronoiCellsChecked) {
             drawBoronoiCells();
@@ -342,13 +340,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         if (isClusteringActivated) {
             mClusterManager.clearItems();
-            mMap.clear();
+            mMap.clear(); //TODO: find a way to avoid clearing the whole map
 
-            //Restore bike lanes if needed
-            boolean isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false);
-            if (isCarrilLayerAdded) {
-                new GetLanes().execute();
-            }
+            restoreOptionalLayers();
+
         } else if (stations != null) {
             stations.removeLayerFromMap();
         }
