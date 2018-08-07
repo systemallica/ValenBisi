@@ -149,7 +149,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             setButtons();
 
-            manageOptionalLayers();
+            restoreOptionalLayers();
 
             getStations();
         }
@@ -191,7 +191,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         UiSettings mapSettings;
         mapSettings = mMap.getUiSettings();
         mapSettings.setZoomControlsEnabled(true);
-        mapSettings.setCompassEnabled(false);
+        mapSettings.setCompassEnabled(true);
     }
 
     private void setMapBasemap() {
@@ -270,7 +270,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void manageOptionalLayers() {
+    private void restoreOptionalLayers() {
         boolean isDrawVoronoiCellsChecked = settings.getBoolean("voronoiCell", false);
         if (isDrawVoronoiCellsChecked) {
             drawBoronoiCells();
@@ -306,8 +306,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void getStations() {
-        resetStationsLayer();
-
         final OkHttpClient client = new OkHttpClient();
         String url = "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd";
 
@@ -342,13 +340,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         if (isClusteringActivated) {
             mClusterManager.clearItems();
-            mMap.clear();
-
-            //Restore bike lanes if needed
-            boolean isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false);
-            if (isCarrilLayerAdded) {
-                new GetLanes().execute();
-            }
+            mClusterManager.cluster();
         } else if (stations != null) {
             stations.removeLayerFromMap();
         }
@@ -743,6 +735,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         // Reload data
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                resetStationsLayer();
                 getStations();
             }
         });
