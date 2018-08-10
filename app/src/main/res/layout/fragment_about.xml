@@ -1,122 +1,120 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.systemallica.valenbisi.Fragments.AboutFragment">
 
-
-    <TextView
-        android:text="@string/developed"
-        android:layout_width="wrap_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Desarrollado"
-        android:layout_marginTop="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textStyle="normal|bold"
-        android:fontFamily="sans-serif" />
-
-    <TextView
-        android:text="@string/developer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/Desarrollador"
-        android:layout_below="@+id/Desarrollado"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="@string/thanks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Desarrollador"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:id="@+id/Agradecimientos"
-        android:textStyle="normal|bold" />
-
-    <TextView
-        android:text="@string/thank1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Agradecido1"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/Agradecimientos"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="@string/thank2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Agradecido1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/Agradecido2" />
-
-    <TextView
-        android:text="@string/version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/github"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/version_code" />
-
-    <TextView
-        android:text="@string/contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Agradecido2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:id="@+id/contacto"
-        android:textStyle="normal|bold" />
-
-    <TextView
-        android:text="@string/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/email"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/contacto"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="@string/source"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:id="@+id/Code"
-        android:textStyle="normal|bold"
-        android:layout_below="@+id/rate"
-        android:layout_alignStart="@+id/Agradecido2" />
-
-    <TextView
-        android:text="@string/rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/email"
-        android:layout_marginTop="30dp"
-        android:id="@+id/rate"
-        android:layout_centerHorizontal="true"
-        android:textStyle="normal|bold" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/desc"
-        app:srcCompat="@drawable/github_64"
-        android:layout_marginTop="10dp"
-        android:id="@+id/github"
-        android:layout_below="@+id/Code"
-        android:layout_centerHorizontal="true" />
+        tools:context="com.systemallica.valenbisi.Fragments.AboutFragment">
 
 
+        <TextView
+            android:id="@+id/desarrollado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/developed"
+            android:textStyle="normal|bold" />
 
+        <TextView
+            android:id="@+id/desarrollador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desarrollado"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/developer" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/agradecimientos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/desarrollador"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/thanks"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/agradecido1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agradecimientos"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/thank1" />
+
+        <TextView
+            android:id="@+id/agradecido2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agradecido1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/thank2" />
+
+        <TextView
+            android:id="@+id/versionCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/github"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/version" />
+
+        <TextView
+            android:id="@+id/contacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/agradecido2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/contact"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/contacto"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/email" />
+
+        <TextView
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/agradecido2"
+            android:layout_below="@+id/rate"
+            android:layout_marginTop="30dp"
+            android:text="@string/source"
+            android:textStyle="normal|bold" />
+
+        <TextView
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/rate"
+            android:textStyle="normal|bold" />
+
+        <ImageView
+            android:id="@+id/github"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/code"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/desc"
+            app:srcCompat="@drawable/github_64" />
+
+    </RelativeLayout>
 </ScrollView>
