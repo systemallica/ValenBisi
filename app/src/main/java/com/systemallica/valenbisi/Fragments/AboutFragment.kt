@@ -17,9 +17,11 @@ class AboutFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_about, container, false)
+        return inflater.inflate(R.layout.fragment_about, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         //Change toolbar title
         activity!!.setTitle(R.string.nav_about)
@@ -28,12 +30,9 @@ class AboutFragment : Fragment() {
         versionCode.text = BuildConfig.VERSION_NAME
 
         setClickListeners()
-
-        return view
     }
 
-
-    fun setClickListeners() {
+    private fun setClickListeners() {
         //Open GitHub page
         github.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/systemallica/ValenBisi"))
