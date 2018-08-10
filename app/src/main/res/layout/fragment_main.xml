@@ -17,13 +17,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-
-
     <Button
         android:id="@+id/btnLanesToggle"
         android:layout_width="43dp"
         android:layout_height="43dp"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
         android:drawableStart="@drawable/ic_road_variant_off_black_24dp"
@@ -87,7 +85,6 @@
         android:paddingEnd="9dp"
         android:paddingStart="9dp"
         android:textColor="#666666"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnRefresh"
         app:layout_constraintTop_toTopOf="parent" />
 
