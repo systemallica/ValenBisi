@@ -1,8 +1,6 @@
 package com.systemallica.valenbisi.activities;
 
 import android.app.ActivityManager;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -53,6 +53,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.view.View.GONE;
 import static com.systemallica.valenbisi.ContextWrapper.getSystemLocale;
 import static com.systemallica.valenbisi.ContextWrapper.getSystemLocaleLegacy;
@@ -72,8 +73,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        boolean navBar = settings.getBoolean("navBar", true);
+        final SharedPreferences userSettings = getDefaultSharedPreferences(context);
+        boolean navBar = userSettings.getBoolean("navBar", true);
 
         int colorPrimary = ContextCompat.getColor(context, R.color.colorPrimary);
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Inflate main fragment
-        mFragmentManager = getFragmentManager();
+        mFragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = mFragmentManager.beginTransaction();
 
         if (savedInstanceState == null) {
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        final SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         boolean donationPurchased = settings.getBoolean("donationPurchased", false);
 
         // Ads management
@@ -167,7 +169,7 @@ public class MainActivity extends AppCompatActivity
             mAdView.setVisibility(GONE);
         }
 
-        // Check licenseº
+        // Check license
         final BillingClient mBillingClient;
 
         mBillingClient = BillingClient.newBuilder(MainActivity.this).setListener(this).build();

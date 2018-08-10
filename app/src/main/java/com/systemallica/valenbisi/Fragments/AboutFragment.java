@@ -1,6 +1,6 @@
 package com.systemallica.valenbisi.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,10 +19,6 @@ import butterknife.OnClick;
 public class AboutFragment extends Fragment {
 
     @BindView(R.id.version_code) TextView version_code;
-
-    public AboutFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

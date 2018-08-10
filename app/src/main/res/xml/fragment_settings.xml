@@ -2,9 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/nav_map"
-        android:key="pref_key_map"
-        android:defaultValue="false">
+        android:title="@string/nav_map">
 
         <CheckBoxPreference
             android:key="initialZoom"
@@ -14,7 +12,7 @@
             android:defaultValue="true" />
 
         <CheckBoxPreference
-            android:key="satellite"
+            android:key="isSatellite"
             android:title="@string/mapView"
             android:summaryOff="@string/pref_mapView_summary_off"
             android:summaryOn="@string/pref_mapView_summary_on"
@@ -49,9 +47,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/stations"
-        android:key="pref_key_stations"
-        android:defaultValue="false">
+        android:title="@string/stations">
 
         <CheckBoxPreference
             android:key="showFavorites"
@@ -77,8 +73,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/others"
-        android:key="pref_key_others">
+        android:title="@string/others">
 
         <CheckBoxPreference
             android:key="navBar"

@@ -1,6 +1,6 @@
 package com.systemallica.valenbisi.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -35,15 +35,16 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
 
     public static final String PREFS_NAME = "MyPrefsFile";// Debug tag, for logging
 
-    @BindView(R.id.textRemove) TextView textRemove;
-    @BindView(R.id.textDonate) TextView textDonate;
-    @BindView(R.id.donatorImage) ImageView donatorImage;
-    @BindView(R.id.btn_remove_ads) Button btn_remove_ads;
-    @BindView(R.id.btn_buy) Button btn_buy;
-
-    public DonateFragment() {
-        // Required empty public constructor
-    }
+    @BindView(R.id.textRemove)
+    TextView textRemove;
+    @BindView(R.id.textDonate)
+    TextView textDonate;
+    @BindView(R.id.donatorImage)
+    ImageView donatorImage;
+    @BindView(R.id.btn_remove_ads)
+    Button btn_remove_ads;
+    @BindView(R.id.btn_buy)
+    Button btn_buy;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,7 +125,7 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
         });
     }
 
-    public void startBuyProcess(){
+    public void startBuyProcess() {
         final BillingClient mBillingClient;
 
         mBillingClient = BillingClient.newBuilder(getActivity().getApplicationContext()).setListener(this).build();
@@ -148,7 +149,7 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
             public void onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                if(getView() != null) {
+                if (getView() != null) {
                     Snackbar.make(getView(), R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show();
                 }
             }
@@ -158,7 +159,7 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
     @Override
     public void onPurchasesUpdated(@BillingClient.BillingResponse int responseCode, List<Purchase> purchases) {
         if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-            if(getView() != null) {
+            if (getView() != null) {
                 // Apply preference
                 SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
                 SharedPreferences.Editor editor = settings.edit();
@@ -174,18 +175,18 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
             }
         } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-            if(getView() != null) {
+            if (getView() != null) {
                 Snackbar.make(getView(), R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show();
             }
         } else {
             // Handle any other error codes.
-            if(getView() != null) {
+            if (getView() != null) {
                 Snackbar.make(getView(), R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void showDonatorStatus(){
+    private void showDonatorStatus() {
         // Show feedback to the user
         donatorImage.setVisibility(VISIBLE);
         textRemove.setVisibility(GONE);
@@ -196,7 +197,8 @@ public class DonateFragment extends Fragment implements PurchasesUpdatedListener
     }
 
     //Send donation
-    @OnClick(R.id.email) public void email() {
+    @OnClick(R.id.email)
+    public void email() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:systemallica.apps@gmail.com"));
         startActivity(emailIntent);

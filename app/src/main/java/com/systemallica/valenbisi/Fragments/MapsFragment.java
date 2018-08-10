@@ -1,7 +1,6 @@
 package com.systemallica.valenbisi.fragments;
 
 import android.Manifest;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -16,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,10 +66,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
+
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private static final String PREFS_NAME = "MyPrefsFile";
     private SharedPreferences settings;
+    private SharedPreferences userSettings;
     private SharedPreferences.Editor settingsEditor;
     private final static String mLogTag = "Valenbisi error";
     private GeoJsonLayer stations = null;
@@ -90,10 +93,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     Button btnOnFootToggle;
     @BindView(R.id.btnRefresh)
     Button btnRefresh;
-
-    public MapsFragment() {
-        // Required empty public constructor
-    }
 
     @Nullable
     @Override
@@ -169,6 +168,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private void initPreferences() {
         settings = context.getSharedPreferences(PREFS_NAME, 0);
         settingsEditor = settings.edit();
+        userSettings = getDefaultSharedPreferences(context);
     }
 
     private void initMap() {
@@ -195,8 +195,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void setMapBasemap() {
-        boolean satellite = settings.getBoolean("satellite", false);
-        if (!satellite) {
+        boolean isSatellite = userSettings.getBoolean("isSatellite", false);
+        if (!isSatellite) {
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         } else {
             mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -243,7 +243,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         LatLng currentLocation = getCurrentLocation();
         LatLng valencia = new LatLng(39.479, -0.372);
 
-        boolean initialZoom = settings.getBoolean("initialZoom", true);
+        boolean initialZoom = userSettings.getBoolean("initialZoom", true);
 
         if (isLocationPermissionGranted() && initialZoom && currentLocation != null) {
             if (isValencia(currentLocation)) {
@@ -271,7 +271,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void restoreOptionalLayers() {
-        boolean isDrawVoronoiCellsChecked = settings.getBoolean("voronoiCell", false);
+        boolean isDrawVoronoiCellsChecked = userSettings.getBoolean("voronoiCell", false);
         if (isDrawVoronoiCellsChecked) {
             drawBoronoiCells();
         }
@@ -336,7 +336,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void resetStationsLayer() {
-        boolean isClusteringActivated = settings.getBoolean("isClusteringActivated", true);
+        boolean isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true);
 
         if (isClusteringActivated) {
             mClusterManager.clearItems();
@@ -368,7 +368,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private void addDataToMap(String jsonData) {
         boolean showStationsLayer = settings.getBoolean("showStationsLayer", true);
-        boolean isClusteringActivated = settings.getBoolean("isClusteringActivated", true);
+        boolean isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true);
 
         if (isApplicationReady() && showStationsLayer) {
             try {
@@ -396,7 +396,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void addPointsToCluster(JSONArray jsonDataArray) throws JSONException {
-        boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
+        boolean showOnlyFavoriteStations = userSettings.getBoolean("showFavorites", false);
 
         // Parse data from API
         for (int i = 0; i < jsonDataArray.length(); i++) {
@@ -416,7 +416,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void addPointsToLayer(JSONArray jsonDataArray) throws JSONException {
-        boolean showOnlyFavoriteStations = settings.getBoolean("showFavorites", false);
+        boolean showOnlyFavoriteStations = userSettings.getBoolean("showFavorites", false);
 
         JSONObject dummy = new JSONObject();
         stations = new GeoJsonLayer(mMap, dummy);
@@ -448,7 +448,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private BikeStation generateCompleteStationData(BikeStation station) {
-        boolean showOnlyAvailableStations = settings.getBoolean("showAvailable", false);
+        boolean showOnlyAvailableStations = userSettings.getBoolean("showAvailable", false);
         boolean isOnFoot = settings.getBoolean("isOnFoot", true);
 
         station.isFavourite = settings.getBoolean(station.address, false);
@@ -548,7 +548,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private String getMarkerSnippet(int bikes, int spots, String lastUpdate) {
         String snippet;
-        boolean showLastUpdatedInfo = settings.getBoolean("lastUpdated", true);
+        boolean showLastUpdatedInfo = userSettings.getBoolean("lastUpdated", true);
 
         // Add number of available bikes/stands
         snippet = MapsFragment.this.getResources().getString(R.string.spots) + " " +
@@ -697,7 +697,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         final Drawable myDrawableWalk = ContextCompat.getDrawable(context, R.drawable.ic_directions_walk_black_24dp);
         final Drawable myDrawableStationsOn = ContextCompat.getDrawable(context, R.drawable.ic_place_black_24dp);
         final Drawable myDrawableStationsOff = ContextCompat.getDrawable(context, R.drawable.ic_map_marker_off_black_24dp);
-        boolean isClusteringActivated = settings.getBoolean("isClusteringActivated", true);
+        boolean isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true);
 
         // Toggle Stations
         btnStationsToggle.setOnClickListener(new View.OnClickListener() {
@@ -775,7 +775,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
                         boolean currentStationIsFav = settings.getBoolean(marker.getTitle(), false);
-                        boolean showFavorites = settings.getBoolean("showFavorites", false);
+                        boolean showFavorites = userSettings.getBoolean("showFavorites", false);
 
                         if (currentStationIsFav) {
                             marker.setAlpha((float) 0.5);
@@ -814,7 +814,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onClusterItemInfoWindowClick(ClusterPoint item) {
                                 boolean currentStationIsFav = settings.getBoolean(item.getTitle(), false);
-                                boolean showFavorites = settings.getBoolean("showFavorites", false);
+                                boolean showFavorites = userSettings.getBoolean("showFavorites", false);
 
                                 if (currentStationIsFav) {
                                     item.setAlpha((float) 0.5);
@@ -883,7 +883,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 for (GeoJsonFeature feature : lanes.getFeatures()) {
                     GeoJsonLineStringStyle stringStyle = new GeoJsonLineStringStyle();
                     stringStyle.setWidth(5);
-                    if (settings.getBoolean("cicloCalles", true)) {
+                    if (userSettings.getBoolean("cicloCalles", true)) {
                         stringStyle.setColor(getLaneColor(feature));
                     }
                     feature.setLineStringStyle(stringStyle);
@@ -930,7 +930,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected GeoJsonLayer doInBackground(Void... params) {
-            boolean showFavorites = settings.getBoolean("showFavorites", false);
+            boolean showFavorites = userSettings.getBoolean("showFavorites", false);
             Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_map_marker_radius_black_48dp);
             bm = Bitmap.createScaledBitmap(bm, 50, 50, false);
             BitmapDescriptor icon_parking = BitmapDescriptorFactory.fromBitmap(bm);
