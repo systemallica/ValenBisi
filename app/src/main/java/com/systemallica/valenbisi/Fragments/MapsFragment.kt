@@ -68,7 +68,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var stations: GeoJsonLayer? = null
     private var lanes: GeoJsonLayer? = null
     private var parking: GeoJsonLayer? = null
-    private var mView: View? = null
     private var mMap: GoogleMap? = null
     private var mContext: Context? = null
     private var mClusterManager: ClusterManager<ClusterPoint>? = null
@@ -113,9 +112,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        mView = inflater.inflate(R.layout.fragment_main, container, false)
-        return mView
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -124,7 +121,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         // Store context in member variable
         mContext = activity!!.applicationContext
 
-        val mapView = view.findViewById<MapView>(R.id.map)
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)
@@ -142,7 +138,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 setLocationButtonEnabled(true)
             } else {
                 setLocationButtonEnabled(false)
-                Snackbar.make(mView!!, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mainView!!, R.string.no_location_permission, Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -330,13 +326,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         if (responseBody != null) {
             // Show loading message
-            Snackbar.make(mView!!, R.string.load_stations, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(mainView!!, R.string.load_stations, Snackbar.LENGTH_LONG).show()
             addDataToMap(responseBody.string())
         } else {
             Log.e(mLogTag, "Empty server response")
             activity!!.runOnUiThread {
                 // Show message if API response is empty
-                Snackbar.make(mView!!, R.string.no_data, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(mainView!!, R.string.no_data, Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -792,7 +788,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private inner class GetLanes : AsyncTask<Void, Void, GeoJsonLayer>() {
 
         override fun onPreExecute() {
-            Snackbar.make(mView!!, R.string.load_lanes, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(mainView!!, R.string.load_lanes, Snackbar.LENGTH_LONG).show()
         }
 
         override fun doInBackground(vararg params: Void): GeoJsonLayer {
@@ -830,16 +826,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
 
         override fun onPostExecute(lanes: GeoJsonLayer?) {
-            if (lanes != null) {
-                lanes.addLayerToMap()
+                lanes!!.addLayerToMap()
                 settingsEditor!!.putBoolean("isCarrilLayerAdded", true).apply()
-            }
         }
     }
 
     private inner class GetParking : AsyncTask<Void, Void, GeoJsonLayer>() {
         override fun onPreExecute() {
-            Snackbar.make(mView!!, R.string.load_parking, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(mainView!!, R.string.load_parking, Snackbar.LENGTH_SHORT).show()
         }
 
         override fun doInBackground(vararg params: Void): GeoJsonLayer {
@@ -884,10 +878,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
 
         override fun onPostExecute(parking: GeoJsonLayer?) {
-            if (parking != null) {
-                parking.addLayerToMap()
+                parking!!.addLayerToMap()
                 settingsEditor!!.putBoolean("isParkingLayerAdded", true).apply()
-            }
         }
 
     }
