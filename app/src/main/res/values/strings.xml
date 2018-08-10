@@ -30,7 +30,7 @@
     <string name="pref_mapView_summary_off">El mapa será normal</string>
     <string name="pref_mapView_summary_on">El mapa será vista satélite</string>
 
-    <string name="matchNavigationBar">Ajustar color de la barra de navegación</string>
+    <string name="matchNavigationBar">Barra de navegación</string>
     <string name="pref_matchNavigationBar_summary_off">El color no se ajustará</string>
     <string name="pref_matchNavigationBar_summary_on">El color se ajustará</string>
 

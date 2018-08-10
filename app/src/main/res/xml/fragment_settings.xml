@@ -9,35 +9,40 @@
             android:title="@string/initialZoom"
             android:summaryOff="@string/pref_initialZoom_summary_off"
             android:summaryOn="@string/pref_initialZoom_summary_on"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            android:icon="@drawable/baseline_zoom_in_24"/>
 
         <CheckBoxPreference
             android:key="isSatellite"
             android:title="@string/mapView"
             android:summaryOff="@string/pref_mapView_summary_off"
             android:summaryOn="@string/pref_mapView_summary_on"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            android:icon="@drawable/ic_menu_map"/>
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="cicloCalles"
             android:summaryOff="@string/pref_cicloCalles_summary_off"
             android:summaryOn="@string/pref_cicloCalles_summary_on"
-            android:title="@string/cicloCalles" />
+            android:title="@string/cicloCalles"
+            android:icon="@drawable/ic_road_variant_black_24dp"/>
 
         <CheckBoxPreference
             android:key="isClusteringActivated"
             android:title="@string/clustering"
             android:summaryOff="@string/pref_clustering_summary_off"
             android:summaryOn="@string/pref_clustering_summary_on"
-            android:defaultValue="true"/>
+            android:defaultValue="true"
+            android:icon="@drawable/baseline_blur_on_24"/>
 
         <CheckBoxPreference
             android:key="voronoiCell"
             android:title="@string/voronoi"
             android:summaryOff="@string/pref_voronoi_summary_off"
             android:summaryOn="@string/pref_voronoi_summary_on"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:icon="@drawable/baseline_change_history_24"/>
 
         <Preference
             android:key="infoVoronoi"
@@ -54,21 +59,24 @@
             android:title="@string/showFavourites"
             android:summaryOff="@string/pref_showFavourites_summary_off"
             android:summaryOn="@string/pref_showFavourites_summary_on"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            android:icon="@drawable/ic_star_black_24dp"/>
 
         <CheckBoxPreference
             android:key="showAvailable"
             android:title="@string/showAvailable"
             android:summaryOff="@string/pref_showAvailable_summary_off"
             android:summaryOn="@string/pref_showAvailable_summary_on"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            android:icon="@drawable/baseline_check_24"/>
 
         <CheckBoxPreference
             android:key="lastUpdated"
             android:title="@string/lastUpdated"
             android:summaryOff="@string/pref_lastUpdated_summary_off"
             android:summaryOn="@string/pref_lastUpdated_summary_on"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            android:icon="@drawable/baseline_watch_later_24"/>
 
     </PreferenceCategory>
 
@@ -80,7 +88,8 @@
             android:title="@string/matchNavigationBar"
             android:summaryOff="@string/pref_matchNavigationBar_summary_off"
             android:summaryOn="@string/pref_matchNavigationBar_summary_on"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+            android:icon="@drawable/baseline_invert_colors_24"/>
 
         <ListPreference
             android:key="language"
@@ -88,7 +97,8 @@
             android:summary="@string/language_summary"
             android:entries="@array/languages"
             android:entryValues="@array/languages_values"
-            android:defaultValue="@string/default_locale_code"/>
+            android:defaultValue="@string/default_locale_code"
+            android:icon="@drawable/baseline_language_24"/>
 
         <Preference
             android:key="blank"/>

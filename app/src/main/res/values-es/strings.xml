@@ -5,7 +5,7 @@
     <string name="contact">Contacto:</string>
     <string name="developed">Desarrollado por:</string>
     <string name="mapView">Vista de mapa satélite</string>
-    <string name="matchNavigationBar">Ajustar color de la barra de navegación</string>
+    <string name="matchNavigationBar">Barra de navegación</string>
     <string name="nav_about">Sobre la aplicación</string>
     <string name="nav_donate">Quitar anuncios</string>
     <string name="nav_map">Mapa</string>

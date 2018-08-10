@@ -6,7 +6,7 @@
     <string name="developed">Desenvolupat per:</string>
     <string name="developer">Systemallica</string>
     <string name="mapView">Vista de mapa satèl·lit</string>
-    <string name="matchNavigationBar">Adjustar color de la barra de navegació</string>
+    <string name="matchNavigationBar">Barra de navegació</string>
     <string name="nav_about">Sobre l\'aplicació</string>
     <string name="nav_donate">Quitar anuncis</string>
     <string name="nav_map">Mapa</string>
