@@ -24,7 +24,6 @@ import android.widget.TextView
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -166,7 +165,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         // Load ClusterManager to the Map
         mClusterManager = ClusterManager(mContext!!, mMap)
         // Set custom renderer
-        mClusterManager!!.setRenderer(IconRenderer(activity!!.applicationContext, mMap, mClusterManager))
+        mClusterManager!!.setRenderer(IconRenderer(activity!!.applicationContext, mMap!!, mClusterManager!!))
     }
 
     private fun initPreferences() {
@@ -400,7 +399,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
 
             // Create Point
-            val point = GeoJsonPoint(LatLng(station.lat, station.lng))
+            val point = GeoJsonPoint(LatLng(station.lat!!, station.lng!!))
             // Add properties
             val properties = getStationProperties(station)
             // Create feature
@@ -462,8 +461,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         pointStyle.title = station.address
         pointStyle.snippet = station.snippet
         pointStyle.icon = station.icon
-        pointStyle.alpha = station.alpha
-        pointStyle.isVisible = station.visibility
+        pointStyle.alpha = station.alpha!!
+        pointStyle.isVisible = station.visibility!!
 
         return pointStyle
     }
@@ -736,7 +735,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         item.alpha = 0.5.toFloat()
                         marker.alpha = 0.5.toFloat()
                         if (showFavorites) {
-                            item.setVisibility(false)
+                            item.visibility = false
                         }
                         settingsEditor!!.putBoolean(item.title, false).apply()
                     } else {
