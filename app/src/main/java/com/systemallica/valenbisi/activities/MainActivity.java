@@ -55,8 +55,6 @@ import okhttp3.ResponseBody;
 
 import static android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences;
 import static android.view.View.GONE;
-import static com.systemallica.valenbisi.ContextWrapper.getSystemLocale;
-import static com.systemallica.valenbisi.ContextWrapper.getSystemLocaleLegacy;
 import static com.systemallica.valenbisi.R.layout.activity_main;
 
 
@@ -228,17 +226,17 @@ public class MainActivity extends AppCompatActivity
         Configuration config = newBase.getResources().getConfiguration();
         Locale sysLocale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            sysLocale = getSystemLocale(config);
+            sysLocale = ContextWrapper.Companion.getSystemLocale(config);
         } else {
-            sysLocale = getSystemLocaleLegacy(config);
+            sysLocale = ContextWrapper.Companion.getSystemLocaleLegacy(config);
         }
 
         // Apply default locale if user didn't specify a locale
         if (locale.equals("default_locale")) {
-            super.attachBaseContext(ContextWrapper.wrap(newBase, sysLocale.getLanguage()));
+            super.attachBaseContext(ContextWrapper.Companion.wrap(newBase, sysLocale.getLanguage()));
             // Else apply user choice
         } else {
-            super.attachBaseContext(ContextWrapper.wrap(newBase, locale));
+            super.attachBaseContext(ContextWrapper.Companion.wrap(newBase, locale));
         }
     }
 
