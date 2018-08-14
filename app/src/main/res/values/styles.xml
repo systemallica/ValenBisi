@@ -25,5 +25,10 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.MaterialAboutActivity.Fragment" parent="Theme.Mal.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>
