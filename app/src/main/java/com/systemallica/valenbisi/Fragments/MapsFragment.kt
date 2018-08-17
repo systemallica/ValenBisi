@@ -60,6 +60,9 @@ import okhttp3.Response
 import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
 import kotlinx.android.synthetic.main.fragment_main.*
 
+const val PREFS_NAME = "MyPrefsFile"
+const val LOG_TAG = "Valenbisi error"
+
 class MapsFragment : Fragment(), OnMapReadyCallback {
     private var settings: SharedPreferences? = null
     private var userSettings: SharedPreferences? = null
@@ -70,9 +73,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
     private var mContext: Context? = null
     private var mClusterManager: ClusterManager<ClusterPoint>? = null
-    private val prefsName = "MyPrefsFile"
-    private val mLogTag = "Valenbisi error"
-
 
     private val isApplicationReady: Boolean
         get() = isAdded && activity != null
@@ -89,7 +89,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val currentLocation: LatLng?
         get() {
-            val gps = TrackGPSService(mContext)
+            val gps = TrackGPSService(mContext!!)
 
             return if (gps.canGetLocation()) {
                 val longitude = gps.longitude
@@ -169,7 +169,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun initPreferences() {
-        settings = mContext!!.getSharedPreferences(prefsName, 0)
+        settings = mContext!!.getSharedPreferences(PREFS_NAME, 0)
         settingsEditor = settings!!.edit()
         userSettings = getDefaultSharedPreferences(mContext!!)
     }
@@ -219,7 +219,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         try {
             mMap!!.isMyLocationEnabled = mode
         } catch (e: SecurityException) {
-            Log.e(mLogTag, e.message)
+            Log.e(LOG_TAG, e.message)
         }
 
     }
@@ -274,9 +274,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             }
             voronoi.addLayerToMap()
         } catch (e: JSONException) {
-            Log.e(mLogTag, "JSONArray could not be created")
+            Log.e(LOG_TAG, "JSONArray could not be created")
         } catch (e: IOException) {
-            Log.e(mLogTag, "GeoJSON file could not be read")
+            Log.e(LOG_TAG, "GeoJSON file could not be read")
         }
 
     }
@@ -291,14 +291,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e(mLogTag, "error with http call(no internet?)")
+                Log.e(LOG_TAG, "error with http call(no internet?)")
             }
 
             override fun onResponse(call: Call, response: Response?) {
                 try {
                     handleApiResponse(response!!)
                 } catch (e: IOException) {
-                    Log.e(mLogTag, "error with http request")
+                    Log.e(LOG_TAG, "error with http request")
                 } finally {
                     response?.close()
                 }
@@ -328,7 +328,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             Snackbar.make(mainView!!, R.string.load_stations, Snackbar.LENGTH_LONG).show()
             addDataToMap(responseBody.string())
         } else {
-            Log.e(mLogTag, "Empty server response")
+            Log.e(LOG_TAG, "Empty server response")
             activity!!.runOnUiThread {
                 // Show message if API response is empty
                 Snackbar.make(mainView!!, R.string.no_data, Snackbar.LENGTH_LONG).show()
@@ -352,7 +352,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     activity!!.runOnUiThread { stations!!.addLayerToMap() }
                 }
             } catch (e: JSONException) {
-                Log.e(mLogTag, "JSONArray could not be created")
+                Log.e(LOG_TAG, "JSONArray could not be created")
             }
 
         }
@@ -802,9 +802,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     feature.lineStringStyle = stringStyle
                 }
             } catch (e: IOException) {
-                Log.e(mLogTag, "GeoJSON file could not be read")
+                Log.e(LOG_TAG, "GeoJSON file could not be read")
             } catch (e: JSONException) {
-                Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject")
+                Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
             }
 
             return lanes!!
@@ -867,9 +867,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         feature.pointStyle = pointStyle
                     }
                 } catch (e: IOException) {
-                    Log.e(mLogTag, "GeoJSON file could not be read")
+                    Log.e(LOG_TAG, "GeoJSON file could not be read")
                 } catch (e: JSONException) {
-                    Log.e(mLogTag, "GeoJSON file could not be converted to a JSONObject")
+                    Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
                 }
 
             }
