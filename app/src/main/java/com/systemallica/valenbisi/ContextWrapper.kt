@@ -14,10 +14,10 @@ class ContextWrapper(base: Context) : android.content.ContextWrapper(base) {
             var mContext = context
             val config = mContext.resources.configuration
             val sysLocale: Locale
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                sysLocale = getSystemLocale(config)
+            sysLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                getSystemLocale(config)
             } else {
-                sysLocale = getSystemLocaleLegacy(config)
+                getSystemLocaleLegacy(config)
             }
             if (language != "" && sysLocale.language != language) {
                 val locale = Locale(language)
@@ -30,7 +30,10 @@ class ContextWrapper(base: Context) : android.content.ContextWrapper(base) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                     mContext = mContext.createConfigurationContext(config)
                 } else {
-                    mContext.resources.updateConfiguration(config, mContext.resources.displayMetrics)
+                    mContext.resources.updateConfiguration(
+                        config,
+                        mContext.resources.displayMetrics
+                    )
                 }
             }
             return ContextWrapper(mContext)
@@ -45,7 +48,7 @@ class ContextWrapper(base: Context) : android.content.ContextWrapper(base) {
             return config.locales.get(0)
         }
 
-        fun setSystemLocaleLegacy(config: Configuration, locale: Locale) {
+        private fun setSystemLocaleLegacy(config: Configuration, locale: Locale) {
             config.locale = locale
         }
 

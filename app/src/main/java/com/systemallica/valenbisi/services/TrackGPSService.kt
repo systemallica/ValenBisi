@@ -33,16 +33,16 @@ class TrackGPSService(mContext: Context) : Service(), LocationListener {
 
         try {
             locationManager = mContext!!
-                    .getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                .getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
             // getting GPS status
             if (locationManager != null) {
                 checkGPS = locationManager!!
-                        .isProviderEnabled(LocationManager.GPS_PROVIDER)
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER)
 
                 // getting network status
                 checkNetwork = locationManager!!
-                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
 
                 if (checkGPS || checkNetwork) {
@@ -52,13 +52,14 @@ class TrackGPSService(mContext: Context) : Service(), LocationListener {
 
                         try {
                             locationManager!!.requestLocationUpdates(
-                                    LocationManager.NETWORK_PROVIDER,
-                                    MIN_TIME_BW_UPDATES,
-                                    MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this)
+                                LocationManager.NETWORK_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this
+                            )
                             Log.d("Network", "Network")
                             if (locationManager != null) {
                                 loc = locationManager!!
-                                        .getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
 
                             }
 
@@ -79,13 +80,14 @@ class TrackGPSService(mContext: Context) : Service(), LocationListener {
                     if (loc == null) {
                         try {
                             locationManager!!.requestLocationUpdates(
-                                    LocationManager.GPS_PROVIDER,
-                                    MIN_TIME_BW_UPDATES,
-                                    MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this)
+                                LocationManager.GPS_PROVIDER,
+                                MIN_TIME_BW_UPDATES,
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this
+                            )
                             Log.d("GPS Enabled", "GPS Enabled")
                             if (locationManager != null) {
                                 loc = locationManager!!
-                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER)
                                 if (loc != null) {
                                     latitude = loc!!.latitude
                                     longitude = loc!!.longitude

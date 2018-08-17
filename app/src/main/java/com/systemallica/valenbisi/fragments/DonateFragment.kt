@@ -27,8 +27,10 @@ class DonateFragment : Fragment(), PurchasesUpdatedListener {
 
     private val prefsName = "MyPrefsFile"
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_donate, container, false)
@@ -95,16 +97,17 @@ class DonateFragment : Fragment(), PurchasesUpdatedListener {
     }
 
     private fun startBuyProcess() {
-        val mBillingClient: BillingClient = BillingClient.newBuilder(activity!!.applicationContext).setListener(this).build()
+        val mBillingClient: BillingClient =
+            BillingClient.newBuilder(activity!!.applicationContext).setListener(this).build()
         mBillingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     // The billing client is ready
                     // Start buy process
                     val flowParams = BillingFlowParams.newBuilder()
-                            .setSku("donation_upgrade")
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build()
+                        .setSku("donation_upgrade")
+                        .setType(BillingClient.SkuType.INAPP)
+                        .build()
                     // Launch purchase
                     mBillingClient.launchBillingFlow(activity, flowParams)
 

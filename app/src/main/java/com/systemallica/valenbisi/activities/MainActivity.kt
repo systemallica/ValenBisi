@@ -50,7 +50,8 @@ import com.systemallica.valenbisi.R.layout.activity_main
 
 const val PREFS_NAME = "MyPrefsFile"
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, PurchasesUpdatedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    PurchasesUpdatedListener {
 
     private var context: Context? = null
 
@@ -68,7 +69,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         //Recents implementation
-        val recentsIcon = BitmapFactory.decodeResource(context!!.resources, R.drawable.splash_inverted)//Choose the icon
+        val recentsIcon = BitmapFactory.decodeResource(
+            context!!.resources,
+            R.drawable.splash_inverted
+        )//Choose the icon
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val description = ActivityManager.TaskDescription(null, recentsIcon, colorPrimary)
@@ -85,7 +89,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //init drawer
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val toggle = ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -113,16 +118,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (!isConnected) {
             //Prompt an alert dialog to the user
             AlertDialog.Builder(context!!)
-                    .setTitle(R.string.no_internet)
-                    .setMessage(R.string.no_internet_message)
-                    .setPositiveButton(R.string.close) { _, _ -> System.exit(0) }
+                .setTitle(R.string.no_internet)
+                .setMessage(R.string.no_internet_message)
+                .setPositiveButton(R.string.close) { _, _ -> System.exit(0) }
 
-                    .setNegativeButton(R.string.continuer) { _, _ ->
-                        //Do nothing
-                    }
+                .setNegativeButton(R.string.continuer) { _, _ ->
+                    //Do nothing
+                }
 
-                    .setIcon(R.drawable.icon_alert)
-                    .show()
+                .setIcon(R.drawable.icon_alert)
+                .show()
         } else {
             getLatestVersion()
         }
@@ -142,7 +147,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         // Check license
-        val mBillingClient: BillingClient = BillingClient.newBuilder(this@MainActivity).setListener(this).build()
+        val mBillingClient: BillingClient =
+            BillingClient.newBuilder(this@MainActivity).setListener(this).build()
         mBillingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
@@ -257,7 +263,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 try {
                     val intent = Intent(Intent.ACTION_SEND)
                     intent.type = "text/plain"
-                    val sAux = "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
+                    val sAux =
+                        "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
                     intent.putExtra(Intent.EXTRA_TEXT, sAux)
                     startActivity(intent)
                 } catch (e: Exception) {
@@ -288,8 +295,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val client = OkHttpClient()
 
         val request = Request.Builder()
-                .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/VersionCode")
-                .build()
+            .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/VersionCode")
+            .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -329,20 +336,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 runOnUiThread {
                     val builder = AlertDialog.Builder(this@MainActivity)
                     builder.setTitle(R.string.update_available)
-                            .setMessage(R.string.update_message)
-                            .setIcon(R.drawable.icon_update)
-                            .setPositiveButton(R.string.update_ok) { _, _ ->
-                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"))
-                                startActivity(browserIntent)
-                            }
-                            .setNegativeButton(R.string.update_not_now) { _, _ ->
-                                // Do nothing
-                            }
-                            .setNeutralButton(R.string.update_never) { _, _ ->
-                                val editor = settings.edit()
-                                editor.putBoolean("noUpdate", true)
-                                editor.apply()
-                            }
+                        .setMessage(R.string.update_message)
+                        .setIcon(R.drawable.icon_update)
+                        .setPositiveButton(R.string.update_ok) { _, _ ->
+                            val browserIntent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi")
+                            )
+                            startActivity(browserIntent)
+                        }
+                        .setNegativeButton(R.string.update_not_now) { _, _ ->
+                            // Do nothing
+                        }
+                        .setNeutralButton(R.string.update_never) { _, _ ->
+                            val editor = settings.edit()
+                            editor.putBoolean("noUpdate", true)
+                            editor.apply()
+                        }
                     val dialog = builder.create()
                     dialog.show()
                 }
@@ -351,10 +361,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             runOnUiThread {
                 val builder = AlertDialog.Builder(this@MainActivity)
                 builder.setTitle(R.string.alpha_title)
-                        .setMessage(R.string.alpha_message)
-                        .setPositiveButton(R.string.update_ok) { _, _ ->
-                            // Do nothing
-                        }
+                    .setMessage(R.string.alpha_message)
+                    .setPositiveButton(R.string.update_ok) { _, _ ->
+                        // Do nothing
+                    }
                 val dialog = builder.create()
                 dialog.show()
             }

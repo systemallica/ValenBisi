@@ -35,13 +35,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 if (!navBarPref.isChecked) {
-                    activity!!.window.navigationBarColor = ContextCompat.getColor(context!!, R.color.colorPrimary)
+                    activity!!.window.navigationBarColor =
+                            ContextCompat.getColor(context!!, R.color.colorPrimary)
                 } else {
-                    activity!!.window.navigationBarColor = ContextCompat.getColor(context!!, R.color.black)
+                    activity!!.window.navigationBarColor =
+                            ContextCompat.getColor(context!!, R.color.black)
                 }
             } else {
                 if (isAdded) {
-                    val toast = Toast.makeText(context, "Tu versión de Android no es compatible con esto :(", Toast.LENGTH_LONG)
+                    val toast = Toast.makeText(
+                        context,
+                        "Tu versión de Android no es compatible con esto :(",
+                        Toast.LENGTH_LONG
+                    )
                     toast.show()
                 }
             }
@@ -52,30 +58,35 @@ class SettingsFragment : PreferenceFragmentCompat() {
         //Voronoi info
         val infoVoronoi = findPreference("infoVoronoi")
         infoVoronoi.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://en.wikipedia.org/wiki/Voronoi_diagram"))
+            val browserIntent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://en.wikipedia.org/wiki/Voronoi_diagram")
+            )
             startActivity(browserIntent)
             true
         }
 
         //Language stuff
         val languagePref = findPreference("language") as ListPreference
-        languagePref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-            val userSelectedValue = newValue as String
+        languagePref.onPreferenceChangeListener =
+                Preference.OnPreferenceChangeListener { _, newValue ->
+                    val userSelectedValue = newValue as String
 
-            val settings = context!!.getSharedPreferences("MyPrefsFile", 0)
-            val editor = settings.edit()
-            editor.putString("locale", userSelectedValue)
-            editor.apply()
+                    val settings = context!!.getSharedPreferences("MyPrefsFile", 0)
+                    val editor = settings.edit()
+                    editor.putString("locale", userSelectedValue)
+                    editor.apply()
 
-            val i = activity!!.packageManager.getLaunchIntentForPackage(activity!!.packageName)
-            if (i != null) {
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(i)
-                activity!!.finish()
-            }
+                    val i =
+                        activity!!.packageManager.getLaunchIntentForPackage(activity!!.packageName)
+                    if (i != null) {
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(i)
+                        activity!!.finish()
+                    }
 
-            true
-        }
+                    true
+                }
     }
 }
 

@@ -8,8 +8,10 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 
 
-class IconRenderer(context: Context, map: GoogleMap,
-                   clusterManager: ClusterManager<ClusterPoint>) : DefaultClusterRenderer<ClusterPoint>(context, map, clusterManager) {
+class IconRenderer(
+    context: Context, map: GoogleMap,
+    clusterManager: ClusterManager<ClusterPoint>
+) : DefaultClusterRenderer<ClusterPoint>(context, map, clusterManager) {
 
     override fun onBeforeClusterItemRendered(item: ClusterPoint?, markerOptions: MarkerOptions?) {
         markerOptions!!.icon(item!!.icon)

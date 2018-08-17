@@ -29,90 +29,138 @@ class AboutFragment : MaterialAboutFragment() {
     override fun getMaterialAboutList(activityContext: Context): MaterialAboutList {
         val appCardBuilder = MaterialAboutCard.Builder()
 
-        appCardBuilder.addItem(MaterialAboutTitleItem.Builder()
+        appCardBuilder.addItem(
+            MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
                 .desc("© 2018 Systemallica")
                 .icon(R.mipmap.ic_launcher)
-                .build())
+                .build()
+        )
 
-                .addItem(ConvenienceBuilder.createVersionActionItem(activityContext,
-                        IconicsDrawable(activityContext)
-                                .icon(CommunityMaterial.Icon.cmd_information_outline)
-                                .sizeDp(18),
-                        "Version",
-                        true))
+            .addItem(
+                ConvenienceBuilder.createVersionActionItem(
+                    activityContext,
+                    IconicsDrawable(activityContext)
+                        .icon(CommunityMaterial.Icon.cmd_information_outline)
+                        .sizeDp(18),
+                    "Version",
+                    true
+                )
+            )
 
-                .addItem(ConvenienceBuilder.createRateActionItem(activityContext,
-                        IconicsDrawable(activityContext)
-                                .icon(CommunityMaterial.Icon.cmd_star)
-                                .sizeDp(18),
-                        "Rate this app",
-                        null
-                ))
+            .addItem(
+                ConvenienceBuilder.createRateActionItem(
+                    activityContext,
+                    IconicsDrawable(activityContext)
+                        .icon(CommunityMaterial.Icon.cmd_star)
+                        .sizeDp(18),
+                    "Rate this app",
+                    null
+                )
+            )
 
         val aboutAppBuilder = MaterialAboutCard.Builder()
         aboutAppBuilder.title("About")
 
-        aboutAppBuilder.addItem(MaterialAboutActionItem.Builder()
+        aboutAppBuilder.addItem(
+            MaterialAboutActionItem.Builder()
                 .text("Changelog")
-                .icon(IconicsDrawable(activityContext)
+                .icon(
+                    IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_history)
-                        .sizeDp(18))
-                .setOnClickAction(ConvenienceBuilder.createWebViewDialogOnClickAction(activityContext, "Releases", "https://github.com/systemallica/ValenBisi/releases", true, false))
+                        .sizeDp(18)
+                )
+                .setOnClickAction(
+                    ConvenienceBuilder.createWebViewDialogOnClickAction(
+                        activityContext,
+                        "Releases",
+                        "https://github.com/systemallica/ValenBisi/releases",
+                        true,
+                        false
+                    )
+                )
+                .build()
+        )
+
+            .addItem(
+                MaterialAboutActionItem.Builder()
+                    .text("Fork on GitHub")
+                    .icon(
+                        IconicsDrawable(activityContext)
+                            .icon(CommunityMaterial.Icon.cmd_github_circle)
+                            .sizeDp(18)
+                    )
+                    .setOnClickAction(
+                        ConvenienceBuilder.createWebsiteOnClickAction(
+                            activityContext,
+                            Uri.parse("https://github.com/systemallica/valenbisi")
+                        )
+                    )
+                    .build()
+            )
+
+            .addItem(MaterialAboutActionItem.Builder()
+                .text("Open source libs")
+                .icon(
+                    IconicsDrawable(activityContext)
+                        .icon(CommunityMaterial.Icon.cmd_code_tags)
+                        .sizeDp(18)
+                )
+                .setOnClickAction {
+                    LibsBuilder()
+                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                        .withAutoDetect(true)
+                        .withAboutIconShown(true)
+                        .withAboutVersionShown(true)
+                        .start(activityContext)
+                }
                 .build())
-
-                .addItem(MaterialAboutActionItem.Builder()
-                        .text("Fork on GitHub")
-                        .icon(IconicsDrawable(activityContext)
-                                .icon(CommunityMaterial.Icon.cmd_github_circle)
-                                .sizeDp(18))
-                        .setOnClickAction(ConvenienceBuilder.createWebsiteOnClickAction(activityContext, Uri.parse("https://github.com/systemallica/valenbisi")))
-                        .build())
-
-                .addItem(MaterialAboutActionItem.Builder()
-                        .text("Open source libs")
-                        .icon(IconicsDrawable(activityContext)
-                                .icon(CommunityMaterial.Icon.cmd_code_tags)
-                                .sizeDp(18))
-                        .setOnClickAction {
-                            LibsBuilder()
-                                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                                    .withAutoDetect(true)
-                                    .withAboutIconShown(true)
-                                    .withAboutVersionShown(true)
-                                    .start(activityContext)
-                        }
-                        .build())
 
         val authorCardBuilder = MaterialAboutCard.Builder()
         authorCardBuilder.title("Author")
 
-        authorCardBuilder.addItem(MaterialAboutActionItem.Builder()
+        authorCardBuilder.addItem(
+            MaterialAboutActionItem.Builder()
                 .text("Andrés Reverón")
                 .subText("Spain")
-                .icon(IconicsDrawable(activityContext)
+                .icon(
+                    IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_account)
-                        .sizeDp(18))
-                .build())
+                        .sizeDp(18)
+                )
+                .build()
+        )
 
-                .addItem(ConvenienceBuilder.createWebsiteActionItem(activityContext,
-                        IconicsDrawable(activityContext)
-                                .icon(CommunityMaterial.Icon.cmd_earth)
-                                .sizeDp(18),
-                        "Visit my website",
-                        true,
-                        Uri.parse("http://andres.reveronmolina.me")))
+            .addItem(
+                ConvenienceBuilder.createWebsiteActionItem(
+                    activityContext,
+                    IconicsDrawable(activityContext)
+                        .icon(CommunityMaterial.Icon.cmd_earth)
+                        .sizeDp(18),
+                    "Visit my website",
+                    true,
+                    Uri.parse("http://andres.reveronmolina.me")
+                )
+            )
 
-                .addItem(ConvenienceBuilder.createEmailItem(activityContext,
-                        IconicsDrawable(activityContext)
-                                .icon(CommunityMaterial.Icon.cmd_email)
-                                .sizeDp(18),
-                        "Send me an email",
-                        true,
-                        "andres@reveronmolina.me",
-                        "Question concerning ValenBisi?"))
+            .addItem(
+                ConvenienceBuilder.createEmailItem(
+                    activityContext,
+                    IconicsDrawable(activityContext)
+                        .icon(CommunityMaterial.Icon.cmd_email)
+                        .sizeDp(18),
+                    "Send me an email",
+                    true,
+                    "andres@reveronmolina.me",
+                    "Question concerning ValenBisi?"
+                )
+            )
 
-        return MaterialAboutList(appCardBuilder.build(), aboutAppBuilder.build(), authorCardBuilder.build())
+        return MaterialAboutList(
+            appCardBuilder.build(),
+            aboutAppBuilder.build(),
+            authorCardBuilder.build()
+        )
     }
 
     override fun getTheme(): Int {
