@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         //Do nothing
                     }
 
-                    .setIcon(R.drawable.ic_report_problem_black_24dp)
+                    .setIcon(R.drawable.icon_alert)
                     .show()
         } else {
             getLatestVersion()
@@ -330,7 +330,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     val builder = AlertDialog.Builder(this@MainActivity)
                     builder.setTitle(R.string.update_available)
                             .setMessage(R.string.update_message)
-                            .setIcon(R.drawable.ic_system_update_black_24dp)
+                            .setIcon(R.drawable.icon_update)
                             .setPositiveButton(R.string.update_ok) { _, _ ->
                                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"))
                                 startActivity(browserIntent)

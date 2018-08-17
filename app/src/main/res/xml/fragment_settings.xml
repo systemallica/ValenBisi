@@ -10,7 +10,7 @@
             android:summaryOff="@string/pref_initialZoom_summary_off"
             android:summaryOn="@string/pref_initialZoom_summary_on"
             android:defaultValue="true"
-            android:icon="@drawable/baseline_zoom_in_24"/>
+            android:icon="@drawable/icon_zoom_in"/>
 
         <CheckBoxPreference
             android:key="isSatellite"
@@ -18,7 +18,7 @@
             android:summaryOff="@string/pref_mapView_summary_off"
             android:summaryOn="@string/pref_mapView_summary_on"
             android:defaultValue="false"
-            android:icon="@drawable/ic_menu_map"/>
+            android:icon="@drawable/menu_icon_map"/>
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -26,7 +26,7 @@
             android:summaryOff="@string/pref_cicloCalles_summary_off"
             android:summaryOn="@string/pref_cicloCalles_summary_on"
             android:title="@string/cicloCalles"
-            android:icon="@drawable/ic_road_variant_black_24dp"/>
+            android:icon="@drawable/icon_road"/>
 
         <CheckBoxPreference
             android:key="isClusteringActivated"
@@ -34,7 +34,7 @@
             android:summaryOff="@string/pref_clustering_summary_off"
             android:summaryOn="@string/pref_clustering_summary_on"
             android:defaultValue="true"
-            android:icon="@drawable/baseline_blur_on_24"/>
+            android:icon="@drawable/icon_blur"/>
 
         <CheckBoxPreference
             android:key="voronoiCell"
@@ -42,12 +42,12 @@
             android:summaryOff="@string/pref_voronoi_summary_off"
             android:summaryOn="@string/pref_voronoi_summary_on"
             android:defaultValue="false"
-            android:icon="@drawable/baseline_change_history_24"/>
+            android:icon="@drawable/icon_change_history"/>
 
         <Preference
             android:key="infoVoronoi"
             android:summary="@string/voronoi_info"
-            android:icon="@drawable/ic_menu_about"/>
+            android:icon="@drawable/menu_icon_about"/>
 
     </PreferenceCategory>
 
@@ -60,7 +60,7 @@
             android:summaryOff="@string/pref_showFavourites_summary_off"
             android:summaryOn="@string/pref_showFavourites_summary_on"
             android:defaultValue="false"
-            android:icon="@drawable/ic_star_black_24dp"/>
+            android:icon="@drawable/icon_star"/>
 
         <CheckBoxPreference
             android:key="showAvailable"
@@ -68,7 +68,7 @@
             android:summaryOff="@string/pref_showAvailable_summary_off"
             android:summaryOn="@string/pref_showAvailable_summary_on"
             android:defaultValue="false"
-            android:icon="@drawable/baseline_check_24"/>
+            android:icon="@drawable/icon_check"/>
 
         <CheckBoxPreference
             android:key="lastUpdated"
@@ -76,7 +76,7 @@
             android:summaryOff="@string/pref_lastUpdated_summary_off"
             android:summaryOn="@string/pref_lastUpdated_summary_on"
             android:defaultValue="true"
-            android:icon="@drawable/baseline_watch_later_24"/>
+            android:icon="@drawable/icon_watch_later"/>
 
     </PreferenceCategory>
 
@@ -89,7 +89,7 @@
             android:summaryOff="@string/pref_matchNavigationBar_summary_off"
             android:summaryOn="@string/pref_matchNavigationBar_summary_on"
             android:defaultValue="true"
-            android:icon="@drawable/baseline_invert_colors_24"/>
+            android:icon="@drawable/icon_invert_colors"/>
 
         <ListPreference
             android:key="language"
@@ -98,7 +98,7 @@
             android:entries="@array/languages"
             android:entryValues="@array/languages_values"
             android:defaultValue="@string/default_locale_code"
-            android:icon="@drawable/baseline_language_24"/>
+            android:icon="@drawable/icon_language"/>
 
         <Preference
             android:key="blank"/>

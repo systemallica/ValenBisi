@@ -4,27 +4,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
         android:textStyle="normal|bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <android.support.v7.widget.AppCompatTextView
         android:id="@+id/snippet"
-        android:textSize="12sp"
-        android:layout_below="@+id/title" />
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/descStar"
-        android:src="@drawable/ic_star_outline_black_24dp"
+        android:layout_below="@+id/title"
+        android:textSize="12sp" />
+
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/btn_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="false"
         android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/title" />
+        android:layout_toEndOf="@+id/title"
+        android:contentDescription="@string/descStar" />
 
 </RelativeLayout>
