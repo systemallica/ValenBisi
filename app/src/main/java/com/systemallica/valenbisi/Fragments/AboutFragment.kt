@@ -1,6 +1,7 @@
 package com.systemallica.valenbisi.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,7 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.systemallica.valenbisi.activities.DonateActivity
 
 
 class AboutFragment : MaterialAboutFragment() {
@@ -52,11 +54,26 @@ class AboutFragment : MaterialAboutFragment() {
                 ConvenienceBuilder.createRateActionItem(
                     activityContext,
                     IconicsDrawable(activityContext)
-                        .icon(CommunityMaterial.Icon.cmd_star)
+                        .icon(CommunityMaterial.Icon.cmd_star_outline)
                         .sizeDp(18),
                     "Rate this app",
                     null
                 )
+            )
+
+            .addItem(
+                MaterialAboutActionItem.Builder()
+                    .text("Support development")
+                    .icon(
+                        IconicsDrawable(activityContext)
+                            .icon(CommunityMaterial.Icon.cmd_heart_outline)
+                            .sizeDp(18)
+                    )
+                    .setOnClickAction {
+                        val intent = Intent(activityContext, DonateActivity::class.java)
+                        startActivity(intent)
+                    }
+                    .build()
             )
 
         val aboutAppBuilder = MaterialAboutCard.Builder()
@@ -125,7 +142,7 @@ class AboutFragment : MaterialAboutFragment() {
                 .subText("Spain")
                 .icon(
                     IconicsDrawable(activityContext)
-                        .icon(CommunityMaterial.Icon.cmd_account)
+                        .icon(CommunityMaterial.Icon.cmd_account_outline)
                         .sizeDp(18)
                 )
                 .build()
@@ -147,7 +164,7 @@ class AboutFragment : MaterialAboutFragment() {
                 ConvenienceBuilder.createEmailItem(
                     activityContext,
                     IconicsDrawable(activityContext)
-                        .icon(CommunityMaterial.Icon.cmd_email)
+                        .icon(CommunityMaterial.Icon.cmd_email_outline)
                         .sizeDp(18),
                     "Send me an email",
                     true,

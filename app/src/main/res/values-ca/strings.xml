@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ad_remove">Quitar anuncis</string>
-    <string name="contact">Contacte:</string>
-    <string name="desc">Obri GitHub:</string>
-    <string name="developed">Desenvolupat per:</string>
-    <string name="developer">Systemallica</string>
     <string name="mapView">Vista de mapa satèl·lit</string>
     <string name="matchNavigationBar">Barra de navegació</string>
     <string name="nav_about">Sobre l\'aplicació</string>
@@ -25,12 +20,6 @@
     <string name="pref_showFavourites_summary_on">Es mostraràn només les estacions favorites</string>
     <string name="showAvailable">Mostrar només estacions disponibles</string>
     <string name="showFavourites">Mostrar només estacions favorites</string>
-    <string name="source">Codi font:</string>
-    <string name="thanks">Agraïments</string>
-    <string name="version">Versió</string>
-    <string name="ad_restore_hint">Oh&#8230; :( Si alguna vegada canvies d\'oponió, només presiona de nou el botó!</string>
-    <string name="ad_restore">Restaurar anuncis</string>
-    <string name="ad_remove_hint">Aquest botó borrarà el anuncis per sempre, però, si t\'agrada la meva aplicació, per favor deixa\'ls activats, m\'ajuden a continuar trevallant en ella.</string>
     <string name="descStar">Icon estrela</string>
     <string name="load_lanes">Carregant carrils&#8230;</string>
     <string name="load_stations">Carregant estacions&#8230;</string>
@@ -51,7 +40,6 @@
     <string name="parking">Parking bicis</string>
     <string name="plazas">Buits totals:</string>
     <string name="spots">Buits:</string>
-    <string name="rate">Click aci per qualificar l\'app!</string>
     <string name="catalan">Català</string>
     <string name="english">Anglés</string>
     <string name="default_locale">Per defecte</string>
@@ -64,14 +52,8 @@
     <string name="pref_voronoi_summary_off">No es mostraràn les cel·les de Voronoi</string>
     <string name="pref_voronoi_summary_on">Es mostraràn les cel·les de Voronoi</string>
     <string name="voronoi_info">Per saver qué es una cel·la de Voronoi feu click ací</string>
-    <string name="ads_removed">Anuncis eliminats :(</string>
-    <string name="ads_restored">Anuncis restaurats, gracies!</string>
-    <string name="donar">Donar</string>
-    <string name="donate">Si ho prefereixes, pots fer-me una xicoteta donació que eliminarà el anuncis y em donarà ànims per a seguir</string>
     <string name="purchase_success">Moltíssimes gracies per la teua donació! :D</string>
     <string name="purchase_failed">Oh, alguna cosa ha surtit malament durant el procés de compra! :(</string>
-    <string name="donator">Ja has donat!</string>
-    <string name="donator_thanks">Gracies per la teua donació. Gaudeix de l\'aplicació sense anuncis y sabent que m\'has ajudat!</string>
     <string name="license">Llicència correcta</string>
     <string name="bikeLanes">Carrils bici per defecte</string>
     <string name="no_data">No s\'han pogut cargar les dades :(</string>
@@ -84,7 +66,6 @@
     <string name="alpha_message">Atenció! Estàs utilitzant una versió alpha. Pot contenir errors.</string>
     <string name="data_old">Les dades porten més d\'una hora sense actualitzars-se,</string>
     <string name="data_unreliable">potser no coincidisquen amb la realitat.</string>
-    <string name="donate_paypal">I si et sents amb ganes de donar més, pots fer una donació directa a través de PayPal a aquesta direcció:</string>
     <string name="donation_cancelled">Procés cancel·lat :(</string>
     <string name="zoom_in">Fes zoom per vore les estacions</string>
     <string name="stations">Estacions</string>
@@ -93,4 +74,12 @@
     <string name="cicloCalles">Diferenciar ciclocarrers</string>
     <string name="pref_cicloCalles_summary_off">Els ciclocarrers es mostraràn amb un color diferent que els carrils</string>
     <string name="pref_cicloCalles_summary_on">Els ciclocarrers es mostraràn amb el mateix color que els carril</string>
+    <string name="title_activity_donate">Dóna suport</string>
+    <string name="donation_1">Dóna suport amb 1€</string>
+    <string name="donation_3">Dóna suport amb 3€</string>
+    <string name="donation_5">Dóna suport amb 1€5</string>
+    <string name="donation_remove_ads">Quita els anuncis(gratuït)</string>
+    <string name="donation_ad_restore">Restaurar anuncis</string>
+    <string name="donation_ads_removed">Anuncis eliminats :(</string>
+    <string name="donation_ads_restored">Anuncis restaurats, gracies!</string>
 </resources>

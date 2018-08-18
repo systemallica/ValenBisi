@@ -12,18 +12,6 @@
     <string name="nav_share">Comparte</string>
     <string name="nav_about">Sobre la aplicación</string>
 
-    <string name="developed">Desarollado por:</string>
-    <string name="developer">Systemallica</string>
-    <string name="email" translatable="false">systemallica.apps@gmail.com</string>
-    <string name="thanks">Agradecimientos:</string>
-    <string name="thank1" translatable="false">ArtemisSoul8</string>
-    <string name="thank2" translatable="false">StackOverflow</string>
-    <string name="rate">Click aquí para calificar la app!</string>
-    <string name="source">Código fuente:</string>
-    <string name="contact">Contacto:</string>
-    <string name="version">Versión</string>
-
-    <string name="desc">Opens GitHub</string>
     <string name="descStar">Star icon</string>
 
     <string name="mapView">Vista de mapa satélite</string>
@@ -63,13 +51,9 @@
     <string name="language">Idioma</string>
     <string name="language_summary">Cambiar el idioma de la app</string>
 
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-7754892948346904/1371669271</string>
-    <string name="ad_remove">Quitar anuncios</string>
-    <string name="ad_restore">Restaurar anuncios</string>
-    <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor dejalos activados, me ayudan a seguir trabajando en ella.</string>
-    <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
-    <string name="ads_removed">Anuncios eliminados :(</string>
-    <string name="ads_restored">Anuncios restaurados, gracias!</string>
+    <string name="donation_ad_restore">Restaurar anuncios</string>
+    <string name="donation_ads_removed">Anuncios eliminados :(</string>
+    <string name="donation_ads_restored">Anuncios restaurados, gracias!</string>
 
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
@@ -114,11 +98,6 @@
     <string name="purchase_failed">Vaya, algo ha salido mal al contactar con la Play Store! :(</string>
     <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
     <string name="license">Licencia correcta</string>
-    <string name="donate">Si lo prefieres, puedes hacerme una pequeña donación que eliminará los anuncios y me dará ánimos para seguir</string>
-    <string name="donate_paypal">Y si te sientes generos@, puedes hacer una donación directamente por PayPal a esta dirección:</string>
-    <string name="donator">Ya has donado! :)</string>
-    <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
-    <string name="donar">Donar</string>
     <string name="donation_cancelled">Proceso cancelado :(</string>
     <string name="last_updated">Última actualización:</string>
     <string name="lastUpdated">Última actualización</string>
@@ -133,5 +112,10 @@
     <string name="clustering" translatable="false">Clustering</string>
     <string name="pref_clustering_summary_off">Las estaciones no se agruparán al alejar el zoom</string>
     <string name="pref_clustering_summary_on">Las estaciones se agruparán al alejar el zoom</string>
+    <string name="title_activity_donate">Apoya al desarrollador</string>
+    <string name="donation_1">Apoya con 1€</string>
+    <string name="donation_3">Apoya con 3€</string>
+    <string name="donation_5">Apoya con 5€</string>
+    <string name="donation_remove_ads">Quita los anuncios(gratis)</string>
 
 </resources>

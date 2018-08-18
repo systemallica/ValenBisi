@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ad_remove">Quitar anuncios</string>
-    <string name="desc">Abre GitHub</string>
-    <string name="contact">Contacto:</string>
-    <string name="developed">Desarrollado por:</string>
     <string name="mapView">Vista de mapa satélite</string>
     <string name="matchNavigationBar">Barra de navegación</string>
     <string name="nav_about">Sobre la aplicación</string>
@@ -24,13 +20,6 @@
     <string name="pref_showFavourites_summary_on">Se mostrarán solo las estaciones favoritas</string>
     <string name="showAvailable">Mostrar solo estaciones disponibles</string>
     <string name="showFavourites">Mostrar solo favoritos</string>
-    <string name="source">Código fuente:</string>
-    <string name="thanks">Agradecimientos:</string>
-    <string name="version">Versión</string>
-    <string name="developer">Systemallica</string>
-    <string name="ad_restore_hint">Oh&#8230; :( Si alguna vez cambias de opinión, tan solo dale al botón otra vez!</string>
-    <string name="ad_restore">Restaurar anuncios</string>
-    <string name="ad_remove_hint">Este botón quitará los anuncios para siempre, pero, si te gusta mi aplicación, por favor dejalos activados, me ayudan a seguir trabajando en ella.</string>
     <string name="descStar">Icono estrella</string>
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
@@ -51,7 +40,6 @@
     <string name="parking">Parking bicis</string>
     <string name="plazas">Plazas totales:</string>
     <string name="spots">Huecos&#58;</string>
-    <string name="rate">Click aquí para calificar la app!</string>
     <string name="catalan">Catalán</string>
     <string name="default_locale">Por defecto</string>
     <string name="language">Idioma</string>
@@ -64,12 +52,6 @@
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
     <string name="voronoi_info">Para saber qué es una celda de Voronoi haz click aquí</string>
-    <string name="ads_removed">Anuncios eliminados :(</string>
-    <string name="ads_restored">Anuncios restaurados, gracias!</string>
-    <string name="donar">Donar</string>
-    <string name="donate">Si lo prefieres, puedes hacerme una pequeña donación que eliminará los anuncios y me dará ánimos para seguir</string>
-    <string name="donator">Ya has donado! :)</string>
-    <string name="donator_thanks">Gracias por tu donación. Disfruta de la aplicación sin anuncios y sabiendo que me has ayudado!</string>
     <string name="purchase_failed">Vaya, algo ha salido mal en el proceso de compra! :(</string>
     <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
     <string name="license">Licencia correcta</string>
@@ -84,7 +66,6 @@
     <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
     <string name="data_old">Los datos llevan más de una hora sin actualizarse,</string>
     <string name="data_unreliable">puede que no coincidan con la realidad.</string>
-    <string name="donate_paypal">Y si te sientes generos@, puedes hacer una donación directamente por PayPal a esta dirección:</string>
     <string name="donation_cancelled">Proceso cancelado :(</string>
     <string name="zoom_in">Haz zoom para ver las estaciones</string>
     <string name="stations">Estaciones</string>
@@ -93,4 +74,12 @@
     <string name="cicloCalles">Diferenciar ciclocalles</string>
     <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>
     <string name="pref_cicloCalles_summary_on">Las ciclocalles se mostrarán en un color diferente a los carriles</string>
+    <string name="title_activity_donate">Apoya al desarrollador</string>
+    <string name="donation_1">Apoya con 1€</string>
+    <string name="donation_3">Apoya con 3€</string>
+    <string name="donation_5">Apoya con 5€</string>
+    <string name="donation_remove_ads">Quita los anuncios(gratis)</string>
+    <string name="donation_ad_restore">Restaurar anuncios</string>
+    <string name="donation_ads_removed">Anuncios eliminados :(</string>
+    <string name="donation_ads_restored">Anuncios restaurados, gracias!</string>
 </resources>

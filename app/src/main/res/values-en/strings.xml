@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ad_remove">Remove ads</string>
-    <string name="contact">Contact:</string>
-    <string name="desc">Opens GitHub</string>
-    <string name="developed">Developed by:</string>
-    <string name="developer">Systemallica</string>
     <string name="mapView">Satellite view</string>
     <string name="matchNavigationBar">Navigation bar</string>
     <string name="nav_about">About</string>
@@ -22,15 +17,9 @@
     <string name="pref_showFavourites_summary_on">Only favorite stations will be shown</string>
     <string name="showAvailable">Show only available stations</string>
     <string name="showFavourites">Show only favorite stations</string>
-    <string name="source">Source code:</string>
-    <string name="thanks">Thanks:</string>
-    <string name="version">Version</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="no_location_permission">No location permission, location will not work</string>
-    <string name="ad_restore_hint">Oh&#8230; :( If you ever change your mind, just tap the button again!</string>
-    <string name="ad_restore">Restore ads</string>
-    <string name="ad_remove_hint">This button will remove ads forever, but if you enjoy my app, please let them on, they help me keep working on the app.</string>
     <string name="descStar">Star Icon</string>
     <string name="load_lanes">Loading lanes&#8230;</string>
     <string name="load_stations">Loading stations&#8230;</string>
@@ -51,7 +40,6 @@
     <string name="parking">Bike parking</string>
     <string name="plazas">Total spots:</string>
     <string name="spots">Spots:</string>
-    <string name="rate">Tap to rate the app!</string>
     <string name="catalan">Catalan</string>
     <string name="default_locale">System default</string>
     <string name="language_summary">Change app language</string>
@@ -64,12 +52,6 @@
     <string name="pref_voronoi_summary_off">Voronoi cells won\'t be displayed</string>
     <string name="pref_voronoi_summary_on">Vorono cells will be displayed</string>
     <string name="voronoi_info">Tap here to learn about Voronoi cells</string>
-    <string name="ads_removed">Ads removed :(</string>
-    <string name="ads_restored">Ads restored, thank you!</string>
-    <string name="donar">Donate</string>
-    <string name="donate">If you prefer, you can make a little donation, which will remove ads forever and it will inspire me to keep working on the app</string>
-    <string name="donator">You have already donated! :)</string>
-    <string name="donator_thanks">Thanks for your donation. Enjoy the app free of ads and knowing that you have helped me!</string>
     <string name="purchase_failed">Oops, something went wrong during the process! :(</string>
     <string name="purchase_success">Thank you deeply for your donation! :D</string>
     <string name="license">License check OK</string>
@@ -84,7 +66,6 @@
     <string name="alpha_message">Beware! You are using an alpha release. It may be unstable.</string>
     <string name="data_old">Data is more than one hour old,</string>
     <string name="data_unreliable">it may be unreliable.</string>
-    <string name="donate_paypal">And if you feel like giving more, you can make a donation to the following PayPal account:</string>
     <string name="donation_cancelled">Process canceled :(</string>
     <string name="zoom_in">Zoom in to see the bike stations</string>
     <string name="stations">Stations</string>
@@ -93,4 +74,12 @@
     <string name="cicloCalles">Distinguish ciclocalles</string>
     <string name="pref_cicloCalles_summary_off">The ciclocalles will be shown with a different color than the bike lanes</string>
     <string name="pref_cicloCalles_summary_on">The ciclocalles will be shown with the same color as the bike lanes</string>
+    <string name="title_activity_donate">Support development</string>
+    <string name="donation_1">Support with 1€</string>
+    <string name="donation_3">Support with 3€</string>
+    <string name="donation_5">Support with 3€</string>
+    <string name="donation_remove_ads">Remove ads(free)</string>
+    <string name="donation_ad_restore">Restore ads</string>
+    <string name="donation_ads_removed">Ads removed :(</string>
+    <string name="donation_ads_restored">Ads restored, thank you!</string>
 </resources>

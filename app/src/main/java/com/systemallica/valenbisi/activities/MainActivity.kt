@@ -18,19 +18,14 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.view.View
 
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.systemallica.valenbisi.BuildConfig
 import com.systemallica.valenbisi.ContextWrapper
 import com.systemallica.valenbisi.fragments.AboutFragment
-import com.systemallica.valenbisi.fragments.DonateFragment
 import com.systemallica.valenbisi.fragments.MapsFragment
 import com.systemallica.valenbisi.fragments.SettingsFragment
 import com.systemallica.valenbisi.R
@@ -44,7 +39,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
-import android.view.View.GONE
 import com.systemallica.valenbisi.R.layout.activity_main
 
 
@@ -72,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val recentsIcon = BitmapFactory.decodeResource(
             context!!.resources,
             R.drawable.splash_inverted
-        )//Choose the icon
+        )
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val description = ActivityManager.TaskDescription(null, recentsIcon, colorPrimary)
@@ -133,18 +127,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         val settings = context!!.getSharedPreferences(PREFS_NAME, 0)
-        val donationPurchased = settings.getBoolean("donationPurchased", false)
-
-        // Ads management
-        MobileAds.initialize(this, "ca-app-pub-7754892948346904/1371669271")
-        val mAdView = findViewById<AdView>(R.id.adView)
-
-        if (!donationPurchased) {
-            // Ad request and load
-            val adRequest = AdRequest.Builder().build()
-            mAdView.loadAd(adRequest)
-            mAdView.visibility = GONE
-        }
 
         // Check license
         val mBillingClient: BillingClient =
@@ -164,9 +146,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             val editor = settings.edit()
                             editor.putBoolean("donationPurchased", true)
                             editor.apply()
-                            mAdView.visibility = GONE
-                            mAdView.destroy()
-                            // Consume purchase
                         }
                     }
                 }
@@ -226,38 +205,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val id = item.itemId
-        val mAdView = findViewById<AdView>(R.id.adView)
-
-        val settings = getSharedPreferences(PREFS_NAME, 0)
-        val removedAds = settings.getBoolean("removedAds", false)
 
         // Load fragment transaction
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         when (id) {
             R.id.nav_map -> {
-                mAdView.visibility = GONE
-
                 // Change toolbar title
                 this.setTitle(R.string.nav_map)
 
                 fragmentTransaction.replace(R.id.containerView, MapsFragment())
             }
             R.id.nav_settings -> {
-                if (!removedAds) {
-                    mAdView.visibility = View.VISIBLE
-                }
-
                 // Change fragment
                 fragmentTransaction.replace(R.id.containerView, SettingsFragment())
-            }
-            R.id.nav_donate -> {
-                if (!removedAds) {
-                    mAdView.visibility = View.VISIBLE
-                }
-
-                // Change fragment
-                fragmentTransaction.replace(R.id.containerView, DonateFragment())
             }
             R.id.nav_share -> {
                 try {
@@ -272,13 +233,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
             R.id.nav_about -> {
-                if (!removedAds) {
-                    mAdView.visibility = View.VISIBLE
-                }
-
                 // Change fragment
                 fragmentTransaction.replace(R.id.containerView, AboutFragment())
-
             }
         }
 

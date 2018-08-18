@@ -11,10 +11,6 @@
             android:icon="@drawable/menu_icon_settings"
             android:title="@string/nav_settings" />
         <item
-            android:id="@+id/nav_donate"
-            android:icon="@drawable/menu_icon_forbidden"
-            android:title="@string/nav_donate" />
-        <item
             android:id="@+id/nav_share"
             android:icon="@drawable/menu_icon_share_alt"
             android:title="@string/nav_share" />
