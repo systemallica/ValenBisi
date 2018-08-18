@@ -39,20 +39,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@android:style/Theme.Translucent" />
 
         <service
             android:name=".services.TrackGPSService"
             android:exported="false"
             android:label="string resource" />
-
-        <activity
-            android:name=".activities.DonateActivity"
-            android:label="@string/title_activity_donate"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
