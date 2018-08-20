@@ -67,6 +67,8 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener {
             val settings = getSharedPreferences(PREFS_NAME, 0)
             val editor = settings.edit()
             editor.putBoolean("donationPurchased", true).apply()
+
+            consumePurchases()
         } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
             Snackbar.make(donateView!!, R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show()
@@ -74,5 +76,37 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener {
             // Handle any other error codes.
             Snackbar.make(donateView!!, R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show()
         }
+    }
+
+    private fun consumePurchases(){
+        val mBillingClient: BillingClient =
+            BillingClient.newBuilder(applicationContext).setListener(this).build()
+        mBillingClient.startConnection(object : BillingClientStateListener {
+            override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
+                if (billingResponseCode == BillingClient.BillingResponse.OK) {
+                    // The billing client is ready
+                    val purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP)
+                    val purchases = purchasesResult.purchasesList
+
+                    val consumeListener = { responseCodeConsumed: Int, purchaseToken: String ->
+                        if (responseCodeConsumed == BillingClient.BillingResponse.OK) {
+                            Log.i("Billing", purchaseToken)
+                        }
+                    }
+
+                    for(purchase in purchases){
+                        mBillingClient.consumeAsync(
+                            purchase.purchaseToken, consumeListener
+                        )
+                    }
+                }
+            }
+
+            override fun onBillingServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+                Log.e("Billing", "consume failed")
+            }
+        })
     }
 }

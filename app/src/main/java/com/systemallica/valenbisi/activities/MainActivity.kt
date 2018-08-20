@@ -19,10 +19,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.PurchasesUpdatedListener
 import com.systemallica.valenbisi.BuildConfig
 import com.systemallica.valenbisi.ContextWrapper
 import com.systemallica.valenbisi.fragments.AboutFragment
@@ -44,8 +40,7 @@ import com.systemallica.valenbisi.R.layout.activity_main
 
 const val PREFS_NAME = "MyPrefsFile"
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    PurchasesUpdatedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
     private var context: Context? = null
 
@@ -125,48 +120,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else {
             getLatestVersion()
         }
-
-        val settings = context!!.getSharedPreferences(PREFS_NAME, 0)
-
-        // Check license
-        val mBillingClient: BillingClient =
-            BillingClient.newBuilder(this@MainActivity).setListener(this).build()
-        mBillingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(@BillingClient.BillingResponse billingResponseCode: Int) {
-                if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                    // The billing client is ready
-                    // Get past purchases
-                    val purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP)
-                    val purchases = purchasesResult.purchasesList
-                    for (purchase in purchases) {
-                        val mPurchase = purchase as Purchase
-                        val purchaseSku = mPurchase.sku
-                        // The donation package is already bought, apply license
-                        if (purchaseSku == "donation_upgrade") {
-                            val editor = settings.edit()
-                            editor.putBoolean("donationPurchased", true)
-                            editor.apply()
-                        }
-                    }
-                }
-            }
-
-            override fun onBillingServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
-            }
-
-        })
-    }
-
-    override fun onPurchasesUpdated(@BillingClient.BillingResponse responseCode: Int, purchases: List<Purchase>?) {
-        //if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-        // Success
-        //} else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-        // Handle an error caused by a user cancelling the purchase flow.
-        //} else {
-        // Handle any other error codes.
-        //}
     }
 
     override fun attachBaseContext(newBase: Context) {
