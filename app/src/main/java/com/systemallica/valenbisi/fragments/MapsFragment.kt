@@ -2,7 +2,6 @@ package com.systemallica.valenbisi.fragments
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -71,7 +70,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var lanes: GeoJsonLayer? = null
     private var parking: GeoJsonLayer? = null
     private var mMap: GoogleMap? = null
-    private var mContext: Context? = null
     private var mClusterManager: ClusterManager<ClusterPoint>? = null
 
     private val isApplicationReady: Boolean
@@ -89,7 +87,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val currentLocation: LatLng?
         get() {
-            val gps = TrackGPSService(mContext!!)
+            val gps = TrackGPSService(context!!)
 
             return if (gps.canGetLocation()) {
                 val longitude = gps.longitude
@@ -121,8 +119,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Change toolbar title
         activity!!.setTitle(R.string.nav_map)
-        // Store context in member variable
-        mContext = activity!!.applicationContext
 
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
@@ -172,21 +168,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun initClusterManager() {
         // Load ClusterManager to the Map
-        mClusterManager = ClusterManager(mContext!!, mMap)
+        mClusterManager = ClusterManager(context, mMap)
         // Set custom renderer
-        mClusterManager!!.setRenderer(
-            IconRenderer(
-                activity!!.applicationContext,
-                mMap!!,
-                mClusterManager!!
-            )
-        )
+        mClusterManager!!.renderer =
+                IconRenderer(
+                    context!!,
+                    mMap!!,
+                    mClusterManager!!
+                )
     }
 
     private fun initPreferences() {
-        settings = mContext!!.getSharedPreferences(PREFS_NAME, 0)
+        settings = context!!.getSharedPreferences(PREFS_NAME, 0)
         settingsEditor = settings!!.edit()
-        userSettings = getDefaultSharedPreferences(mContext!!)
+        userSettings = getDefaultSharedPreferences(context)
     }
 
     private fun initMap() {
@@ -282,7 +277,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun drawBoronoiCells() {
         try {
-            val voronoi = GeoJsonLayer(mMap, R.raw.voronoi, mContext!!)
+            val voronoi = GeoJsonLayer(mMap, R.raw.voronoi, context)
             for (feature in voronoi.features) {
                 val stringStyle = voronoi.defaultLineStringStyle
                 stringStyle.color = -16776961
@@ -585,25 +580,27 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setInitialButtonState() {
-        val myDrawableStationsOn = ContextCompat.getDrawable(mContext!!, R.drawable.icon_map_marker)
-        val myDrawableStationsOff =
-            ContextCompat.getDrawable(mContext!!, R.drawable.icon_map_marker_off)
-        val myDrawableBike = ContextCompat.getDrawable(mContext!!, R.drawable.icon_on_bike)
-        val myDrawableWalk = ContextCompat.getDrawable(mContext!!, R.drawable.icon_walk)
-        val myDrawableLaneOn = ContextCompat.getDrawable(mContext!!, R.drawable.icon_road)
-        val myDrawableLaneOff = ContextCompat.getDrawable(mContext!!, R.drawable.icon_road_off)
+        val stationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
+        val stationsOff =
+            ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker_off)
+        val bike = ContextCompat.getDrawable(context!!, R.drawable.icon_on_bike)
+        val walk = ContextCompat.getDrawable(context!!, R.drawable.icon_walk)
+        val bikeLanesOn = ContextCompat.getDrawable(context!!, R.drawable.icon_road)
+        val bikeLanesOff = ContextCompat.getDrawable(context!!, R.drawable.icon_road_off)
+        val parkingOn = ContextCompat.getDrawable(context!!, R.drawable.icon_parking)
+        val parkingOff = ContextCompat.getDrawable(context!!, R.drawable.icon_parking_off)
 
         val showStationsLayer = settings!!.getBoolean("showStationsLayer", true)
         if (showStationsLayer) {
             btnStationsToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                myDrawableStationsOn,
+                stationsOn,
                 null,
                 null,
                 null
             )
         } else {
             btnStationsToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                myDrawableStationsOff,
+                stationsOff,
                 null,
                 null,
                 null
@@ -613,14 +610,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", true)
         if (isCarrilLayerAdded) {
             btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                myDrawableLaneOn,
+                bikeLanesOn,
                 null,
                 null,
                 null
             )
         } else {
             btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                myDrawableLaneOff,
+                bikeLanesOff,
                 null,
                 null,
                 null
@@ -630,14 +627,31 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val isOnFoot = settings!!.getBoolean("isOnFoot", false)
         if (isOnFoot) {
             btnOnFootToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                myDrawableWalk,
+                walk,
                 null,
                 null,
                 null
             )
         } else {
             btnOnFootToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                myDrawableBike,
+                bike,
+                null,
+                null,
+                null
+            )
+        }
+
+        val isParkingLayerAdded = settings!!.getBoolean("isParkingLayerAdded", false)
+        if (isParkingLayerAdded) {
+            btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
+                parkingOn,
+                null,
+                null,
+                null
+            )
+        } else {
+            btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
+                parkingOff,
                 null,
                 null,
                 null
@@ -646,14 +660,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setOfflineListeners() {
-        val myDrawableLaneOn = ContextCompat.getDrawable(mContext!!, R.drawable.icon_road)
-        val myDrawableLaneOff = ContextCompat.getDrawable(mContext!!, R.drawable.icon_road_off)
-        val myDrawableParkingOn = ContextCompat.getDrawable(mContext!!, R.drawable.icon_parking)
+        val bikeLanesOn = ContextCompat.getDrawable(context!!, R.drawable.icon_road)
+        val bikeLanesOff = ContextCompat.getDrawable(context!!, R.drawable.icon_road_off)
+        val parkingOn = ContextCompat.getDrawable(context!!, R.drawable.icon_parking)
+        val parkingOff = ContextCompat.getDrawable(context!!, R.drawable.icon_parking_off)
 
         btnLanesToggle!!.setOnClickListener {
             if (!settings!!.getBoolean("isCarrilLayerAdded", false)) {
                 btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableLaneOn,
+                    bikeLanesOn,
                     null,
                     null,
                     null
@@ -661,7 +676,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 GetLanes().execute()
             } else {
                 btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableLaneOff,
+                    bikeLanesOff,
                     null,
                     null,
                     null
@@ -676,7 +691,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         btnParkingToggle!!.setOnClickListener {
             if (!settings!!.getBoolean("isParkingLayerAdded", false)) {
                 btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableParkingOn,
+                    parkingOn,
                     null,
                     null,
                     null
@@ -684,7 +699,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 GetParking().execute()
             } else {
                 btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableParkingOn,
+                    parkingOff,
                     null,
                     null,
                     null
@@ -698,11 +713,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setOnlineListeners() {
-        val myDrawableBike = ContextCompat.getDrawable(mContext!!, R.drawable.icon_on_bike)
-        val myDrawableWalk = ContextCompat.getDrawable(mContext!!, R.drawable.icon_walk)
-        val myDrawableStationsOn = ContextCompat.getDrawable(mContext!!, R.drawable.icon_map_marker)
+        val myDrawableBike = ContextCompat.getDrawable(context!!, R.drawable.icon_on_bike)
+        val myDrawableWalk = ContextCompat.getDrawable(context!!, R.drawable.icon_walk)
+        val myDrawableStationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
         val myDrawableStationsOff =
-            ContextCompat.getDrawable(mContext!!, R.drawable.icon_map_marker_off)
+            ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker_off)
         val isClusteringActivated = userSettings!!.getBoolean("isClusteringActivated", true)
 
         // Toggle Stations
@@ -847,8 +862,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getInfoWindowCommonInfo(marker: Marker): View {
-        val myDrawableFavOff = ContextCompat.getDrawable(mContext!!, R.drawable.icon_star_outline)
-        val myDrawableFavOn = ContextCompat.getDrawable(mContext!!, R.drawable.icon_star)
+        val myDrawableFavOff = ContextCompat.getDrawable(context!!, R.drawable.icon_star_outline)
+        val myDrawableFavOn = ContextCompat.getDrawable(context!!, R.drawable.icon_star)
 
         // Getting view from the layout file info_window_layout
         val popup = activity!!.layoutInflater.inflate(R.layout.marker_popup, null)
@@ -887,7 +902,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         override fun doInBackground(vararg params: Void): GeoJsonLayer {
             try {
-                lanes = GeoJsonLayer(mMap, R.raw.bike_lanes_0618, mContext!!)
+                lanes = GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context)
                 for (feature in lanes!!.features) {
                     val stringStyle = GeoJsonLineStringStyle()
                     stringStyle.width = 5f
@@ -938,7 +953,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             if (isApplicationReady) {
                 try {
-                    parking = GeoJsonLayer(mMap, R.raw.aparcabicis, mContext!!)
+                    parking = GeoJsonLayer(mMap, R.raw.aparcabicis, context)
                     for (feature in parking!!.features) {
                         val pointStyle = GeoJsonPointStyle()
                         pointStyle.title = this@MapsFragment.resources.getString(R.string.parking) +
