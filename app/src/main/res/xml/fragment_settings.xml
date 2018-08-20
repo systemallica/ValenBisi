@@ -1,107 +1,100 @@
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:title="@string/nav_map">
+    <PreferenceCategory android:title="@string/nav_map">
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:icon="@drawable/icon_zoom_in"
             android:key="initialZoom"
-            android:title="@string/initialZoom"
             android:summaryOff="@string/pref_initialZoom_summary_off"
             android:summaryOn="@string/pref_initialZoom_summary_on"
-            android:defaultValue="true"
-            android:icon="@drawable/icon_zoom_in"/>
+            android:title="@string/initialZoom" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:icon="@drawable/menu_icon_map"
             android:key="isSatellite"
-            android:title="@string/mapView"
             android:summaryOff="@string/pref_mapView_summary_off"
             android:summaryOn="@string/pref_mapView_summary_on"
-            android:defaultValue="false"
-            android:icon="@drawable/menu_icon_map"/>
+            android:title="@string/mapView" />
 
         <CheckBoxPreference
             android:defaultValue="true"
+            android:icon="@drawable/icon_road"
             android:key="cicloCalles"
             android:summaryOff="@string/pref_cicloCalles_summary_off"
             android:summaryOn="@string/pref_cicloCalles_summary_on"
-            android:title="@string/cicloCalles"
-            android:icon="@drawable/icon_road"/>
+            android:title="@string/cicloCalles" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:icon="@drawable/icon_blur"
             android:key="isClusteringActivated"
-            android:title="@string/clustering"
             android:summaryOff="@string/pref_clustering_summary_off"
             android:summaryOn="@string/pref_clustering_summary_on"
-            android:defaultValue="true"
-            android:icon="@drawable/icon_blur"/>
+            android:title="@string/clustering" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:icon="@drawable/icon_change_history"
             android:key="voronoiCell"
-            android:title="@string/voronoi"
             android:summaryOff="@string/pref_voronoi_summary_off"
             android:summaryOn="@string/pref_voronoi_summary_on"
-            android:defaultValue="false"
-            android:icon="@drawable/icon_change_history"/>
+            android:title="@string/voronoi" />
 
         <Preference
+            android:icon="@drawable/menu_icon_about"
             android:key="infoVoronoi"
-            android:summary="@string/voronoi_info"
-            android:icon="@drawable/menu_icon_about"/>
+            android:summary="@string/voronoi_info" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/stations">
+    <PreferenceCategory android:title="@string/stations">
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:icon="@drawable/icon_star"
             android:key="showFavorites"
-            android:title="@string/showFavourites"
             android:summaryOff="@string/pref_showFavourites_summary_off"
             android:summaryOn="@string/pref_showFavourites_summary_on"
-            android:defaultValue="false"
-            android:icon="@drawable/icon_star"/>
+            android:title="@string/showFavourites" />
 
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:icon="@drawable/icon_check"
             android:key="showAvailable"
-            android:title="@string/showAvailable"
             android:summaryOff="@string/pref_showAvailable_summary_off"
             android:summaryOn="@string/pref_showAvailable_summary_on"
-            android:defaultValue="false"
-            android:icon="@drawable/icon_check"/>
+            android:title="@string/showAvailable" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:icon="@drawable/icon_watch_later"
             android:key="lastUpdated"
-            android:title="@string/lastUpdated"
             android:summaryOff="@string/pref_lastUpdated_summary_off"
             android:summaryOn="@string/pref_lastUpdated_summary_on"
-            android:defaultValue="true"
-            android:icon="@drawable/icon_watch_later"/>
+            android:title="@string/lastUpdated" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/others">
+    <PreferenceCategory android:title="@string/others">
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:icon="@drawable/icon_invert_colors"
             android:key="navBar"
-            android:title="@string/matchNavigationBar"
             android:summaryOff="@string/pref_matchNavigationBar_summary_off"
             android:summaryOn="@string/pref_matchNavigationBar_summary_on"
-            android:defaultValue="true"
-            android:icon="@drawable/icon_invert_colors"/>
+            android:title="@string/matchNavigationBar" />
 
         <ListPreference
-            android:key="language"
-            android:title="@string/language"
-            android:summary="@string/language_summary"
+            android:defaultValue="@string/default_locale_code"
             android:entries="@array/languages"
             android:entryValues="@array/languages_values"
-            android:defaultValue="@string/default_locale_code"
-            android:icon="@drawable/icon_language"/>
-
-        <Preference
-            android:key="blank"/>
+            android:icon="@drawable/icon_language"
+            android:key="language"
+            android:summary="@string/language_summary"
+            android:title="@string/language" />
 
     </PreferenceCategory>
 
