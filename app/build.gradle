@@ -17,7 +17,6 @@ android {
     lintOptions {
         abortOnError false
         disable 'GoogleAppIndexingWarning'
-        baseline file("lint-baseline.xml")
     }
 
     buildTypes {
