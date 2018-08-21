@@ -58,7 +58,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center_vertical"
-                    android:text="@string/donation_1" />
+                    android:text="@string/donation_1"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -86,7 +87,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center_vertical"
-                    android:text="@string/donation_3" />
+                    android:text="@string/donation_3"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:layout_width="30dp"
@@ -114,7 +116,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center_vertical"
-                    android:text="@string/donation_5" />
+                    android:text="@string/donation_5"
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:layout_width="40dp"
