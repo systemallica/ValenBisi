@@ -117,5 +117,24 @@
     <string name="donation_3">Apoya con 3€</string>
     <string name="donation_5">Apoya con 5€</string>
     <string name="donation_remove_ads">Quita los anuncios(gratis)</string>
+    <string name="about_developer" translatable="false">© 2018 Systemallica</string>
+    <string name="about_version">Versión</string>
+    <string name="about_rate">Déjanos una puntuación</string>
+    <string name="about_support">Apoya el desarrollo</string>
+    <string name="about_about">Sobre la aplicación</string>
+    <string name="about_changelog">Registro de cambios</string>
+    <string name="about_releases">Versiones</string>
+    <string name="about_versions_url" translatable="false">https://github.com/systemallica/ValenBisi/blob/master/CHANGELOG.md</string>
+    <string name="about_fork">Crea un fork en GitHub</string>
+    <string name="about_url" translatable="false">https://github.com/systemallica/valenbisi</string>
+    <string name="about_libs">Librerías de código abierto</string>
+    <string name="about_author">Autor</string>
+    <string name="about_author_name" translatable="false">Andrés Reverón Molina</string>
+    <string name="about_authot_location">España</string>
+    <string name="about_visit">Visita mi página web</string>
+    <string name="about_author_web" translatable="false">https://andres.reveronmolina.me</string>
+    <string name="about_send_email">Envíame un email</string>
+    <string name="about_author_email" translatable="false">andres@reveronmolina.me</string>
+    <string name="about_author_email_subject" translatable="false">Valenbisi</string>
 
 </resources>

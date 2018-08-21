@@ -82,4 +82,16 @@
     <string name="donation_ad_restore">Restaurar anuncis</string>
     <string name="donation_ads_removed">Anuncis eliminats :(</string>
     <string name="donation_ads_restored">Anuncis restaurats, gracies!</string>
+    <string name="about_version">Versió</string>
+    <string name="about_rate">Deixa\'ns una puntuació</string>
+    <string name="about_support">Dóna support</string>
+    <string name="about_about">Sobre l\'applicació</string>
+    <string name="about_changelog">Registre de canvis</string>
+    <string name="about_releases">Versions</string>
+    <string name="about_fork">Crea un fork a GitHub</string>
+    <string name="about_libs">Llibreries de codi obert</string>
+    <string name="about_author">Autor</string>
+    <string name="about_authot_location">Espanya</string>
+    <string name="about_visit">Visita la meua web</string>
+    <string name="about_send_email">Enviam un email</string>
 </resources>

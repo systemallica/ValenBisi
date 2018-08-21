@@ -82,4 +82,16 @@
     <string name="donation_ad_restore">Restore ads</string>
     <string name="donation_ads_removed">Ads removed :(</string>
     <string name="donation_ads_restored">Ads restored, thank you!</string>
+    <string name="about_version">Version</string>
+    <string name="about_rate">Rate the app</string>
+    <string name="about_support">Support development</string>
+    <string name="about_about">About</string>
+    <string name="about_changelog">Changelog</string>
+    <string name="about_releases">Releases</string>
+    <string name="about_fork">Fork me on GitHub</string>
+    <string name="about_libs">Open source libraries</string>
+    <string name="about_author">Author</string>
+    <string name="about_authot_location">Spain</string>
+    <string name="about_visit">Visit my website</string>
+    <string name="about_send_email">Send me an email</string>
 </resources>

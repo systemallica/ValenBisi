@@ -34,7 +34,7 @@ class AboutFragment : MaterialAboutFragment() {
         appCardBuilder.addItem(
             MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
-                .desc("© 2018 Systemallica")
+                .desc(getString(R.string.about_developer))
                 .icon(R.mipmap.ic_launcher)
                 .build()
         )
@@ -45,7 +45,7 @@ class AboutFragment : MaterialAboutFragment() {
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_information_outline)
                         .sizeDp(18),
-                    "Version",
+                    getString(R.string.about_version),
                     true
                 )
             )
@@ -56,14 +56,14 @@ class AboutFragment : MaterialAboutFragment() {
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_star_outline)
                         .sizeDp(18),
-                    "Rate this app",
+                    getString(R.string.about_rate),
                     null
                 )
             )
 
             .addItem(
                 MaterialAboutActionItem.Builder()
-                    .text("Support development")
+                    .text(getString(R.string.about_support))
                     .icon(
                         IconicsDrawable(activityContext)
                             .icon(CommunityMaterial.Icon.cmd_heart_outline)
@@ -77,11 +77,11 @@ class AboutFragment : MaterialAboutFragment() {
             )
 
         val aboutAppBuilder = MaterialAboutCard.Builder()
-        aboutAppBuilder.title("About")
+        aboutAppBuilder.title(getString(R.string.about_about))
 
         aboutAppBuilder.addItem(
             MaterialAboutActionItem.Builder()
-                .text("Changelog")
+                .text(getString(R.string.about_changelog))
                 .icon(
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_history)
@@ -90,8 +90,8 @@ class AboutFragment : MaterialAboutFragment() {
                 .setOnClickAction(
                     ConvenienceBuilder.createWebViewDialogOnClickAction(
                         activityContext,
-                        "Releases",
-                        "https://github.com/systemallica/ValenBisi/releases",
+                        getString(R.string.about_releases),
+                        getString(R.string.about_versions_url),
                         true,
                         false
                     )
@@ -101,7 +101,7 @@ class AboutFragment : MaterialAboutFragment() {
 
             .addItem(
                 MaterialAboutActionItem.Builder()
-                    .text("Fork on GitHub")
+                    .text(getString(R.string.about_fork))
                     .icon(
                         IconicsDrawable(activityContext)
                             .icon(CommunityMaterial.Icon.cmd_github_circle)
@@ -110,14 +110,14 @@ class AboutFragment : MaterialAboutFragment() {
                     .setOnClickAction(
                         ConvenienceBuilder.createWebsiteOnClickAction(
                             activityContext,
-                            Uri.parse("https://github.com/systemallica/valenbisi")
+                            Uri.parse(getString(R.string.about_url))
                         )
                     )
                     .build()
             )
 
             .addItem(MaterialAboutActionItem.Builder()
-                .text("Open source libs")
+                .text(getString(R.string.about_libs))
                 .icon(
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_code_tags)
@@ -134,12 +134,12 @@ class AboutFragment : MaterialAboutFragment() {
                 .build())
 
         val authorCardBuilder = MaterialAboutCard.Builder()
-        authorCardBuilder.title("Author")
+        authorCardBuilder.title(getString(R.string.about_author))
 
         authorCardBuilder.addItem(
             MaterialAboutActionItem.Builder()
-                .text("Andrés Reverón")
-                .subText("Spain")
+                .text(getString(R.string.about_author_name))
+                .subText(getString(R.string.about_authot_location))
                 .icon(
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_account_outline)
@@ -154,9 +154,9 @@ class AboutFragment : MaterialAboutFragment() {
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_earth)
                         .sizeDp(18),
-                    "Visit my website",
+                    getString(R.string.about_visit),
                     true,
-                    Uri.parse("http://andres.reveronmolina.me")
+                    Uri.parse(getString(R.string.about_author_web))
                 )
             )
 
@@ -166,10 +166,10 @@ class AboutFragment : MaterialAboutFragment() {
                     IconicsDrawable(activityContext)
                         .icon(CommunityMaterial.Icon.cmd_email_outline)
                         .sizeDp(18),
-                    "Send me an email",
+                    getString(R.string.about_send_email),
                     true,
-                    "andres@reveronmolina.me",
-                    "Question concerning ValenBisi?"
+                    getString(R.string.about_author_email),
+                    getString(R.string.about_author_email_subject)
                 )
             )
 
