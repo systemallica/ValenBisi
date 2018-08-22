@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 
 import com.systemallica.valenbisi.BuildConfig
@@ -36,69 +35,36 @@ import okhttp3.Request
 import okhttp3.Response
 import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
 import com.systemallica.valenbisi.R.layout.activity_main
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 const val PREFS_NAME = "MyPrefsFile"
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
-
-    private var context: Context? = null
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        context = this
-        val userSettings = getDefaultSharedPreferences(context!!)
-        val navBar = userSettings.getBoolean("navBar", true)
 
-        val colorPrimary = ContextCompat.getColor(context!!, R.color.colorPrimary)
-
-        //Apply preferences navBar preference
-        if (navBar && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.navigationBarColor = colorPrimary
-        }
-
-        //Recents implementation
-        val recentsIcon = BitmapFactory.decodeResource(
-            context!!.resources,
-            R.drawable.splash_inverted
-        )
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val description = ActivityManager.TaskDescription(null, recentsIcon, colorPrimary)
-            this.setTaskDescription(description)
-        }
-
-        //set view to main
         setContentView(activity_main)
 
-        //init toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        //init drawer
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
-
-        //init navigation view
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
+        initActivity()
 
         //Inflate main fragment
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         if (savedInstanceState == null) {
             // Change fragment
-            fragmentTransaction.replace(R.id.containerView, MapsFragment()).commit()
+            fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
 
-            navigationView.menu.getItem(0).isChecked = true
+            nav_view.menu.getItem(0).isChecked = true
+        } else {
+            fragmentTransaction.commitNow()
         }
 
         //Check internet
-        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm =
+            applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         val activeNetwork = cm.activeNetworkInfo
         val isConnected = activeNetwork != null && activeNetwork.isConnected
@@ -106,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //React to the check
         if (!isConnected) {
             //Prompt an alert dialog to the user
-            AlertDialog.Builder(context!!)
+            AlertDialog.Builder(this)
                 .setTitle(R.string.no_internet)
                 .setMessage(R.string.no_internet_message)
                 .setPositiveButton(R.string.close) { _, _ -> System.exit(0) }
@@ -193,12 +159,60 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // Commit fragment
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction.commit()
+        fragmentTransaction.commitNow()
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
+    private fun initActivity() {
+        setSupportActionBar(toolbar)
+        initDrawerToggle()
+        initNavigationView()
+        initNavBarColor()
+        initRecentsIconAndColor()
+    }
+
+    private fun initDrawerToggle() {
+        val toggle = ActionBarDrawerToggle(
+            this,
+            drawer_layout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    private fun initNavigationView() {
+        nav_view.setNavigationItemSelectedListener(this)
+    }
+
+    private fun initNavBarColor() {
+        val userSettings = getDefaultSharedPreferences(applicationContext)
+        val navBar = userSettings.getBoolean("navBar", true)
+        val colorPrimary = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
+        if (navBar && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.navigationBarColor = colorPrimary
+        }
+    }
+
+    private fun initRecentsIconAndColor() {
+        val colorPrimary = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
+
+        val recentsIcon = BitmapFactory.decodeResource(
+            applicationContext.resources,
+            R.drawable.splash_inverted
+        )
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val description = ActivityManager.TaskDescription(null, recentsIcon, colorPrimary)
+            this.setTaskDescription(description)
+        }
+    }
+
 
     private fun getLatestVersion() {
         val client = OkHttpClient()
@@ -232,7 +246,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
     }
 
-    fun checkUpdate(latestVersion: String) {
+    private fun checkUpdate(latestVersion: String) {
         val versionCode = BuildConfig.VERSION_CODE
         val versionGit = Integer.parseInt(latestVersion)
 
