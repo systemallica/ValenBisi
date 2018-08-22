@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     // Maps and billing
     implementation "com.google.android.gms:play-services-maps:15.0.1"
+    implementation "com.google.android.gms:play-services-location:15.0.1"
     implementation "com.google.maps.android:android-maps-utils:0.5"
     implementation "com.android.billingclient:billing:1.1"
     // About screen

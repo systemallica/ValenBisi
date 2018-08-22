@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
+import android.location.Location
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -39,7 +40,6 @@ import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.clustering.ClusterPoint
 import com.systemallica.valenbisi.clustering.IconRenderer
-import com.systemallica.valenbisi.services.TrackGPSService
 
 import org.json.JSONArray
 import org.json.JSONException
@@ -57,6 +57,8 @@ import okhttp3.Request
 import okhttp3.Response
 
 import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_main.*
 
 const val PREFS_NAME = "MyPrefsFile"
@@ -71,6 +73,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private var parking: GeoJsonLayer? = null
     private var mMap: GoogleMap? = null
     private var mClusterManager: ClusterManager<ClusterPoint>? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val isApplicationReady: Boolean
         get() = isAdded && activity != null
@@ -84,21 +87,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val isMapReady: Boolean
         get() = mMap != null
-
-    private val currentLocation: LatLng?
-        get() {
-            val gps = TrackGPSService(context!!)
-
-            return if (gps.canGetLocation()) {
-                val longitude = gps.longitude
-                val latitude = gps.latitude
-                gps.stopUsingGPS()
-                LatLng(latitude, longitude)
-            } else {
-                gps.stopUsingGPS()
-                null
-            }
-        }
 
     private// Add warning that data may be unreliable
     val warningMessage: String
@@ -236,19 +224,41 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun isValencia(location: LatLng): Boolean {
+    private fun isValenciaArea(location: LatLng): Boolean {
         return (location.latitude in 39.420..39.515) && (location.longitude in -0.572..-0.272)
     }
 
     private fun setInitialPosition() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        if (isLocationPermissionGranted) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    // Got last known location. In some rare situations this can be null.
+                    if (location != null) {
+                        val longitude = location.longitude
+                        val latitude = location.latitude
+                        val latLng = LatLng(latitude, longitude)
+                        moveToLocationOrValencia(latLng)
+                    } else {
+                        moveToLocationOrValencia(null)
+                    }
+                }
+                .addOnFailureListener { _ ->
+                    moveToLocationOrValencia(null)
+                }
+        } else {
+            moveToLocationOrValencia(null)
+        }
+    }
 
-        val currentLocation = currentLocation
+    private fun moveToLocationOrValencia(currentLocation: LatLng?) {
+
         val valencia = LatLng(39.479, -0.372)
 
         val initialZoom = userSettings!!.getBoolean("initialZoom", true)
 
         if (isLocationPermissionGranted && initialZoom && currentLocation != null) {
-            if (isValencia(currentLocation)) {
+            if (isValenciaArea(currentLocation)) {
                 mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f))
             } else {
                 mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f))
@@ -578,7 +588,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         addListeners()
     }
 
-    private fun addListeners(){
+    private fun addListeners() {
         setOfflineListeners()
         setOnlineListeners()
     }
@@ -797,7 +807,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun removeListeners(){
+    private fun removeListeners() {
         btnLanesToggle.setOnClickListener(null)
         btnParkingToggle.setOnClickListener(null)
         btnStationsToggle.setOnClickListener(null)
@@ -1014,7 +1024,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         super.onPause()
         if (isApplicationReady && isMapReady) {
             removeListeners()
-            if(isLocationPermissionGranted) {
+            if (isLocationPermissionGranted) {
                 // Disable location to avoid battery drain
                 setLocationButtonEnabled(false)
             }
@@ -1025,7 +1035,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         super.onResume()
         if (isApplicationReady && isMapReady) {
             addListeners()
-            if(isLocationPermissionGranted) {
+            if (isLocationPermissionGranted) {
                 // Disable location to avoid battery drain
                 setLocationButtonEnabled(false)
             }
