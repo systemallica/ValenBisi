@@ -158,7 +158,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             setInitialPosition()
 
-            setButtons()
+            setButtonIconsAndListeners()
 
             restoreOptionalLayers()
 
@@ -573,8 +573,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setButtons() {
+    private fun setButtonIconsAndListeners() {
         setInitialButtonState()
+        addListeners()
+    }
+
+    private fun addListeners(){
         setOfflineListeners()
         setOnlineListeners()
     }
@@ -793,6 +797,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun removeListeners(){
+        btnLanesToggle.setOnClickListener(null)
+        btnParkingToggle.setOnClickListener(null)
+        btnStationsToggle.setOnClickListener(null)
+        btnOnFootToggle.setOnClickListener(null)
+        btnRefresh.setOnClickListener(null)
+        mClusterManager!!.setOnClusterClickListener(null)
+        mMap!!.setOnInfoWindowClickListener(null)
+        mClusterManager!!.setOnClusterItemInfoWindowClickListener(null)
+    }
+
     private fun setNormalInfoWindow() {
         mMap!!.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
@@ -997,17 +1012,23 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onPause() {
         super.onPause()
-        if (isApplicationReady && isMapReady && isLocationPermissionGranted) {
-            // Disable location to avoid battery drain
-            setLocationButtonEnabled(false)
+        if (isApplicationReady && isMapReady) {
+            removeListeners()
+            if(isLocationPermissionGranted) {
+                // Disable location to avoid battery drain
+                setLocationButtonEnabled(false)
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (isApplicationReady && isMapReady && isLocationPermissionGranted) {
-            // Re-enable location as the user returns to the app
-            setLocationButtonEnabled(true)
+        if (isApplicationReady && isMapReady) {
+            addListeners()
+            if(isLocationPermissionGranted) {
+                // Disable location to avoid battery drain
+                setLocationButtonEnabled(false)
+            }
         }
     }
 }
