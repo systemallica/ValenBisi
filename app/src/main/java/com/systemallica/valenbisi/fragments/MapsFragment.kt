@@ -105,9 +105,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Change toolbar title
-        activity!!.setTitle(R.string.nav_map)
-
         mapView.onCreate(savedInstanceState)
         mapView.onResume()
         mapView.getMapAsync(this)

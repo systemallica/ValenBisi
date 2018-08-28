@@ -122,48 +122,45 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         val id = item.itemId
 
-        // Load fragment transaction
+        // Set Activity title
+        title = item.title
+
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         when (id) {
             R.id.nav_map -> {
-                // Change toolbar title
-                this.setTitle(R.string.nav_map)
-
                 fragmentTransaction.replace(R.id.containerView, MapsFragment())
             }
             R.id.nav_settings -> {
-                // Change fragment
                 fragmentTransaction.replace(R.id.containerView, SettingsFragment())
             }
             R.id.nav_share -> {
                 try {
-                    val intent = Intent(Intent.ACTION_SEND)
-                    intent.type = "text/plain"
-                    val sAux =
-                        "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
-                    intent.putExtra(Intent.EXTRA_TEXT, sAux)
-                    startActivity(intent)
+                    shareApplication()
                 } catch (e: Exception) {
                     e.toString()
                 }
             }
             R.id.nav_about -> {
-                // Change fragment
                 fragmentTransaction.replace(R.id.containerView, AboutFragment())
             }
         }
 
-        // Commit fragment
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        fragmentTransaction.commitNow()
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
 
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        drawer.closeDrawer(GravityCompat.START)
+        drawer_layout.closeDrawers()
         return true
+    }
+
+    private fun shareApplication() {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        val sAux =
+            "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
+        intent.putExtra(Intent.EXTRA_TEXT, sAux)
+        startActivity(intent)
     }
 
     private fun initActivity() {

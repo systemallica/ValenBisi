@@ -22,12 +22,6 @@ import com.systemallica.valenbisi.activities.DonateActivity
 
 class AboutFragment : MaterialAboutFragment() {
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //Change toolbar title
-        activity!!.setTitle(R.string.nav_about)
-    }
-
     override fun getMaterialAboutList(activityContext: Context): MaterialAboutList {
         val appCardBuilder = MaterialAboutCard.Builder()
 

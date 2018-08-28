@@ -25,9 +25,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         mContext = activity!!.applicationContext
 
-        //Change toolbar title
-        activity!!.setTitle(R.string.nav_settings)
-
         //NavBar stuff
         val navBarPref = findPreference("navBar") as CheckBoxPreference
 
