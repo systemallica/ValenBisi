@@ -94,4 +94,5 @@
     <string name="about_authot_location">España</string>
     <string name="about_visit">Visita mi página web</string>
     <string name="about_send_email">Envíame un email</string>
+    <string name="about_issue">¿Algún problema? Cuéntanos</string>
 </resources>

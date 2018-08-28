@@ -136,5 +136,7 @@
     <string name="about_send_email">Envíame un email</string>
     <string name="about_author_email" translatable="false">andres@reveronmolina.me</string>
     <string name="about_author_email_subject" translatable="false">Valenbisi</string>
+    <string name="about_issue_url" translatable="false">https://github.com/systemallica/ValenBisi/issues/new</string>
+    <string name="about_issue">¿Algún problema? Cuéntanos</string>
 
 </resources>

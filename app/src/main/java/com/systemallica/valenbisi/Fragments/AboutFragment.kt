@@ -3,8 +3,6 @@ package com.systemallica.valenbisi.fragments
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.view.View
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder
 import com.danielstone.materialaboutlibrary.MaterialAboutFragment
 
@@ -108,6 +106,18 @@ class AboutFragment : MaterialAboutFragment() {
                         )
                     )
                     .build()
+            )
+
+            .addItem(
+                ConvenienceBuilder.createWebsiteActionItem(
+                    activityContext,
+                    IconicsDrawable(activityContext)
+                        .icon(CommunityMaterial.Icon.cmd_alert_circle_outline)
+                        .sizeDp(18),
+                    getString(R.string.about_issue),
+                    false,
+                    Uri.parse(getString(R.string.about_issue_url))
+                )
             )
 
             .addItem(MaterialAboutActionItem.Builder()
