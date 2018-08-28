@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "28.0.1"
+    buildToolsVersion "28.0.2"
 
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
@@ -36,10 +36,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Support libraries
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
+    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
     implementation 'com.android.support:design:28.0.0-rc01'
-    implementation 'com.android.support:support-v4:28.0.0-rc01'
-    implementation 'com.android.support:preference-v7:28.0.0-rc01'
+    implementation 'com.android.support:support-v4:28.0.0-rc02'
+    implementation 'com.android.support:preference-v7:28.0.0-rc02'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     // Maps and billing
     implementation "com.google.android.gms:play-services-maps:15.0.1"
