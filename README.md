@@ -8,6 +8,26 @@ It has been developed using the Material Design guidelines provided by Google, a
 
 [![Build Status](https://travis-ci.org/systemallica/ValenBisi.svg?branch=master)](https://travis-ci.org/systemallica/ValenBisi) [![GitHub issues](https://img.shields.io/github/issues/systemallica/valenbisi.svg)](https://github.com/systemallica/valenbisi/issues)
 
+## Screenshots
+
+### Map
+
+| Main view                          | Clustering ON                             | Bike lanes ON                   |
+| ---------------------------------- | ----------------------------------------- | ------------------------------- |
+| ![Main view](screenshots/main.png) | ![Clustering](screenshots/clustering.png) | ![Lanes](screenshots/lanes.png) |
+
+### Stations
+
+| Normal station                     | Favourite station                   | Closed station                            |
+| ---------------------------------- | ----------------------------------- | ----------------------------------------- |
+|![Station](screenshots/station.png) | ![Station fav](screenshots/fav.png) | ![Station closed](screenshots/closed.png) |
+
+### Menu
+
+| Drawer                             | Options                             | About                          |
+| ---------------------------------- | ----------------------------------- | ------------------------------ |
+|![Drawer](screenshots/drawer.png)   | ![Options](screenshots/options.png) | ![Menu](screenshots/about.png) |
+
 ## Features:
 
 * Colorful display of bike stations
