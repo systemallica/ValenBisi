@@ -24,3 +24,8 @@
 -dontwarn org.conscrypt.**
 # A resource is loaded with a relative path so the package of this class must be preserved.
 -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+# Exclude R from ProGuard to enable the libraries auto detection
+-keep class .R
+-keep class **.R$* {
+    <fields>;
+}

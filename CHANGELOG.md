@@ -1,15 +1,17 @@
-# Unreleased
+# 3.0.0
 
 ### Added
 - The map now remembers its previous state when you open/close the app
 - Added a new icon for **parking off**
+- Added new donation options (1€, 3€, 5€)
+- Completely new **about** section
 
 ### Changed
 - Redesigned map buttons to make them more similar to the other Google Map buttons
-- Redesigned **about** section
 - Redesigned **options** menu
 - Changed many icons
 - Refactored the whole project to kotlin and made the code cleaner
+- Removed ads
 
 ### Fixed
 - Fixed a bug which prevented the app from removing the bike lanes layer
