@@ -218,7 +218,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         } catch (e: SecurityException) {
             Log.e(LOG_TAG, e.message)
         }
-
     }
 
     private fun isValenciaArea(location: LatLng): Boolean {
@@ -228,40 +227,37 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun setInitialPosition() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
         if (isLocationPermissionGranted) {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    // Got last known location. In some rare situations this can be null.
-                    if (location != null) {
-                        val longitude = location.longitude
-                        val latitude = location.latitude
-                        val latLng = LatLng(latitude, longitude)
-                        moveToLocationOrValencia(latLng)
-                    } else {
-                        moveToLocationOrValencia(null)
+            try {
+                fusedLocationClient.lastLocation
+                    .addOnSuccessListener { location: Location? ->
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            val longitude = location.longitude
+                            val latitude = location.latitude
+                            val currentLocation = LatLng(latitude, longitude)
+                            moveToLocationOrValencia(currentLocation)
+                        } else {
+                            moveToLocationOrValencia()
+                        }
                     }
-                }
-                .addOnFailureListener { _ ->
-                    moveToLocationOrValencia(null)
-                }
+                    .addOnFailureListener { _ ->
+                        moveToLocationOrValencia()
+                    }
+            } catch (e: SecurityException) {
+                Log.e(LOG_TAG, e.message)
+            }
         } else {
-            moveToLocationOrValencia(null)
+            moveToLocationOrValencia()
         }
     }
 
-    private fun moveToLocationOrValencia(currentLocation: LatLng?) {
-
-        val valencia = LatLng(39.479, -0.372)
-
+    private fun moveToLocationOrValencia(currentLocation: LatLng = LatLng(39.479, -0.372)) {
         val initialZoom = userSettings!!.getBoolean("initialZoom", true)
 
-        if (isLocationPermissionGranted && initialZoom && currentLocation != null) {
-            if (isValenciaArea(currentLocation)) {
-                mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f))
-            } else {
-                mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f))
-            }
+        if (isLocationPermissionGranted && initialZoom && isValenciaArea(currentLocation)) {
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f))
         } else {
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(valencia, 13.0f))
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13.0f))
         }
     }
 
