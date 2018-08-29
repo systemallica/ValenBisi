@@ -124,26 +124,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        // Set Activity title
-        title = item.title
-
         val fragmentTransaction = supportFragmentManager.beginTransaction()
 
         when (id) {
             R.id.nav_map -> {
+                // Set Activity title
+                title = item.title
                 fragmentTransaction.replace(R.id.containerView, MapsFragment())
             }
             R.id.nav_settings -> {
+                // Set Activity title
+                title = item.title
                 fragmentTransaction.replace(R.id.containerView, SettingsFragment())
             }
             R.id.nav_share -> {
                 try {
                     shareApplication()
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
+                    drawer_layout.closeDrawers()
+                    return false
                 } catch (e: Exception) {
                     e.toString()
                 }
             }
             R.id.nav_about -> {
+                // Set Activity title
+                title = item.title
                 fragmentTransaction.replace(R.id.containerView, AboutFragment())
             }
         }
@@ -155,12 +161,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun shareApplication() {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
-        val sAux =
-            "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
-        intent.putExtra(Intent.EXTRA_TEXT, sAux)
-        startActivity(intent)
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(
+                Intent.EXTRA_TEXT,
+                "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
+            )
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(sendIntent, getString(R.string.nav_share)))
     }
 
     private fun initActivity() {
