@@ -1,3 +1,11 @@
+# 3.1.0
+
+### Changed
+- Improved sharing menu
+
+### Fixed
+- Fixed a crash on KitKat devices
+
 # 3.0.0
 
 ### Added
