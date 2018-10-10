@@ -12,9 +12,9 @@ import android.location.Location
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -56,7 +56,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 
-import android.support.v7.preference.PreferenceManager.getDefaultSharedPreferences
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -80,7 +80,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private val isLocationPermissionGranted: Boolean
         @TargetApi(23)
-        get() = !isSdkHigherThanLollipop || activity!!.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        get() = !isSdkHigherThanLollipop || activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private val isSdkHigherThanLollipop: Boolean
         get() = Build.VERSION.SDK_INT >= 23
@@ -91,9 +91,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private// Add warning that data may be unreliable
     val warningMessage: String
         get() = "\n\n" +
-                this@MapsFragment.resources.getString(R.string.data_old) +
+                getString(R.string.data_old) +
                 "\n" +
-                this@MapsFragment.resources.getString(R.string.data_unreliable)
+                getString(R.string.data_unreliable)
 
 
     override fun onCreateView(
@@ -126,8 +126,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 setLocationButtonEnabled(true)
             } else {
                 setLocationButtonEnabled(false)
-                Snackbar.make(mainView!!, R.string.no_location_permission, Snackbar.LENGTH_SHORT)
-                    .show()
+                safeSnackBar(R.string.no_location_permission)
+
             }
         }
     }
@@ -341,13 +341,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         if (responseBody != null) {
             // Show loading message
-            Snackbar.make(mainView!!, R.string.load_stations, Snackbar.LENGTH_LONG).show()
+            safeSnackBar(R.string.load_stations)
             addDataToMap(responseBody.string())
         } else {
             Log.e(LOG_TAG, "Empty server response")
             activity!!.runOnUiThread {
                 // Show message if API response is empty
-                Snackbar.make(mainView!!, R.string.no_data, Snackbar.LENGTH_LONG).show()
+                safeSnackBar(R.string.no_data)
             }
         }
     }
@@ -447,7 +447,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         } else {
             station.icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)
-            station.snippet = this@MapsFragment.resources.getString(R.string.closed)
+            station.snippet = getString(R.string.closed)
             if (showOnlyAvailableStations) {
                 station.visibility = false
             }
@@ -520,25 +520,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getMarkerSnippet(bikes: Int, spots: Int, lastUpdate: String): String {
-        val showLastUpdatedInfo = userSettings!!.getBoolean("lastUpdated", true)
+        if (isApplicationReady) {
+            val showLastUpdatedInfo = userSettings!!.getBoolean("lastUpdated", true)
 
-        // Add number of available bikes/stands
-        var snippet: String = this@MapsFragment.resources.getString(R.string.spots) + " " +
-                spots + " - " +
-                this@MapsFragment.resources.getString(R.string.bikes) + " " +
-                bikes
+            // Add number of available bikes/stands
+            var snippet: String = getString(R.string.spots) + " " +
+                    spots + " - " +
+                    getString(R.string.bikes) + " " +
+                    bikes
 
-        // Add last updated time if user has checked that option
-        if (showLastUpdatedInfo) {
-            snippet += getLastUpdatedInfo(lastUpdate)
+            // Add last updated time if user has checked that option
+            if (showLastUpdatedInfo) {
+                snippet += getLastUpdatedInfo(lastUpdate)
+            }
+
+            // If data has not been updated for more than 1 hour
+            if (millisecondsFrom(lastUpdate) > 3600000) {
+                snippet += warningMessage
+            }
+
+            return snippet
         }
 
-        // If data has not been updated for more than 1 hour
-        if (millisecondsFrom(lastUpdate) > 3600000) {
-            snippet += warningMessage
-        }
-
-        return snippet
+        return ""
     }
 
     private fun millisecondsFrom(event: String): Long {
@@ -550,22 +554,26 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getLastUpdatedInfo(lastUpdate: String): String {
-        val snippet: String
-        val apiTime = java.lang.Long.parseLong(lastUpdate)
-        val date = GregorianCalendar()
+        if (isApplicationReady) {
+            val snippet: String
+            val apiTime = java.lang.Long.parseLong(lastUpdate)
+            val date = GregorianCalendar()
 
-        // Set API time
-        date.timeInMillis = apiTime
-        // Format time as HH:mm:ss
-        val sbu = StringBuilder()
-        val fmt = Formatter(sbu)
-        fmt.format("%tT", date.time)
-        // Add to pointStyle
-        snippet = "\n" +
-                this@MapsFragment.resources.getString(R.string.last_updated) + " " +
-                sbu
+            // Set API time
+            date.timeInMillis = apiTime
+            // Format time as HH:mm:ss
+            val sbu = StringBuilder()
+            val fmt = Formatter(sbu)
+            fmt.format("%tT", date.time)
+            // Add to pointStyle
+            snippet = "\n" +
+                    getString(R.string.last_updated) + " " +
+                    sbu
 
-        return snippet
+            return snippet
+        }
+
+        return ""
     }
 
     private fun getMarkerAlpha(currentStationIsFav: Boolean): Float {
@@ -901,10 +909,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return popup
     }
 
+    private fun safeSnackBar(stringReference: Int) {
+        mainView?.let {
+            Snackbar.make(mainView, stringReference, Snackbar.LENGTH_LONG).show()
+        }
+    }
+
     private inner class GetLanes : AsyncTask<Void, Void, GeoJsonLayer>() {
 
         override fun onPreExecute() {
-            Snackbar.make(mainView!!, R.string.load_lanes, Snackbar.LENGTH_LONG).show()
+            safeSnackBar(R.string.load_lanes)
         }
 
         override fun doInBackground(vararg params: Void): GeoJsonLayer {
@@ -949,7 +963,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private inner class GetParking : AsyncTask<Void, Void, GeoJsonLayer>() {
         override fun onPreExecute() {
-            Snackbar.make(mainView!!, R.string.load_parking, Snackbar.LENGTH_SHORT).show()
+            safeSnackBar(R.string.load_parking)
         }
 
         override fun doInBackground(vararg params: Void): GeoJsonLayer {
@@ -963,9 +977,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     parking = GeoJsonLayer(mMap, R.raw.aparcabicis, context)
                     for (feature in parking!!.features) {
                         val pointStyle = GeoJsonPointStyle()
-                        pointStyle.title = this@MapsFragment.resources.getString(R.string.parking) +
+                        pointStyle.title = getString(R.string.parking) +
                                 " " + feature.getProperty("id")
-                        pointStyle.snippet = this@MapsFragment.resources.getString(R.string.plazas) +
+                        pointStyle.snippet = getString(R.string.plazas) +
                                 " " + feature.getProperty("plazas")
                         pointStyle.alpha = 0.5.toFloat()
                         pointStyle.icon = iconParking
