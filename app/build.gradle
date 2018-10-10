@@ -34,23 +34,23 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-    implementation 'com.android.support:design:28.0.0-rc01'
-    implementation 'com.android.support:support-v4:28.0.0-rc02'
-    implementation 'com.android.support:preference-v7:28.0.0-rc02'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     // Maps and billing
-    implementation "com.google.android.gms:play-services-maps:15.0.1"
-    implementation "com.google.android.gms:play-services-location:15.0.1"
-    implementation "com.google.maps.android:android-maps-utils:0.5"
-    implementation "com.android.billingclient:billing:1.1"
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
+    implementation 'com.android.billingclient:billing:1.1'
     // About screen
-    implementation 'com.github.daniel-stoneuk:material-about-library:2.3.0'
-    implementation "com.mikepenz:iconics-core:3.0.4@aar"
-    implementation 'com.mikepenz:community-material-typeface:2.0.46.1@aar'
-    implementation "com.mikepenz:aboutlibraries:6.1.1"
+    implementation project(':material-about-androidX')
+    implementation 'com.mikepenz:iconics-core:3.1.0@aar'
+    implementation 'com.mikepenz:community-material-typeface:2.7.94.1@aar'
+    implementation 'com.mikepenz:aboutlibraries:6.2.0'
     // OkHTTP
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     // LeakCanary
