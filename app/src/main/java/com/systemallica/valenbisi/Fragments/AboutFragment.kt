@@ -35,7 +35,7 @@ class AboutFragment : MaterialAboutFragment() {
                 ConvenienceBuilder.createVersionActionItem(
                     activityContext,
                     IconicsDrawable(activityContext)
-                        .icon(CommunityMaterial.Icon.cmd_information_outline)
+                        .icon(CommunityMaterial.Icon2.cmd_information_outline)
                         .sizeDp(18),
                     getString(R.string.about_version),
                     true
@@ -46,7 +46,7 @@ class AboutFragment : MaterialAboutFragment() {
                 ConvenienceBuilder.createRateActionItem(
                     activityContext,
                     IconicsDrawable(activityContext)
-                        .icon(CommunityMaterial.Icon.cmd_star_outline)
+                        .icon(CommunityMaterial.Icon2.cmd_star_outline)
                         .sizeDp(18),
                     getString(R.string.about_rate),
                     null
@@ -58,7 +58,7 @@ class AboutFragment : MaterialAboutFragment() {
                     .text(getString(R.string.about_support))
                     .icon(
                         IconicsDrawable(activityContext)
-                            .icon(CommunityMaterial.Icon.cmd_heart_outline)
+                            .icon(CommunityMaterial.Icon2.cmd_heart_outline)
                             .sizeDp(18)
                     )
                     .setOnClickAction {
@@ -76,7 +76,7 @@ class AboutFragment : MaterialAboutFragment() {
                 .text(getString(R.string.about_changelog))
                 .icon(
                     IconicsDrawable(activityContext)
-                        .icon(CommunityMaterial.Icon.cmd_history)
+                        .icon(CommunityMaterial.Icon2.cmd_history)
                         .sizeDp(18)
                 )
                 .setOnClickAction(
