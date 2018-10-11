@@ -923,7 +923,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         override fun doInBackground(vararg params: Void): GeoJsonLayer {
             try {
-                lanes = GeoJsonLayer(mMap, R.raw.bike_lanes_0618, context)
+                lanes = GeoJsonLayer(mMap, R.raw.bike_lanes, context)
                 for (feature in lanes!!.features) {
                     val stringStyle = GeoJsonLineStringStyle()
                     stringStyle.width = 5f
