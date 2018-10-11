@@ -143,7 +143,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             setInitialPosition()
 
-            setButtonIconsAndListeners()
+            setInitialButtonState()
+
+            setButtonListeners()
 
             restoreOptionalLayers()
 
@@ -584,12 +586,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun setButtonIconsAndListeners() {
-        setInitialButtonState()
-        addListeners()
-    }
-
-    private fun addListeners() {
+    private fun setButtonListeners() {
         setOfflineListeners()
         setOnlineListeners()
     }
@@ -622,7 +619,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             )
         }
 
-        val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", true)
+        val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", false)
         if (isCarrilLayerAdded) {
             btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
                 bikeLanesOn,
