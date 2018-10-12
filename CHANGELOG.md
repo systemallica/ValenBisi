@@ -1,3 +1,12 @@
+# 3.2.0
+
+### Changed
+- Updated bike lanes (September 2018)
+- Moved project to AndroidX
+
+### Fixed
+- Fixed several crashes
+
 # 3.1.0
 
 ### Changed
