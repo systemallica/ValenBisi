@@ -36,27 +36,27 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     // Maps and billing
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
-    implementation 'com.android.billingclient:billing:1.1'
+    implementation 'com.android.billingclient:billing:1.2'
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation 'com.mikepenz:iconics-core:3.1.0@aar'
     implementation 'com.mikepenz:community-material-typeface:2.7.94.1@aar'
     implementation 'com.mikepenz:aboutlibraries:6.2.0'
     // OkHTTP
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     // LeakCanary
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.1'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
