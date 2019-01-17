@@ -1,3 +1,9 @@
+# 3.2.1
+
+### Fixed
+
+- Support for Android 9
+
 # 3.2.0
 
 ### Changed
