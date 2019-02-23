@@ -192,6 +192,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         mapSettings.isZoomControlsEnabled = true
         mapSettings.isCompassEnabled = false
         mapSettings.isRotateGesturesEnabled = false
+        mapSettings.isScrollGesturesEnabledDuringRotateOrZoom = false
     }
 
     private fun setMapBasemap() {
