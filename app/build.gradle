@@ -6,6 +6,8 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
+    sourceSets{ main.java.srcDirs += 'src/main/kotlin' }
+
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 17
