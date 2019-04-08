@@ -1,3 +1,10 @@
+# 3.3.0
+
+### Changed
+
+- Updated bike lanes (January 2019)
+- Upgraded dependencies
+
 # 3.2.1
 
 ### Fixed

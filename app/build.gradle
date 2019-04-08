@@ -20,8 +20,8 @@ android {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 69
-        versionName "3.2.1"
+        versionCode 70
+        versionName "3.3.0"
     }
 
     lintOptions {
