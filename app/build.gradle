@@ -6,6 +6,14 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
+    // Configure only for each module that uses Java 8
+    // language features (either in its source code or
+    // through dependencies).
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     sourceSets{ main.java.srcDirs += 'src/main/kotlin' }
 
     defaultConfig {
@@ -42,7 +50,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
     // Maps and billing
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
@@ -50,9 +58,9 @@ dependencies {
     implementation 'com.android.billingclient:billing:1.2'
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
-    implementation 'com.mikepenz:iconics-core:3.1.0@aar'
-    implementation 'com.mikepenz:community-material-typeface:2.7.94.1@aar'
-    implementation 'com.mikepenz:aboutlibraries:6.2.0'
+    implementation 'com.mikepenz:iconics-core:3.2.3'
+    implementation 'com.mikepenz:community-material-typeface:3.5.95.1@aar'
+    implementation 'com.mikepenz:aboutlibraries:6.2.3'
     // OkHTTP
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     // LeakCanary
