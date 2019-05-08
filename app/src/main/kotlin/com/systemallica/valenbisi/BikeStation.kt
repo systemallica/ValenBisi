@@ -2,7 +2,7 @@ package com.systemallica.valenbisi
 
 import android.util.Log
 
-import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.libraries.maps.model.BitmapDescriptor
 
 import org.json.JSONException
 import org.json.JSONObject

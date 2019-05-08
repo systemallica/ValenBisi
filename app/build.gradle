@@ -50,9 +50,9 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     // Maps and billing
-    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation name:'maps-sdk-3.0.0-beta', ext:'aar'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.android.billingclient:billing:1.2'

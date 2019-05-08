@@ -1,7 +1,7 @@
 package com.systemallica.valenbisi.clustering
 
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.maps.model.BitmapDescriptor
+import com.google.android.libraries.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.systemallica.valenbisi.BikeStation
 
