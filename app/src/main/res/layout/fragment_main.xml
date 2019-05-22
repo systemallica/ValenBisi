@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.systemallica.valenbisi.fragments.MapsFragment">
 
-    <com.google.android.gms.maps.MapView
+    <com.google.android.libraries.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
