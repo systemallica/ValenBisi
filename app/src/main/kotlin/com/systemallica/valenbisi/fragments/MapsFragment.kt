@@ -246,7 +246,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         if (isLocationPermissionGranted && initialZoom && isValenciaArea(currentLocation)) {
             mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f))
         } else {
-            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13.0f))
+            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(39.479, -0.372), 13.0f))
         }
     }
 
