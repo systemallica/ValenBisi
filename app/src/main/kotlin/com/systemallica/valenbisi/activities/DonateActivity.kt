@@ -18,8 +18,8 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener {
 
         val mToolbar = findViewById<Toolbar>(R.id.toolbarDonate)
         setSupportActionBar(mToolbar)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
-        getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         setClickListeners()
     }
