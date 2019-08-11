@@ -55,6 +55,7 @@ dependencies {
     // Maps and billing
     implementation name:'maps-sdk-3.0.0-beta', ext:'aar'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils-sdk-v3-compat:0.1'
     implementation 'com.android.billingclient:billing:1.2'
     // About screen
