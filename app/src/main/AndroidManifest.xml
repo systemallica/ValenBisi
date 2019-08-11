@@ -8,7 +8,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
-        android:name=".Application"
+        android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"

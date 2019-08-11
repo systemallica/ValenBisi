@@ -8,36 +8,29 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.FragmentTransaction
-import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import android.view.MenuItem
-
+import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentTransaction
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
+import com.google.android.material.navigation.NavigationView
 import com.systemallica.valenbisi.BuildConfig
 import com.systemallica.valenbisi.ContextWrapper
+import com.systemallica.valenbisi.R
+import com.systemallica.valenbisi.R.layout.activity_main
 import com.systemallica.valenbisi.fragments.AboutFragment
 import com.systemallica.valenbisi.fragments.MapsFragment
 import com.systemallica.valenbisi.fragments.SettingsFragment
-import com.systemallica.valenbisi.R
-
-import java.io.IOException
-import java.util.Locale
-
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.systemallica.valenbisi.R.layout.activity_main
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-
+import okhttp3.*
+import java.io.IOException
+import java.util.*
+import kotlin.system.exitProcess
 
 const val PREFS_NAME = "MyPrefsFile"
 
@@ -75,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             AlertDialog.Builder(this)
                 .setTitle(R.string.no_internet)
                 .setMessage(R.string.no_internet_message)
-                .setPositiveButton(R.string.close) { _, _ -> System.exit(0) }
+                .setPositiveButton(R.string.close) { _, _ -> exitProcess(0) }
 
                 .setNegativeButton(R.string.continuer) { _, _ ->
                     //Do nothing
@@ -140,7 +133,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_share -> {
                 try {
                     shareApplication()
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commitNow()
                     drawer_layout.closeDrawers()
                     return false
                 } catch (e: Exception) {
@@ -229,13 +223,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-
             }
 
             @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response?) {
+            override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    val responseBody = response!!.body()
+                    val responseBody = response.body
                     if (!response.isSuccessful)
                         throw IOException("Unexpected code $response")
 

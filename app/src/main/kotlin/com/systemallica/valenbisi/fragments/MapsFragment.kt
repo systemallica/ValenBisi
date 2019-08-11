@@ -12,16 +12,17 @@ import android.location.Location
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.libraries.maps.CameraUpdateFactory
 import com.google.android.libraries.maps.GoogleMap
 import com.google.android.libraries.maps.OnMapReadyCallback
@@ -30,36 +31,20 @@ import com.google.android.libraries.maps.model.BitmapDescriptor
 import com.google.android.libraries.maps.model.BitmapDescriptorFactory
 import com.google.android.libraries.maps.model.LatLng
 import com.google.android.libraries.maps.model.Marker
+import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.data.geojson.GeoJsonFeature
-import com.google.maps.android.data.geojson.GeoJsonLayer
-import com.google.maps.android.data.geojson.GeoJsonLineStringStyle
-import com.google.maps.android.data.geojson.GeoJsonPoint
-import com.google.maps.android.data.geojson.GeoJsonPointStyle
+import com.google.maps.android.data.geojson.*
 import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.clustering.ClusterPoint
 import com.systemallica.valenbisi.clustering.IconRenderer
-
+import kotlinx.android.synthetic.main.fragment_main.*
+import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-
 import java.io.IOException
-import java.util.Formatter
-import java.util.GregorianCalendar
-import java.util.HashMap
-
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-
-import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import kotlinx.android.synthetic.main.fragment_main.*
+import java.util.*
 
 const val PREFS_NAME = "MyPrefsFile"
 const val LOG_TAG = "Valenbisi error"
@@ -158,11 +143,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         mClusterManager = ClusterManager(context, mMap)
         // Set custom renderer
         mClusterManager!!.renderer =
-                IconRenderer(
-                    context!!,
-                    mMap!!,
-                    mClusterManager!!
-                )
+            IconRenderer(
+                context!!,
+                mMap!!,
+                mClusterManager!!
+            )
     }
 
     private fun initPreferences() {
@@ -219,7 +204,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         try {
             mMap!!.isMyLocationEnabled = mode
         } catch (e: SecurityException) {
-            Log.e(LOG_TAG, e.message)
+            Log.e(LOG_TAG, e.message!!)
         }
     }
 
@@ -243,11 +228,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                             moveToLocationOrValencia()
                         }
                     }
-                    .addOnFailureListener { _ ->
+                    .addOnFailureListener {
                         moveToLocationOrValencia()
                     }
             } catch (e: SecurityException) {
-                Log.e(LOG_TAG, e.message)
+                Log.e(LOG_TAG, e.message!!)
             }
         } else {
             moveToLocationOrValencia()
@@ -313,13 +298,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 Log.e(LOG_TAG, "error with http call(no internet?)")
             }
 
-            override fun onResponse(call: Call, response: Response?) {
+            override fun onResponse(call: Call, response: Response) {
                 try {
-                    handleApiResponse(response!!)
+                    handleApiResponse(response)
                 } catch (e: IOException) {
                     Log.e(LOG_TAG, "error with http request")
                 } finally {
-                    response?.close()
+                    response.close()
                 }
             }
         })
@@ -340,7 +325,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     private fun handleApiResponse(response: Response) {
         if (!response.isSuccessful)
             throw IOException("Unexpected code $response")
-        val responseBody = response.body()
+        val responseBody = response.body
 
         if (responseBody != null) {
             // Show loading message
@@ -467,8 +452,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         properties["number"] = station.number
         properties["address"] = station.address
         properties["status"] = station.status
-        properties["available_bike_stands"] = Integer.toString(station.spots)
-        properties["available_bikes"] = Integer.toString(station.bikes)
+        properties["available_bike_stands"] = station.spots.toString()
+        properties["available_bikes"] = station.bikes.toString()
         properties["last_updated"] = station.lastUpdate
 
         return properties

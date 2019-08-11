@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
     // Configure only for each module that uses Java 8
     // language features (either in its source code or
@@ -19,9 +19,10 @@ android {
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 70
         versionName "3.3.0"
+        multiDexEnabled true
     }
 
     lintOptions {
@@ -50,10 +51,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     // Maps and billing
     implementation name:'maps-sdk-3.0.0-beta', ext:'aar'
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils-sdk-v3-compat:0.1'
     implementation 'com.android.billingclient:billing:1.2'
     // About screen
@@ -62,11 +63,12 @@ dependencies {
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1@aar'
     implementation 'com.mikepenz:aboutlibraries:6.2.3'
     // OkHTTP
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
     // LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.multidex:multidex:2.0.1"
 }

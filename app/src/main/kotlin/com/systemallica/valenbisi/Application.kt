@@ -3,7 +3,7 @@ package com.systemallica.valenbisi
 
 import com.squareup.leakcanary.LeakCanary
 
-class Application : android.app.Application() {
+class Application : androidx.multidex.MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
