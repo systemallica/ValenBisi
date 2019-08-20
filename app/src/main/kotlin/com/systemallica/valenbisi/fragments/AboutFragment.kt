@@ -14,7 +14,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.community_material_typeface_library.CommunityMaterial
+import com.mikepenz.iconics.sizeDp
+import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.systemallica.valenbisi.activities.DonateActivity
 
 
