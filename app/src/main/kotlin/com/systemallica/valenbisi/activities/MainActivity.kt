@@ -1,14 +1,12 @@
 package com.systemallica.valenbisi.activities
 
-import android.app.ActivityManager
+import android.app.ActivityManager.TaskDescription
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -31,6 +29,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import okhttp3.*
 import java.io.IOException
 import kotlin.system.exitProcess
+
 
 const val PREFS_NAME = "MyPrefsFile"
 
@@ -150,7 +149,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initDrawerToggle()
         initNavigationView()
         initNavBarColor()
-        initRecentsIconAndColor()
     }
 
     private fun initDrawerToggle() {
@@ -173,25 +171,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val userSettings = getDefaultSharedPreferences(applicationContext)
         val navBar = userSettings.getBoolean("navBar", true)
         val colorPrimary = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-        if (navBar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (navBar) {
             window.navigationBarColor = colorPrimary
         }
     }
-
-    private fun initRecentsIconAndColor() {
-        val colorPrimary = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-
-        val recentsIcon = BitmapFactory.decodeResource(
-                applicationContext.resources,
-                R.drawable.splash_inverted
-        )
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val description = ActivityManager.TaskDescription(null, recentsIcon, colorPrimary)
-            this.setTaskDescription(description)
-        }
-    }
-
 
     private fun getLatestVersion() {
         val client = OkHttpClient()

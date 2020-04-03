@@ -1,7 +1,6 @@
 package com.systemallica.valenbisi.fragments
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -10,7 +9,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.location.Location
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -65,11 +63,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         get() = isAdded && activity != null
 
     private val isLocationPermissionGranted: Boolean
-        @TargetApi(23)
-        get() = !isSdkHigherThanLollipop || activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-    private val isSdkHigherThanLollipop: Boolean
-        get() = Build.VERSION.SDK_INT >= 23
+        get() = activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private val isMapReady: Boolean
         get() = mMap != null
