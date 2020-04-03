@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
+                android:gravity="center_horizontal"
                 android:text="@string/title_activity_donate"
                 android:textAlignment="center"
                 android:textSize="30sp" />

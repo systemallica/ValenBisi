@@ -2,9 +2,11 @@ package com.systemallica.valenbisi.activities
 
 import android.app.ActivityManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -53,27 +55,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             fragmentTransaction.commitNow()
         }
 
-        //Check internet
+        //Check if current network has internet access
         val cm =
-            applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val activeNetwork = cm.activeNetworkInfo
-        val isConnected = activeNetwork != null && activeNetwork.isConnected
+                applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetwork
+        val networkCapabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+        val isConnected = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
 
         //React to the check
-        if (!isConnected) {
-            //Prompt an alert dialog to the user
+        if (activeNetwork == null || (isConnected != null && !isConnected)) {
+
             AlertDialog.Builder(this)
-                .setTitle(R.string.no_internet)
-                .setMessage(R.string.no_internet_message)
-                .setPositiveButton(R.string.close) { _, _ -> exitProcess(0) }
+                    .setTitle(R.string.no_internet)
+                    .setMessage(R.string.no_internet_message)
+                    .setPositiveButton(R.string.close
+                    ) { _, _ ->
+                        exitProcess(0)
+                    }
+                    .setNegativeButton(R.string.continuer
+                    ) { _, _ ->
+                        // Do nothing
+                    }
+                    .setIcon(R.drawable.icon_alert)
+                    .show()
 
-                .setNegativeButton(R.string.continuer) { _, _ ->
-                    //Do nothing
-                }
-
-                .setIcon(R.drawable.icon_alert)
-                .show()
         } else {
             getLatestVersion()
         }
@@ -108,7 +113,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 try {
                     shareApplication()
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .commitNow()
+                            .commitNow()
                     drawer_layout.closeDrawers()
                     return false
                 } catch (e: Exception) {
@@ -132,8 +137,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(
-                Intent.EXTRA_TEXT,
-                "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
+                    Intent.EXTRA_TEXT,
+                    "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
             )
             type = "text/plain"
         }
@@ -150,11 +155,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun initDrawerToggle() {
         val toggle = ActionBarDrawerToggle(
-            this,
-            drawer_layout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+                this,
+                drawer_layout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -177,8 +182,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val colorPrimary = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
 
         val recentsIcon = BitmapFactory.decodeResource(
-            applicationContext.resources,
-            R.drawable.splash_inverted
+                applicationContext.resources,
+                R.drawable.splash_inverted
         )
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -192,8 +197,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/VersionCode")
-            .build()
+                .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/VersionCode")
+                .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -232,23 +237,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 runOnUiThread {
                     val builder = AlertDialog.Builder(this@MainActivity)
                     builder.setTitle(R.string.update_available)
-                        .setMessage(R.string.update_message)
-                        .setIcon(R.drawable.icon_update)
-                        .setPositiveButton(R.string.update_ok) { _, _ ->
-                            val browserIntent = Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi")
-                            )
-                            startActivity(browserIntent)
-                        }
-                        .setNegativeButton(R.string.update_not_now) { _, _ ->
-                            // Do nothing
-                        }
-                        .setNeutralButton(R.string.update_never) { _, _ ->
-                            val editor = settings.edit()
-                            editor.putBoolean("noUpdate", true)
-                            editor.apply()
-                        }
+                            .setMessage(R.string.update_message)
+                            .setIcon(R.drawable.icon_update)
+                            .setPositiveButton(R.string.update_ok) { _, _ ->
+                                val browserIntent = Intent(
+                                        Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi")
+                                )
+                                startActivity(browserIntent)
+                            }
+                            .setNegativeButton(R.string.update_not_now) { _, _ ->
+                                // Do nothing
+                            }
+                            .setNeutralButton(R.string.update_never) { _, _ ->
+                                val editor = settings.edit()
+                                editor.putBoolean("noUpdate", true)
+                                editor.apply()
+                            }
                     val dialog = builder.create()
                     dialog.show()
                 }
@@ -257,10 +262,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             runOnUiThread {
                 val builder = AlertDialog.Builder(this@MainActivity)
                 builder.setTitle(R.string.alpha_title)
-                    .setMessage(R.string.alpha_message)
-                    .setPositiveButton(R.string.update_ok) { _, _ ->
-                        // Do nothing
-                    }
+                        .setMessage(R.string.alpha_message)
+                        .setPositiveButton(R.string.update_ok) { _, _ ->
+                            // Do nothing
+                        }
                 val dialog = builder.create()
                 dialog.show()
             }
