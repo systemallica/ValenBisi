@@ -1,9 +1,7 @@
 package com.systemallica.valenbisi.activities
 
-import android.app.ActivityManager.TaskDescription
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.Uri
