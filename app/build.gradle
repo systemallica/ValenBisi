@@ -18,11 +18,10 @@ android {
 
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
-        minSdkVersion 17
+        minSdkVersion 23
         targetSdkVersion 29
-        versionCode 70
-        versionName "3.3.0"
-        multiDexEnabled true
+        versionCode 71
+        versionName "3.4.0"
     }
 
     lintOptions {
@@ -52,15 +51,14 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     // Maps and billing
-    implementation name:'maps-sdk-3.0.0-beta', ext:'aar'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.android.gms:play-services-gcm:17.0.0'
-    implementation 'com.google.maps.android:android-maps-utils-sdk-v3-compat:0.1'
+    implementation 'com.google.maps.android:android-maps-utils:1.0.2'
     implementation 'com.android.billingclient:billing:1.2'
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
@@ -68,12 +66,11 @@ dependencies {
     implementation 'com.mikepenz:community-material-typeface:3.5.95.1-kotlin@aar'
     implementation 'com.mikepenz:aboutlibraries:7.0.2'
     // OkHTTP
-    implementation 'com.squareup.okhttp3:okhttp:4.2.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.4.1'
     // LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.multidex:multidex:2.0.1"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.71"
 }

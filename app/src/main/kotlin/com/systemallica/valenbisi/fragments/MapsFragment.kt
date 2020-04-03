@@ -1,7 +1,6 @@
 package com.systemallica.valenbisi.fragments
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -10,7 +9,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.location.Location
 import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,19 +16,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.UiSettings
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.libraries.maps.CameraUpdateFactory
-import com.google.android.libraries.maps.GoogleMap
-import com.google.android.libraries.maps.OnMapReadyCallback
-import com.google.android.libraries.maps.UiSettings
-import com.google.android.libraries.maps.model.BitmapDescriptor
-import com.google.android.libraries.maps.model.BitmapDescriptorFactory
-import com.google.android.libraries.maps.model.LatLng
-import com.google.android.libraries.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.data.geojson.*
@@ -64,11 +63,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         get() = isAdded && activity != null
 
     private val isLocationPermissionGranted: Boolean
-        @TargetApi(23)
-        get() = !isSdkHigherThanLollipop || activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-    private val isSdkHigherThanLollipop: Boolean
-        get() = Build.VERSION.SDK_INT >= 23
+        get() = activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
     private val isMapReady: Boolean
         get() = mMap != null
@@ -823,7 +818,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setClusteredInfoWindow() {
-        mClusterManager!!.markerCollection.setOnInfoWindowAdapter(object :
+        mClusterManager!!.markerCollection.setInfoWindowAdapter(object :
             GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {

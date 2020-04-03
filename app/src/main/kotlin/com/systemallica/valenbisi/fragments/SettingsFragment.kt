@@ -26,12 +26,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         mContext = activity!!.applicationContext
 
         //NavBar stuff
-        val navBarPref = findPreference("navBar") as CheckBoxPreference
+        val navBarPref = findPreference<CheckBoxPreference>("navBar")
 
-        navBarPref.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        navBarPref?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                if (!navBarPref.isChecked) {
+                if (!navBarPref!!.isChecked) {
                     activity!!.window.navigationBarColor =
                             ContextCompat.getColor(context!!, R.color.colorPrimary)
                 } else {
@@ -53,8 +53,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
 
         //Voronoi info
-        val infoVoronoi = findPreference("infoVoronoi")
-        infoVoronoi.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        val infoVoronoi = findPreference<Preference>("infoVoronoi")
+        infoVoronoi?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             val browserIntent = Intent(
                 Intent.ACTION_VIEW,
                 Uri.parse("https://en.wikipedia.org/wiki/Voronoi_diagram")
@@ -62,28 +62,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             startActivity(browserIntent)
             true
         }
-
-        //Language stuff
-        val languagePref = findPreference("language") as ListPreference
-        languagePref.onPreferenceChangeListener =
-                Preference.OnPreferenceChangeListener { _, newValue ->
-                    val userSelectedValue = newValue as String
-
-                    val settings = context!!.getSharedPreferences("MyPrefsFile", 0)
-                    val editor = settings.edit()
-                    editor.putString("locale", userSelectedValue)
-                    editor.apply()
-
-                    val i =
-                        activity!!.packageManager.getLaunchIntentForPackage(activity!!.packageName)
-                    if (i != null) {
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(i)
-                        activity!!.finish()
-                    }
-
-                    true
-                }
     }
 }
 

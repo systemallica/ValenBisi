@@ -1,3 +1,16 @@
+# 3.4.0
+
+### Changed
+
+- Upgraded dependencies
+- Removed option to change language
+- Min SDK version is now 23
+
+### Fixed
+
+- Move location to Valencia if user is out of town
+- Some warnings
+
 # 3.3.0
 
 ### Changed

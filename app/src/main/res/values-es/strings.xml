@@ -40,14 +40,6 @@
     <string name="parking">Parking bicis</string>
     <string name="plazas">Plazas totales:</string>
     <string name="spots">Huecos&#58;</string>
-    <string name="catalan">Catalán</string>
-    <string name="default_locale">Por defecto</string>
-    <string name="language">Idioma</string>
-    <string name="voronoi">Celdas de Voronoi</string>
-    <string name="spanish">Español</string>
-    <string name="english">Inglés</string>
-    <string name="french">Francés</string>
-    <string name="language_summary">Cambiar el idioma de la app</string>
     <string name="others">Otros</string>
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
