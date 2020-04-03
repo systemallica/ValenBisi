@@ -62,28 +62,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             startActivity(browserIntent)
             true
         }
-
-        //Language stuff
-        val languagePref = findPreference<ListPreference>("language")
-        languagePref?.onPreferenceChangeListener =
-                Preference.OnPreferenceChangeListener { _, newValue ->
-                    val userSelectedValue = newValue as String
-
-                    val settings = context!!.getSharedPreferences("MyPrefsFile", 0)
-                    val editor = settings.edit()
-                    editor.putString("locale", userSelectedValue)
-                    editor.apply()
-
-                    val i =
-                        activity!!.packageManager.getLaunchIntentForPackage(activity!!.packageName)
-                    if (i != null) {
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(i)
-                        activity!!.finish()
-                    }
-
-                    true
-                }
     }
 }
 

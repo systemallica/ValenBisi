@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.google.android.material.navigation.NavigationView
 import com.systemallica.valenbisi.BuildConfig
-import com.systemallica.valenbisi.ContextWrapper
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.R.layout.activity_main
 import com.systemallica.valenbisi.fragments.AboutFragment
@@ -29,7 +28,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import okhttp3.*
 import java.io.IOException
-import java.util.*
 import kotlin.system.exitProcess
 
 const val PREFS_NAME = "MyPrefsFile"
@@ -80,30 +78,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             getLatestVersion()
         }
     }
-
-    override fun attachBaseContext(newBase: Context) {
-        // Changing language
-        val settings = newBase.getSharedPreferences(PREFS_NAME, 0)
-        val locale = settings.getString("locale", "default_locale")
-
-        // Get default system locale
-        val config = newBase.resources.configuration
-        val sysLocale: Locale
-        sysLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            ContextWrapper.getSystemLocale(config)
-        } else {
-            ContextWrapper.getSystemLocaleLegacy(config)
-        }
-
-        // Apply default locale if user didn't specify a locale
-        if (locale == "default_locale") {
-            super.attachBaseContext(ContextWrapper.wrap(newBase, sysLocale.language))
-            // Else apply user choice
-        } else {
-            super.attachBaseContext(ContextWrapper.wrap(newBase, locale!!))
-        }
-    }
-
 
     override fun onBackPressed() {
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)

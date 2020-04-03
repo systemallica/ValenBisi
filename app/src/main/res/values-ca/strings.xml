@@ -40,14 +40,6 @@
     <string name="parking">Parking bicis</string>
     <string name="plazas">Buits totals:</string>
     <string name="spots">Buits:</string>
-    <string name="catalan">Català</string>
-    <string name="english">Anglés</string>
-    <string name="default_locale">Per defecte</string>
-    <string name="language">Llenguatge</string>
-    <string name="voronoi">Cel·les de Voronoi</string>
-    <string name="spanish">Espanyol</string>
-    <string name="french">Francés</string>
-    <string name="language_summary">Canviar la llengua de l\'app</string>
     <string name="others">Altres</string>
     <string name="pref_voronoi_summary_off">No es mostraràn les cel·les de Voronoi</string>
     <string name="pref_voronoi_summary_on">Es mostraràn les cel·les de Voronoi</string>

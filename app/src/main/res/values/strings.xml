@@ -48,9 +48,6 @@
     <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>
     <string name="pref_cicloCalles_summary_on">Las ciclocalles se mostrarán en un color diferente a los carriles</string>
 
-    <string name="language">Idioma</string>
-    <string name="language_summary">Cambiar el idioma de la app</string>
-
     <string name="donation_ad_restore">Restaurar anuncios</string>
     <string name="donation_ads_removed">Anuncios eliminados :(</string>
     <string name="donation_ads_restored">Anuncios restaurados, gracias!</string>
@@ -81,17 +78,6 @@
 
     <string name="plazas">Plazas totales:</string>
     <string name="parking">Parking bicis</string>
-
-    <string name="default_locale">Por defecto</string>
-    <string name="spanish">Español</string>
-    <string name="english">Inglés</string>
-    <string name="french">Francés</string>
-    <string name="catalan">Catalán</string>
-    <string name="default_locale_code" translatable="false">default_locale</string>
-    <string name="spanish_code" translatable="false">es</string>
-    <string name="english_code" translatable="false">en</string>
-    <string name="french_code" translatable="false">fr</string>
-    <string name="catalan_code" translatable="false">ca</string>
 
     <string name="others">Otros</string>
 
