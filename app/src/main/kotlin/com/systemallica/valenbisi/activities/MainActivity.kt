@@ -194,7 +194,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val userSettings = getDefaultSharedPreferences(applicationContext)
         val navBar = userSettings.getBoolean("navBar", true)
         val colorPrimary = ContextCompat.getColor(applicationContext, R.color.colorPrimary)
-        if (navBar && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (navBar && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.navigationBarColor = colorPrimary
         }
     }
@@ -207,7 +207,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.drawable.splash_inverted
         )
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val description = ActivityManager.TaskDescription(null, recentsIcon, colorPrimary)
             this.setTaskDescription(description)
         }
