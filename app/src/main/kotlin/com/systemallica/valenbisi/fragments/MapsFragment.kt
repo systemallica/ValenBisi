@@ -57,15 +57,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    private var settings: SharedPreferences? = null
-    private var userSettings: SharedPreferences? = null
-    private var settingsEditor: SharedPreferences.Editor? = null
-    private var stations: GeoJsonLayer? = null
-    private var lanes: GeoJsonLayer? = null
-    private var parking: GeoJsonLayer? = null
-    private var mMap: GoogleMap? = null
-    private var mClusterManager: ClusterManager<ClusterPoint>? = null
+    private lateinit var settings: SharedPreferences
+    private lateinit var userSettings: SharedPreferences
+    private lateinit var settingsEditor: SharedPreferences.Editor
+    private lateinit var stations: GeoJsonLayer
+    private lateinit var lanes: GeoJsonLayer
+    private lateinit var parking: GeoJsonLayer
+    private lateinit var mClusterManager: ClusterManager<ClusterPoint>
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var mMap: GoogleMap? = null
 
     private val isApplicationReady: Boolean
         get() = isAdded && activity != null
@@ -73,11 +73,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     private val isLocationPermissionGranted: Boolean
         get() = activity?.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
 
-    private val isMapReady: Boolean
-        get() = mMap != null
-
-    private// Add warning that data may be unreliable
-    val warningMessage: String
+    // Add warning that data may be unreliable
+    private val warningMessage: String
         get() = "\n\n" +
                 getString(R.string.data_old) +
                 "\n" +
@@ -144,26 +141,27 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         // Load ClusterManager to the Map
         mClusterManager = ClusterManager(context, mMap)
         // Set custom renderer
-        mClusterManager!!.renderer =
+        mClusterManager.renderer =
             IconRenderer(
                 context!!,
                 mMap!!,
-                mClusterManager!!
+                mClusterManager
             )
     }
 
     private fun initPreferences() {
         settings = context!!.getSharedPreferences(PREFS_NAME, 0)
-        settingsEditor = settings!!.edit()
+        settingsEditor = settings.edit()
         userSettings = getDefaultSharedPreferences(context)
     }
 
     private fun initMap() {
+
         mMap!!.setOnInfoWindowClickListener(mClusterManager)
         mMap!!.setOnCameraIdleListener(mClusterManager)
         mMap!!.setOnMarkerClickListener(mClusterManager)
 
-        mMap!!.setInfoWindowAdapter(mClusterManager!!.markerManager)
+        mMap!!.setInfoWindowAdapter(mClusterManager.markerManager)
 
         mMap!!.setMinZoomPreference(10f)
 
@@ -183,7 +181,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setMapBasemap() {
-        val isSatellite = userSettings!!.getBoolean("isSatellite", false)
+        val isSatellite = userSettings.getBoolean("isSatellite", false)
         if (!isSatellite) {
             mMap!!.mapType = GoogleMap.MAP_TYPE_NORMAL
         } else {
@@ -242,7 +240,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun moveToLocationOrValencia(currentLocation: LatLng = LatLng(39.479, -0.372)) {
-        val initialZoom = userSettings!!.getBoolean("initialZoom", true)
+        val initialZoom = userSettings.getBoolean("initialZoom", true)
 
         if (isLocationPermissionGranted && initialZoom && isValenciaArea(currentLocation)) {
             mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16.0f))
@@ -252,22 +250,22 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun restoreOptionalLayers() {
-        val isStationsLayerAdded = settings!!.getBoolean("showStationsLayer", true)
+        val isStationsLayerAdded = settings.getBoolean("showStationsLayer", true)
         if(isStationsLayerAdded){
             getStations()
         }
 
-        val isDrawVoronoiCellsChecked = userSettings!!.getBoolean("voronoiCell", false)
+        val isDrawVoronoiCellsChecked = userSettings.getBoolean("voronoiCell", false)
         if (isDrawVoronoiCellsChecked) {
             drawBoronoiCells()
         }
 
-        val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", false)
+        val isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false)
         if (isCarrilLayerAdded) {
             getLanes()
         }
 
-        val isDrawParkingSpotsChecked = settings!!.getBoolean("isParkingLayerAdded", false)
+        val isDrawParkingSpotsChecked = settings.getBoolean("isParkingLayerAdded", false)
         if (isDrawParkingSpotsChecked) {
             getParkings()
         }
@@ -321,13 +319,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun resetStationsLayer() {
-        val isClusteringActivated = userSettings!!.getBoolean("isClusteringActivated", true)
+        val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
         if (isClusteringActivated) {
-            mClusterManager!!.clearItems()
-            mClusterManager!!.cluster()
-        } else if (stations != null) {
-            stations!!.removeLayerFromMap()
+            mClusterManager.clearItems()
+            mClusterManager.cluster()
+        } else {
+            stations.removeLayerFromMap()
         }
     }
 
@@ -349,7 +347,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun addDataToMap(jsonData: String) {
-        val isClusteringActivated = userSettings!!.getBoolean("isClusteringActivated", true)
+        val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
         if (isApplicationReady) {
             try {
@@ -357,10 +355,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
                 if (isClusteringActivated) {
                     addPointsToCluster(jsonDataArray)
-                    activity!!.runOnUiThread { mClusterManager!!.cluster() }
+                    activity!!.runOnUiThread { mClusterManager.cluster() }
                 } else {
                     addPointsToLayer(jsonDataArray)
-                    activity!!.runOnUiThread { stations!!.addLayerToMap() }
+                    activity!!.runOnUiThread { stations.addLayerToMap() }
                 }
             } catch (e: JSONException) {
                 Log.e(LOG_TAG, "JSONArray could not be created")
@@ -371,7 +369,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     @Throws(JSONException::class)
     private fun addPointsToCluster(jsonDataArray: JSONArray) {
-        val showOnlyFavoriteStations = userSettings!!.getBoolean("showFavorites", false)
+        val showOnlyFavoriteStations = userSettings.getBoolean("showFavorites", false)
 
         // Parse data from API
         for (i in 0 until jsonDataArray.length()) {
@@ -386,13 +384,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             }
 
             val clusterPoint = ClusterPoint(station)
-            mClusterManager!!.addItem(clusterPoint)
+            mClusterManager.addItem(clusterPoint)
         }
     }
 
     @Throws(JSONException::class)
     private fun addPointsToLayer(jsonDataArray: JSONArray) {
-        val showOnlyFavoriteStations = userSettings!!.getBoolean("showFavorites", false)
+        val showOnlyFavoriteStations = userSettings.getBoolean("showFavorites", false)
 
         val dummy = JSONObject()
         stations = GeoJsonLayer(mMap, dummy)
@@ -419,15 +417,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             val pointStyle = generatePointStyle(station)
             pointFeature.pointStyle = pointStyle
 
-            stations!!.addFeature(pointFeature)
+            stations.addFeature(pointFeature)
         }
     }
 
     private fun generateCompleteStationData(station: BikeStation): BikeStation {
-        val showOnlyAvailableStations = userSettings!!.getBoolean("showAvailable", false)
-        val isOnFoot = settings!!.getBoolean("isOnFoot", true)
+        val showOnlyAvailableStations = userSettings.getBoolean("showAvailable", false)
+        val isOnFoot = settings.getBoolean("isOnFoot", true)
 
-        station.isFavourite = settings!!.getBoolean(station.address, false)
+        station.isFavourite = settings.getBoolean(station.address, false)
 
         if (station.status == "OPEN") {
             // Set markers colors depending on station availability
@@ -516,7 +514,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun getMarkerSnippet(bikes: Int, spots: Int, lastUpdate: String): String {
         if (isApplicationReady) {
-            val showLastUpdatedInfo = userSettings!!.getBoolean("lastUpdated", true)
+            val showLastUpdatedInfo = userSettings.getBoolean("lastUpdated", true)
 
             // Add number of available bikes/stands
             var snippet: String = getString(R.string.spots) + " " +
@@ -595,28 +593,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val parkingOn = ContextCompat.getDrawable(context!!, R.drawable.icon_parking)
         val parkingOff = ContextCompat.getDrawable(context!!, R.drawable.icon_parking_off)
 
-        val showStationsLayer = settings!!.getBoolean("showStationsLayer", true)
+        val showStationsLayer = settings.getBoolean("showStationsLayer", true)
         if (showStationsLayer) {
             btnStationsToggle!!.icon = stationsOn
         } else {
             btnStationsToggle!!.icon = stationsOff
         }
 
-        val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", false)
+        val isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false)
         if (isCarrilLayerAdded) {
             btnLanesToggle!!.icon = bikeLanesOn
         } else {
             btnLanesToggle!!.icon = bikeLanesOff
         }
 
-        val isOnFoot = settings!!.getBoolean("isOnFoot", false)
+        val isOnFoot = settings.getBoolean("isOnFoot", false)
         if (isOnFoot) {
             btnOnFootToggle!!.icon = walk
         } else {
             btnOnFootToggle!!.icon = bike
         }
 
-        val isParkingLayerAdded = settings!!.getBoolean("isParkingLayerAdded", false)
+        val isParkingLayerAdded = settings.getBoolean("isParkingLayerAdded", false)
         if (isParkingLayerAdded) {
             btnParkingToggle!!.icon = parkingOn
         } else {
@@ -639,28 +637,24 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val parkingOff = ContextCompat.getDrawable(context!!, R.drawable.icon_parking_off)
 
         btnLanesToggle!!.setOnClickListener {
-            if (!settings!!.getBoolean("isCarrilLayerAdded", false)) {
+            if (!settings.getBoolean("isCarrilLayerAdded", false)) {
                 btnLanesToggle!!.icon = bikeLanesOn
                 getLanes()
             } else {
                 btnLanesToggle!!.icon = bikeLanesOff
-                settingsEditor!!.putBoolean("isCarrilLayerAdded", false).apply()
-                if (lanes != null) {
-                    lanes!!.removeLayerFromMap()
-                }
+                settingsEditor.putBoolean("isCarrilLayerAdded", false).apply()
+                lanes.removeLayerFromMap()
             }
         }
 
         btnParkingToggle!!.setOnClickListener {
-            if (!settings!!.getBoolean("isParkingLayerAdded", false)) {
+            if (!settings.getBoolean("isParkingLayerAdded", false)) {
                 btnParkingToggle!!.icon = parkingOn
                 getParkings()
             } else {
                 btnParkingToggle!!.icon = parkingOff
-                settingsEditor!!.putBoolean("isParkingLayerAdded", false).apply()
-                if (parking != null) {
-                    parking!!.removeLayerFromMap()
-                }
+                settingsEditor.putBoolean("isParkingLayerAdded", false).apply()
+                parking.removeLayerFromMap()
             }
         }
     }
@@ -671,32 +665,32 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val stationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
         val stationsOff =
             ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker_off)
-        val isClusteringActivated = userSettings!!.getBoolean("isClusteringActivated", true)
+        val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
         // Toggle Stations
         btnStationsToggle!!.setOnClickListener {
-            val showStationsLayer = settings!!.getBoolean("showStationsLayer", true)
+            val showStationsLayer = settings.getBoolean("showStationsLayer", true)
             if (showStationsLayer) {
                 resetStationsLayer()
                 btnStationsToggle!!.icon = stationsOff
-                settingsEditor!!.putBoolean("showStationsLayer", false).apply()
+                settingsEditor.putBoolean("showStationsLayer", false).apply()
             } else {
                 getStations()
                 btnStationsToggle!!.icon = stationsOn
-                settingsEditor!!.putBoolean("showStationsLayer", true).apply()
+                settingsEditor.putBoolean("showStationsLayer", true).apply()
             }
         }
 
         // Toggle onFoot/onBike
         btnOnFootToggle!!.setOnClickListener {
-            val isOnFoot = settings!!.getBoolean("isOnFoot", false)
+            val isOnFoot = settings.getBoolean("isOnFoot", false)
             resetStationsLayer()
             if (isOnFoot) {
-                settingsEditor!!.putBoolean("isOnFoot", false).apply()
+                settingsEditor.putBoolean("isOnFoot", false).apply()
                 btnOnFootToggle!!.icon = bike
                 getStations()
             } else {
-                settingsEditor!!.putBoolean("isOnFoot", true).apply()
+                settingsEditor.putBoolean("isOnFoot", true).apply()
                 btnOnFootToggle!!.icon = walk
                 getStations()
             }
@@ -708,7 +702,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             getStations()
         }
 
-        mClusterManager!!.setOnClusterClickListener { cluster ->
+        mClusterManager.setOnClusterClickListener { cluster ->
             val zoom = mMap!!.cameraPosition.zoom
             val position = cluster.position
             mMap!!.animateCamera(
@@ -740,25 +734,25 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         })
 
         mMap!!.setOnInfoWindowClickListener { clickedMarker ->
-            val currentStationIsFav = settings!!.getBoolean(clickedMarker.title, false)
-            val showFavorites = userSettings!!.getBoolean("showFavorites", false)
+            val currentStationIsFav = settings.getBoolean(clickedMarker.title, false)
+            val showFavorites = userSettings.getBoolean("showFavorites", false)
 
             if (currentStationIsFav) {
                 clickedMarker.alpha = 0.5.toFloat()
                 if (showFavorites) {
                     clickedMarker.isVisible = false
                 }
-                settingsEditor!!.putBoolean(clickedMarker.title, false).apply()
+                settingsEditor.putBoolean(clickedMarker.title, false).apply()
             } else {
                 clickedMarker.alpha = 1f
-                settingsEditor!!.putBoolean(clickedMarker.title, true).apply()
+                settingsEditor.putBoolean(clickedMarker.title, true).apply()
             }
             clickedMarker.showInfoWindow()
         }
     }
 
     private fun setClusteredInfoWindow() {
-        mClusterManager!!.markerCollection.setInfoWindowAdapter(object :
+        mClusterManager.markerCollection.setInfoWindowAdapter(object :
             GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {
@@ -770,9 +764,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 // Getting view from the layout file info_window_layout
                 val popup = getInfoWindowCommonInfo(marker)
 
-                mClusterManager!!.setOnClusterItemInfoWindowClickListener { item ->
-                    val currentStationIsFav = settings!!.getBoolean(item.title, false)
-                    val showFavorites = userSettings!!.getBoolean("showFavorites", false)
+                mClusterManager.setOnClusterItemInfoWindowClickListener { item ->
+                    val currentStationIsFav = settings.getBoolean(item.title, false)
+                    val showFavorites = userSettings.getBoolean("showFavorites", false)
 
                     if (currentStationIsFav) {
                         item.alpha = 0.5.toFloat()
@@ -780,14 +774,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                         if (showFavorites) {
                             item.visibility = false
                         }
-                        settingsEditor!!.putBoolean(item.title, false).apply()
+                        settingsEditor.putBoolean(item.title, false).apply()
                     } else {
                         item.alpha = 1.0.toFloat()
                         marker.alpha = 1.0.toFloat()
-                        settingsEditor!!.putBoolean(item.title, true).apply()
+                        settingsEditor.putBoolean(item.title, true).apply()
                     }
                     marker.showInfoWindow()
-                    mClusterManager!!.cluster()
+                    mClusterManager.cluster()
                 }
                 return popup
             }
@@ -816,7 +810,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         title.text = marker.title
 
         // Checking if current station is favorite
-        val currentStationIsFav = settings!!.getBoolean(marker.title, false)
+        val currentStationIsFav = settings.getBoolean(marker.title, false)
 
         // Setting correspondent icon
         if (currentStationIsFav) {
@@ -847,8 +841,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         launch {
             getLanesAsync()
             // Has to run on the main thread
-            lanes!!.addLayerToMap()
-            settingsEditor!!.putBoolean("isCarrilLayerAdded", true).apply()
+            lanes.addLayerToMap()
+            settingsEditor.putBoolean("isCarrilLayerAdded", true).apply()
         }
     }
 
@@ -857,10 +851,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         try {
             withContext(Dispatchers.IO) {
                 lanes = GeoJsonLayer(mMap, R.raw.bike_lanes, context)
-                for (feature in lanes!!.features) {
+                for (feature in lanes.features) {
                     val stringStyle = GeoJsonLineStringStyle()
                     stringStyle.width = 5f
-                    if (userSettings!!.getBoolean("cicloCalles", true)) {
+                    if (userSettings.getBoolean("cicloCalles", true)) {
                         stringStyle.color = getLaneColor(feature)
                     }
                     feature.lineStringStyle = stringStyle
@@ -896,14 +890,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         launch {
             getParkingsAsync()
             // Has to run on the main thread
-            parking!!.addLayerToMap()
-            settingsEditor!!.putBoolean("isParkingLayerAdded", true).apply()
+            parking.addLayerToMap()
+            settingsEditor.putBoolean("isParkingLayerAdded", true).apply()
         }
     }
 
     private suspend fun getParkingsAsync(){
 
-        val showFavorites = userSettings!!.getBoolean("showFavorites", false)
+        val showFavorites = userSettings.getBoolean("showFavorites", false)
         var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_map_marker_circle)
         bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)
         val iconParking = BitmapDescriptorFactory.fromBitmap(bitmap)
@@ -912,7 +906,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             try {
                 withContext(Dispatchers.IO) {
                     parking = GeoJsonLayer(mMap, R.raw.aparcabicis, context)
-                    for (feature in parking!!.features) {
+                    for (feature in parking.features) {
                         val pointStyle = GeoJsonPointStyle()
                         pointStyle.title = getString(R.string.parking) +
                                 " " + feature.getProperty("id")
@@ -921,7 +915,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                         pointStyle.alpha = 0.5.toFloat()
                         pointStyle.icon = iconParking
 
-                        val currentStationIsFav = settings!!.getBoolean(pointStyle.title, false)
+                        val currentStationIsFav = settings.getBoolean(pointStyle.title, false)
 
                         // Apply full opacity to fav stations
                         if (currentStationIsFav) {
@@ -947,7 +941,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     override fun onPause() {
         super.onPause()
-        if (isApplicationReady && isMapReady) {
+        if (isApplicationReady && mMap != null) {
             // Disable location to avoid battery drain
             setLocationButtonEnabled(false)
         }
@@ -955,7 +949,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isApplicationReady && isMapReady) {
+        if (isApplicationReady && mMap != null) {
             // Disable location to avoid battery drain
             setLocationButtonEnabled(false)
         }
@@ -963,7 +957,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        if (isApplicationReady && isMapReady && isLocationPermissionGranted) {
+        if (isApplicationReady && isLocationPermissionGranted && mMap != null) {
             // Re-enable location
             setLocationButtonEnabled(true)
         }

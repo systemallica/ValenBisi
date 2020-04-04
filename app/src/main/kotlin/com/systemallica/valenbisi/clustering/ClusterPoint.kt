@@ -7,21 +7,13 @@ import com.systemallica.valenbisi.BikeStation
 
 
 class ClusterPoint(station: BikeStation) : ClusterItem {
-    private var position: LatLng
-    private var title: String? = null
-    private val snippet: String?
-    val icon: BitmapDescriptor?
-    var alpha: Float? = null
-    var visibility: Boolean? = null
 
-    init {
-        this.position = LatLng(station.lat!!, station.lng!!)
-        this.title = station.address
-        this.snippet = station.snippet
-        this.icon = station.icon
-        this.alpha = station.alpha
-        this.visibility = station.visibility
-    }
+    private var position: LatLng = LatLng(station.lat!!, station.lng!!)
+    private var title: String = station.address
+    private val snippet: String = station.snippet!!
+    val icon: BitmapDescriptor = station.icon!!
+    var alpha: Float = station.alpha!!
+    var visibility: Boolean = station.visibility!!
 
     override fun getPosition(): LatLng {
         return this.position

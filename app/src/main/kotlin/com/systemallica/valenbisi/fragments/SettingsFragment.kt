@@ -1,6 +1,5 @@
 package com.systemallica.valenbisi.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,13 +13,9 @@ import com.systemallica.valenbisi.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private var mContext: Context? = null
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.fragment_settings, rootKey)
-
-        mContext = activity!!.applicationContext
 
         //NavBar stuff
         val navBarPref = findPreference<CheckBoxPreference>("navBar")
@@ -36,7 +31,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
             true
         }
-
 
         //Voronoi info
         val infoVoronoi = findPreference<Preference>("infoVoronoi")
