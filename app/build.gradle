@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
 android {
     compileSdkVersion 29
@@ -65,7 +66,7 @@ dependencies {
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation 'com.mikepenz:iconics-core:5.0.1'
     implementation 'com.mikepenz:community-material-typeface:5.0.45.1-kotlin@aar'
-    implementation 'com.mikepenz:aboutlibraries:7.0.2'
+    implementation "com.mikepenz:aboutlibraries:8.1.0"
     // OkHTTP
     implementation 'com.squareup.okhttp3:okhttp:4.4.1'
     // LeakCanary

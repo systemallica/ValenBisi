@@ -12,7 +12,6 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard
 import com.mikepenz.iconics.IconicsDrawable
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
-import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
 import com.mikepenz.iconics.utils.sizeDp
@@ -152,8 +151,6 @@ class AboutFragment : MaterialAboutFragment() {
                         )
                         .setOnClickAction {
                             LibsBuilder()
-                                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                                    .withAutoDetect(true)
                                     .withAboutIconShown(true)
                                     .withAboutVersionShown(true)
                                     .start(activityContext)

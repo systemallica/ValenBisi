@@ -125,6 +125,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
             setInitialButtonState()
 
+            setButtonBackground()
+
             setButtonListeners()
 
             restoreOptionalLayers()
@@ -585,71 +587,39 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         val showStationsLayer = settings!!.getBoolean("showStationsLayer", true)
         if (showStationsLayer) {
-            btnStationsToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                stationsOn,
-                null,
-                null,
-                null
-            )
+            btnStationsToggle!!.icon = stationsOn
         } else {
-            btnStationsToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                stationsOff,
-                null,
-                null,
-                null
-            )
+            btnStationsToggle!!.icon = stationsOff
         }
 
         val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", false)
         if (isCarrilLayerAdded) {
-            btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                bikeLanesOn,
-                null,
-                null,
-                null
-            )
+            btnLanesToggle!!.icon = bikeLanesOn
         } else {
-            btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                bikeLanesOff,
-                null,
-                null,
-                null
-            )
+            btnLanesToggle!!.icon = bikeLanesOff
         }
 
         val isOnFoot = settings!!.getBoolean("isOnFoot", false)
         if (isOnFoot) {
-            btnOnFootToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                walk,
-                null,
-                null,
-                null
-            )
+            btnOnFootToggle!!.icon = walk
         } else {
-            btnOnFootToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                bike,
-                null,
-                null,
-                null
-            )
+            btnOnFootToggle!!.icon = bike
         }
 
         val isParkingLayerAdded = settings!!.getBoolean("isParkingLayerAdded", false)
         if (isParkingLayerAdded) {
-            btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                parkingOn,
-                null,
-                null,
-                null
-            )
+            btnParkingToggle!!.icon = parkingOn
         } else {
-            btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                parkingOff,
-                null,
-                null,
-                null
-            )
+            btnParkingToggle!!.icon = parkingOff
         }
+    }
+
+    private fun setButtonBackground(){
+        btnLanesToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
+        btnStationsToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
+        btnOnFootToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
+        btnRefresh.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
+        btnParkingToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
     }
 
     private fun setOfflineListeners() {
@@ -660,20 +630,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         btnLanesToggle!!.setOnClickListener {
             if (!settings!!.getBoolean("isCarrilLayerAdded", false)) {
-                btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    bikeLanesOn,
-                    null,
-                    null,
-                    null
-                )
+                btnLanesToggle!!.icon = bikeLanesOn
                 GetLanes().execute()
             } else {
-                btnLanesToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    bikeLanesOff,
-                    null,
-                    null,
-                    null
-                )
+                btnLanesToggle!!.icon = bikeLanesOff
                 settingsEditor!!.putBoolean("isCarrilLayerAdded", false).apply()
                 if (lanes != null) {
                     lanes!!.removeLayerFromMap()
@@ -683,20 +643,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         btnParkingToggle!!.setOnClickListener {
             if (!settings!!.getBoolean("isParkingLayerAdded", false)) {
-                btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    parkingOn,
-                    null,
-                    null,
-                    null
-                )
+                btnParkingToggle!!.icon = parkingOn
                 GetParking().execute()
             } else {
-                btnParkingToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    parkingOff,
-                    null,
-                    null,
-                    null
-                )
+                btnParkingToggle!!.icon = parkingOff
                 settingsEditor!!.putBoolean("isParkingLayerAdded", false).apply()
                 if (parking != null) {
                     parking!!.removeLayerFromMap()
@@ -706,10 +656,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setOnlineListeners() {
-        val myDrawableBike = ContextCompat.getDrawable(context!!, R.drawable.icon_on_bike)
-        val myDrawableWalk = ContextCompat.getDrawable(context!!, R.drawable.icon_walk)
-        val myDrawableStationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
-        val myDrawableStationsOff =
+        val bike = ContextCompat.getDrawable(context!!, R.drawable.icon_on_bike)
+        val walk = ContextCompat.getDrawable(context!!, R.drawable.icon_walk)
+        val stationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
+        val stationsOff =
             ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker_off)
         val isClusteringActivated = userSettings!!.getBoolean("isClusteringActivated", true)
 
@@ -718,21 +668,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             val showStationsLayer = settings!!.getBoolean("showStationsLayer", true)
             if (showStationsLayer) {
                 resetStationsLayer()
-                btnStationsToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableStationsOff,
-                    null,
-                    null,
-                    null
-                )
+                btnStationsToggle!!.icon = stationsOff
                 settingsEditor!!.putBoolean("showStationsLayer", false).apply()
             } else {
                 getStations()
-                btnStationsToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableStationsOn,
-                    null,
-                    null,
-                    null
-                )
+                btnStationsToggle!!.icon = stationsOn
                 settingsEditor!!.putBoolean("showStationsLayer", true).apply()
             }
         }
@@ -743,21 +683,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             resetStationsLayer()
             if (isOnFoot) {
                 settingsEditor!!.putBoolean("isOnFoot", false).apply()
-                btnOnFootToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableBike,
-                    null,
-                    null,
-                    null
-                )
+                btnOnFootToggle!!.icon = bike
                 getStations()
             } else {
                 settingsEditor!!.putBoolean("isOnFoot", true).apply()
-                btnOnFootToggle!!.setCompoundDrawablesWithIntrinsicBounds(
-                    myDrawableWalk,
-                    null,
-                    null,
-                    null
-                )
+                btnOnFootToggle!!.icon = walk
                 getStations()
             }
         }

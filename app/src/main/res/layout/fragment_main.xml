@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLanesToggle"
         android:layout_width="43dp"
         android:layout_height="43dp"
@@ -27,12 +27,13 @@
         android:background="@drawable/mapbutton_background"
         android:paddingEnd="9dp"
         android:paddingStart="9dp"
-        android:textColor="#666666"
+        app:iconTint="@color/btn_icon"
+        app:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@id/btnStationsToggle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStationsToggle"
         android:layout_width="43dp"
         android:layout_height="43dp"
@@ -40,12 +41,13 @@
         android:background="@drawable/mapbutton_background"
         android:paddingEnd="9dp"
         android:paddingStart="9dp"
-        android:textColor="#666666"
+        app:iconTint="@color/btn_icon"
+        app:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@id/btnOnFootToggle"
         app:layout_constraintStart_toEndOf="@id/btnLanesToggle"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOnFootToggle"
         android:layout_width="43dp"
         android:layout_height="43dp"
@@ -53,36 +55,38 @@
         android:background="@drawable/mapbutton_background"
         android:paddingEnd="9dp"
         android:paddingStart="9dp"
-        android:textColor="#666666"
+        app:iconTint="@color/btn_icon"
+        app:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@id/btnRefresh"
         app:layout_constraintStart_toEndOf="@id/btnStationsToggle"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRefresh"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
-        android:drawableStart="@drawable/icon_reload"
         android:paddingEnd="9dp"
         android:paddingStart="9dp"
-        android:textColor="#666666"
+        app:icon="@drawable/icon_reload"
+        app:iconTint="@color/btn_icon"
+        app:backgroundTint="@color/white"
         app:layout_constraintEnd_toStartOf="@id/btnParkingToggle"
         app:layout_constraintStart_toEndOf="@id/btnOnFootToggle"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnParkingToggle"
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginEnd="45dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/mapbutton_background"
-        android:drawableStart="@drawable/icon_parking"
         android:paddingEnd="9dp"
         android:paddingStart="9dp"
-        android:textColor="#666666"
+        app:iconTint="@color/btn_icon"
+        app:backgroundTint="@color/white"
         app:layout_constraintStart_toEndOf="@id/btnRefresh"
         app:layout_constraintTop_toTopOf="parent" />
 
