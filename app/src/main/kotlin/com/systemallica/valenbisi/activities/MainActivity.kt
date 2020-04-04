@@ -92,16 +92,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 title = item.title
                 fragmentTransaction.replace(R.id.containerView, SettingsFragment())
             }
-            R.id.nav_share -> {
-                try {
-                    shareApplication()
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .commitNow()
-                    return false
-                } catch (e: Exception) {
-                    e.toString()
-                }
-            }
             R.id.nav_about -> {
                 // Set Activity title
                 title = item.title
