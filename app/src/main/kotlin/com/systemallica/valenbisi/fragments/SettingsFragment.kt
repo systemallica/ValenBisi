@@ -3,14 +3,11 @@ package com.systemallica.valenbisi.fragments
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.preference.CheckBoxPreference
-import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.core.content.ContextCompat
-import android.widget.Toast
 
 import com.systemallica.valenbisi.R
 
@@ -29,24 +26,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val navBarPref = findPreference<CheckBoxPreference>("navBar")
 
         navBarPref?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                if (!navBarPref!!.isChecked) {
-                    activity!!.window.navigationBarColor =
-                            ContextCompat.getColor(context!!, R.color.colorPrimary)
-                } else {
-                    activity!!.window.navigationBarColor =
-                            ContextCompat.getColor(context!!, R.color.black)
-                }
+            if (!navBarPref!!.isChecked) {
+                activity!!.window.navigationBarColor =
+                        ContextCompat.getColor(context!!, R.color.colorPrimary)
             } else {
-                if (isAdded) {
-                    val toast = Toast.makeText(
-                        context,
-                        "Tu versión de Android no es compatible con esto :(",
-                        Toast.LENGTH_LONG
-                    )
-                    toast.show()
-                }
+                activity!!.window.navigationBarColor =
+                        ContextCompat.getColor(context!!, R.color.black)
             }
             true
         }

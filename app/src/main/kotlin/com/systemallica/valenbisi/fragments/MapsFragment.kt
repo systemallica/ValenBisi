@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.location.Location
-import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -38,19 +37,26 @@ import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.clustering.ClusterPoint
 import com.systemallica.valenbisi.clustering.IconRenderer
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
+import kotlin.coroutines.CoroutineContext
 
 const val PREFS_NAME = "MyPrefsFile"
 const val LOG_TAG = "Valenbisi error"
 
-class MapsFragment : Fragment(), OnMapReadyCallback {
+class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
+
+    private var job: Job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
     private var settings: SharedPreferences? = null
     private var userSettings: SharedPreferences? = null
     private var settingsEditor: SharedPreferences.Editor? = null
@@ -76,7 +82,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 getString(R.string.data_old) +
                 "\n" +
                 getString(R.string.data_unreliable)
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -132,8 +137,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             setButtonListeners()
 
             restoreOptionalLayers()
-
-            getStations()
         }
     }
 
@@ -249,6 +252,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun restoreOptionalLayers() {
+        val isStationsLayerAdded = settings!!.getBoolean("showStationsLayer", true)
+        if(isStationsLayerAdded){
+            getStations()
+        }
+
         val isDrawVoronoiCellsChecked = userSettings!!.getBoolean("voronoiCell", false)
         if (isDrawVoronoiCellsChecked) {
             drawBoronoiCells()
@@ -256,12 +264,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         val isCarrilLayerAdded = settings!!.getBoolean("isCarrilLayerAdded", false)
         if (isCarrilLayerAdded) {
-            GetLanes().execute()
+            getLanes()
         }
 
         val isDrawParkingSpotsChecked = settings!!.getBoolean("isParkingLayerAdded", false)
         if (isDrawParkingSpotsChecked) {
-            GetParking().execute()
+            getParkings()
         }
     }
 
@@ -284,6 +292,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun getStations() {
+        // Show loading message
+        safeSnackBar(R.string.load_stations)
+
         val client = OkHttpClient()
         val url =
             "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"
@@ -327,8 +338,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val responseBody = response.body
 
         if (responseBody != null) {
-            // Show loading message
-            safeSnackBar(R.string.load_stations)
             addDataToMap(responseBody.string())
         } else {
             Log.e(LOG_TAG, "Empty server response")
@@ -340,10 +349,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun addDataToMap(jsonData: String) {
-        val showStationsLayer = settings!!.getBoolean("showStationsLayer", true)
         val isClusteringActivated = userSettings!!.getBoolean("isClusteringActivated", true)
 
-        if (isApplicationReady && showStationsLayer) {
+        if (isApplicationReady) {
             try {
                 val jsonDataArray = JSONArray(jsonData)
 
@@ -633,7 +641,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         btnLanesToggle!!.setOnClickListener {
             if (!settings!!.getBoolean("isCarrilLayerAdded", false)) {
                 btnLanesToggle!!.icon = bikeLanesOn
-                GetLanes().execute()
+                getLanes()
             } else {
                 btnLanesToggle!!.icon = bikeLanesOff
                 settingsEditor!!.putBoolean("isCarrilLayerAdded", false).apply()
@@ -646,7 +654,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         btnParkingToggle!!.setOnClickListener {
             if (!settings!!.getBoolean("isParkingLayerAdded", false)) {
                 btnParkingToggle!!.icon = parkingOn
-                GetParking().execute()
+                getParkings()
             } else {
                 btnParkingToggle!!.icon = parkingOff
                 settingsEditor!!.putBoolean("isParkingLayerAdded", false).apply()
@@ -833,14 +841,21 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private inner class GetLanes : AsyncTask<Void, Void, GeoJsonLayer>() {
+    private fun getLanes(){
+        safeSnackBar(R.string.load_lanes)
 
-        override fun onPreExecute() {
-            safeSnackBar(R.string.load_lanes)
+        launch {
+            getLanesAsync()
+            // Has to run on the main thread
+            lanes!!.addLayerToMap()
+            settingsEditor!!.putBoolean("isCarrilLayerAdded", true).apply()
         }
+    }
 
-        override fun doInBackground(vararg params: Void): GeoJsonLayer {
-            try {
+    private suspend fun getLanesAsync(){
+
+        try {
+            withContext(Dispatchers.IO) {
                 lanes = GeoJsonLayer(mMap, R.raw.bike_lanes, context)
                 for (feature in lanes!!.features) {
                     val stringStyle = GeoJsonLineStringStyle()
@@ -850,48 +865,52 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                     }
                     feature.lineStringStyle = stringStyle
                 }
-            } catch (e: IOException) {
-                Log.e(LOG_TAG, "GeoJSON file could not be read")
-            } catch (e: JSONException) {
-                Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
             }
 
-            return lanes!!
-        }
 
-        private fun getLaneColor(feature: GeoJsonFeature): Int {
-            return when (feature.getProperty("estado")) {
-                // Normal bike lane
-                "1" -> Color.BLACK
-                // Ciclocalle
-                "2" -> Color.BLUE
-                // Weird fragments
-                "3" -> Color.BLUE
-                // Rio
-                "4" -> Color.BLACK
-                else -> Color.RED
-            }
-        }
+        } catch (e: IOException) {
+            Log.e(LOG_TAG, "GeoJSON file could not be read")
 
-        override fun onPostExecute(lanes: GeoJsonLayer?) {
-            lanes!!.addLayerToMap()
-            settingsEditor!!.putBoolean("isCarrilLayerAdded", true).apply()
+        } catch (e: JSONException) {
+            Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
         }
     }
 
-    private inner class GetParking : AsyncTask<Void, Void, GeoJsonLayer>() {
-        override fun onPreExecute() {
-            safeSnackBar(R.string.load_parking)
+    private fun getLaneColor(feature: GeoJsonFeature): Int {
+        return when (feature.getProperty("estado")) {
+            // Normal bike lane
+            "1" -> Color.BLACK
+            // Ciclocalle
+            "2" -> Color.BLUE
+            // Weird fragments
+            "3" -> Color.BLUE
+            // Rio
+            "4" -> Color.BLACK
+            else -> Color.RED
         }
+    }
 
-        override fun doInBackground(vararg params: Void): GeoJsonLayer {
-            val showFavorites = userSettings!!.getBoolean("showFavorites", false)
-            var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_map_marker_circle)
-            bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)
-            val iconParking = BitmapDescriptorFactory.fromBitmap(bitmap)
+    private fun getParkings(){
+        safeSnackBar(R.string.load_parking)
 
-            if (isApplicationReady) {
-                try {
+        launch {
+            getParkingsAsync()
+            // Has to run on the main thread
+            parking!!.addLayerToMap()
+            settingsEditor!!.putBoolean("isParkingLayerAdded", true).apply()
+        }
+    }
+
+    private suspend fun getParkingsAsync(){
+
+        val showFavorites = userSettings!!.getBoolean("showFavorites", false)
+        var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_map_marker_circle)
+        bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)
+        val iconParking = BitmapDescriptorFactory.fromBitmap(bitmap)
+
+        if (isApplicationReady) {
+            try {
+                withContext(Dispatchers.IO) {
                     parking = GeoJsonLayer(mMap, R.raw.aparcabicis, context)
                     for (feature in parking!!.features) {
                         val pointStyle = GeoJsonPointStyle()
@@ -917,21 +936,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         }
                         feature.pointStyle = pointStyle
                     }
-                } catch (e: IOException) {
-                    Log.e(LOG_TAG, "GeoJSON file could not be read")
-                } catch (e: JSONException) {
-                    Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
                 }
-
+            } catch (e: IOException) {
+                Log.e(LOG_TAG, "GeoJSON file could not be read")
+            } catch (e: JSONException) {
+                Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
             }
-            return parking!!
         }
-
-        override fun onPostExecute(parking: GeoJsonLayer?) {
-            parking!!.addLayerToMap()
-            settingsEditor!!.putBoolean("isParkingLayerAdded", true).apply()
-        }
-
     }
 
     override fun onPause() {
