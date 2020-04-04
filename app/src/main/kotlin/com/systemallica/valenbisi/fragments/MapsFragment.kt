@@ -408,7 +408,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             }
 
             // Create Point
-            val point = GeoJsonPoint(LatLng(station.lat!!, station.lng!!))
+            val point = GeoJsonPoint(LatLng(station.lat, station.lng))
             // Add properties
             val properties = getStationProperties(station)
             // Create feature
@@ -471,7 +471,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         pointStyle.snippet = station.snippet
         pointStyle.icon = station.icon
         pointStyle.alpha = station.alpha!!
-        pointStyle.isVisible = station.visibility!!
+        pointStyle.isVisible = station.visibility
 
         return pointStyle
     }
