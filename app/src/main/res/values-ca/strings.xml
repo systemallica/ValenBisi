@@ -69,7 +69,7 @@
     <string name="title_activity_donate">Dóna suport</string>
     <string name="donation_1">Dóna suport amb 1€</string>
     <string name="donation_3">Dóna suport amb 3€</string>
-    <string name="donation_5">Dóna suport amb 1€5</string>
+    <string name="donation_5">Dóna suport amb €5</string>
     <string name="donation_remove_ads">Quita els anuncis(gratuït)</string>
     <string name="donation_ad_restore">Restaurar anuncis</string>
     <string name="donation_ads_removed">Anuncis eliminats :(</string>
