@@ -7,12 +7,9 @@ import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.google.android.material.navigation.NavigationView
@@ -23,7 +20,6 @@ import com.systemallica.valenbisi.fragments.AboutFragment
 import com.systemallica.valenbisi.fragments.MapsFragment
 import com.systemallica.valenbisi.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 import okhttp3.*
 import java.io.IOException
 import kotlin.system.exitProcess
@@ -46,8 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (savedInstanceState == null) {
             // Change fragment
             fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
-
-            nav_view.menu.getItem(0).isChecked = true
+            bottom_navigation_view.menu.getItem(0).isChecked = true
         } else {
             fragmentTransaction.commitNow()
         }
@@ -81,15 +76,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onBackPressed() {
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
@@ -111,7 +97,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     shareApplication()
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commitNow()
-                    drawer_layout.closeDrawers()
                     return false
                 } catch (e: Exception) {
                     e.toString()
@@ -126,7 +111,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
 
-        drawer_layout.closeDrawers()
         return true
     }
 
@@ -144,25 +128,37 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun initActivity() {
         setSupportActionBar(toolbar)
-        initDrawerToggle()
-        initNavigationView()
+        setOnNavigationListener()
         initNavBarColor()
     }
 
-    private fun initDrawerToggle() {
-        val toggle = ActionBarDrawerToggle(
-                this,
-                drawer_layout,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        )
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-    }
+    private fun setOnNavigationListener(){
+        bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
+            val id = item.itemId
 
-    private fun initNavigationView() {
-        nav_view.setNavigationItemSelectedListener(this)
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+            when (id) {
+                R.id.nav_map -> {
+                    // Set Activity title
+                    title = item.title
+                    fragmentTransaction.replace(R.id.containerView, MapsFragment())
+                }
+                R.id.nav_settings -> {
+                    // Set Activity title
+                    title = item.title
+                    fragmentTransaction.replace(R.id.containerView, SettingsFragment())
+                }
+                R.id.nav_about -> {
+                    // Set Activity title
+                    title = item.title
+                    fragmentTransaction.replace(R.id.containerView, AboutFragment())
+                }
+            }
+
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
+            return@setOnNavigationItemSelectedListener true
+        }
     }
 
     private fun initNavBarColor() {
