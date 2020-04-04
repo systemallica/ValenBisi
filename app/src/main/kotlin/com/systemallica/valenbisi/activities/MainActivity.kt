@@ -6,13 +6,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.Uri
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.google.android.material.navigation.NavigationView
 import com.systemallica.valenbisi.BuildConfig
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.R.layout.activity_main
@@ -27,7 +25,7 @@ import kotlin.system.exitProcess
 
 const val PREFS_NAME = "MyPrefsFile"
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (savedInstanceState == null) {
             // Change fragment
             fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
+            title = getString(R.string.nav_map)
             bottom_navigation_view.menu.getItem(0).isChecked = true
         } else {
             fragmentTransaction.commitNow()
@@ -76,34 +75,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-        when (id) {
-            R.id.nav_map -> {
-                // Set Activity title
-                title = item.title
-                fragmentTransaction.replace(R.id.containerView, MapsFragment())
-            }
-            R.id.nav_settings -> {
-                // Set Activity title
-                title = item.title
-                fragmentTransaction.replace(R.id.containerView, SettingsFragment())
-            }
-            R.id.nav_about -> {
-                // Set Activity title
-                title = item.title
-                fragmentTransaction.replace(R.id.containerView, AboutFragment())
-            }
-        }
-
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
-
-        return true
-    }
-
     private fun initActivity() {
         setSupportActionBar(toolbar)
         setOnNavigationListener()
@@ -112,6 +83,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun setOnNavigationListener(){
         bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
+            if(title == item.title) return@setOnNavigationItemSelectedListener false
+
             val id = item.itemId
 
             val fragmentTransaction = supportFragmentManager.beginTransaction()
