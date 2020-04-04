@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.maps.android:android-maps-utils:1.0.2'
+    // Billing
     implementation 'com.android.billingclient:billing:1.2'
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
