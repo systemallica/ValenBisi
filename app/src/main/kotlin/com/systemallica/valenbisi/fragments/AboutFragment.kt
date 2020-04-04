@@ -14,8 +14,8 @@ import com.mikepenz.iconics.IconicsDrawable
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem
 import com.mikepenz.aboutlibraries.Libs
 import com.mikepenz.aboutlibraries.LibsBuilder
-import com.mikepenz.iconics.sizeDp
 import com.mikepenz.iconics.typeface.library.community.material.CommunityMaterial
+import com.mikepenz.iconics.utils.sizeDp
 import com.systemallica.valenbisi.activities.DonateActivity
 
 
@@ -35,9 +35,9 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(
                         ConvenienceBuilder.createVersionActionItem(
                                 activityContext,
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon2.cmd_information_outline)
-                                        .sizeDp(18),
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_information_outline).apply {
+                                    sizeDp = 18
+                                },
                                 getString(R.string.about_version),
                                 true
                         )
@@ -46,9 +46,9 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(
                         ConvenienceBuilder.createRateActionItem(
                                 activityContext,
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon2.cmd_star_outline)
-                                        .sizeDp(18),
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_star_outline).apply {
+                                    sizeDp = 18
+                                },
                                 getString(R.string.about_rate),
                                 null
                         )
@@ -58,9 +58,9 @@ class AboutFragment : MaterialAboutFragment() {
                         MaterialAboutActionItem.Builder()
                                 .text(getString(R.string.about_support))
                                 .icon(
-                                        IconicsDrawable(activityContext)
-                                                .icon(CommunityMaterial.Icon2.cmd_heart_outline)
-                                                .sizeDp(18)
+                                        IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_heart_outline).apply {
+                                            sizeDp = 18
+                                        }
                                 )
                                 .setOnClickAction {
                                     val intent = Intent(activityContext, DonateActivity::class.java)
@@ -73,9 +73,9 @@ class AboutFragment : MaterialAboutFragment() {
                         MaterialAboutActionItem.Builder()
                                 .text(getString(R.string.nav_share))
                                 .icon(
-                                        IconicsDrawable(activityContext)
-                                                .icon(CommunityMaterial.Icon2.cmd_share_outline)
-                                                .sizeDp(18)
+                                        IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_share_outline).apply {
+                                            sizeDp = 18
+                                        }
                                 )
                                 .setOnClickAction {
                                     val sendIntent: Intent = Intent().apply {
@@ -98,9 +98,9 @@ class AboutFragment : MaterialAboutFragment() {
                 MaterialAboutActionItem.Builder()
                         .text(getString(R.string.about_changelog))
                         .icon(
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon2.cmd_history)
-                                        .sizeDp(18)
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_history).apply {
+                                    sizeDp = 18
+                                }
                         )
                         .setOnClickAction(
                                 ConvenienceBuilder.createWebViewDialogOnClickAction(
@@ -118,9 +118,9 @@ class AboutFragment : MaterialAboutFragment() {
                         MaterialAboutActionItem.Builder()
                                 .text(getString(R.string.about_fork))
                                 .icon(
-                                        IconicsDrawable(activityContext)
-                                                .icon(CommunityMaterial.Icon.cmd_github_circle)
-                                                .sizeDp(18)
+                                        IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_github).apply {
+                                            sizeDp = 18
+                                        }
                                 )
                                 .setOnClickAction(
                                         ConvenienceBuilder.createWebsiteOnClickAction(
@@ -134,9 +134,9 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(
                         ConvenienceBuilder.createWebsiteActionItem(
                                 activityContext,
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon.cmd_alert_circle_outline)
-                                        .sizeDp(18),
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_alert_circle_outline).apply {
+                                    sizeDp = 18
+                                },
                                 getString(R.string.about_issue),
                                 false,
                                 Uri.parse(getString(R.string.about_issue_url))
@@ -146,9 +146,9 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(MaterialAboutActionItem.Builder()
                         .text(getString(R.string.about_libs))
                         .icon(
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon.cmd_code_tags)
-                                        .sizeDp(18)
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_code_tags).apply {
+                                    sizeDp = 18
+                                }
                         )
                         .setOnClickAction {
                             LibsBuilder()
@@ -168,9 +168,9 @@ class AboutFragment : MaterialAboutFragment() {
                         .text(getString(R.string.about_author_name))
                         .subText(getString(R.string.about_authot_location))
                         .icon(
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon.cmd_account_outline)
-                                        .sizeDp(18)
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_account_outline).apply {
+                                    sizeDp = 18
+                                }
                         )
                         .build()
         )
@@ -178,9 +178,9 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(
                         ConvenienceBuilder.createWebsiteActionItem(
                                 activityContext,
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon.cmd_earth)
-                                        .sizeDp(18),
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_earth).apply {
+                                    sizeDp = 18
+                                },
                                 getString(R.string.about_visit),
                                 true,
                                 Uri.parse(getString(R.string.about_author_web))
@@ -190,9 +190,9 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(
                         ConvenienceBuilder.createEmailItem(
                                 activityContext,
-                                IconicsDrawable(activityContext)
-                                        .icon(CommunityMaterial.Icon.cmd_email_outline)
-                                        .sizeDp(18),
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_email_outline).apply {
+                                    sizeDp = 18
+                                },
                                 getString(R.string.about_send_email),
                                 true,
                                 getString(R.string.about_author_email),
