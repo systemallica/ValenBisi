@@ -1,6 +1,7 @@
 package com.systemallica.valenbisi.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -59,7 +60,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private lateinit var settings: SharedPreferences
     private lateinit var userSettings: SharedPreferences
-    private lateinit var settingsEditor: SharedPreferences.Editor
     private lateinit var stations: GeoJsonLayer
     private lateinit var lanes: GeoJsonLayer
     private lateinit var parking: GeoJsonLayer
@@ -150,8 +150,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun initPreferences() {
+        // Settings from the map buttons
         settings = context!!.getSharedPreferences(PREFS_NAME, 0)
-        settingsEditor = settings.edit()
+        // Settings from the menu
         userSettings = getDefaultSharedPreferences(context)
     }
 
@@ -642,7 +643,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 getLanes()
             } else {
                 btnLanesToggle!!.icon = bikeLanesOff
-                settingsEditor.putBoolean("isCarrilLayerAdded", false).apply()
+                settings.edit().putBoolean("isCarrilLayerAdded", false).apply()
                 lanes.removeLayerFromMap()
             }
         }
@@ -653,7 +654,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 getParkings()
             } else {
                 btnParkingToggle!!.icon = parkingOff
-                settingsEditor.putBoolean("isParkingLayerAdded", false).apply()
+                settings.edit().putBoolean("isParkingLayerAdded", false).apply()
                 parking.removeLayerFromMap()
             }
         }
@@ -673,11 +674,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             if (showStationsLayer) {
                 resetStationsLayer()
                 btnStationsToggle!!.icon = stationsOff
-                settingsEditor.putBoolean("showStationsLayer", false).apply()
+                settings.edit().putBoolean("showStationsLayer", false).apply()
             } else {
                 getStations()
                 btnStationsToggle!!.icon = stationsOn
-                settingsEditor.putBoolean("showStationsLayer", true).apply()
+                settings.edit().putBoolean("showStationsLayer", true).apply()
             }
         }
 
@@ -686,11 +687,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             val isOnFoot = settings.getBoolean("isOnFoot", false)
             resetStationsLayer()
             if (isOnFoot) {
-                settingsEditor.putBoolean("isOnFoot", false).apply()
+                settings.edit().putBoolean("isOnFoot", false).apply()
                 btnOnFootToggle!!.icon = bike
                 getStations()
             } else {
-                settingsEditor.putBoolean("isOnFoot", true).apply()
+                settings.edit().putBoolean("isOnFoot", true).apply()
                 btnOnFootToggle!!.icon = walk
                 getStations()
             }
@@ -742,10 +743,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 if (showFavorites) {
                     clickedMarker.isVisible = false
                 }
-                settingsEditor.putBoolean(clickedMarker.title, false).apply()
+                settings.edit().putBoolean(clickedMarker.title, false).apply()
             } else {
                 clickedMarker.alpha = 1f
-                settingsEditor.putBoolean(clickedMarker.title, true).apply()
+                settings.edit().putBoolean(clickedMarker.title, true).apply()
             }
             clickedMarker.showInfoWindow()
         }
@@ -774,11 +775,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                         if (showFavorites) {
                             item.visibility = false
                         }
-                        settingsEditor.putBoolean(item.title, false).apply()
+                        settings.edit().putBoolean(item.title, false).apply()
                     } else {
                         item.alpha = 1.0.toFloat()
                         marker.alpha = 1.0.toFloat()
-                        settingsEditor.putBoolean(item.title, true).apply()
+                        settings.edit().putBoolean(item.title, true).apply()
                     }
                     marker.showInfoWindow()
                     mClusterManager.cluster()
@@ -788,6 +789,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         })
     }
 
+    @SuppressLint("InflateParams")
     private fun getInfoWindowCommonInfo(marker: Marker): View {
         val myDrawableFavOff = ContextCompat.getDrawable(context!!, R.drawable.icon_star_outline)
         val myDrawableFavOn = ContextCompat.getDrawable(context!!, R.drawable.icon_star)
@@ -842,7 +844,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             getLanesAsync()
             // Has to run on the main thread
             lanes.addLayerToMap()
-            settingsEditor.putBoolean("isCarrilLayerAdded", true).apply()
+            settings.edit().putBoolean("isCarrilLayerAdded", true).apply()
         }
     }
 
@@ -891,7 +893,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             getParkingsAsync()
             // Has to run on the main thread
             parking.addLayerToMap()
-            settingsEditor.putBoolean("isParkingLayerAdded", true).apply()
+            settings.edit().putBoolean("isParkingLayerAdded", true).apply()
         }
     }
 
