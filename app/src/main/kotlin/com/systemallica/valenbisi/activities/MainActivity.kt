@@ -1,31 +1,31 @@
 package com.systemallica.valenbisi.activities
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.systemallica.valenbisi.BuildConfig
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.listener.StateUpdatedListener
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.R.layout.activity_main
 import com.systemallica.valenbisi.fragments.AboutFragment
 import com.systemallica.valenbisi.fragments.MapsFragment
 import com.systemallica.valenbisi.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.*
-import java.io.IOException
 import kotlin.system.exitProcess
 
 
-const val PREFS_NAME = "MyPrefsFile"
-
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,9 +81,9 @@ class MainActivity : AppCompatActivity(){
         initNavBarColor()
     }
 
-    private fun setOnNavigationListener(){
+    private fun setOnNavigationListener() {
         bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
-            if(title == item.title) return@setOnNavigationItemSelectedListener false
+            if (title == item.title) return@setOnNavigationItemSelectedListener false
 
             val id = item.itemId
 
@@ -122,83 +122,44 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun getLatestVersion() {
-        val client = OkHttpClient()
+        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
 
-        val request = Request.Builder()
-                .url("https://raw.githubusercontent.com/systemallica/ValenBisi/master/VersionCode")
-                .build()
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-            }
+        // Checks that the platform will allow the specified type of update.
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
 
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    val responseBody = response.body
-                    if (!response.isSuccessful)
-                        throw IOException("Unexpected code $response")
-
-                    var latestVersionTemp = ""
-
-                    if (responseBody != null) {
-                        latestVersionTemp = responseBody.string()
-                    }
-
-                    val latestVersion = latestVersionTemp
-                    checkUpdate(latestVersion.trim())
-                }
-            }
-        })
-    }
-
-    private fun checkUpdate(latestVersion: String) {
-        val versionCode = BuildConfig.VERSION_CODE
-        val versionGit = Integer.parseInt(latestVersion)
-
-        if (versionCode < versionGit) {
-
-            val settings = getSharedPreferences(PREFS_NAME, 0)
-            val noUpdate = settings.getBoolean("noUpdate", false)
-
-            if (!noUpdate) {
-                runOnUiThread {
-                    val builder = AlertDialog.Builder(this@MainActivity)
-                    builder.setTitle(R.string.update_available)
-                            .setMessage(R.string.update_message)
-                            .setIcon(R.drawable.icon_update)
-                            .setPositiveButton(R.string.update_ok) { _, _ ->
-                                val browserIntent = Intent(
-                                        Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=com.systemallica.valenbisi")
-                                )
-                                startActivity(browserIntent)
-                            }
-                            .setNegativeButton(R.string.update_not_now) { _, _ ->
-                                // Do nothing
-                            }
-                            .setNeutralButton(R.string.update_never) { _, _ ->
-                                val editor = settings.edit()
-                                editor.putBoolean("noUpdate", true)
-                                editor.apply()
-                            }
-                    val dialog = builder.create()
-                    dialog.show()
-                }
-            }
-        } else if (versionCode > versionGit) {
-            runOnUiThread {
-                val builder = AlertDialog.Builder(this@MainActivity)
-                builder.setTitle(R.string.alpha_title)
-                        .setMessage(R.string.alpha_message)
-                        .setPositiveButton(R.string.update_ok) { _, _ ->
-                            // Do nothing
-                        }
-                val dialog = builder.create()
-                dialog.show()
+                appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.FLEXIBLE,
+                        this,
+                        1)
             }
         }
+
     }
+
+    override fun onStateUpdate(state: InstallState) {
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            popupSnackbarForCompleteUpdate()
+        }
+    }
+
+    private fun popupSnackbarForCompleteUpdate() {
+        Snackbar.make(
+                findViewById(R.id.activity_main_layout),
+                "An update has just been downloaded.",
+                Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+            setAction("RESTART") { appUpdateManager.completeUpdate() }
+            setActionTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+            show()
+        }
+    }
+
 
     public override fun onDestroy() {
         super.onDestroy()
