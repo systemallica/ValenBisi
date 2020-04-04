@@ -54,6 +54,7 @@
         android:background="@color/colorPrimary"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
+        app:labelVisibilityMode="selected"
         app:menu="@menu/activity_main_bottom_nav" />
 
 </FrameLayout>

@@ -104,18 +104,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun shareApplication() {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(
-                    Intent.EXTRA_TEXT,
-                    "https://play.google.com/store/apps/details?id=com.systemallica.valenbisi"
-            )
-            type = "text/plain"
-        }
-        startActivity(Intent.createChooser(sendIntent, getString(R.string.nav_share)))
-    }
-
     private fun initActivity() {
         setSupportActionBar(toolbar)
         setOnNavigationListener()
