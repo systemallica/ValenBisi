@@ -143,7 +143,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         // Set custom renderer
         mClusterManager.renderer =
             IconRenderer(
-                context!!,
+                requireContext(),
                 mMap!!,
                 mClusterManager
             )
@@ -151,7 +151,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun initPreferences() {
         // Settings from the map buttons
-        settings = context!!.getSharedPreferences(PREFS_NAME, 0)
+        settings = requireContext().getSharedPreferences(PREFS_NAME, 0)
         // Settings from the menu
         userSettings = getDefaultSharedPreferences(context)
     }
@@ -214,7 +214,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setInitialPosition() {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         if (isLocationPermissionGranted) {
             try {
                 fusedLocationClient.lastLocation
@@ -340,7 +340,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             addDataToMap(responseBody.string())
         } else {
             Log.e(LOG_TAG, "Empty server response")
-            activity!!.runOnUiThread {
+            requireActivity().runOnUiThread {
                 // Show message if API response is empty
                 safeSnackBar(R.string.no_data)
             }
@@ -356,10 +356,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
                 if (isClusteringActivated) {
                     addPointsToCluster(jsonDataArray)
-                    activity!!.runOnUiThread { mClusterManager.cluster() }
+                    requireActivity().runOnUiThread { mClusterManager.cluster() }
                 } else {
                     addPointsToLayer(jsonDataArray)
-                    activity!!.runOnUiThread { stations.addLayerToMap() }
+                    requireActivity().runOnUiThread { stations.addLayerToMap() }
                 }
             } catch (e: JSONException) {
                 Log.e(LOG_TAG, "JSONArray could not be created")
@@ -584,15 +584,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setInitialButtonState() {
-        val stationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
+        val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
         val stationsOff =
-            ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker_off)
-        val bike = ContextCompat.getDrawable(context!!, R.drawable.icon_on_bike)
-        val walk = ContextCompat.getDrawable(context!!, R.drawable.icon_walk)
-        val bikeLanesOn = ContextCompat.getDrawable(context!!, R.drawable.icon_road)
-        val bikeLanesOff = ContextCompat.getDrawable(context!!, R.drawable.icon_road_off)
-        val parkingOn = ContextCompat.getDrawable(context!!, R.drawable.icon_parking)
-        val parkingOff = ContextCompat.getDrawable(context!!, R.drawable.icon_parking_off)
+            ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
+        val bike = ContextCompat.getDrawable(requireContext(), R.drawable.icon_on_bike)
+        val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
+        val bikeLanesOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road)
+        val bikeLanesOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road_off)
+        val parkingOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_parking)
+        val parkingOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_parking_off)
 
         val showStationsLayer = settings.getBoolean("showStationsLayer", true)
         if (showStationsLayer) {
@@ -624,18 +624,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setButtonBackground(){
-        btnLanesToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
-        btnStationsToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
-        btnOnFootToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
-        btnRefresh.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
-        btnParkingToggle.background = ContextCompat.getDrawable(context!!, R.drawable.mapbutton_background)
+        btnLanesToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        btnStationsToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        btnOnFootToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        btnRefresh.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        btnParkingToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
     }
 
     private fun setOfflineListeners() {
-        val bikeLanesOn = ContextCompat.getDrawable(context!!, R.drawable.icon_road)
-        val bikeLanesOff = ContextCompat.getDrawable(context!!, R.drawable.icon_road_off)
-        val parkingOn = ContextCompat.getDrawable(context!!, R.drawable.icon_parking)
-        val parkingOff = ContextCompat.getDrawable(context!!, R.drawable.icon_parking_off)
+        val bikeLanesOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road)
+        val bikeLanesOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road_off)
+        val parkingOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_parking)
+        val parkingOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_parking_off)
 
         btnLanesToggle!!.setOnClickListener {
             if (!settings.getBoolean("isCarrilLayerAdded", false)) {
@@ -661,11 +661,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setOnlineListeners() {
-        val bike = ContextCompat.getDrawable(context!!, R.drawable.icon_on_bike)
-        val walk = ContextCompat.getDrawable(context!!, R.drawable.icon_walk)
-        val stationsOn = ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker)
+        val bike = ContextCompat.getDrawable(requireContext(), R.drawable.icon_on_bike)
+        val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
+        val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
         val stationsOff =
-            ContextCompat.getDrawable(context!!, R.drawable.icon_map_marker_off)
+            ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
         val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
         // Toggle Stations
@@ -791,11 +791,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     @SuppressLint("InflateParams")
     private fun getInfoWindowCommonInfo(marker: Marker): View {
-        val myDrawableFavOff = ContextCompat.getDrawable(context!!, R.drawable.icon_star_outline)
-        val myDrawableFavOn = ContextCompat.getDrawable(context!!, R.drawable.icon_star)
+        val myDrawableFavOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_star_outline)
+        val myDrawableFavOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_star)
 
         // Getting view from the layout file info_window_layout
-        val popup = activity!!.layoutInflater.inflate(R.layout.marker_popup, null)
+        val popup = requireActivity().layoutInflater.inflate(R.layout.marker_popup, null)
 
         // Getting reference to the ImageView/title/snippet
         val title = popup.findViewById<TextView>(R.id.title)
@@ -803,7 +803,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val btnStar = popup.findViewById<ImageView>(R.id.btn_star)
 
         if (marker.snippet.contains("\n\n")) {
-            snippet.setTextColor(ContextCompat.getColor(context!!, R.color.red))
+            snippet.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             snippet.setTypeface(null, Typeface.BOLD)
             snippet.text = marker.snippet
         } else {
@@ -825,7 +825,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun safeSnackBar(stringReference: Int) {
         mainView?.let {
-            val snack = Snackbar.make(mainView, stringReference, Snackbar.LENGTH_LONG)
+            val snack = Snackbar.make(mainView, stringReference, Snackbar.LENGTH_SHORT)
 
             // Necessary to display snackbar over bottom navigation bar
             val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
@@ -844,6 +844,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             getLanesAsync()
             // Has to run on the main thread
             lanes.addLayerToMap()
+
             settings.edit().putBoolean("isCarrilLayerAdded", true).apply()
         }
     }
