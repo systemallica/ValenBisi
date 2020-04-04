@@ -1,49 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Main content -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.systemallica.valenbisi.activities.MainActivity">
 
-    <!-- Main content -->
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="@color/colorPrimary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Fragment placeholder -->
+    <FrameLayout
+        android:id="@+id/containerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.systemallica.valenbisi.activities.MainActivity">
-
-        <!-- Toolbar -->
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                android:background="@color/colorPrimary" />
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <!-- Fragment placeholder -->
-        <RelativeLayout
-            android:id="@+id/contentMain"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?android:attr/actionBarSize"
-            android:layout_marginBottom="?android:attr/actionBarSize"
-            tools:context="com.systemallica.valenbisi.fragments.MapsFragment">
-
-            <FrameLayout
-                android:id="@+id/containerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
-
-        </RelativeLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:layout_marginBottom="?android:attr/actionBarSize"
+        android:orientation="vertical"
+        tools:context="com.systemallica.valenbisi.fragments.MapsFragment" />
 
     <!-- Bottom navigation bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -57,4 +45,5 @@
         app:labelVisibilityMode="selected"
         app:menu="@menu/activity_main_bottom_nav" />
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

@@ -11,12 +11,18 @@ import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager.getDefaultSharedPreferences
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,11 +31,6 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.data.geojson.*
@@ -37,6 +38,7 @@ import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.clustering.ClusterPoint
 import com.systemallica.valenbisi.clustering.IconRenderer
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import okhttp3.*
 import org.json.JSONArray
@@ -819,7 +821,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private fun safeSnackBar(stringReference: Int) {
         mainView?.let {
-            Snackbar.make(mainView, stringReference, Snackbar.LENGTH_LONG).show()
+            val snack = Snackbar.make(mainView, stringReference, Snackbar.LENGTH_LONG)
+
+            // Necessary to display snackbar over bottom navigation bar
+            val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
+            params.anchorId = R.id.bottom_navigation_view
+            params.anchorGravity = Gravity.TOP
+            params.gravity = Gravity.TOP
+            snack.view.layoutParams = params
+            snack.show()
         }
     }
 
