@@ -7,8 +7,6 @@
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustos</string>
     <string name="nav_share">Comparteix</string>
-    <string name="navigation_drawer_close">Tancar navigation drawer</string>
-    <string name="navigation_drawer_open">Obrir navigation drawer</string>
     <string name="no_location_permission">No n\'hi ha permissos de localització, el GPS no funcionarà</string>
     <string name="pref_mapView_summary_off">El mapa serà normal</string>
     <string name="pref_mapView_summary_on">El mapa serà satèl·lit</string>
@@ -26,11 +24,7 @@
     <string name="close">Tancar</string>
     <string name="continuer">Continuar de totes maneres</string>
     <string name="initialZoom">Zoom inicial</string>
-    <string name="update_ok">Sí</string>
-    <string name="update_not_now">Ara no</string>
-    <string name="update_never">Mai</string>
-    <string name="update_message">Vols actualitzar l\'app?</string>
-    <string name="update_available">Actualització disponible</string>
+    <string name="update_download">Una actualització ha sigut descarregada</string>
     <string name="pref_initialZoom_summary_on">Es farà zoom a la posició actual al iniciar l\'app</string>
     <string name="pref_initialZoom_summary_off">No es farà zoom a la posició actual al iniciar l\'app</string>
     <string name="no_internet_message">L\'app no funcionarà sense connexió a Internet. Connecta\'t i reinicia l\'app.</string>
@@ -70,10 +64,6 @@
     <string name="donation_1">Dóna suport amb 1€</string>
     <string name="donation_3">Dóna suport amb 3€</string>
     <string name="donation_5">Dóna suport amb €5</string>
-    <string name="donation_remove_ads">Quita els anuncis(gratuït)</string>
-    <string name="donation_ad_restore">Restaurar anuncis</string>
-    <string name="donation_ads_removed">Anuncis eliminats :(</string>
-    <string name="donation_ads_restored">Anuncis restaurats, gracies!</string>
     <string name="about_version">Versió</string>
     <string name="about_rate">Deixa\'ns una puntuació</string>
     <string name="about_support">Dóna support</string>

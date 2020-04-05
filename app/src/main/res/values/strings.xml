@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">ValenBisi</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="no_location_permission">No location permission, location will not work.</string>
+    <string name="no_location_permission">No hay permisos de localización, la ubicación no funcionará</string>
 
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustes</string>
@@ -48,10 +45,6 @@
     <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>
     <string name="pref_cicloCalles_summary_on">Las ciclocalles se mostrarán en un color diferente a los carriles</string>
 
-    <string name="donation_ad_restore">Restaurar anuncios</string>
-    <string name="donation_ads_removed">Anuncios eliminados :(</string>
-    <string name="donation_ads_restored">Anuncios restaurados, gracias!</string>
-
     <string name="load_lanes">Cargando carriles&#8230;</string>
     <string name="load_stations">Cargando estaciones&#8230;</string>
     <string name="load_parking">Cargando parkings&#8230;</string>
@@ -61,11 +54,8 @@
     <string name="close">Cerrar</string>
     <string name="continuer">Continuar de todas formas</string>
 
-    <string name="update_available">Actualización disponible</string>
-    <string name="update_message">¿Quieres actualizar la aplicación?</string>
-    <string name="update_ok">Vale</string>
-    <string name="update_not_now">Ahora no</string>
-    <string name="update_never">Nunca</string>
+    <string name="update_download">Una actualización se ha descargado</string>
+    <string name="update_install" translatable="false">RESTART</string>
 
     <string name="alpha_title">Versión alpha</string>
     <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
@@ -102,7 +92,6 @@
     <string name="donation_1">Apoya con 1€</string>
     <string name="donation_3">Apoya con 3€</string>
     <string name="donation_5">Apoya con 5€</string>
-    <string name="donation_remove_ads">Quita los anuncios(gratis)</string>
     <string name="about_developer" translatable="false">© 2020 Systemallica</string>
     <string name="about_version">Versión</string>
     <string name="about_rate">Déjanos una puntuación</string>

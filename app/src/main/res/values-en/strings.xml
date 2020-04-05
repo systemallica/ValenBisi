@@ -17,8 +17,6 @@
     <string name="pref_showFavourites_summary_on">Only favorite stations will be shown</string>
     <string name="showAvailable">Show only available stations</string>
     <string name="showFavourites">Show only favorite stations</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="no_location_permission">No location permission, location will not work</string>
     <string name="descStar">Star Icon</string>
     <string name="load_lanes">Loading lanes&#8230;</string>
@@ -30,11 +28,7 @@
     <string name="no_internet_message">The app won\'t work without Internet connection. Connect to the Internet and restart the app.</string>
     <string name="pref_initialZoom_summary_off">The app won\'t zoom to the current position on startup</string>
     <string name="pref_initialZoom_summary_on">The app will zoom to the current position on startup</string>
-    <string name="update_available">Update available</string>
-    <string name="update_message">Do you want to update the app?</string>
-    <string name="update_never">Never</string>
-    <string name="update_not_now">Not now</string>
-    <string name="update_ok">Yes</string>
+    <string name="update_download">An update has just been downloaded</string>
     <string name="bikes">Bikes:</string>
     <string name="load_parking">Loading parking spots&#8230;</string>
     <string name="parking">Bike parking</string>
@@ -69,10 +63,6 @@
     <string name="donation_1">Support with 1€</string>
     <string name="donation_3">Support with 3€</string>
     <string name="donation_5">Support with 5€</string>
-    <string name="donation_remove_ads">Remove ads(free)</string>
-    <string name="donation_ad_restore">Restore ads</string>
-    <string name="donation_ads_removed">Ads removed :(</string>
-    <string name="donation_ads_restored">Ads restored, thank you!</string>
     <string name="about_version">Version</string>
     <string name="about_rate">Rate the app</string>
     <string name="about_support">Support development</string>
@@ -86,4 +76,6 @@
     <string name="about_visit">Visit my website</string>
     <string name="about_send_email">Send me an email</string>
     <string name="about_issue">Found a bug? Tell us</string>
+    <string name="voronoi">Voronoi cells</string>
+    <string name="others">Misc</string>
 </resources>

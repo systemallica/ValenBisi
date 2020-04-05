@@ -7,9 +7,7 @@
     <string name="nav_map">Carte</string>
     <string name="nav_settings">Réglages</string>
     <string name="nav_share">Partage</string>
-    <string name="navigation_drawer_close">Fermer navigation drawer</string>
     <string name="no_location_permission">Il n\'y a pas de permis de localisation, le GPS ne fonctionnera pas</string>
-    <string name="navigation_drawer_open">Ouvrir navigation drawer</string>
     <string name="pref_mapView_summary_off">La carte sera normale</string>
     <string name="pref_mapView_summary_on">La carte sera en vue satellite</string>
     <string name="pref_matchNavigationBar_summary_on">La couleur s\'adaptera</string>
@@ -30,11 +28,7 @@
     <string name="no_internet_message">L\'application ne fonctionnera pas sans internet. Connecte-toi et redémarrela.</string>
     <string name="pref_initialZoom_summary_off">Il n\'y aura pas de zoom à la position actuelle au démarrage de l\'application.</string>
     <string name="pref_initialZoom_summary_on">Au démarrage de l\'application, il y aura un zoom à la position actuelle.</string>
-    <string name="update_available">Mise à jour disponible</string>
-    <string name="update_message">Veux-tu mettre à jour l\'application?</string>
-    <string name="update_never">Jamais</string>
-    <string name="update_not_now">Pas maintenant</string>
-    <string name="update_ok">D\'accord</string>
+    <string name="update_download">Une mise à jour a été téléchargée</string>
     <string name="bikes">Vélos:</string>
     <string name="parking">Parking vélos</string>
     <string name="load_parking">Chargement des parkings&#8230;</string>
@@ -71,10 +65,6 @@
     <string name="donation_1">Soutient le dév avec 1€</string>
     <string name="donation_3">Soutient le dév avec 3€</string>
     <string name="donation_5">Soutient le dév avec 5€</string>
-    <string name="donation_remove_ads">Enlèver la publicité(gratuit)</string>
-    <string name="donation_ad_restore">Rétablir les publicités</string>
-    <string name="donation_ads_removed">Publicités enlevés :(</string>
-    <string name="donation_ads_restored">Publicités restaurés, merci!</string>
     <string name="about_version">Version</string>
     <string name="about_rate">Évaluer l\'application</string>
     <string name="about_support">Soutient le développement</string>

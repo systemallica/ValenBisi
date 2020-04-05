@@ -7,9 +7,7 @@
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustes</string>
     <string name="nav_share">Comparte</string>
-    <string name="navigation_drawer_close">Cerrar navigation drawer</string>
-    <string name="no_location_permission">No hay permisos de localización, el GPS no funcionará</string>
-    <string name="navigation_drawer_open">Abrir navigation drawer</string>
+    <string name="no_location_permission">No hay permisos de localización, la ubicación no funcionará</string>
     <string name="pref_mapView_summary_off">El mapa será normal</string>
     <string name="pref_mapView_summary_on">El mapa será vista satélite</string>
     <string name="pref_matchNavigationBar_summary_on">El color se ajustará</string>
@@ -30,11 +28,7 @@
     <string name="no_internet_message">La aplicación no funcionará sin Internet. Conéctate y reiníciala.</string>
     <string name="pref_initialZoom_summary_off">No se hará zoom a la posición actual al iniciar la aplicación</string>
     <string name="pref_initialZoom_summary_on">Se hará zoom a la posición actual al iniciar la aplicación</string>
-    <string name="update_available">Actualización disponible</string>
-    <string name="update_message">¿Quieres actualizar la aplicación?</string>
-    <string name="update_never">Nunca</string>
-    <string name="update_not_now">Ahora no</string>
-    <string name="update_ok">Vale</string>
+    <string name="update_download">Una actualización se ha descargado</string>
     <string name="bikes">Bicis:</string>
     <string name="load_parking">Cargando parkings&#8230;</string>
     <string name="parking">Parking bicis</string>
@@ -70,10 +64,6 @@
     <string name="donation_1">Apoya con 1€</string>
     <string name="donation_3">Apoya con 3€</string>
     <string name="donation_5">Apoya con 5€</string>
-    <string name="donation_remove_ads">Quita los anuncios(gratis)</string>
-    <string name="donation_ad_restore">Restaurar anuncios</string>
-    <string name="donation_ads_removed">Anuncios eliminados :(</string>
-    <string name="donation_ads_restored">Anuncios restaurados, gracias!</string>
     <string name="about_version">Versión</string>
     <string name="about_rate">Déjanos una puntuación</string>
     <string name="about_support">Apoya el desarrollo</string>

@@ -150,11 +150,11 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
     private fun popupSnackbarForCompleteUpdate() {
         Snackbar.make(
                 findViewById(R.id.activity_main_layout),
-                "An update has just been downloaded.",
+                R.string.update_download,
                 Snackbar.LENGTH_INDEFINITE
         ).apply {
             val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-            setAction("RESTART") { appUpdateManager.completeUpdate() }
+            setAction(R.string.update_install) { appUpdateManager.completeUpdate() }
             setActionTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             show()
         }
