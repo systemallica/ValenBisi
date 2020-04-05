@@ -17,8 +17,8 @@ class IconRenderer(
         markerOptions!!.icon(item!!.icon)
         markerOptions.snippet(item.snippet)
         markerOptions.title(item.title)
-        markerOptions.alpha(item.alpha!!)
-        markerOptions.visible(item.visibility!!)
+        markerOptions.alpha(item.alpha)
+        markerOptions.visible(item.visibility)
         super.onBeforeClusterItemRendered(item, markerOptions)
     }
 }
