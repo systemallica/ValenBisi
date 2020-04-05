@@ -131,9 +131,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
             setButtonBackground()
 
-            setButtonListeners()
-
             restoreOptionalLayers()
+
+            setButtonListeners()
         }
     }
 
@@ -441,7 +441,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         } else {
             station.icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)
-            station.snippet = getString(R.string.closed)
+            station.snippet = if(isAdded) getString(R.string.closed) else ""
             if (showOnlyAvailableStations) {
                 station.visibility = false
             }
@@ -699,6 +699,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         // Reload data
         btnRefresh!!.setOnClickListener {
+            btnStationsToggle!!.icon = stationsOn
+            settings.edit().putBoolean("showStationsLayer", true).apply()
             resetStationsLayer()
             getStations()
         }
