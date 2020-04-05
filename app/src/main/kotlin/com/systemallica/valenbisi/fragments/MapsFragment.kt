@@ -133,7 +133,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
             restoreOptionalLayers()
 
-            setButtonListeners()
+            setListeners()
         }
     }
 
@@ -361,6 +361,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     addPointsToLayer(jsonDataArray)
                     requireActivity().runOnUiThread { stations.addLayerToMap() }
                 }
+                settings.edit().putBoolean("showStationsLayer", true).apply()
+                setListeners()
             } catch (e: JSONException) {
                 Log.e(LOG_TAG, "JSONArray could not be created")
             }
@@ -578,9 +580,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun setButtonListeners() {
-        setOfflineListeners()
-        setOnlineListeners()
+    private fun setListeners() {
+        setButtonListeners()
+        setMapListeners()
     }
 
     private fun setInitialButtonState() {
@@ -631,62 +633,64 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         btnParkingToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
     }
 
-    private fun setOfflineListeners() {
+    private fun setButtonListeners() {
         val bikeLanesOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road)
         val bikeLanesOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road_off)
         val parkingOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_parking)
         val parkingOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_parking_off)
+        val bike = ContextCompat.getDrawable(requireContext(), R.drawable.icon_on_bike)
+        val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
+        val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
+        val stationsOff =
+                ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
 
+        // Toggle bike lanes
         btnLanesToggle!!.setOnClickListener {
+            removeButtonListeners()
             if (!settings.getBoolean("isCarrilLayerAdded", false)) {
                 btnLanesToggle!!.icon = bikeLanesOn
                 getLanes()
             } else {
                 btnLanesToggle!!.icon = bikeLanesOff
-                settings.edit().putBoolean("isCarrilLayerAdded", false).apply()
                 lanes.removeLayerFromMap()
+                settings.edit().putBoolean("isCarrilLayerAdded", false).apply()
+                setButtonListeners()
             }
         }
 
+        // Toggle parking
         btnParkingToggle!!.setOnClickListener {
+            removeButtonListeners()
             if (!settings.getBoolean("isParkingLayerAdded", false)) {
                 btnParkingToggle!!.icon = parkingOn
                 getParkings()
             } else {
                 btnParkingToggle!!.icon = parkingOff
-                settings.edit().putBoolean("isParkingLayerAdded", false).apply()
                 parking.removeLayerFromMap()
+                settings.edit().putBoolean("isParkingLayerAdded", false).apply()
+                setButtonListeners()
             }
         }
-    }
 
-    private fun setOnlineListeners() {
-        val bike = ContextCompat.getDrawable(requireContext(), R.drawable.icon_on_bike)
-        val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
-        val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
-        val stationsOff =
-            ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
-        val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
-
-        // Toggle Stations
+        // Toggle stations
         btnStationsToggle!!.setOnClickListener {
-            val showStationsLayer = settings.getBoolean("showStationsLayer", true)
-            if (showStationsLayer) {
-                resetStationsLayer()
+            removeButtonListeners()
+            resetStationsLayer()
+            if (settings.getBoolean("showStationsLayer", true)) {
                 btnStationsToggle!!.icon = stationsOff
                 settings.edit().putBoolean("showStationsLayer", false).apply()
+                setButtonListeners()
             } else {
                 getStations()
                 btnStationsToggle!!.icon = stationsOn
-                settings.edit().putBoolean("showStationsLayer", true).apply()
             }
         }
 
         // Toggle onFoot/onBike
         btnOnFootToggle!!.setOnClickListener {
-            val isOnFoot = settings.getBoolean("isOnFoot", false)
+            removeButtonListeners()
             resetStationsLayer()
-            if (isOnFoot) {
+            if (settings.getBoolean("isOnFoot", false)) {
                 settings.edit().putBoolean("isOnFoot", false).apply()
                 btnOnFootToggle!!.icon = bike
                 getStations()
@@ -697,13 +701,26 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             }
         }
 
-        // Reload data
+        // Reload bike station data
         btnRefresh!!.setOnClickListener {
+            removeButtonListeners()
             btnStationsToggle!!.icon = stationsOn
-            settings.edit().putBoolean("showStationsLayer", true).apply()
             resetStationsLayer()
             getStations()
         }
+    }
+
+    private fun removeButtonListeners(){
+        btnLanesToggle.setOnClickListener(null)
+        btnOnFootToggle.setOnClickListener(null)
+        btnParkingToggle.setOnClickListener(null)
+        btnRefresh.setOnClickListener(null)
+        btnStationsToggle.setOnClickListener(null)
+    }
+
+    private fun setMapListeners() {
+
+        val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
         mClusterManager.setOnClusterClickListener { cluster ->
             val zoom = mMap!!.cameraPosition.zoom
@@ -846,8 +863,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             getLanesAsync()
             // Has to run on the main thread
             lanes.addLayerToMap()
-
             settings.edit().putBoolean("isCarrilLayerAdded", true).apply()
+            setButtonListeners()
         }
     }
 
@@ -897,6 +914,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             // Has to run on the main thread
             parking.addLayerToMap()
             settings.edit().putBoolean("isParkingLayerAdded", true).apply()
+            setButtonListeners()
         }
     }
 
