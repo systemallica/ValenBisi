@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -121,15 +122,21 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
     }
 
     private fun getLatestVersion() {
-        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        val appUpdateManager = AppUpdateManagerFactory.create(this)
 
         val appUpdateInfoTask = appUpdateManager.appUpdateInfo
 
+        appUpdateInfoTask.addOnFailureListener { appUpdateInfo ->
+            Log.e("update error", appUpdateInfo.toString())
+        }
+
+
         // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+            Log.e("update success", appUpdateInfo.toString())
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                     && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-
+                Log.e("update downloading", appUpdateInfo.toString())
                 appUpdateManager.startUpdateFlowForResult(
                         appUpdateInfo,
                         AppUpdateType.FLEXIBLE,
@@ -141,6 +148,7 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
     }
 
     override fun onStateUpdate(state: InstallState) {
+        Log.e("update state", state.installStatus().toString())
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
             popupSnackbarForCompleteUpdate()
         }
