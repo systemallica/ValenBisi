@@ -34,18 +34,25 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
 
         initActivity()
 
-        //Inflate main fragment
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
         if (savedInstanceState == null) {
+            //Inflate main fragment
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
             // Change fragment
             fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
             title = getString(R.string.nav_map)
             bottom_navigation_view.menu.getItem(0).isChecked = true
-        } else {
-            fragmentTransaction.commitNow()
         }
 
+        checkInternetAccess()
+    }
+
+    private fun initActivity() {
+        setSupportActionBar(toolbar)
+        setOnNavigationListener()
+        initNavBarColor()
+    }
+
+    private fun checkInternetAccess(){
         //Check if current network has internet access
         val cm =
                 applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -71,14 +78,9 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
                     .show()
 
         } else {
+            // Check for updates if there's an internet connection
             getLatestVersion()
         }
-    }
-
-    private fun initActivity() {
-        setSupportActionBar(toolbar)
-        setOnNavigationListener()
-        initNavBarColor()
     }
 
     private fun setOnNavigationListener() {
@@ -91,17 +93,14 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
 
             when (id) {
                 R.id.nav_map -> {
-                    // Set Activity title
                     title = item.title
                     fragmentTransaction.replace(R.id.containerView, MapsFragment())
                 }
                 R.id.nav_settings -> {
-                    // Set Activity title
                     title = item.title
                     fragmentTransaction.replace(R.id.containerView, SettingsFragment())
                 }
                 R.id.nav_about -> {
-                    // Set Activity title
                     title = item.title
                     fragmentTransaction.replace(R.id.containerView, AboutFragment())
                 }
