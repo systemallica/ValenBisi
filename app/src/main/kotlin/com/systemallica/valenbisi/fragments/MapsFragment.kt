@@ -788,7 +788,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setClusteredInfoWindow() {
-        mClusterManager.markerCollection.setInfoWindowAdapter(object :
+        mClusterManager.markerCollection.setOnInfoWindowAdapter(object :
                 GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {
