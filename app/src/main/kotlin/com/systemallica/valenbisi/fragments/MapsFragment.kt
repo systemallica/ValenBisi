@@ -719,7 +719,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         btnRefresh!!.setOnClickListener {
             removeButtonListeners()
             btnStationsToggle!!.icon = stationsOn
-            resetStationsLayer()
+            if (settings.getBoolean("showStationsLayer", true)) {
+                resetStationsLayer()
+            }
             getStations()
         }
     }
