@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager.getDefaultSharedPreferences
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
+import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
@@ -121,6 +122,17 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
         }
     }
 
+    // Create a listener to track request state updates.
+    private val listener = { state: InstallState ->
+        Log.e("valenbisi", state.installStatus().toString())
+        if (state.installStatus() == InstallStatus.DOWNLOADING) {
+            val bytesDownloaded = state.bytesDownloaded()
+            val totalBytesToDownload = state.totalBytesToDownload()
+            Log.e("valenbisi", bytesDownloaded.toString())
+            Log.e("valenbisi", totalBytesToDownload.toString())
+        }
+    }
+
     private fun getLatestVersion() {
         val appUpdateManager = AppUpdateManagerFactory.create(this)
 
@@ -130,10 +142,13 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
             Log.e("update error", appUpdateInfo.toString())
         }
 
-
         // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
             Log.e("update success", appUpdateInfo.toString())
+            // Before starting an update, register a listener for updates.
+            appUpdateManager.registerListener(listener)
+            Log.e("valenbisi", appUpdateInfo.updateAvailability().toString())
+            Log.e("valenbisi", appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE).toString())
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                     && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
                 Log.e("update downloading", appUpdateInfo.toString())
@@ -161,6 +176,7 @@ class MainActivity : AppCompatActivity(), StateUpdatedListener<InstallState> {
                 Snackbar.LENGTH_INDEFINITE
         ).apply {
             val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+            appUpdateManager.unregisterListener(listener)
             setAction(R.string.update_install) { appUpdateManager.completeUpdate() }
             setActionTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             show()
