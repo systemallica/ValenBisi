@@ -132,8 +132,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             setButtonBackground()
 
             restoreOptionalLayers()
-
-            setListeners()
         }
     }
 
@@ -269,6 +267,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val isDrawParkingSpotsChecked = settings.getBoolean("isParkingLayerAdded", false)
         if (isDrawParkingSpotsChecked) {
             getParkings()
+        }
+
+        if(!isStationsLayerAdded && !isCarrilLayerAdded && !isDrawParkingSpotsChecked){
+            setListeners()
         }
     }
 
@@ -876,7 +878,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             // Has to run on the main thread
             lanes.addLayerToMap()
             settings.edit().putBoolean("isCarrilLayerAdded", true).apply()
-            setButtonListeners()
+            setListeners()
         }
     }
 
@@ -926,7 +928,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             // Has to run on the main thread
             parking.addLayerToMap()
             settings.edit().putBoolean("isParkingLayerAdded", true).apply()
-            setButtonListeners()
+            setListeners()
         }
     }
 
