@@ -81,9 +81,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 getString(R.string.data_unreliable)
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -101,9 +101,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray
     ) {
         if (requestCode == 1) {
             if (isLocationPermissionGranted) {
@@ -142,11 +142,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         mClusterManager = ClusterManager(context, mMap)
         // Set custom renderer
         mClusterManager.renderer =
-            IconRenderer(
-                requireContext(),
-                mMap!!,
-                mClusterManager
-            )
+                IconRenderer(
+                        requireContext(),
+                        mMap!!,
+                        mClusterManager
+                )
     }
 
     private fun initPreferences() {
@@ -195,8 +195,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             setLocationButtonEnabled(true)
         } else {
             requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                1
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    1
             )
         }
     }
@@ -218,20 +218,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         if (isLocationPermissionGranted) {
             try {
                 fusedLocationClient.lastLocation
-                    .addOnSuccessListener { location: Location? ->
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            val longitude = location.longitude
-                            val latitude = location.latitude
-                            val currentLocation = LatLng(latitude, longitude)
-                            moveToLocationOrValencia(currentLocation)
-                        } else {
+                        .addOnSuccessListener { location: Location? ->
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                val longitude = location.longitude
+                                val latitude = location.latitude
+                                val currentLocation = LatLng(latitude, longitude)
+                                moveToLocationOrValencia(currentLocation)
+                            } else {
+                                moveToLocationOrValencia()
+                            }
+                        }
+                        .addOnFailureListener {
                             moveToLocationOrValencia()
                         }
-                    }
-                    .addOnFailureListener {
-                        moveToLocationOrValencia()
-                    }
             } catch (e: SecurityException) {
                 Log.e(LOG_TAG, e.message!!)
             }
@@ -252,7 +252,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun restoreOptionalLayers() {
         val isStationsLayerAdded = settings.getBoolean("showStationsLayer", true)
-        if(isStationsLayerAdded){
+        if (isStationsLayerAdded) {
             getStations()
         }
 
@@ -296,11 +296,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         val client = OkHttpClient()
         val url =
-            "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"
+                "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"
 
         val request = Request.Builder()
-            .url(url)
-            .build()
+                .url(url)
+                .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -443,7 +443,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         } else {
             station.icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)
-            station.snippet = if(isAdded) getString(R.string.closed) else ""
+            station.snippet = if (isAdded) getString(R.string.closed) else ""
             if (showOnlyAvailableStations) {
                 station.visibility = false
             }
@@ -588,7 +588,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     private fun setInitialButtonState() {
         val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
         val stationsOff =
-            ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
+                ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
         val bike = ContextCompat.getDrawable(requireContext(), R.drawable.icon_on_bike)
         val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
         val bikeLanesOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road)
@@ -625,7 +625,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun setButtonBackground(){
+    private fun setButtonBackground() {
         btnLanesToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
         btnStationsToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
         btnOnFootToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
@@ -688,16 +688,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         // Toggle onFoot/onBike
         btnOnFootToggle!!.setOnClickListener {
-            removeButtonListeners()
-            resetStationsLayer()
-            if (settings.getBoolean("isOnFoot", false)) {
-                settings.edit().putBoolean("isOnFoot", false).apply()
-                btnOnFootToggle!!.icon = bike
-                getStations()
+            // If stations are visible, recalculate layer
+            if (settings.getBoolean("showStationsLayer", true)) {
+                removeButtonListeners()
+                resetStationsLayer()
+                if (settings.getBoolean("isOnFoot", false)) {
+                    settings.edit().putBoolean("isOnFoot", false).apply()
+                    btnOnFootToggle!!.icon = bike
+                    getStations()
+                } else {
+                    settings.edit().putBoolean("isOnFoot", true).apply()
+                    btnOnFootToggle!!.icon = walk
+                    getStations()
+                }
+            // Else just change the button icon and the setting
             } else {
-                settings.edit().putBoolean("isOnFoot", true).apply()
-                btnOnFootToggle!!.icon = walk
-                getStations()
+                if (settings.getBoolean("isOnFoot", false)) {
+                    settings.edit().putBoolean("isOnFoot", false).apply()
+                    btnOnFootToggle!!.icon = bike
+                } else {
+                    settings.edit().putBoolean("isOnFoot", true).apply()
+                    btnOnFootToggle!!.icon = walk
+                }
             }
         }
 
@@ -710,7 +722,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun removeButtonListeners(){
+    private fun removeButtonListeners() {
         btnLanesToggle.setOnClickListener(null)
         btnOnFootToggle.setOnClickListener(null)
         btnParkingToggle.setOnClickListener(null)
@@ -726,9 +738,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             val zoom = mMap!!.cameraPosition.zoom
             val position = cluster.position
             mMap!!.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
-                250,
-                null
+                    CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
+                    250,
+                    null
             )
             true
         }
@@ -773,7 +785,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun setClusteredInfoWindow() {
         mClusterManager.markerCollection.setInfoWindowAdapter(object :
-            GoogleMap.InfoWindowAdapter {
+                GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {
                 return null
@@ -856,7 +868,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun getLanes(){
+    private fun getLanes() {
         safeSnackBar(R.string.load_lanes)
 
         launch {
@@ -868,7 +880,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private suspend fun getLanesAsync(){
+    private suspend fun getLanesAsync() {
 
         try {
             withContext(Dispatchers.IO) {
@@ -906,7 +918,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun getParkings(){
+    private fun getParkings() {
         safeSnackBar(R.string.load_parking)
 
         launch {
@@ -918,7 +930,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private suspend fun getParkingsAsync(){
+    private suspend fun getParkingsAsync() {
 
         val showFavorites = userSettings.getBoolean("showFavorites", false)
         var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_map_marker_circle)
