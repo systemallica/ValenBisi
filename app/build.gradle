@@ -60,7 +60,7 @@ dependencies {
     // Maps and billing
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.maps.android:android-maps-utils:0.6.2'
+    implementation 'com.google.maps.android:android-maps-utils:1.0.2'
     // Billing
     implementation 'com.android.billingclient:billing:2.2.0'
     implementation 'com.android.billingclient:billing-ktx:2.1.0'

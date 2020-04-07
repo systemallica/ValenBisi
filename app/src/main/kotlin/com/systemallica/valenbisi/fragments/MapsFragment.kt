@@ -121,9 +121,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
             initPreferences()
 
-            initClusterManager()
-
             initMap()
+
+            val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
+            if (isClusteringActivated) {
+                initClusterManager()
+            }
 
             setInitialPosition()
 
@@ -155,12 +158,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun initMap() {
-
-        mMap!!.setOnInfoWindowClickListener(mClusterManager)
-        mMap!!.setOnCameraIdleListener(mClusterManager)
-        mMap!!.setOnMarkerClickListener(mClusterManager)
-
-        mMap!!.setInfoWindowAdapter(mClusterManager.markerManager)
 
         mMap!!.setMinZoomPreference(10f)
 
@@ -256,7 +253,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         val isDrawVoronoiCellsChecked = userSettings.getBoolean("voronoiCell", false)
         if (isDrawVoronoiCellsChecked) {
-            drawBoronoiCells()
+            drawVoronoiCells()
         }
 
         val isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false)
@@ -274,7 +271,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun drawBoronoiCells() {
+    private fun drawVoronoiCells() {
         try {
             val voronoi = GeoJsonLayer(mMap, R.raw.voronoi, context)
             for (feature in voronoi.features) {
@@ -738,19 +735,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
-        mClusterManager.setOnClusterClickListener { cluster ->
-            val zoom = mMap!!.cameraPosition.zoom
-            val position = cluster.position
-            mMap!!.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
-                    250,
-                    null
-            )
-            true
-        }
-
         if (isClusteringActivated) {
+
+            requireActivity().runOnUiThread {
+                mMap!!.apply {
+                    setOnInfoWindowClickListener(mClusterManager)
+                    setOnCameraIdleListener(mClusterManager)
+                    setOnMarkerClickListener(mClusterManager)
+                    setInfoWindowAdapter(mClusterManager.markerManager)
+                }
+            }
+
             setClusteredInfoWindow()
+
+            mClusterManager.setOnClusterClickListener { cluster ->
+                val zoom = mMap!!.cameraPosition.zoom
+                val position = cluster.position
+                mMap!!.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
+                        250,
+                        null
+                )
+                true
+            }
         } else {
             setNormalInfoWindow()
         }
@@ -788,7 +795,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setClusteredInfoWindow() {
-        mClusterManager.markerCollection.setOnInfoWindowAdapter(object :
+        mClusterManager.markerCollection.setInfoWindowAdapter(object :
                 GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {
@@ -826,8 +833,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     @SuppressLint("InflateParams")
     private fun getInfoWindowCommonInfo(marker: Marker): View {
-        val myDrawableFavOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_star_outline)
-        val myDrawableFavOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_star)
+        val starIconOff = ContextCompat.getDrawable(requireContext(), R.drawable.icon_star_outline)
+        val startIconOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_star)
 
         // Getting view from the layout file info_window_layout
         val popup = requireActivity().layoutInflater.inflate(R.layout.marker_popup, null)
@@ -851,9 +858,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         // Setting correspondent icon
         if (currentStationIsFav) {
-            btnStar.setImageDrawable(myDrawableFavOn)
+            btnStar.setImageDrawable(startIconOn)
         } else {
-            btnStar.setImageDrawable(myDrawableFavOff)
+            btnStar.setImageDrawable(starIconOff)
         }
         return popup
     }
@@ -885,7 +892,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private suspend fun getLanesAsync() {
-
         try {
             withContext(Dispatchers.IO) {
                 lanes = GeoJsonLayer(mMap, R.raw.bike_lanes, context)
@@ -898,11 +904,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     feature.lineStringStyle = stringStyle
                 }
             }
-
-
         } catch (e: IOException) {
             Log.e(LOG_TAG, "GeoJSON file could not be read")
-
         } catch (e: JSONException) {
             Log.e(LOG_TAG, "GeoJSON file could not be converted to a JSONObject")
         }
