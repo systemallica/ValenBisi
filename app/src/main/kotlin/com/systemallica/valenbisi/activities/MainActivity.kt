@@ -5,8 +5,10 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         initNavBarColor()
     }
 
-    private fun checkInternetAccess(){
+    private fun checkInternetAccess() {
         //Check if current network has internet access
         val cm =
                 applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -130,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("valenbisi", totalBytesToDownload.toString())
         }
 
-        if(state.installStatus() == InstallStatus.DOWNLOADED) {
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
             Log.i("valenbisi", "launch snackbar")
             popupSnackbarForCompleteUpdate()
         }
@@ -163,13 +165,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun popupSnackbarForCompleteUpdate() {
-        Snackbar.make(
+        val snack = Snackbar.make(
                 findViewById(R.id.activity_main_layout),
                 R.string.update_download,
-                Snackbar.LENGTH_INDEFINITE
-        ).apply {
-            val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-            appUpdateManager.unregisterListener(updateStateListener)
+                Snackbar.LENGTH_INDEFINITE)
+
+        val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
+        params.apply {
+            anchorId = R.id.bottom_navigation_view
+            anchorGravity = Gravity.TOP
+            gravity = Gravity.TOP
+        }
+
+        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        appUpdateManager.unregisterListener(updateStateListener)
+
+        snack.apply {
+            view.layoutParams = params
             setAction(R.string.update_install) { appUpdateManager.completeUpdate() }
             setActionTextColor(ContextCompat.getColor(applicationContext, R.color.white))
             show()
