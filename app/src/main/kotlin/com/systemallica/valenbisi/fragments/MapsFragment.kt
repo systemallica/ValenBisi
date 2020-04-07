@@ -60,11 +60,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private lateinit var settings: SharedPreferences
     private lateinit var userSettings: SharedPreferences
-    private lateinit var stations: GeoJsonLayer
-    private lateinit var lanes: GeoJsonLayer
-    private lateinit var parking: GeoJsonLayer
     private lateinit var mClusterManager: ClusterManager<ClusterPoint>
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var stations: GeoJsonLayer? = null
+    private var lanes: GeoJsonLayer? = null
+    private var parking: GeoJsonLayer? = null
     private var mMap: GoogleMap? = null
 
     private val isApplicationReady: Boolean
@@ -328,7 +328,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             mClusterManager.clearItems()
             mClusterManager.cluster()
         } else {
-            stations.removeLayerFromMap()
+            stations?.removeLayerFromMap()
         }
     }
 
@@ -361,7 +361,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     requireActivity().runOnUiThread { mClusterManager.cluster() }
                 } else {
                     addPointsToLayer(jsonDataArray)
-                    requireActivity().runOnUiThread { stations.addLayerToMap() }
+                    requireActivity().runOnUiThread { stations?.addLayerToMap() }
                 }
                 settings.edit().putBoolean("showStationsLayer", true).apply()
                 setListeners()
@@ -422,7 +422,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             val pointStyle = generatePointStyle(station)
             pointFeature.pointStyle = pointStyle
 
-            stations.addFeature(pointFeature)
+            stations?.addFeature(pointFeature)
         }
     }
 
@@ -654,7 +654,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 getLanes()
             } else {
                 btnLanesToggle!!.icon = bikeLanesOff
-                lanes.removeLayerFromMap()
+                lanes?.removeLayerFromMap()
                 settings.edit().putBoolean("isCarrilLayerAdded", false).apply()
                 setButtonListeners()
             }
@@ -668,7 +668,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 getParkings()
             } else {
                 btnParkingToggle!!.icon = parkingOff
-                parking.removeLayerFromMap()
+                parking?.removeLayerFromMap()
                 settings.edit().putBoolean("isParkingLayerAdded", false).apply()
                 setButtonListeners()
             }
@@ -878,7 +878,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         launch {
             getLanesAsync()
             // Has to run on the main thread
-            lanes.addLayerToMap()
+            lanes?.addLayerToMap()
             settings.edit().putBoolean("isCarrilLayerAdded", true).apply()
             setListeners()
         }
@@ -889,7 +889,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         try {
             withContext(Dispatchers.IO) {
                 lanes = GeoJsonLayer(mMap, R.raw.bike_lanes, context)
-                for (feature in lanes.features) {
+                for (feature in lanes!!.features) {
                     val stringStyle = GeoJsonLineStringStyle()
                     stringStyle.width = 5f
                     if (userSettings.getBoolean("cicloCalles", true)) {
@@ -928,7 +928,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         launch {
             getParkingsAsync()
             // Has to run on the main thread
-            parking.addLayerToMap()
+            parking?.addLayerToMap()
             settings.edit().putBoolean("isParkingLayerAdded", true).apply()
             setListeners()
         }
@@ -945,7 +945,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             try {
                 withContext(Dispatchers.IO) {
                     parking = GeoJsonLayer(mMap, R.raw.aparcabicis, context)
-                    for (feature in parking.features) {
+                    for (feature in parking!!.features) {
                         val pointStyle = GeoJsonPointStyle()
                         pointStyle.title = getString(R.string.parking) +
                                 " " + feature.getProperty("id")
