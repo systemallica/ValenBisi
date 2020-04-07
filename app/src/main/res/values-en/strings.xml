@@ -78,4 +78,6 @@
     <string name="about_issue">Found a bug? Tell us</string>
     <string name="voronoi">Voronoi cells</string>
     <string name="others">Misc</string>
+    <string name="update_restart">Restart to complete update?</string>
+    <string name="update_not_now">Not now</string>
 </resources>

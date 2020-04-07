@@ -77,4 +77,6 @@
     <string name="about_visit">Visita mi página web</string>
     <string name="about_send_email">Envíame un email</string>
     <string name="about_issue">¿Algún problema? Cuéntanos</string>
+    <string name="update_restart">¿Reiniciar para completar la actualización?</string>
+    <string name="update_not_now">Ahora no</string>
 </resources>

@@ -55,7 +55,6 @@
     <string name="continuer">Continuar de todas formas</string>
 
     <string name="update_download">Una actualización se ha descargado</string>
-    <string name="update_install" translatable="false">RESTART</string>
 
     <string name="alpha_title">Versión alpha</string>
     <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
@@ -113,5 +112,8 @@
     <string name="about_author_email_subject" translatable="false">Valenbisi</string>
     <string name="about_issue_url" translatable="false">https://github.com/systemallica/ValenBisi/issues/new</string>
     <string name="about_issue">¿Algún problema? Cuéntanos</string>
+    <string name="update_restart">¿Reiniciar para completar la actualización?</string>
+    <string name="update_ok" translatable="false">Ok</string>
+    <string name="update_not_now">Ahora no</string>
 
 </resources>

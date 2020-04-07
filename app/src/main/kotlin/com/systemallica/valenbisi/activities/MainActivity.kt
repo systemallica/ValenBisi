@@ -5,14 +5,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import androidx.preference.PreferenceManager.getDefaultSharedPreferences
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallState
 import com.google.android.play.core.install.model.AppUpdateType
@@ -134,7 +131,7 @@ class MainActivity : AppCompatActivity() {
 
         if (state.installStatus() == InstallStatus.DOWNLOADED) {
             Log.i("valenbisi", "launch snackbar")
-            popupSnackbarForCompleteUpdate()
+            popupForCompleteUpdate()
         }
     }
 
@@ -164,27 +161,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun popupSnackbarForCompleteUpdate() {
-        val snack = Snackbar.make(
-                findViewById(R.id.activity_main_layout),
-                R.string.update_download,
-                Snackbar.LENGTH_INDEFINITE)
-
-        val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams
-        params.apply {
-            anchorId = R.id.bottom_navigation_view
-            anchorGravity = Gravity.TOP
-            gravity = Gravity.TOP
-        }
-
-        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        appUpdateManager.unregisterListener(updateStateListener)
-
-        snack.apply {
-            view.layoutParams = params
-            setAction(R.string.update_install) { appUpdateManager.completeUpdate() }
-            setActionTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-            show()
+    private fun popupForCompleteUpdate() {
+        runOnUiThread {
+            val builder = AlertDialog.Builder(this@MainActivity)
+            builder.setTitle(R.string.update_download)
+                    .setMessage(R.string.update_download)
+                    .setIcon(R.drawable.icon_update)
+                    .setPositiveButton(R.string.update_ok) { _, _ ->
+                        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+                        appUpdateManager.completeUpdate()
+                        appUpdateManager.unregisterListener(updateStateListener)
+                    }
+                    .setNegativeButton(R.string.update_not_now) { _, _ ->
+                        // Do nothing
+                    }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
