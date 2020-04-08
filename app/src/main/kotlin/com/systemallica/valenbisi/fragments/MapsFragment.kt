@@ -266,7 +266,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             getParkings()
         }
 
-        if(!isStationsLayerAdded && !isCarrilLayerAdded && !isDrawParkingSpotsChecked){
+        if (!isStationsLayerAdded && !isCarrilLayerAdded && !isDrawParkingSpotsChecked) {
             setListeners()
         }
     }
@@ -700,7 +700,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     btnOnFootToggle!!.icon = walk
                     getStations()
                 }
-            // Else just change the button icon and the setting
+                // Else just change the button icon and the setting
             } else {
                 if (settings.getBoolean("isOnFoot", false)) {
                     settings.edit().putBoolean("isOnFoot", false).apply()
@@ -734,32 +734,31 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     private fun setMapListeners() {
 
         val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
+        requireActivity().runOnUiThread {
 
-        if (isClusteringActivated) {
-
-            requireActivity().runOnUiThread {
+            if (isClusteringActivated) {
                 mMap!!.apply {
                     setOnInfoWindowClickListener(mClusterManager)
                     setOnCameraIdleListener(mClusterManager)
                     setOnMarkerClickListener(mClusterManager)
                     setInfoWindowAdapter(mClusterManager.markerManager)
                 }
-            }
 
-            setClusteredInfoWindow()
+                setClusteredInfoWindow()
 
-            mClusterManager.setOnClusterClickListener { cluster ->
-                val zoom = mMap!!.cameraPosition.zoom
-                val position = cluster.position
-                mMap!!.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
-                        250,
-                        null
-                )
-                true
+                mClusterManager.setOnClusterClickListener { cluster ->
+                    val zoom = mMap!!.cameraPosition.zoom
+                    val position = cluster.position
+                    mMap!!.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
+                            250,
+                            null
+                    )
+                    true
+                }
+            } else {
+                setNormalInfoWindow()
             }
-        } else {
-            setNormalInfoWindow()
         }
     }
 
