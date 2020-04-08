@@ -26,6 +26,8 @@ import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var inflatedFragment: CharSequence
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,7 +40,8 @@ class MainActivity : AppCompatActivity() {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             // Change fragment
             fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
-            title = getString(R.string.nav_map)
+            title = getString(R.string.app_name)
+            inflatedFragment = getString(R.string.app_name)
             bottom_navigation_view.menu.getItem(0).isChecked = true
         }
 
@@ -84,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnNavigationListener() {
         bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
-            if (title == item.title) return@setOnNavigationItemSelectedListener false
+            if (inflatedFragment == item.title) return@setOnNavigationItemSelectedListener false
 
             val id = item.itemId
 
@@ -92,15 +95,15 @@ class MainActivity : AppCompatActivity() {
 
             when (id) {
                 R.id.nav_map -> {
-                    title = item.title
+                    inflatedFragment = item.title
                     fragmentTransaction.replace(R.id.containerView, MapsFragment())
                 }
                 R.id.nav_settings -> {
-                    title = item.title
+                    inflatedFragment = item.title
                     fragmentTransaction.replace(R.id.containerView, SettingsFragment())
                 }
                 R.id.nav_about -> {
-                    title = item.title
+                    inflatedFragment = item.title
                     fragmentTransaction.replace(R.id.containerView, AboutFragment())
                 }
             }
