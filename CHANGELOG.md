@@ -1,3 +1,21 @@
+# 3.5.0
+
+### Added
+
+- Support for in-app updates
+
+### Changed
+
+- Navigation is now a bottom bar
+- Upgraded dependencies(android-iconics, billing, about-libraries)
+- Code modernisation and speed improvements
+
+### Fixed
+
+- Behaviour of map buttons when tapped very quickly
+- Some warnings
+- Several crashes
+
 # 3.4.0
 
 ### Changed
