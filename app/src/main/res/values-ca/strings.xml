@@ -3,7 +3,6 @@
     <string name="mapView">Vista de mapa satèl·lit</string>
     <string name="matchNavigationBar">Barra de navegació</string>
     <string name="nav_about">Sobre l\'aplicació</string>
-    <string name="nav_donate">Quitar anuncis</string>
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustos</string>
     <string name="nav_share">Comparteix</string>
@@ -31,29 +30,20 @@
     <string name="no_internet">No n\'hi ha connexió a Internet</string>
     <string name="bikes">Bicis:</string>
     <string name="load_parking">Carregant parkings&#8230;</string>
-    <string name="parking">Parking bicis</string>
-    <string name="plazas">Buits totals:</string>
     <string name="spots">Buits:</string>
     <string name="others">Altres</string>
     <string name="pref_voronoi_summary_off">No es mostraràn les cel·les de Voronoi</string>
     <string name="pref_voronoi_summary_on">Es mostraràn les cel·les de Voronoi</string>
     <string name="voronoi_info">Per saver qué es una cel·la de Voronoi feu click ací</string>
-    <string name="purchase_success">Moltíssimes gracies per la teua donació! :D</string>
-    <string name="purchase_failed">Oh, alguna cosa ha surtit malament durant el procés de compra! :(</string>
-    <string name="license">Llicència correcta</string>
-    <string name="bikeLanes">Carrils bici per defecte</string>
     <string name="no_data">No s\'han pogut cargar les dades :(</string>
     <string name="pref_lastUpdated_summary_off">No es mostrarà l\'hora de l\'última actualització en cada estació</string>
     <string name="pref_lastUpdated_summary_on">Es mostrarà l\'hora de l\'última actualització en cada estació</string>
     <string name="last_updated">Última actualització:</string>
     <string name="lastUpdated">Última actualitzación</string>
     <string name="closed">Estació tancada</string>
-    <string name="alpha_title">Versió alpha</string>
-    <string name="alpha_message">Atenció! Estàs utilitzant una versió alpha. Pot contenir errors.</string>
     <string name="data_old">Les dades porten més d\'una hora sense actualitzars-se,</string>
     <string name="data_unreliable">potser no coincidisquen amb la realitat.</string>
     <string name="donation_cancelled">Procés cancel·lat :(</string>
-    <string name="zoom_in">Fes zoom per vore les estacions</string>
     <string name="stations">Estacions</string>
     <string name="pref_clustering_summary_off">Les estacion no s\'agruparàn al allunyar el zoom</string>
     <string name="pref_clustering_summary_on">Les estacion s\'agruparàn al allunyar el zoom</string>
@@ -77,6 +67,8 @@
     <string name="about_visit">Visita la meua web</string>
     <string name="about_send_email">Enviam un email</string>
     <string name="about_issue">Algún problema? Explica\'ns</string>
-    <string name="update_restart">Reiniciar per completar l\'actualització?</string>
     <string name="update_not_now">Ara no</string>
+    <string name="voronoi">Cel.les de Voronoi</string>
+    <string name="parking">Parking bicis</string>
+    <string name="plazas">Buits totals:</string>
 </resources>

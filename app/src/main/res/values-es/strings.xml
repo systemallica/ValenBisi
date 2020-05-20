@@ -3,7 +3,6 @@
     <string name="mapView">Vista de mapa satélite</string>
     <string name="matchNavigationBar">Barra de navegación</string>
     <string name="nav_about">Sobre la aplicación</string>
-    <string name="nav_donate">Quitar anuncios</string>
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustes</string>
     <string name="nav_share">Comparte</string>
@@ -31,29 +30,20 @@
     <string name="update_download">Una actualización se ha descargado</string>
     <string name="bikes">Bicis:</string>
     <string name="load_parking">Cargando parkings&#8230;</string>
-    <string name="parking">Parking bicis</string>
-    <string name="plazas">Plazas totales:</string>
     <string name="spots">Huecos&#58;</string>
     <string name="others">Otros</string>
     <string name="pref_voronoi_summary_off">No se mostrarán las celdas de Voronoi</string>
     <string name="pref_voronoi_summary_on">Se mostrarán las celdas de Voronoi</string>
     <string name="voronoi_info">Para saber qué es una celda de Voronoi haz click aquí</string>
-    <string name="purchase_failed">Vaya, algo ha salido mal en el proceso de compra! :(</string>
-    <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
-    <string name="license">Licencia correcta</string>
-    <string name="bikeLanes">Carriles bici por defecto</string>
     <string name="no_data">No se han podido cargar los datos :(</string>
     <string name="pref_lastUpdated_summary_off">No se mostrará la hora de la última actualización en cada estación</string>
     <string name="pref_lastUpdated_summary_on">Se mostrará la hora de la última actualización en cada estación</string>
     <string name="last_updated">Última actualización:</string>
     <string name="lastUpdated">Última actualización</string>
     <string name="closed">Estación cerrada</string>
-    <string name="alpha_title">Versión alpha</string>
-    <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
     <string name="data_old">Los datos llevan más de una hora sin actualizarse,</string>
     <string name="data_unreliable">puede que no coincidan con la realidad.</string>
     <string name="donation_cancelled">Proceso cancelado :(</string>
-    <string name="zoom_in">Haz zoom para ver las estaciones</string>
     <string name="stations">Estaciones</string>
     <string name="pref_clustering_summary_off">Las estaciones no se agruparán al alejar el zoom</string>
     <string name="pref_clustering_summary_on">Las estaciones se agruparán al alejar el zoom</string>
@@ -77,6 +67,8 @@
     <string name="about_visit">Visita mi página web</string>
     <string name="about_send_email">Envíame un email</string>
     <string name="about_issue">¿Algún problema? Cuéntanos</string>
-    <string name="update_restart">¿Reiniciar para completar la actualización?</string>
     <string name="update_not_now">Ahora no</string>
+    <string name="voronoi">Celdas de Voronoi</string>
+    <string name="parking">Bike parking</string>
+    <string name="plazas">Total spots:</string>
 </resources>

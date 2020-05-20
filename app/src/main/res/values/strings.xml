@@ -5,7 +5,6 @@
 
     <string name="nav_map">Mapa</string>
     <string name="nav_settings">Ajustes</string>
-    <string name="nav_donate">Quitar anuncios</string>
     <string name="nav_share">Comparte</string>
     <string name="nav_about">Sobre la aplicación</string>
 
@@ -39,8 +38,6 @@
     <string name="pref_lastUpdated_summary_off">No se mostrará la hora de la última actualización en cada estación</string>
     <string name="pref_lastUpdated_summary_on">Se mostrará la hora de la última actualización en la estación</string>
 
-    <string name="bikeLanes">Carriles bici por defecto</string>
-
     <string name="cicloCalles">Diferenciar ciclocalles</string>
     <string name="pref_cicloCalles_summary_off">Las ciclocalles se mostrarán en el mismo color que los carriles</string>
     <string name="pref_cicloCalles_summary_on">Las ciclocalles se mostrarán en un color diferente a los carriles</string>
@@ -56,31 +53,20 @@
 
     <string name="update_download">Una actualización se ha descargado</string>
 
-    <string name="alpha_title">Versión alpha</string>
-    <string name="alpha_message">Atención! Estás usando una versión alpha. Puede contener fallos.</string>
-
     <string name="no_data">No se han podido cargar los datos :(</string>
 
     <string name="spots">Huecos&#58;</string>
     <string name="bikes">Bicis:</string>
     <string name="closed">Estación cerrada</string>
 
-    <string name="plazas">Plazas totales:</string>
-    <string name="parking">Parking bicis</string>
-
     <string name="others">Otros</string>
 
-    <string name="purchase_failed">Vaya, algo ha salido mal al contactar con la Play Store! :(</string>
-    <string name="purchase_success">Muchísimas gracias por tu donación! :D</string>
-    <string name="license">Licencia correcta</string>
     <string name="donation_cancelled">Proceso cancelado :(</string>
     <string name="last_updated">Última actualización:</string>
     <string name="lastUpdated">Última actualización</string>
 
     <string name="data_old">Los datos llevan más de una hora sin actualizarse,</string>
     <string name="data_unreliable">puede que no coincidan con la realidad.</string>
-
-    <string name="zoom_in">Haz zoom para ver las estaciones</string>
 
     <string name="stations">Estaciones</string>
 
@@ -112,8 +98,8 @@
     <string name="about_author_email_subject" translatable="false">Valenbisi</string>
     <string name="about_issue_url" translatable="false">https://github.com/systemallica/ValenBisi/issues/new</string>
     <string name="about_issue">¿Algún problema? Cuéntanos</string>
-    <string name="update_restart">¿Reiniciar para completar la actualización?</string>
-    <string name="update_ok" translatable="false">Ok</string>
+    <string name="update_ok" translatable="false">OK</string>
     <string name="update_not_now">Ahora no</string>
-
+    <string name="parking">Bike parking</string>
+    <string name="plazas">Total spots:</string>
 </resources>

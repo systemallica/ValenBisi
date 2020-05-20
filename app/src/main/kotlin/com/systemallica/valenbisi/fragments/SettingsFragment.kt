@@ -23,11 +23,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         navBarPref?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
 
             if (!navBarPref!!.isChecked) {
-                activity!!.window.navigationBarColor =
-                        ContextCompat.getColor(context!!, R.color.colorPrimary)
+                requireActivity().window.navigationBarColor =
+                        ContextCompat.getColor(requireContext(), R.color.colorPrimary)
             } else {
-                activity!!.window.navigationBarColor =
-                        ContextCompat.getColor(context!!, R.color.black)
+                requireActivity().window.navigationBarColor =
+                        ContextCompat.getColor(requireContext(), R.color.black)
             }
             true
         }
