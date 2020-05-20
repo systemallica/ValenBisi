@@ -203,9 +203,5 @@ class AboutFragment : MaterialAboutFragment() {
                 authorCardBuilder.build()
         )
     }
-
-    override fun getTheme(): Int {
-        return R.style.AppTheme_MaterialAboutActivity_Fragment
-    }
 }
 
