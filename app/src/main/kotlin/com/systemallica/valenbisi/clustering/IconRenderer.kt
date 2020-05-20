@@ -13,8 +13,8 @@ class IconRenderer(
     clusterManager: ClusterManager<ClusterPoint>
 ) : DefaultClusterRenderer<ClusterPoint>(context, map, clusterManager) {
 
-    override fun onBeforeClusterItemRendered(item: ClusterPoint?, markerOptions: MarkerOptions?) {
-        markerOptions!!.icon(item!!.icon)
+    override fun onBeforeClusterItemRendered(item: ClusterPoint, markerOptions: MarkerOptions) {
+        markerOptions.icon(item.icon)
         markerOptions.snippet(item.snippet)
         markerOptions.title(item.title)
         markerOptions.alpha(item.alpha)
