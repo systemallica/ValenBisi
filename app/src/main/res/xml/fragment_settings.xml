@@ -12,7 +12,7 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:icon="@drawable/menu_icon_map"
+            android:icon="@drawable/icon_map"
             android:key="isSatellite"
             android:summaryOff="@string/pref_mapView_summary_off"
             android:summaryOn="@string/pref_mapView_summary_on"
@@ -20,7 +20,7 @@
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:icon="@drawable/icon_road"
+            android:icon="@drawable/pref_icon_road"
             android:key="cicloCalles"
             android:summaryOff="@string/pref_cicloCalles_summary_off"
             android:summaryOn="@string/pref_cicloCalles_summary_on"
@@ -53,7 +53,7 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:icon="@drawable/icon_star"
+            android:icon="@drawable/pref_icon_star"
             android:key="showFavorites"
             android:summaryOff="@string/pref_showFavourites_summary_off"
             android:summaryOn="@string/pref_showFavourites_summary_on"
@@ -86,7 +86,7 @@
             android:entries="@array/theme_names"
             android:entryValues="@array/theme_values"
             android:summary="@string/theme_summary"
-            android:icon="@drawable/icon_invert_colors"
+            android:icon="@drawable/icon_language"
             />
 
         <CheckBoxPreference
