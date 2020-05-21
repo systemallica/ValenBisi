@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -27,10 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.UiSettings
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.data.geojson.*
@@ -164,6 +163,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         setMapSettings()
 
         setMapBasemap()
+
+        if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES)) {
+            try {
+                mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.style_json))
+            } catch (e: Resources.NotFoundException) {
+                Log.e("Valenbisi", "Error parsing background", e)
+            }
+        }
 
         initLocationButton()
     }
@@ -766,12 +773,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         mMap!!.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {
-                return null
+                return getInfoWindowCommonInfo(marker)
             }
 
             // Defines the contents of the InfoWindow
-            override fun getInfoContents(marker: Marker): View {
-                return getInfoWindowCommonInfo(marker)
+            override fun getInfoContents(marker: Marker): View? {
+                return null
             }
         })
 
@@ -798,11 +805,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View? {
-                return null
-            }
-
-            // Defines the contents of the InfoWindow
-            override fun getInfoContents(marker: Marker): View {
                 // Getting view from the layout file info_window_layout
                 val popup = getInfoWindowCommonInfo(marker)
 
@@ -827,7 +829,25 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 }
                 return popup
             }
+
+            // Defines the contents of the InfoWindow
+            override fun getInfoContents(marker: Marker): View? {
+                return null
+            }
         })
+    }
+
+    private fun getBackgroundColor(): Int {
+        var color = R.color.white
+        when ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                color = R.color.white
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                color = R.color.black
+            }
+        }
+        return color
     }
 
     @SuppressLint("InflateParams")
@@ -837,6 +857,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         // Getting view from the layout file info_window_layout
         val popup = requireActivity().layoutInflater.inflate(R.layout.marker_popup, null)
+        popup.setBackgroundColor(ContextCompat.getColor(requireContext(), getBackgroundColor()))
 
         // Getting reference to the ImageView/title/snippet
         val title = popup.findViewById<TextView>(R.id.title)
