@@ -71,4 +71,10 @@
     <string name="voronoi">Cel.les de Voronoi</string>
     <string name="parking">Parking bicis</string>
     <string name="plazas">Buits totals:</string>
+
+    <string name="theme_title">Aparença</string>
+    <string name="theme_summary">Triar aparença</string>
+    <string name="theme_light">Clar</string>
+    <string name="theme_dark">Fosc</string>
+    <string name="theme_default">Per defecte</string>
 </resources>

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">ValenBisi</string>
 
     <string name="no_location_permission">No hay permisos de localización, la ubicación no funcionará</string>
@@ -88,7 +88,7 @@
     <string name="about_fork">Crea un fork en GitHub</string>
     <string name="about_url" translatable="false">https://github.com/systemallica/valenbisi</string>
     <string name="about_libs">Librerías de código abierto</string>
-    <string name="about_author">Autor</string>
+    <string name="about_author" tools:ignore="Typos">Autor</string>
     <string name="about_author_name" translatable="false">Andrés Reverón Molina</string>
     <string name="about_authot_location">España</string>
     <string name="about_visit">Visita mi página web</string>
@@ -100,6 +100,13 @@
     <string name="about_issue">¿Algún problema? Cuéntanos</string>
     <string name="update_ok" translatable="false">OK</string>
     <string name="update_not_now">Ahora no</string>
-    <string name="parking">Bike parking</string>
-    <string name="plazas">Total spots:</string>
+    <string name="parking">Parking bicis</string>
+    <string name="plazas">Plazas totales:</string>
+
+    <string name="theme_title">Tema</string>
+    <string name="theme_summary">Escoger tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_default">Por defecto</string>
+
 </resources>

@@ -71,4 +71,10 @@
     <string name="voronoi">Celdas de Voronoi</string>
     <string name="parking">Bike parking</string>
     <string name="plazas">Total spots:</string>
+
+    <string name="theme_title">Tema</string>
+    <string name="theme_summary">Seleccionar tema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_default">Por defecto</string>
 </resources>

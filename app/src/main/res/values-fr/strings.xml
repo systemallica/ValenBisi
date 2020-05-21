@@ -71,4 +71,10 @@
     <string name="update_not_now">Pas maintenant</string>
     <string name="parking">Parking vélos</string>
     <string name="plazas">Places totales:</string>
+
+    <string name="theme_title">Thème</string>
+    <string name="theme_summary">Selectionner thème</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="theme_default">Par défaut</string>
 </resources>

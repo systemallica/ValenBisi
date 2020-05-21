@@ -43,9 +43,16 @@ class MainActivity : AppCompatActivity() {
             title = getString(R.string.app_name)
             inflatedFragment = getString(R.string.app_name)
             bottom_navigation_view.menu.getItem(0).isChecked = true
+        } else {
+            inflatedFragment = savedInstanceState.getCharSequence("inflatedFragment")!!
         }
 
         checkInternetAccess()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putCharSequence("inflatedFragment", inflatedFragment)
     }
 
     private fun initActivity() {
@@ -161,7 +168,6 @@ class MainActivity : AppCompatActivity() {
                         1)
             }
         }
-
     }
 
     private fun popupForCompleteUpdate() {

@@ -71,4 +71,10 @@
     <string name="update_not_now">Not now</string>
     <string name="parking">Bike parking</string>
     <string name="plazas">Total spots:</string>
+
+    <string name="theme_title">Theme</string>
+    <string name="theme_summary">Select theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_default">Default</string>
 </resources>

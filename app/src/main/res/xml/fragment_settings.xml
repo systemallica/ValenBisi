@@ -79,6 +79,16 @@
 
     <PreferenceCategory android:title="@string/others">
 
+        <ListPreference
+            android:key="theme"
+            android:title="@string/theme_title"
+            android:defaultValue="system"
+            android:entries="@array/theme_names"
+            android:entryValues="@array/theme_values"
+            android:summary="@string/theme_summary"
+            android:icon="@drawable/icon_invert_colors"
+            />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:icon="@drawable/icon_invert_colors"
