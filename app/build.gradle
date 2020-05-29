@@ -54,16 +54,16 @@ dependencies {
     implementation 'com.google.android.play:core:1.7.3'
     // Support libraries
     implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
-    implementation 'com.google.android.material:material:1.2.0-alpha06'
+    implementation 'com.google.android.material:material:1.2.0-beta01'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
     // Maps and billing
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.maps.android:android-maps-utils:1.3.1'
+    implementation 'com.google.maps.android:android-maps-utils:1.3.3'
     // Billing
     implementation 'com.android.billingclient:billing:2.2.1'
-    implementation 'com.android.billingclient:billing-ktx:2.2.0'
+    implementation 'com.android.billingclient:billing-ktx:2.2.1'
     // About screen
     implementation 'com.github.daniel-stoneuk:material-about-library:3.1.2'
     implementation 'com.mikepenz:iconics-core:5.0.3'
