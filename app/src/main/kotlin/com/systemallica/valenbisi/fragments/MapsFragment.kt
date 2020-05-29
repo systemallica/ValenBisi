@@ -164,15 +164,25 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         setMapBasemap()
 
-        if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES)) {
-            try {
-                mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.style_json))
-            } catch (e: Resources.NotFoundException) {
-                Log.e("Valenbisi", "Error parsing background", e)
-            }
-        }
+        setMapTheme()
 
         initLocationButton()
+    }
+
+    private fun setMapTheme(){
+        if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES)) {
+            try {
+                mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.dark_style))
+            } catch (e: Resources.NotFoundException) {
+                Log.e("Valenbisi", "Error parsing dark map style", e)
+            }
+        } else {
+            try {
+                mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.light_style))
+            } catch (e: Resources.NotFoundException) {
+                Log.e("Valenbisi", "Error parsing light map style", e)
+            }
+        }
     }
 
     private fun setMapSettings() {
