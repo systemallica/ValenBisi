@@ -591,8 +591,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     private fun getMarkerAlpha(currentStationIsFav: Boolean): Float {
         // Apply full opacity only to favourite stations
         return when (currentStationIsFav) {
-            true -> 1.0.toFloat()
-            else -> 0.5.toFloat()
+            true -> 1.0f
+            else -> 0.5f
         }
     }
 
@@ -797,7 +797,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             val showFavorites = userSettings.getBoolean("showFavorites", false)
 
             if (currentStationIsFav) {
-                clickedMarker.alpha = 0.5.toFloat()
+                clickedMarker.alpha = 0.5f
                 if (showFavorites) {
                     clickedMarker.isVisible = false
                 }
@@ -823,15 +823,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     val showFavorites = userSettings.getBoolean("showFavorites", false)
 
                     if (currentStationIsFav) {
-                        item.alpha = 0.5.toFloat()
-                        marker.alpha = 0.5.toFloat()
+                        item.alpha = 0.5f
+                        marker.alpha = 0.5f
                         if (showFavorites) {
                             item.visibility = false
                         }
                         settings.edit().putBoolean(item.title, false).apply()
                     } else {
-                        item.alpha = 1.0.toFloat()
-                        marker.alpha = 1.0.toFloat()
+                        item.alpha = 1.0f
+                        marker.alpha = 1.0f
                         settings.edit().putBoolean(item.title, true).apply()
                     }
                     marker.showInfoWindow()
@@ -942,15 +942,21 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun getLaneColor(feature: GeoJsonFeature): Int {
+
+        var color = Color.BLACK
+        if(resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES){
+            color = Color.WHITE
+        }
+
         return when (feature.getProperty("estado")) {
             // Normal bike lane
-            "1" -> Color.BLACK
+            "1" -> color
             // Ciclocalle
             "2" -> Color.BLUE
             // Weird fragments
             "3" -> Color.BLUE
-            // Rio
-            "4" -> Color.BLACK
+            // River
+            "4" -> color
             else -> Color.RED
         }
     }
@@ -984,7 +990,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                                 " " + feature.getProperty("id")
                         pointStyle.snippet = getString(R.string.plazas) +
                                 " " + feature.getProperty("plazas")
-                        pointStyle.alpha = 0.5.toFloat()
+                        pointStyle.alpha = 0.5f
                         pointStyle.icon = iconParking
 
                         val currentStationIsFav = settings.getBoolean(pointStyle.title, false)
