@@ -2,7 +2,7 @@ language: android
 
 before_install:
   - chmod +x gradlew
-  - yes | sdkmanager "platforms;android-29"
+  - yes | sdkmanager "platforms;android-30"
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -18,8 +18,8 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-29.0.3
-    - android-29
+    - build-tools-30.0.1
+    - android-30
     - add-on
     - extra
   licenses:
