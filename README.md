@@ -6,8 +6,6 @@ You can use this app to see where the stations are located, how many bikes are t
 
 It has been developed using the Material Design guidelines provided by Google, and it will always be open source.
 
-[![Latest release](https://img.shields.io/github/release/systemallica/valenbisi.svg)](https://github.com/systemallica/ValenBisi/releases/latest) [![Build Status](https://travis-ci.org/systemallica/ValenBisi.svg?branch=master)](https://travis-ci.org/systemallica/ValenBisi) [![GitHub issues](https://img.shields.io/github/issues/systemallica/valenbisi.svg)](https://github.com/systemallica/valenbisi/issues)
-
 ## Screenshots
 
 ### Map
@@ -57,4 +55,4 @@ It has been developed using the Material Design guidelines provided by Google, a
 
 If you have any problem with the app you can open an issue here on GitHub or email me at:
 
-systemallica.apps@gmail.com
+andres@reveronmolina.me
