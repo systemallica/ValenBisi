@@ -25,11 +25,6 @@ android {
         versionName "3.5.0"
     }
 
-    lintOptions {
-        abortOnError false
-        disable 'GoogleAppIndexingWarning'
-    }
-
     buildTypes {
         release {
             minifyEnabled true
@@ -50,13 +45,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    // Core
-    implementation 'com.google.android.play:core:1.8.0'
     // Support libraries
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
     implementation 'com.google.android.material:material:1.3.0-alpha02'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0'
     // Maps and billing
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
@@ -72,7 +65,7 @@ dependencies {
     // OkHTTP
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     // Kotlin
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
 }
