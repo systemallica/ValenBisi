@@ -16,22 +16,23 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.systemallica.valenbisi.R
-import com.systemallica.valenbisi.R.layout.activity_main
+import com.systemallica.valenbisi.databinding.ActivityMainBinding
 import com.systemallica.valenbisi.fragments.AboutFragment
 import com.systemallica.valenbisi.fragments.MapsFragment
 import com.systemallica.valenbisi.fragments.SettingsFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var inflatedFragment: CharSequence
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setContentView(activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         initActivity()
 
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
             title = getString(R.string.app_name)
             inflatedFragment = getString(R.string.app_name)
-            bottom_navigation_view.menu.getItem(0).isChecked = true
+            binding.bottomNavigationView.menu.getItem(0).isChecked = true
         } else {
             inflatedFragment = savedInstanceState.getCharSequence("inflatedFragment")!!
         }
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initActivity() {
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         setOnNavigationListener()
         initNavBarColor()
     }
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOnNavigationListener() {
-        bottom_navigation_view.setOnNavigationItemSelectedListener { item ->
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             if (inflatedFragment == item.title) return@setOnNavigationItemSelectedListener false
 
             val id = item.itemId

@@ -37,7 +37,7 @@ import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.clustering.ClusterPoint
 import com.systemallica.valenbisi.clustering.IconRenderer
-import kotlinx.android.synthetic.main.fragment_main.*
+import com.systemallica.valenbisi.databinding.FragmentMainBinding
 import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONArray
@@ -53,6 +53,11 @@ const val LOG_TAG = "Valenbisi error"
 class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private var job: Job = Job()
+    private var _binding: FragmentMainBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -83,14 +88,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+    ): View {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mapView.onCreate(savedInstanceState)
-        mapView.onResume()
-        mapView.getMapAsync(this)
+        binding.mapView.onCreate(savedInstanceState)
+        binding.mapView.onResume()
+        binding.mapView.getMapAsync(this)
     }
 
     override fun onMapReady(map: GoogleMap) {
@@ -619,39 +625,39 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         val showStationsLayer = settings.getBoolean("showStationsLayer", true)
         if (showStationsLayer) {
-            btnStationsToggle!!.icon = stationsOn
+            binding.btnStationsToggle.icon = stationsOn
         } else {
-            btnStationsToggle!!.icon = stationsOff
+            binding.btnStationsToggle.icon = stationsOff
         }
 
         val isCarrilLayerAdded = settings.getBoolean("isCarrilLayerAdded", false)
         if (isCarrilLayerAdded) {
-            btnLanesToggle!!.icon = bikeLanesOn
+            binding.btnLanesToggle.icon = bikeLanesOn
         } else {
-            btnLanesToggle!!.icon = bikeLanesOff
+            binding.btnLanesToggle.icon = bikeLanesOff
         }
 
         val isOnFoot = settings.getBoolean("isOnFoot", false)
         if (isOnFoot) {
-            btnOnFootToggle!!.icon = walk
+            binding.btnOnFootToggle.icon = walk
         } else {
-            btnOnFootToggle!!.icon = bike
+            binding.btnOnFootToggle.icon = bike
         }
 
         val isParkingLayerAdded = settings.getBoolean("isParkingLayerAdded", false)
         if (isParkingLayerAdded) {
-            btnParkingToggle!!.icon = parkingOn
+            binding.btnParkingToggle.icon = parkingOn
         } else {
-            btnParkingToggle!!.icon = parkingOff
+            binding.btnParkingToggle.icon = parkingOff
         }
     }
 
     private fun setButtonBackground() {
-        btnLanesToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
-        btnStationsToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
-        btnOnFootToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
-        btnRefresh.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
-        btnParkingToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        binding.btnLanesToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        binding.btnStationsToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        binding.btnOnFootToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        binding.btnRefresh.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
+        binding.btnParkingToggle.background = ContextCompat.getDrawable(requireContext(), R.drawable.mapbutton_background)
     }
 
     private fun setButtonListeners() {
@@ -666,13 +672,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
 
         // Toggle bike lanes
-        btnLanesToggle!!.setOnClickListener {
+        binding.btnLanesToggle.setOnClickListener {
             removeButtonListeners()
             if (!settings.getBoolean("isCarrilLayerAdded", false)) {
-                btnLanesToggle!!.icon = bikeLanesOn
+                binding.btnLanesToggle.icon = bikeLanesOn
                 getLanes()
             } else {
-                btnLanesToggle!!.icon = bikeLanesOff
+                binding.btnLanesToggle.icon = bikeLanesOff
                 lanes?.removeLayerFromMap()
                 settings.edit().putBoolean("isCarrilLayerAdded", false).apply()
                 setButtonListeners()
@@ -680,13 +686,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
 
         // Toggle parking
-        btnParkingToggle!!.setOnClickListener {
+        binding.btnParkingToggle.setOnClickListener {
             removeButtonListeners()
             if (!settings.getBoolean("isParkingLayerAdded", false)) {
-                btnParkingToggle!!.icon = parkingOn
+                binding.btnParkingToggle.icon = parkingOn
                 getParkings()
             } else {
-                btnParkingToggle!!.icon = parkingOff
+                binding.btnParkingToggle.icon = parkingOff
                 parking?.removeLayerFromMap()
                 settings.edit().putBoolean("isParkingLayerAdded", false).apply()
                 setButtonListeners()
@@ -694,50 +700,50 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
 
         // Toggle stations
-        btnStationsToggle!!.setOnClickListener {
+        binding.btnStationsToggle.setOnClickListener {
             removeButtonListeners()
             resetStationsLayer()
             if (settings.getBoolean("showStationsLayer", true)) {
-                btnStationsToggle!!.icon = stationsOff
+                binding.btnStationsToggle.icon = stationsOff
                 settings.edit().putBoolean("showStationsLayer", false).apply()
                 setButtonListeners()
             } else {
                 getStations()
-                btnStationsToggle!!.icon = stationsOn
+                binding.btnStationsToggle.icon = stationsOn
             }
         }
 
         // Toggle onFoot/onBike
-        btnOnFootToggle!!.setOnClickListener {
+        binding.btnOnFootToggle.setOnClickListener {
             // If stations are visible, recalculate layer
             if (settings.getBoolean("showStationsLayer", true)) {
                 removeButtonListeners()
                 resetStationsLayer()
                 if (settings.getBoolean("isOnFoot", false)) {
                     settings.edit().putBoolean("isOnFoot", false).apply()
-                    btnOnFootToggle!!.icon = bike
+                    binding.btnOnFootToggle.icon = bike
                     getStations()
                 } else {
                     settings.edit().putBoolean("isOnFoot", true).apply()
-                    btnOnFootToggle!!.icon = walk
+                    binding.btnOnFootToggle.icon = walk
                     getStations()
                 }
                 // Else just change the button icon and the setting
             } else {
                 if (settings.getBoolean("isOnFoot", false)) {
                     settings.edit().putBoolean("isOnFoot", false).apply()
-                    btnOnFootToggle!!.icon = bike
+                    binding.btnOnFootToggle.icon = bike
                 } else {
                     settings.edit().putBoolean("isOnFoot", true).apply()
-                    btnOnFootToggle!!.icon = walk
+                    binding.btnOnFootToggle.icon = walk
                 }
             }
         }
 
         // Reload bike station data
-        btnRefresh!!.setOnClickListener {
+        binding.btnRefresh.setOnClickListener {
             removeButtonListeners()
-            btnStationsToggle!!.icon = stationsOn
+            binding.btnStationsToggle.icon = stationsOn
             if (settings.getBoolean("showStationsLayer", true)) {
                 resetStationsLayer()
             }
@@ -746,11 +752,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun removeButtonListeners() {
-        btnLanesToggle.setOnClickListener(null)
-        btnOnFootToggle.setOnClickListener(null)
-        btnParkingToggle.setOnClickListener(null)
-        btnRefresh.setOnClickListener(null)
-        btnStationsToggle.setOnClickListener(null)
+        binding.btnLanesToggle.setOnClickListener(null)
+        binding.btnOnFootToggle.setOnClickListener(null)
+        binding.btnParkingToggle.setOnClickListener(null)
+        binding.btnRefresh.setOnClickListener(null)
+        binding.btnStationsToggle.setOnClickListener(null)
     }
 
     private fun setMapListeners() {
@@ -787,7 +793,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     private fun setNormalInfoWindow() {
         mMap!!.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
-            override fun getInfoWindow(marker: Marker): View? {
+            override fun getInfoWindow(marker: Marker): View {
                 return getInfoWindowCommonInfo(marker)
             }
 
@@ -819,7 +825,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         mClusterManager.markerCollection.setInfoWindowAdapter(object :
                 GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
-            override fun getInfoWindow(marker: Marker): View? {
+            override fun getInfoWindow(marker: Marker): View {
                 // Getting view from the layout file info_window_layout
                 val popup = getInfoWindowCommonInfo(marker)
 
@@ -879,7 +885,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val snippet = popup.findViewById<TextView>(R.id.snippet)
         val btnStar = popup.findViewById<ImageView>(R.id.btn_star)
 
-        if (marker.snippet.contains("\n\n")) {
+        if (marker.snippet!!.contains("\n\n")) {
             snippet.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
             snippet.setTypeface(null, Typeface.BOLD)
             snippet.text = marker.snippet
@@ -901,8 +907,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun safeSnackBar(stringReference: Int) {
-        mainView?.let {
-            val snack = Snackbar.make(mainView, stringReference, Snackbar.LENGTH_SHORT)
+        binding.mainView.let {
+            val snack = Snackbar.make(binding.mainView, stringReference, Snackbar.LENGTH_SHORT)
 
             // Necessary to display snackbar over bottom navigation bar
             val params = snack.view.layoutParams as CoordinatorLayout.LayoutParams

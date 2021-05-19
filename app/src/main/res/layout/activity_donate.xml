@@ -41,7 +41,7 @@
                 android:textSize="30sp" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_one"
+                android:id="@+id/cardViewOne"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -70,7 +70,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_three"
+                android:id="@+id/cardViewThree"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -99,7 +99,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_view_five"
+                android:id="@+id/cardViewFive"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"

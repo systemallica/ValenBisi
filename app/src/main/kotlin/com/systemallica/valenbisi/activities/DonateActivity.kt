@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.android.billingclient.api.*
 import com.systemallica.valenbisi.R
-import kotlinx.android.synthetic.main.activity_donate.*
+import com.systemallica.valenbisi.databinding.ActivityDonateBinding
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -15,13 +15,16 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
 
     private lateinit var billingClient: BillingClient
     private var job: Job = Job()
+    private lateinit var binding: ActivityDonateBinding
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_donate)
+        binding = ActivityDonateBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val mToolbar = findViewById<Toolbar>(R.id.toolbarDonate)
         setSupportActionBar(mToolbar)
@@ -42,9 +45,9 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
     }
 
     private fun setClickListeners() {
-        card_view_one.setOnClickListener { startBuyProcess("donation_upgrade") }
-        card_view_three.setOnClickListener { startBuyProcess("donation_upgrade_3") }
-        card_view_five.setOnClickListener { startBuyProcess("donation_upgrade_5") }
+        binding.cardViewOne.setOnClickListener { startBuyProcess("donation_upgrade") }
+        binding.cardViewThree.setOnClickListener { startBuyProcess("donation_upgrade_3") }
+        binding.cardViewFive.setOnClickListener { startBuyProcess("donation_upgrade_5") }
     }
 
     private fun startBuyProcess(sku: String) {
@@ -65,7 +68,7 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
             override fun onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
-                Snackbar.make(donateView!!, R.string.donation_cancelled, Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.donateView, R.string.donation_cancelled, Snackbar.LENGTH_SHORT)
                         .show()
             }
         })
@@ -111,17 +114,17 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
             }
         } else if (billingResult.responseCode == BillingClient.BillingResponseCode.USER_CANCELED) {
             // Handle an error caused by a user cancelling the purchase flow.
-            Snackbar.make(donateView!!, R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.donateView, R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show()
         } else {
             // Handle any other error codes.
-            Snackbar.make(donateView!!, R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.donateView, R.string.donation_cancelled, Snackbar.LENGTH_SHORT).show()
         }
     }
 
     private suspend fun handlePurchase(purchase: Purchase) {
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
             // Grant entitlement to the user.
-            Snackbar.make(donateView!!, "Thank you!", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.donateView, "Thank you!", Snackbar.LENGTH_SHORT).show()
             // Acknowledge the purchase if it hasn't already been acknowledged.
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
