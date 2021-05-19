@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -93,6 +94,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (!isLocationPermissionGranted) {
+            requestLocationPermission()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.onResume()
@@ -103,22 +112,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         // Store map in member variable
         mMap = map
         onMapReadyHandler()
-    }
-
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
-    ) {
-        if (requestCode == 1) {
-            if (isLocationPermissionGranted) {
-                setLocationButtonEnabled(true)
-            } else {
-                setLocationButtonEnabled(false)
-                safeSnackBar(R.string.no_location_permission)
-
-            }
-        }
     }
 
     private fun onMapReadyHandler() {
@@ -213,14 +206,29 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
+    private fun requestLocationPermission(){
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) {
+                    setLocationButtonEnabled(true)
+                } else {
+                    setLocationButtonEnabled(false)
+                    safeSnackBar(R.string.no_location_permission)
+                }
+            }
+
+        requestPermissionLauncher.launch(
+            Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
     private fun initLocationButton() {
         if (isLocationPermissionGranted) {
             setLocationButtonEnabled(true)
         } else {
-            requestPermissions(
-                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    1
-            )
+            setLocationButtonEnabled(false)
+            safeSnackBar(R.string.no_location_permission)
         }
     }
 

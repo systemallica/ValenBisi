@@ -4,7 +4,7 @@ apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     // Configure only for each module that uses Java 8
     // language features (either in its source code or
