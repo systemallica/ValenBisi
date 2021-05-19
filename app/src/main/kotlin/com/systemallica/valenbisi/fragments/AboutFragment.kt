@@ -45,7 +45,7 @@ class AboutFragment : MaterialAboutFragment() {
                 .addItem(
                         ConvenienceBuilder.createRateActionItem(
                                 activityContext,
-                                IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_star_outline).apply {
+                                IconicsDrawable(activityContext, CommunityMaterial.Icon3.cmd_star_outline).apply {
                                     sizeDp = 18
                                 },
                                 getString(R.string.about_rate),
@@ -72,7 +72,7 @@ class AboutFragment : MaterialAboutFragment() {
                         MaterialAboutActionItem.Builder()
                                 .text(getString(R.string.nav_share))
                                 .icon(
-                                        IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_share_outline).apply {
+                                        IconicsDrawable(activityContext, CommunityMaterial.Icon3.cmd_share_outline).apply {
                                             sizeDp = 18
                                         }
                                 )
@@ -117,7 +117,7 @@ class AboutFragment : MaterialAboutFragment() {
                         MaterialAboutActionItem.Builder()
                                 .text(getString(R.string.about_fork))
                                 .icon(
-                                        IconicsDrawable(activityContext, CommunityMaterial.Icon.cmd_github).apply {
+                                        IconicsDrawable(activityContext, CommunityMaterial.Icon2.cmd_github).apply {
                                             sizeDp = 18
                                         }
                                 )
