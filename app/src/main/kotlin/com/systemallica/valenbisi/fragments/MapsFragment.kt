@@ -170,17 +170,22 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setMapTheme(){
-        if ((resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES)) {
-            try {
-                mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.dark_style))
-            } catch (e: Resources.NotFoundException) {
-                Log.e("Valenbisi", "Error parsing dark map style", e)
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                // Night mode is not active, we're using the light theme
+                try {
+                    mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.light_style))
+                } catch (e: Resources.NotFoundException) {
+                    Log.e("Valenbisi", "Error parsing light map style", e)
+                }
             }
-        } else {
-            try {
-                mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.light_style))
-            } catch (e: Resources.NotFoundException) {
-                Log.e("Valenbisi", "Error parsing light map style", e)
+            Configuration.UI_MODE_NIGHT_YES -> {
+                // Night mode is active, we're using dark theme
+                try {
+                    mMap!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.dark_style))
+                } catch (e: Resources.NotFoundException) {
+                    Log.e("Valenbisi", "Error parsing dark map style", e)
+                }
             }
         }
     }
