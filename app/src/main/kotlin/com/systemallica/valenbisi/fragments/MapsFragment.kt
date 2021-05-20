@@ -33,6 +33,7 @@ import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
+import com.google.maps.android.collections.MarkerManager
 import com.google.maps.android.data.geojson.*
 import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
@@ -55,17 +56,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private var job: Job = Job()
     private var _binding: FragmentMainBinding? = null
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
-
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
     private lateinit var settings: SharedPreferences
     private lateinit var userSettings: SharedPreferences
-    private lateinit var mClusterManager: ClusterManager<ClusterPoint>
+    private lateinit var clusterManager: ClusterManager<ClusterPoint>
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var stations: GeoJsonLayer? = null
     private var lanes: GeoJsonLayer? = null
@@ -138,13 +136,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun initClusterManager() {
         // Load ClusterManager to the Map
-        mClusterManager = ClusterManager(context, mMap)
+        clusterManager = ClusterManager(context, mMap)
         // Set custom renderer
-        mClusterManager.renderer =
+        clusterManager.renderer =
                 IconRenderer(
                         requireContext(),
                         mMap!!,
-                        mClusterManager
+                        clusterManager
                 )
     }
 
@@ -358,8 +356,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
 
         if (isClusteringActivated) {
-            mClusterManager.clearItems()
-            mClusterManager.cluster()
+            clusterManager.clearItems()
+            clusterManager.cluster()
         } else {
             stations?.removeLayerFromMap()
         }
@@ -391,7 +389,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
                 if (isClusteringActivated) {
                     addPointsToCluster(jsonDataArray)
-                    requireActivity().runOnUiThread { mClusterManager.cluster() }
+                    requireActivity().runOnUiThread { clusterManager.cluster() }
                 } else {
                     addPointsToLayer(jsonDataArray)
                     requireActivity().runOnUiThread { stations?.addLayerToMap() }
@@ -422,7 +420,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             }
 
             val clusterPoint = ClusterPoint(station)
-            mClusterManager.addItem(clusterPoint)
+            clusterManager.addItem(clusterPoint)
         }
     }
 
@@ -774,15 +772,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
             if (isClusteringActivated) {
                 mMap!!.apply {
-                    setOnInfoWindowClickListener(mClusterManager)
-                    setOnCameraIdleListener(mClusterManager)
-                    setOnMarkerClickListener(mClusterManager)
-                    setInfoWindowAdapter(mClusterManager.markerManager)
+                    setOnCameraIdleListener(clusterManager)
                 }
 
                 setClusteredInfoWindow()
 
-                mClusterManager.setOnClusterClickListener { cluster ->
+                clusterManager.setOnClusterClickListener { cluster ->
                     val zoom = mMap!!.cameraPosition.zoom
                     val position = cluster.position
                     mMap!!.animateCamera(
@@ -830,40 +825,38 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setClusteredInfoWindow() {
-        mClusterManager.markerCollection.setInfoWindowAdapter(object :
-                GoogleMap.InfoWindowAdapter {
+        val markerCollection = clusterManager.markerCollection
+
+        val infoWindowAdapter = object : GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
             override fun getInfoWindow(marker: Marker): View {
                 // Getting view from the layout file info_window_layout
-                val popup = getInfoWindowCommonInfo(marker)
-
-                mClusterManager.setOnClusterItemInfoWindowClickListener { item ->
-                    val currentStationIsFav = settings.getBoolean(item.title, false)
-                    val showFavorites = userSettings.getBoolean("showFavorites", false)
-
-                    if (currentStationIsFav) {
-                        item.alpha = 0.5f
-                        marker.alpha = 0.5f
-                        if (showFavorites) {
-                            item.visibility = false
-                        }
-                        settings.edit().putBoolean(item.title, false).apply()
-                    } else {
-                        item.alpha = 1.0f
-                        marker.alpha = 1.0f
-                        settings.edit().putBoolean(item.title, true).apply()
-                    }
-                    marker.showInfoWindow()
-                    mClusterManager.cluster()
-                }
-                return popup
+                return getInfoWindowCommonInfo(marker)
             }
 
             // Defines the contents of the InfoWindow
             override fun getInfoContents(marker: Marker): View? {
                 return null
             }
-        })
+        }
+        markerCollection.setInfoWindowAdapter(infoWindowAdapter)
+
+        markerCollection.setOnInfoWindowClickListener { clickedMarker ->
+            val currentStationIsFav = settings.getBoolean(clickedMarker.title, false)
+            val showFavorites = userSettings.getBoolean("showFavorites", false)
+
+            if (currentStationIsFav) {
+                clickedMarker.alpha = 0.5f
+                if (showFavorites) {
+                    clickedMarker.isVisible = false
+                }
+                settings.edit().putBoolean(clickedMarker.title, false).apply()
+            } else {
+                clickedMarker.alpha = 1f
+                settings.edit().putBoolean(clickedMarker.title, true).apply()
+            }
+            clickedMarker.showInfoWindow()
+        }
     }
 
     private fun getBackgroundColor(): Int {

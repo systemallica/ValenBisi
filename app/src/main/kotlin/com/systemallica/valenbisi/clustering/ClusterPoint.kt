@@ -19,11 +19,11 @@ class ClusterPoint(station: BikeStation) : ClusterItem {
         return this.position
     }
 
-    override fun getTitle(): String? {
+    override fun getTitle(): String {
         return this.title
     }
 
-    override fun getSnippet(): String? {
+    override fun getSnippet(): String {
         return this.snippet
     }
 }
