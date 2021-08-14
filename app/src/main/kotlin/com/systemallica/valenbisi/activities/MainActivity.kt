@@ -94,8 +94,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOnNavigationListener() {
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            if (inflatedFragment == item.title) return@setOnNavigationItemSelectedListener false
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            if (inflatedFragment == item.title) return@setOnItemSelectedListener false
 
             val id = item.itemId
 
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commitNow()
-            return@setOnNavigationItemSelectedListener true
+            return@setOnItemSelectedListener true
         }
     }
 
