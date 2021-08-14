@@ -33,7 +33,6 @@ import com.google.android.gms.maps.UiSettings
 import com.google.android.gms.maps.model.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.collections.MarkerManager
 import com.google.maps.android.data.geojson.*
 import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
@@ -793,6 +792,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     private fun setNormalInfoWindow() {
         mMap!!.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             // Use default InfoWindow frame
