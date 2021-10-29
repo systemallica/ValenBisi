@@ -1,3 +1,17 @@
+# 3.6.0
+
+### Added
+
+- Automatic dark theme
+- Portuguese translation (thanks @deandrematias)
+
+### Changed
+
+- Updated dependencies
+- Improved performance
+
+### Fixed
+
 # 3.5.0
 
 ### Added
