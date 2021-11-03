@@ -770,11 +770,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         requireActivity().runOnUiThread {
 
             if (isClusteringActivated) {
+                setClusteredInfoWindow()
+
                 mMap!!.apply {
+                    setOnInfoWindowClickListener(clusterManager)
+                    setInfoWindowAdapter(clusterManager.markerManager)
                     setOnCameraIdleListener(clusterManager)
                 }
-
-                setClusteredInfoWindow()
 
                 clusterManager.setOnClusterClickListener { cluster ->
                     val zoom = mMap!!.cameraPosition.zoom
