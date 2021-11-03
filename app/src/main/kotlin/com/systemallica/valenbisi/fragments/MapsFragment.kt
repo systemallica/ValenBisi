@@ -773,6 +773,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                 setClusteredInfoWindow()
 
                 mMap!!.apply {
+                    setOnMarkerClickListener(clusterManager)
                     setOnInfoWindowClickListener(clusterManager)
                     setInfoWindowAdapter(clusterManager.markerManager)
                     setOnCameraIdleListener(clusterManager)
