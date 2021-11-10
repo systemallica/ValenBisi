@@ -21,8 +21,8 @@ android {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 88
-        versionName "3.6.0"
+        versionCode 89
+        versionName "3.6.1"
     }
 
     buildTypes {

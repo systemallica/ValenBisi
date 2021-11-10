@@ -1,3 +1,9 @@
+# 3.6.1
+
+### Fixed
+
+- Clustered item info window no longer truncates text
+
 # 3.6.0
 
 ### Added
@@ -9,8 +15,6 @@
 
 - Updated dependencies
 - Improved performance
-
-### Fixed
 
 # 3.5.0
 
