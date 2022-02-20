@@ -17,16 +17,16 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun setTheme(){
+    private fun setTheme() {
         val settings = applicationContext.getSharedPreferences(PREFS_NAME, 0)
-        when(settings.getInt("theme", 1)){
-            1->{
+        when (settings.getInt("theme", 1)) {
+            1 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
-            2->{
+            2 -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
-            else->{
+            else -> {
                 if (Build.VERSION.SDK_INT < 29) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
                 } else {

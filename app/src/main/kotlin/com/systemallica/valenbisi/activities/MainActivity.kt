@@ -22,7 +22,6 @@ import com.systemallica.valenbisi.fragments.MapsFragment
 import com.systemallica.valenbisi.fragments.SettingsFragment
 import kotlin.system.exitProcess
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var inflatedFragment: CharSequence
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         initActivity()
 
         if (savedInstanceState == null) {
-            //Inflate main fragment
+            // Inflate main fragment
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             // Change fragment
             fragmentTransaction.replace(R.id.containerView, MapsFragment()).commitNow()
@@ -63,30 +62,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkInternetAccess() {
-        //Check if current network has internet access
+        // Check if current network has internet access
         val cm =
-                applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetwork
         val networkCapabilities = cm.getNetworkCapabilities(cm.activeNetwork)
         val isConnected = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
 
-        //React to the check
+        // React to the check
         if (activeNetwork == null || (isConnected != null && !isConnected)) {
 
             AlertDialog.Builder(this)
-                    .setTitle(R.string.no_internet)
-                    .setMessage(R.string.no_internet_message)
-                    .setPositiveButton(R.string.close
-                    ) { _, _ ->
-                        exitProcess(0)
-                    }
-                    .setNegativeButton(R.string.continuer
-                    ) { _, _ ->
-                        // Do nothing
-                    }
-                    .setIcon(R.drawable.icon_alert)
-                    .show()
-
+                .setTitle(R.string.no_internet)
+                .setMessage(R.string.no_internet_message)
+                .setPositiveButton(
+                    R.string.close
+                ) { _, _ ->
+                    exitProcess(0)
+                }
+                .setNegativeButton(
+                    R.string.continuer
+                ) { _, _ ->
+                    // Do nothing
+                }
+                .setIcon(R.drawable.icon_alert)
+                .show()
         } else {
             // Check for updates if there's an internet connection
             getLatestVersion()
@@ -163,10 +163,11 @@ class MainActivity : AppCompatActivity() {
             Log.i("valenbisi update type", appUpdateInfo.updateAvailability().toString())
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
                 appUpdateManager.startUpdateFlowForResult(
-                        appUpdateInfo,
-                        AppUpdateType.FLEXIBLE,
-                        this,
-                        1)
+                    appUpdateInfo,
+                    AppUpdateType.FLEXIBLE,
+                    this,
+                    1
+                )
             }
         }
     }
@@ -175,21 +176,20 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle(R.string.update_download)
-                    .setMessage(R.string.update_download)
-                    .setIcon(R.drawable.icon_update)
-                    .setPositiveButton(R.string.update_ok) { _, _ ->
-                        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-                        appUpdateManager.completeUpdate()
-                        appUpdateManager.unregisterListener(updateStateListener)
-                    }
-                    .setNegativeButton(R.string.update_not_now) { _, _ ->
-                        // Do nothing
-                    }
+                .setMessage(R.string.update_download)
+                .setIcon(R.drawable.icon_update)
+                .setPositiveButton(R.string.update_ok) { _, _ ->
+                    val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+                    appUpdateManager.completeUpdate()
+                    appUpdateManager.unregisterListener(updateStateListener)
+                }
+                .setNegativeButton(R.string.update_not_now) { _, _ ->
+                    // Do nothing
+                }
             val dialog = builder.create()
             dialog.show()
         }
     }
-
 
     public override fun onDestroy() {
         super.onDestroy()

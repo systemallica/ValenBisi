@@ -5,7 +5,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 import com.systemallica.valenbisi.BikeStation
 
-
 class ClusterPoint(station: BikeStation) : ClusterItem {
 
     private var position: LatLng = LatLng(station.lat, station.lng)

@@ -6,10 +6,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.preference.*
-
+import androidx.preference.CheckBoxPreference
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.systemallica.valenbisi.R
-
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -27,10 +28,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
             if (!navBarPref!!.isChecked) {
                 requireActivity().window.navigationBarColor =
-                        ContextCompat.getColor(requireContext(), R.color.colorPrimary)
+                    ContextCompat.getColor(requireContext(), R.color.colorPrimary)
             } else {
                 requireActivity().window.navigationBarColor =
-                        ContextCompat.getColor(requireContext(), R.color.black)
+                    ContextCompat.getColor(requireContext(), R.color.black)
             }
             true
         }
@@ -39,8 +40,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val infoVoronoi = findPreference<Preference>("infoVoronoi")
         infoVoronoi?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             val browserIntent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://en.wikipedia.org/wiki/Voronoi_diagram")
+                Intent.ACTION_VIEW,
+                Uri.parse("https://en.wikipedia.org/wiki/Voronoi_diagram")
             )
             startActivity(browserIntent)
             true
@@ -71,5 +72,3 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 }
-
-

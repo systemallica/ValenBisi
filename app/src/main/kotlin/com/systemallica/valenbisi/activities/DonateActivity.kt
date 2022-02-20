@@ -1,15 +1,31 @@
 package com.systemallica.valenbisi.activities
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.android.billingclient.api.*
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.AcknowledgePurchaseResponseListener
+import com.android.billingclient.api.BillingClient
+import com.android.billingclient.api.BillingClientStateListener
+import com.android.billingclient.api.BillingFlowParams
+import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.PurchasesUpdatedListener
+import com.android.billingclient.api.SkuDetailsParams
+import com.android.billingclient.api.SkuDetailsResult
+import com.android.billingclient.api.consumePurchase
+import com.android.billingclient.api.querySkuDetails
+import com.google.android.material.snackbar.Snackbar
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.databinding.ActivityDonateBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.logging.Logger
 import kotlin.coroutines.CoroutineContext
-
 
 class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineScope {
 
@@ -69,7 +85,7 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
                 Snackbar.make(binding.donateView, R.string.donation_cancelled, Snackbar.LENGTH_SHORT)
-                        .show()
+                    .show()
             }
         })
     }
@@ -80,12 +96,11 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
 
         // Set params of the purchase
         val flowParams = BillingFlowParams.newBuilder()
-                .setSkuDetails(skuDetails)
-                .build()
+            .setSkuDetails(skuDetails)
+            .build()
 
         // Launch purchase
         billingClient.launchBillingFlow(this@DonateActivity, flowParams)
-
     }
 
     private suspend fun querySkuDetails(sku: String): SkuDetailsResult {
@@ -128,9 +143,14 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
             // Acknowledge the purchase if it hasn't already been acknowledged.
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                        .setPurchaseToken(purchase.purchaseToken)
+                    .setPurchaseToken(purchase.purchaseToken).build()
+                val acknowledgePurchaseResponseListener =
+                    AcknowledgePurchaseResponseListener { Logger.getGlobal().info("Purchase acknowledged") }
                 withContext(Dispatchers.IO) {
-                    billingClient.acknowledgePurchase(acknowledgePurchaseParams.build())
+                    billingClient.acknowledgePurchase(
+                        acknowledgePurchaseParams,
+                        acknowledgePurchaseResponseListener
+                    )
                 }
             }
         }
@@ -138,9 +158,9 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
 
     private suspend fun consumePurchase(purchase: Purchase) {
         val consumeParams =
-                ConsumeParams.newBuilder()
-                        .setPurchaseToken(purchase.purchaseToken)
-                        .build()
+            ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
         withContext(Dispatchers.IO) {
             billingClient.consumePurchase(consumeParams)
         }
