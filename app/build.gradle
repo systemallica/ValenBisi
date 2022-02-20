@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.mikepenz.aboutlibraries.plugin'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "31.0.0"
 
     compileOptions {
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "com.systemallica.valenbisi"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 89
         versionName "3.6.1"
     }
@@ -36,10 +36,12 @@ android {
             shrinkResources false
         }
     }
-
     packagingOptions {
-        exclude 'META-INF/library-core_release.kotlin_module'
+        resources {
+            excludes += ['META-INF/library-core_release.kotlin_module']
+        }
     }
+
     return void
 }
 
@@ -47,13 +49,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // Support libraries
     implementation 'com.google.android.play:core-ktx:1.8.1'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     // Maps and billing
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.google.maps.android:android-maps-utils:2.3.0'
     // Billing
     implementation 'com.android.billingclient:billing-ktx:4.0.0'
@@ -63,9 +65,9 @@ dependencies {
     implementation 'com.mikepenz:community-material-typeface:5.8.55.0-kotlin@aar'
     implementation 'com.mikepenz:aboutlibraries:8.9.1'
     // OkHTTP
-    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     // Kotlin
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2-native-mt'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
 }
