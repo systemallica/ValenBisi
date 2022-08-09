@@ -10,9 +10,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
-        classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:10.1.0"
+        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0"
+        classpath "com.mikepenz.aboutlibraries.plugin:aboutlibraries-plugin:10.4.0"
         classpath "org.jmailen.gradle:kotlinter-gradle:3.10.0"
     }
 }
