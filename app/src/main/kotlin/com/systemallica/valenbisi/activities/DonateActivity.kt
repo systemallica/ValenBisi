@@ -3,19 +3,7 @@ package com.systemallica.valenbisi.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.android.billingclient.api.AcknowledgePurchaseParams
-import com.android.billingclient.api.AcknowledgePurchaseResponseListener
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingFlowParams
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.ConsumeParams
-import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.PurchasesUpdatedListener
-import com.android.billingclient.api.SkuDetailsParams
-import com.android.billingclient.api.SkuDetailsResult
-import com.android.billingclient.api.consumePurchase
-import com.android.billingclient.api.querySkuDetails
+import com.android.billingclient.api.*
 import com.google.android.material.snackbar.Snackbar
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.databinding.ActivityDonateBinding
@@ -75,8 +63,8 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
                     // The BillingClient is ready
                     // Start buy process
                     launch {
-                        val result = querySkuDetails(sku)
-                        onResult(result)
+                        val productDetails = queryProductDetails(sku)
+                        launchBillingFlow(productDetails)
                     }
                 }
             }
@@ -90,29 +78,36 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
         })
     }
 
-    private fun onResult(skuDetailsLis: SkuDetailsResult) {
-        // Only one item at a time
-        val skuDetails = skuDetailsLis.skuDetailsList!![0]
+    private fun launchBillingFlow(productDetails: ProductDetailsResult) {
+        val productDetailsParamsList =
+            listOf(
+                BillingFlowParams.ProductDetailsParams.newBuilder()
+                    .setProductDetails(productDetails.productDetailsList!![0])
+                    .build()
+            )
 
-        // Set params of the purchase
-        val flowParams = BillingFlowParams.newBuilder()
-            .setSkuDetails(skuDetails)
-            .build()
+        val billingFlowParams =
+            BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(productDetailsParamsList)
+                .build()
 
         // Launch purchase
-        billingClient.launchBillingFlow(this@DonateActivity, flowParams)
+        billingClient.launchBillingFlow(this@DonateActivity, billingFlowParams)
     }
 
-    private suspend fun querySkuDetails(sku: String): SkuDetailsResult {
-        val skuList = ArrayList<String>()
-        skuList.add(sku)
+    private suspend fun queryProductDetails(sku: String): ProductDetailsResult {
+        val productList =
+            listOf(
+                QueryProductDetailsParams.Product.newBuilder()
+                    .setProductId(sku)
+                    .setProductType(BillingClient.ProductType.INAPP)
+                    .build()
+            )
 
-        val params = SkuDetailsParams.newBuilder()
-        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
+        val params = QueryProductDetailsParams.newBuilder().setProductList(productList)
 
-        // Return SkuDetails
         return withContext(Dispatchers.IO) {
-            billingClient.querySkuDetails(params.build())
+            billingClient.queryProductDetails(params.build())
         }
     }
 
