@@ -55,7 +55,6 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
     }
 
     private fun startBuyProcess(sku: String) {
-
         billingClient = BillingClient.newBuilder(applicationContext).setListener(this).enablePendingPurchases().build()
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {

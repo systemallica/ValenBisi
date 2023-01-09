@@ -130,7 +130,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     private fun onMapReadyHandler() {
         if (isApplicationReady && context != null) {
-
             initPreferences()
 
             initMap()
@@ -170,7 +169,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun initMap() {
-
         mMap!!.setMinZoomPreference(10f)
 
         setMapSettings()
@@ -381,8 +379,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     @Throws(IOException::class)
     private fun handleApiResponse(response: Response) {
-        if (!response.isSuccessful)
+        if (!response.isSuccessful) {
             throw IOException("Unexpected code $response")
+        }
         val responseBody = response.body
 
         if (responseBody != null) {
@@ -780,10 +779,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setMapListeners() {
-
         val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
         requireActivity().runOnUiThread {
-
             if (isClusteringActivated) {
                 setClusteredInfoWindow()
 
@@ -972,7 +969,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun getLaneColor(feature: GeoJsonFeature): Int {
-
         var color = Color.BLACK
         if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
             color = Color.WHITE
@@ -1004,7 +1000,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private suspend fun getParkingsAsync() {
-
         val showFavorites = userSettings.getBoolean("showFavorites", false)
         var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_map_marker_circle)
         bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)

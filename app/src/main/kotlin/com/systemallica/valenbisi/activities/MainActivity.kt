@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         // React to the check
         if (activeNetwork == null || (isConnected != null && !isConnected)) {
-
             AlertDialog.Builder(this)
                 .setTitle(R.string.no_internet)
                 .setMessage(R.string.no_internet_message)
