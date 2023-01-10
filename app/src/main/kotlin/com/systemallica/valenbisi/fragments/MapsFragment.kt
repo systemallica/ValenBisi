@@ -30,22 +30,39 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.UiSettings
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.data.geojson.*
+import com.google.maps.android.data.geojson.GeoJsonFeature
+import com.google.maps.android.data.geojson.GeoJsonLayer
+import com.google.maps.android.data.geojson.GeoJsonLineStringStyle
+import com.google.maps.android.data.geojson.GeoJsonPoint
+import com.google.maps.android.data.geojson.GeoJsonPointStyle
 import com.systemallica.valenbisi.BikeStation
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.clustering.ClusterPoint
 import com.systemallica.valenbisi.clustering.IconRenderer
 import com.systemallica.valenbisi.databinding.FragmentMainBinding
-import kotlinx.coroutines.*
-import okhttp3.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.util.*
+import java.util.Formatter
+import java.util.GregorianCalendar
 import kotlin.coroutines.CoroutineContext
 
 const val PREFS_NAME = "MyPrefsFile"
@@ -78,14 +95,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     // Add warning that data may be unreliable
     private val warningMessage: String
         get() = "\n\n" +
-                getString(R.string.data_old) +
-                "\n" +
-                getString(R.string.data_unreliable)
+            getString(R.string.data_old) +
+            "\n" +
+            getString(R.string.data_unreliable)
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
@@ -112,8 +129,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun onMapReadyHandler() {
-        if (isApplicationReady) {
-
+        if (isApplicationReady && context != null) {
             initPreferences()
 
             initMap()
@@ -138,22 +154,21 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         clusterManager = ClusterManager(context, mMap)
         // Set custom renderer
         clusterManager.renderer =
-                IconRenderer(
-                        requireContext(),
-                        mMap!!,
-                        clusterManager
-                )
+            IconRenderer(
+                requireContext(),
+                mMap!!,
+                clusterManager
+            )
     }
 
     private fun initPreferences() {
         // Settings from the map buttons
         settings = requireContext().getSharedPreferences(PREFS_NAME, 0)
         // Settings from the menu
-        userSettings = getDefaultSharedPreferences(context)
+        userSettings = getDefaultSharedPreferences(requireContext())
     }
 
     private fun initMap() {
-
         mMap!!.setMinZoomPreference(10f)
 
         setMapSettings()
@@ -165,7 +180,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         initLocationButton()
     }
 
-    private fun setMapTheme(){
+    private fun setMapTheme() {
         when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_NO -> {
                 // Night mode is not active, we're using the light theme
@@ -203,7 +218,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         }
     }
 
-    private fun requestLocationPermission(){
+    private fun requestLocationPermission() {
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -217,7 +232,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             }
 
         requestPermissionLauncher.launch(
-            Manifest.permission.ACCESS_FINE_LOCATION)
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     private fun initLocationButton() {
@@ -246,20 +262,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         if (isLocationPermissionGranted) {
             try {
                 fusedLocationClient.lastLocation
-                        .addOnSuccessListener { location: Location? ->
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-                                val longitude = location.longitude
-                                val latitude = location.latitude
-                                val currentLocation = LatLng(latitude, longitude)
-                                moveToLocationOrValencia(currentLocation)
-                            } else {
-                                moveToLocationOrValencia()
-                            }
-                        }
-                        .addOnFailureListener {
+                    .addOnSuccessListener { location: Location? ->
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            val longitude = location.longitude
+                            val latitude = location.latitude
+                            val currentLocation = LatLng(latitude, longitude)
+                            moveToLocationOrValencia(currentLocation)
+                        } else {
                             moveToLocationOrValencia()
                         }
+                    }
+                    .addOnFailureListener {
+                        moveToLocationOrValencia()
+                    }
             } catch (e: SecurityException) {
                 Log.e(LOG_TAG, e.message!!)
             }
@@ -319,7 +335,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         } catch (e: IOException) {
             Log.e(LOG_TAG, "GeoJSON file could not be read")
         }
-
     }
 
     private fun getStations() {
@@ -328,11 +343,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
         val client = OkHttpClient()
         val url =
-                "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"
+            "https://api.jcdecaux.com/vls/v1/stations?contract=Valence&apiKey=adcac2d5b367dacef9846586d12df1bf7e8c7fcd"
 
         val request = Request.Builder()
-                .url(url)
-                .build()
+            .url(url)
+            .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -364,8 +379,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
     @Throws(IOException::class)
     private fun handleApiResponse(response: Response) {
-        if (!response.isSuccessful)
+        if (!response.isSuccessful) {
             throw IOException("Unexpected code $response")
+        }
         val responseBody = response.body
 
         if (responseBody != null) {
@@ -398,7 +414,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             } catch (e: JSONException) {
                 Log.e(LOG_TAG, "JSONArray could not be created")
             }
-
         }
     }
 
@@ -472,7 +487,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             }
 
             station.snippet = getMarkerSnippet(station.bikes, station.spots, station.lastUpdate)
-
         } else {
             station.icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)
             station.snippet = if (isAdded) getString(R.string.closed) else ""
@@ -553,9 +567,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
 
             // Add number of available bikes/stands
             var snippet: String = getString(R.string.spots) + " " +
-                    spots + " - " +
-                    getString(R.string.bikes) + " " +
-                    bikes
+                spots + " - " +
+                getString(R.string.bikes) + " " +
+                bikes
 
             // Add last updated time if user has checked that option
             if (showLastUpdatedInfo) {
@@ -595,8 +609,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
             fmt.format("%tT", date.time)
             // Add to pointStyle
             snippet = "\n" +
-                    getString(R.string.last_updated) + " " +
-                    sbu
+                getString(R.string.last_updated) + " " +
+                sbu
 
             return snippet
         }
@@ -620,7 +634,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     private fun setInitialButtonState() {
         val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
         val stationsOff =
-                ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
+            ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
         val bike = ContextCompat.getDrawable(requireContext(), R.drawable.icon_on_bike)
         val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
         val bikeLanesOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_road)
@@ -674,7 +688,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
         val walk = ContextCompat.getDrawable(requireContext(), R.drawable.icon_walk)
         val stationsOn = ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker)
         val stationsOff =
-                ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
+            ContextCompat.getDrawable(requireContext(), R.drawable.icon_map_marker_off)
 
         // Toggle bike lanes
         binding.btnLanesToggle.setOnClickListener {
@@ -765,10 +779,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun setMapListeners() {
-
         val isClusteringActivated = userSettings.getBoolean("isClusteringActivated", true)
         requireActivity().runOnUiThread {
-
             if (isClusteringActivated) {
                 setClusteredInfoWindow()
 
@@ -783,9 +795,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     val zoom = mMap!!.cameraPosition.zoom
                     val position = cluster.position
                     mMap!!.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
-                            250,
-                            null
+                        CameraUpdateFactory.newLatLngZoom(position, zoom + 1.0.toFloat()),
+                        250,
+                        null
                     )
                     true
                 }
@@ -957,9 +969,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private fun getLaneColor(feature: GeoJsonFeature): Int {
-
         var color = Color.BLACK
-        if(resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES){
+        if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
             color = Color.WHITE
         }
 
@@ -989,7 +1000,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
     }
 
     private suspend fun getParkingsAsync() {
-
         val showFavorites = userSettings.getBoolean("showFavorites", false)
         var bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_map_marker_circle)
         bitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)
@@ -1002,9 +1012,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, CoroutineScope {
                     for (feature in parking!!.features) {
                         val pointStyle = GeoJsonPointStyle()
                         pointStyle.title = getString(R.string.parking) +
-                                " " + feature.getProperty("id")
+                            " " + feature.getProperty("id")
                         pointStyle.snippet = getString(R.string.plazas) +
-                                " " + feature.getProperty("plazas")
+                            " " + feature.getProperty("plazas")
                         pointStyle.alpha = 0.5f
                         pointStyle.icon = iconParking
 

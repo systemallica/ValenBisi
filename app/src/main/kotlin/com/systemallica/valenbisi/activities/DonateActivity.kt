@@ -1,15 +1,19 @@
 package com.systemallica.valenbisi.activities
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.android.billingclient.api.*
+import com.google.android.material.snackbar.Snackbar
 import com.systemallica.valenbisi.R
 import com.systemallica.valenbisi.databinding.ActivityDonateBinding
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.logging.Logger
 import kotlin.coroutines.CoroutineContext
-
 
 class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineScope {
 
@@ -51,7 +55,6 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
     }
 
     private fun startBuyProcess(sku: String) {
-
         billingClient = BillingClient.newBuilder(applicationContext).setListener(this).enablePendingPurchases().build()
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
@@ -59,8 +62,8 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
                     // The BillingClient is ready
                     // Start buy process
                     launch {
-                        val result = querySkuDetails(sku)
-                        onResult(result)
+                        val productDetails = queryProductDetails(sku)
+                        launchBillingFlow(productDetails)
                     }
                 }
             }
@@ -69,35 +72,41 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
                 Snackbar.make(binding.donateView, R.string.donation_cancelled, Snackbar.LENGTH_SHORT)
-                        .show()
+                    .show()
             }
         })
     }
 
-    private fun onResult(skuDetailsLis: SkuDetailsResult) {
-        // Only one item at a time
-        val skuDetails = skuDetailsLis.skuDetailsList!![0]
+    private fun launchBillingFlow(productDetails: ProductDetailsResult) {
+        val productDetailsParamsList =
+            listOf(
+                BillingFlowParams.ProductDetailsParams.newBuilder()
+                    .setProductDetails(productDetails.productDetailsList!![0])
+                    .build()
+            )
 
-        // Set params of the purchase
-        val flowParams = BillingFlowParams.newBuilder()
-                .setSkuDetails(skuDetails)
+        val billingFlowParams =
+            BillingFlowParams.newBuilder()
+                .setProductDetailsParamsList(productDetailsParamsList)
                 .build()
 
         // Launch purchase
-        billingClient.launchBillingFlow(this@DonateActivity, flowParams)
-
+        billingClient.launchBillingFlow(this@DonateActivity, billingFlowParams)
     }
 
-    private suspend fun querySkuDetails(sku: String): SkuDetailsResult {
-        val skuList = ArrayList<String>()
-        skuList.add(sku)
+    private suspend fun queryProductDetails(sku: String): ProductDetailsResult {
+        val productList =
+            listOf(
+                QueryProductDetailsParams.Product.newBuilder()
+                    .setProductId(sku)
+                    .setProductType(BillingClient.ProductType.INAPP)
+                    .build()
+            )
 
-        val params = SkuDetailsParams.newBuilder()
-        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
+        val params = QueryProductDetailsParams.newBuilder().setProductList(productList)
 
-        // Return SkuDetails
         return withContext(Dispatchers.IO) {
-            billingClient.querySkuDetails(params.build())
+            billingClient.queryProductDetails(params.build())
         }
     }
 
@@ -128,9 +137,14 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
             // Acknowledge the purchase if it hasn't already been acknowledged.
             if (!purchase.isAcknowledged) {
                 val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                        .setPurchaseToken(purchase.purchaseToken)
+                    .setPurchaseToken(purchase.purchaseToken).build()
+                val acknowledgePurchaseResponseListener =
+                    AcknowledgePurchaseResponseListener { Logger.getGlobal().info("Purchase acknowledged") }
                 withContext(Dispatchers.IO) {
-                    billingClient.acknowledgePurchase(acknowledgePurchaseParams.build())
+                    billingClient.acknowledgePurchase(
+                        acknowledgePurchaseParams,
+                        acknowledgePurchaseResponseListener
+                    )
                 }
             }
         }
@@ -138,9 +152,9 @@ class DonateActivity : AppCompatActivity(), PurchasesUpdatedListener, CoroutineS
 
     private suspend fun consumePurchase(purchase: Purchase) {
         val consumeParams =
-                ConsumeParams.newBuilder()
-                        .setPurchaseToken(purchase.purchaseToken)
-                        .build()
+            ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.purchaseToken)
+                .build()
         withContext(Dispatchers.IO) {
             billingClient.consumePurchase(consumeParams)
         }
